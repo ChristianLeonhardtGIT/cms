@@ -1,0 +1,64 @@
+FROM eclipse-temurin:17-jre AS common
+
+WORKDIR /opt/magnolia
+
+COPY apache-tomcat ./apache-tomcat
+COPY light-modules ./light-modules
+COPY docker/entrypoint.sh ./docker/entrypoint.sh
+
+RUN chmod +x ./apache-tomcat/bin/*.sh ./docker/entrypoint.sh \
+    && rm -rf \
+      ./apache-tomcat/logs/* \
+      ./apache-tomcat/temp/* \
+      ./apache-tomcat/work/* \
+      ./apache-tomcat/webapps/docs \
+      ./apache-tomcat/webapps/examples \
+      ./apache-tomcat/webapps/host-manager \
+      ./apache-tomcat/webapps/manager
+
+FROM common AS author
+
+ENV MAGNOLIA_ROLE=author
+
+RUN rm -rf \
+      ./apache-tomcat/webapps/ROOT \
+      ./apache-tomcat/webapps/magnoliaPublic \
+    && mkdir -p \
+      ./apache-tomcat/logs \
+      ./apache-tomcat/temp \
+      ./apache-tomcat/work \
+      ./apache-tomcat/webapps/magnoliaAuthor/WEB-INF/config/activation-key \
+      ./apache-tomcat/webapps/magnoliaAuthor/cache \
+      ./apache-tomcat/webapps/magnoliaAuthor/history \
+      ./apache-tomcat/webapps/magnoliaAuthor/logs \
+      ./apache-tomcat/webapps/magnoliaAuthor/tmp
+
+EXPOSE 8080
+
+ENTRYPOINT ["./docker/entrypoint.sh"]
+CMD ["./apache-tomcat/bin/catalina.sh", "run"]
+
+FROM common AS public
+
+ENV MAGNOLIA_ROLE=public
+
+RUN rm -rf \
+      ./apache-tomcat/webapps/ROOT \
+      ./apache-tomcat/webapps/magnoliaPublic \
+    && mv ./apache-tomcat/webapps/magnoliaAuthor ./apache-tomcat/webapps/ROOT \
+    && mkdir -p \
+      ./apache-tomcat/logs \
+      ./apache-tomcat/temp \
+      ./apache-tomcat/work \
+      ./apache-tomcat/webapps/ROOT/WEB-INF/config/magnoliaPublic \
+      ./apache-tomcat/webapps/ROOT/cache \
+      ./apache-tomcat/webapps/ROOT/history \
+      ./apache-tomcat/webapps/ROOT/logs \
+      ./apache-tomcat/webapps/ROOT/tmp
+
+COPY docker/magnolia-public.properties ./apache-tomcat/webapps/ROOT/WEB-INF/config/magnoliaPublic/magnolia.properties
+
+EXPOSE 8080
+
+ENTRYPOINT ["./docker/entrypoint.sh"]
+CMD ["./apache-tomcat/bin/catalina.sh", "run"]

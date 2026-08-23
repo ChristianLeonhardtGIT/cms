@@ -1,0 +1,32 @@
+title: Standardseite
+templateScript: /meine-website/templates/pages/home.ftl
+dialog: meine-website:pages/home
+renderType: freemarker
+visible: true
+
+areas:
+  main:
+    title: Seiteninhalt
+    availableComponents:
+      hero:
+        id: meine-website:components/hero
+      text:
+        id: meine-website:components/text
+      legalDocument:
+        id: meine-website:components/legalDocument
+      cards:
+        id: meine-website:components/cards
+      callToAction:
+        id: meine-website:components/callToAction
+      contactForm:
+        id: meine-website:components/contactForm
+      offerCatalog:
+        id: meine-website:components/offerCatalog
+      faq:
+        id: meine-website:components/faq
+      profileTrust:
+        id: meine-website:components/profileTrust
+      problemOverview:
+        id: meine-website:components/problemOverview
+      problemDetail:
+        id: meine-website:components/problemDetail

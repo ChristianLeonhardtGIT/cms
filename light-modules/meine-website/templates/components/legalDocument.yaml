@@ -1,0 +1,5 @@
+title: Rechtstext
+dialog: meine-website:components/legalDocument
+templateScript: /meine-website/templates/components/legalDocument.ftl
+renderType: freemarker
+

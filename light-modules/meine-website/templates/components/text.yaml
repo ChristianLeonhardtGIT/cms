@@ -1,0 +1,4 @@
+title: Textabschnitt
+dialog: meine-website:components/text
+templateScript: /meine-website/templates/components/text.ftl
+renderType: freemarker

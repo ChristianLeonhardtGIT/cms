@@ -1,0 +1,4 @@
+title: Hero / Seitenaufmacher
+dialog: meine-website:components/hero
+templateScript: /meine-website/templates/components/hero.ftl
+renderType: freemarker

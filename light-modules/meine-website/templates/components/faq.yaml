@@ -1,0 +1,5 @@
+title: FAQ
+templateScript: /meine-website/templates/components/faq.ftl
+dialog: meine-website:components/faq
+renderType: freemarker
+

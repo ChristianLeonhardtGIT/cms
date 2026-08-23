@@ -1,0 +1,76 @@
+datasource:
+  workspace: tools
+  autoCreate: true
+
+model:
+  properties:
+    - name: title
+      label: Titel
+      type: String
+      i18n: true
+      required: true
+    - name: slug
+      label: Slug
+      type: String
+      required: true
+    - name: purpose
+      label: Zweck
+      type: String
+      i18n: true
+      required: true
+    - name: intro
+      label: Einführung
+      type: richText
+      i18n: true
+    - name: instructions
+      label: Anleitung
+      type: richText
+      i18n: true
+    - name: questions
+      label: Fragen oder Prüfschritte
+      type: toolQuestion
+      multiple: true
+    - name: expectedOutcome
+      label: Erwartetes Ergebnis
+      type: richText
+      i18n: true
+    - name: sourcePage
+      label: Bestehende Website-Seite
+      type: reference:page
+    - name: topics
+      label: Themen
+      type: reference:topic
+      multiple: true
+    - name: relatedProblems
+      label: Zugehörige Problemsituationen
+      type: reference:problem
+      multiple: true
+    - name: relatedInsights
+      label: Weiterführende Insights
+      type: reference:insight
+      multiple: true
+    - name: relatedOffers
+      label: Passende Leistungen
+      type: reference:offer
+      multiple: true
+    - name: seo
+      label: SEO und Social Media
+      type: seoMetadata
+    - name: publishing
+      label: Veröffentlichung
+      type: publishingMetadata
+
+  subModels:
+    - !include:/meine-website/includes/content/seo-properties.yaml
+    - !include:/meine-website/includes/content/publishing-properties.yaml
+    - name: toolQuestion
+      properties:
+        - name: text
+          label: Frage oder Prüfschritt
+          type: String
+          i18n: true
+          required: true
+        - name: guidance
+          label: Hilfestellung
+          type: String
+          i18n: true

@@ -1,0 +1,28 @@
+datasource:
+  workspace: legalDocuments
+  autoCreate: true
+
+model:
+  properties:
+    - name: title
+      label: Titel
+      type: String
+      i18n: true
+      required: true
+    - name: slug
+      label: Slug
+      type: String
+      required: true
+    - name: documentType
+      label: Dokumenttyp
+      type: String
+      required: true
+    - name: body
+      label: Rechtstext
+      type: richText
+      i18n: true
+      required: true
+    - name: sourcePage
+      label: Öffentliche Seite
+      type: reference:page
+

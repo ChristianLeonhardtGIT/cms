@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ChOS – lebendes Denk- und Entscheidungsmodell">
+  <title>Strategie und ihre Anwendung · ChOS</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script defer src="../assets/search-index.js"></script>
+  <script defer src="../assets/app.js"></script>
+</head>
+<body class="document-page">
+  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <header class="topbar">
+    <button class="icon-button menu-button" type="button" data-menu-toggle aria-label="Navigation öffnen">☰</button>
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">Ch</span>
+      <span><strong>ChOS</strong><small>Version 0.6 Beta.1</small></span>
+    </a>
+    <div class="topbar-actions">
+      <a class="top-link" href="../all-in-one.html">Alles lesen</a>
+      <a class="top-link" href="../reports/validation-report.html">Systemcheck</a>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Darstellung wechseln">◐</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" data-sidebar>
+      <div class="search-wrap">
+        <label class="sr-only" for="site-search">Dokumente durchsuchen</label>
+        <input id="site-search" class="search-input" type="search" placeholder="ChOS durchsuchen …" autocomplete="off" data-search>
+        <div class="search-results" data-search-results hidden></div>
+      </div>
+      <nav class="navigation" aria-label="Dokumentation"><div class="nav-group"><div class="nav-group-title">Fundament</div><a class="nav-link" href="../docs/00-executive-summary.html" data-title="ChOS – Executive Summary"><span>ChOS – Executive Summary</span></a><a class="nav-link" href="../docs/21-ethik-und-zielkonflikte.html" data-title="Ethik und Umgang mit Zielkonflikten"><span>Ethik und Umgang mit Zielkonflikten</span></a><a class="nav-link" href="../docs/13-menschenbild.html" data-title="Menschenbild v0.2 – Beta-Grundlage"><span>Menschenbild v0.2 – Beta-Grundlage</span></a><a class="nav-link" href="../docs/06-wertearchitektur.html" data-title="Wertearchitektur"><span>Wertearchitektur</span></a><a class="nav-link" href="../docs/02-kernel-und-werte.html" data-title="Kernel, Ethik und Werte"><span>Kernel, Ethik und Werte</span></a><a class="nav-link" href="../docs/01-denkraum.html" data-title="Denkraum – die gemeinsame Kontextsprache des ChOS"><span>Denkraum – die gemeinsame Kontextsprache des ChOS</span></a><a class="nav-link" href="../docs/03-erkenntnismodell.html" data-title="Erkenntnis-, Diagnose- und Lernmodell"><span>Erkenntnis-, Diagnose- und Lernmodell</span></a><a class="nav-link" href="../docs/11-geltungsbereich-und-systembegriff.html" data-title="Geltungsbereich, Anwendung und Grenzen"><span>Geltungsbereich, Anwendung und Grenzen</span></a></div><div class="nav-group"><div class="nav-group-title">Entscheiden &amp; Gestalten</div><a class="nav-link" href="../docs/14-gestaltungsprinzipien.html" data-title="Gestaltungsprinzipien"><span>Gestaltungsprinzipien</span></a><a class="nav-link" href="../docs/04-mechanismen-und-systemeigenschaften.html" data-title="Mechanismen, Systemeigenschaften und Ergebnisse"><span>Mechanismen, Systemeigenschaften und Ergebnisse</span></a><a class="nav-link" href="../docs/17-wirkungsmodell-und-diagnose.html" data-title="Wirkungsmodell und Diagnose"><span>Wirkungsmodell und Diagnose</span></a><a class="nav-link" href="../docs/05-entscheidungsmodell.html" data-title="Entscheidungsmodell"><span>Entscheidungsmodell</span></a><a class="nav-link" href="../docs/15-ziele-feedback-und-entwicklung.html" data-title="Ziele, Feedback und Entwicklung"><span>Ziele, Feedback und Entwicklung</span></a><a class="nav-link" href="../docs/20-anwendungsarchitektur.html" data-title="Aufbau und Anwendung des ChOS"><span>Aufbau und Anwendung des ChOS</span></a><a class="nav-link active" href="../docs/25-strategie-und-anwendung.html" data-title="Strategie und ihre Anwendung"><span>Strategie und ihre Anwendung</span></a><a class="nav-link" href="../docs/27-strategische-priorisierung.html" data-title="Strategische Beitrags- und Belastungsbewertung"><span>Strategische Beitrags- und Belastungsbewertung</span></a><a class="nav-link" href="../docs/26-wirtschaftliche-systemsteuerung.html" data-title="Wirtschaftliche Systemsteuerung"><span>Wirtschaftliche Systemsteuerung</span></a><a class="nav-link" href="../docs/28-fuehrung-erste-sechs-monate.html" data-title="Die ersten sechs Monate einer neuen Führungskraft"><span>Die ersten sechs Monate einer neuen Führungskraft</span></a></div><div class="nav-group"><div class="nav-group-title">Qualität &amp; Wissen</div><a class="nav-link" href="../docs/18-wirtschaftlichkeit.html" data-title="Wirtschaftlichkeitsprüfung"><span>Wirtschaftlichkeitsprüfung</span></a><a class="nav-link" href="../docs/07-validierungsprozess.html" data-title="Validierungsprozess"><span>Validierungsprozess</span></a><a class="nav-link" href="../docs/16-wissensarchitektur-und-nutzerfokus.html" data-title="Wissensarchitektur, Denkraum und Nutzerfokus"><span>Wissensarchitektur, Denkraum und Nutzerfokus</span></a><a class="nav-link" href="../docs/19-quellen-einfluesse-und-recht.html" data-title="Quellen, Einflüsse und rechtliche Aufgaben"><span>Quellen, Einflüsse und rechtliche Aufgaben</span></a><a class="nav-link" href="../docs/22-qualitaetspruefung-und-governance.html" data-title="Qualitätsprüfung und Governance"><span>Qualitätsprüfung und Governance</span></a><a class="nav-link" href="../docs/23-system-validation.html" data-title="ChOS System Validation"><span>ChOS System Validation</span></a></div><div class="nav-group"><div class="nav-group-title">Playbooks</div><a class="nav-link" href="../docs/pb-001-team-uebernehmen.html" data-title="PB-001 – Ein Team übernehmen"><span>PB-001 – Ein Team übernehmen</span></a><a class="nav-link" href="../docs/pb-002-mitarbeiterentwicklung.html" data-title="PB-002 – Mitarbeiterentwicklung"><span>PB-002 – Mitarbeiterentwicklung</span></a><a class="nav-link" href="../docs/pb-003-mvp-produktentwicklung.html" data-title="PB-003 – Ein Produkt mit einem MVP entwickeln"><span>PB-003 – Ein Produkt mit einem MVP entwickeln</span></a><a class="nav-link" href="../docs/readme.html" data-title="Playbook-Bibliothek"><span>Playbook-Bibliothek</span></a></div><div class="nav-group"><div class="nav-group-title">Entwicklung &amp; Governance</div><a class="nav-link" href="../docs/09-arbeitsweise-und-fortsetzung.html" data-title="Arbeitsweise und Fortsetzung"><span>Arbeitsweise und Fortsetzung</span></a><a class="nav-link" href="../docs/12-offene-hypothesen-und-forschungsfragen.html" data-title="Offene Hypothesen und Forschungsfragen"><span>Offene Hypothesen und Forschungsfragen</span></a><a class="nav-link" href="../docs/08-change-log.html" data-title="Change Log"><span>Change Log</span></a><a class="nav-link" href="../docs/10-gespraechsprotokoll-konsolidiert.html" data-title="Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha"><span>Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha</span></a></div><div class="nav-group"><div class="nav-group-title">Repository</div><a class="nav-link" href="../docs/readme-2.html" data-title="Repository Governance"><span>Repository Governance</span></a><a class="nav-link" href="../docs/readme-3.html" data-title="ChOS anwenden"><span>ChOS anwenden</span></a><a class="nav-link" href="../docs/readme-8.html" data-title="ChOS Repository"><span>ChOS Repository</span></a></div><div class="nav-group"><div class="nav-group-title">Weitere Dokumente</div><a class="nav-link" href="../docs/24-governance-selbstkorrektur-und-integritaet.html" data-title="Governance für Selbstkorrektur und Integrität"><span>Governance für Selbstkorrektur und Integrität</span></a><a class="nav-link" href="../docs/authorship.html" data-title="Autorschaft"><span>Autorschaft</span></a><a class="nav-link" href="../docs/copyright.html" data-title="Copyright"><span>Copyright</span></a><a class="nav-link" href="../docs/github-import.html" data-title="GitHub Initial Import"><span>GitHub Initial Import</span></a><a class="nav-link" href="../docs/konsistenzbericht-beta-1.html" data-title="Konsistenzbericht ChOS v0.6 Beta.1"><span>Konsistenzbericht ChOS v0.6 Beta.1</span></a><a class="nav-link" href="../docs/license.html" data-title="Lizenz"><span>Lizenz</span></a><a class="nav-link" href="../docs/version.html" data-title="Version"><span>Version</span></a><a class="nav-link" href="../docs/change-control.html" data-title="Change Control"><span>Change Control</span></a><a class="nav-link" href="../docs/change-record-mensch-ki-integration.html" data-title="Änderungsnachweis – Mensch und KI in einem ChOS"><span>Änderungsnachweis – Mensch und KI in einem ChOS</span></a><a class="nav-link" href="../docs/integrity-checklist.html" data-title="Integrity Checklist"><span>Integrity Checklist</span></a><a class="nav-link" href="../docs/lessons-learned.html" data-title="Lessons Learned"><span>Lessons Learned</span></a><a class="nav-link" href="../docs/recovery-procedure.html" data-title="Recovery Procedure"><span>Recovery Procedure</span></a><a class="nav-link" href="../docs/release-process.html" data-title="Release Process"><span>Release Process</span></a><a class="nav-link" href="../docs/repository-principles.html" data-title="Repository Principles"><span>Repository Principles</span></a><a class="nav-link" href="../docs/repository-roles.html" data-title="Repository Roles"><span>Repository Roles</span></a><a class="nav-link" href="../docs/repository-workflow.html" data-title="Repository Workflow"><span>Repository Workflow</span></a><a class="nav-link" href="../docs/session-start-protocol.html" data-title="Session Start Protocol"><span>Session Start Protocol</span></a><a class="nav-link" href="../docs/six-release-safeguards.html" data-title="Six Release Safeguards"><span>Six Release Safeguards</span></a><a class="nav-link" href="../docs/snapshot-policy.html" data-title="Snapshot Policy"><span>Snapshot Policy</span></a><a class="nav-link" href="../docs/versioning-policy.html" data-title="Versioning Policy"><span>Versioning Policy</span></a><a class="nav-link" href="../docs/01-diagnosebogen.html" data-title="Diagnosebogen"><span>Diagnosebogen</span></a><a class="nav-link" href="../docs/02-selbstcheck.html" data-title="ChOS Selbstcheck"><span>ChOS Selbstcheck</span></a><a class="nav-link" href="../docs/03-clarity-session.html" data-title="Clarity Session – 90 Minuten"><span>Clarity Session – 90 Minuten</span></a><a class="nav-link" href="../docs/04-clarity-brief.html" data-title="Clarity Brief – Vorlage"><span>Clarity Brief – Vorlage</span></a><a class="nav-link" href="../docs/05-entscheidungsrahmen.html" data-title="Entscheidungsrahmen"><span>Entscheidungsrahmen</span></a><a class="nav-link" href="../docs/06-fallbeispiele.html" data-title="Zwei Fallbeispiele"><span>Zwei Fallbeispiele</span></a><a class="nav-link" href="../docs/07-glossar.html" data-title="Glossar"><span>Glossar</span></a></div></nav>
+      <div class="sidebar-note">Markdown bleibt die Quelle. HTML ist die lesbare Oberfläche.</div>
+    </aside>
+    <div class="sidebar-backdrop" data-menu-toggle></div>
+    <main id="content" class="main-content">
+<article class="document">
+  <header class="document-header">
+    <span class="eyebrow">Entscheiden &amp; Gestalten</span>
+    <h1 id="top">Strategie und ihre Anwendung</h1>
+    <p class="document-meta">Quelle: <code>25_Strategie_und_Anwendung.md</code></p>
+  </header>
+  <div class="markdown-body"><h2 id="zweck">Zweck<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#zweck">#</a></h2>
+<p><a class="denkraum-link" data-definition="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt." href="01-denkraum.html#strategie" title="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt.">Strategie</a> ist kein Dokument und keine jährliche Präsentation. Sie ist ein zusammenhängendes <a class="denkraum-link" data-definition="Ein System ist eine Menge miteinander in Beziehung stehender Elemente, die durch ihr Zusammenwirken Eigenschaften und Wirkungen hervorbringen, die kein einzelnes Element allein erzeugen kann." href="01-denkraum.html#system" title="Ein System ist eine Menge miteinander in Beziehung stehender Elemente, die durch ihr Zusammenwirken Eigenschaften und Wirkungen hervorbringen, die kein einzelnes Element allein erzeugen kann.">System</a> bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen <a class="denkraum-link" data-definition="Ein Wert beschreibt, was dem ChOS bei der Gestaltung tragfähiger Systeme wichtig und schützenswert ist." href="01-denkraum.html#wert" title="Ein Wert beschreibt, was dem ChOS bei der Gestaltung tragfähiger Systeme wichtig und schützenswert ist.">Wert</a> schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt.</p>
+<blockquote>
+<p><strong>Eine Strategie gilt erst dann als angewendet, wenn sie Prioritäten, Ressourcenzuteilung, Zielkonflikte und alltägliche Entscheidungen nachvollziehbar beeinflusst.</strong></p>
+</blockquote>
+<h2 id="verantwortung-fur-die-strategie">Verantwortung für die Strategie<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verantwortung-fur-die-strategie">#</a></h2>
+<p>Die Unternehmensführung verantwortet:</p>
+<ul>
+<li>den Unternehmenszweck – das Warum,</li>
+<li>den strategischen Ambitionskorridor,</li>
+<li>den unternehmensweiten Risikorahmen,</li>
+<li>verbindliche rechtliche und ethische Grenzen,</li>
+<li>bewusste strategische Ausschlüsse.</li>
+</ul>
+<p>Domänen werden frühzeitig an Analyse, Ausgestaltung und Überprüfung beteiligt. Sie bringen Kunden- und Marktsignale, Fähigkeiten, Risiken, Abhängigkeiten, Annahmen und strategische Optionen ein.</p>
+<p>Die Führung behält die Entscheidungsverantwortung. Wesentliche Abweichungen von den Erkenntnissen der Domänen werden nachvollziehbar begründet.</p>
+<h2 id="verbindliche-grenzen-und-gestaltungsraum">Verbindliche Grenzen und Gestaltungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verbindliche-grenzen-und-gestaltungsraum">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Verbindlicher Rahmen</th>
+<th>Dialogischer Gestaltungsraum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recht und <a class="denkraum-link" data-definition="Ethik beschreibt im ChOS den nicht beliebig veränderbaren Rahmen, innerhalb dessen Entscheidungen, Gestaltung und wirtschaftliche Ziele verantwortet werden müssen." href="01-denkraum.html#ethik" title="Ethik beschreibt im ChOS den nicht beliebig veränderbaren Rahmen, innerhalb dessen Entscheidungen, Gestaltung und wirtschaftliche Ziele verantwortet werden müssen.">Ethik</a></td>
+<td>strategische Optionen</td>
+</tr>
+<tr>
+<td>Unternehmenszweck</td>
+<td>Prüfung von Annahmen</td>
+</tr>
+<tr>
+<td>Ambitionskorridor</td>
+<td>Wertbeiträge der Domänen</td>
+</tr>
+<tr>
+<td>finanzieller Risikorahmen</td>
+<td>Fähigkeiten und Erneuerungsbedarf</td>
+</tr>
+<tr>
+<td>geschützte Mindestreserven</td>
+<td>Reihenfolge und Lösungswege</td>
+</tr>
+<tr>
+<td>bewusste Ausschlüsse</td>
+<td>Roadmaps und lokale Prioritäten</td>
+</tr>
+</tbody>
+</table>
+<p>Rechtliche Anpassungen sind verbindliche <a class="denkraum-link" data-definition="Rahmenbedingungen sind innere oder äußere Gegebenheiten, die Handlungsmöglichkeiten begrenzen, ermöglichen oder beeinflussen." href="01-denkraum.html#rahmenbedingungen" title="Rahmenbedingungen sind innere oder äußere Gegebenheiten, die Handlungsmöglichkeiten begrenzen, ermöglichen oder beeinflussen.">Rahmenbedingungen</a>. Die konkrete Antwort darauf kann dennoch strategisch gestaltet werden.</p>
+<p>Gesamtverantwortung begründet ein Entscheidungsmandat, aber keine Befreiung von <a class="denkraum-link" data-definition="Transparenz bedeutet, relevante Informationen, Hintergründe und Entscheidungswege im größtmöglichen verantwortbaren Umfang nachvollziehbar und zugänglich zu machen." href="01-denkraum.html#transparenz" title="Transparenz bedeutet, relevante Informationen, Hintergründe und Entscheidungswege im größtmöglichen verantwortbaren Umfang nachvollziehbar und zugänglich zu machen.">Transparenz</a>, Anhörung und nachvollziehbarer Begründung.</p>
+<h2 id="strategieprozess">Strategieprozess<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#strategieprozess">#</a></h2>
+<ol>
+<li>Die Unternehmensführung formuliert Zweck, vorläufige Pfeiler, Ambition, Risikorahmen, Nicht-Ziele und offene Fragen.</li>
+<li>Domänen prüfen Annahmen, Chancen, Risiken, Fähigkeiten und Abhängigkeiten.</li>
+<li>Widersprüche und Zielkonflikte werden in einer gemeinsamen strategischen Synthese sichtbar gemacht.</li>
+<li>Die Unternehmensführung entscheidet über Pfeiler, Prioritäten, Ressourcen und Ausschlüsse.</li>
+<li>Domänen übersetzen die Strategie dialogisch in Wertbeiträge, Roadmaps, Kapazitätsverteilungen und überprüfbare Hypothesen.</li>
+<li>Erkenntnisse aus Anwendung und Wirkung können Annahmen, Umsetzung und strategische Pfeiler verändern.</li>
+</ol>
+<h2 id="verankerung-im-alltag">Verankerung im Alltag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verankerung-im-alltag">#</a></h2>
+<p>Strategie wird kontinuierlich wiederholt und in bestehenden Arbeits- und Governance-Rhythmen angewendet:</p>
+<ul>
+<li>in täglichen Abstimmungen bei Prioritäts- und Risikofragen,</li>
+<li>in Meetings bei Zielkonflikten,</li>
+<li>in Reviews bei der Bewertung strategischer Wirkung,</li>
+<li>auf Epic-Ebene durch strategischen Bezug und <a class="denkraum-link" data-definition="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit." href="01-denkraum.html#hypothese" title="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit.">Hypothese</a>,</li>
+<li>in Roadmaps durch Reihenfolge und bewusste Nicht-Prioritäten,</li>
+<li>in Planungen durch Ressourcen, Fähigkeiten und Abhängigkeiten,</li>
+<li>in Portfolioentscheidungen durch Starten, Verändern und Stoppen,</li>
+<li>in Retrospektiven durch Prüfung der unterstützenden Strukturen.</li>
+</ul>
+<p>Die bloße Nennung der Strategie reicht nicht. Sie muss Entscheidungen erkennbar verändern.</p>
+<h2 id="strategischer-wertbeitrag">Strategischer Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#strategischer-wertbeitrag">#</a></h2>
+<p>Jeder Mensch soll verstehen können, wie die eigene Arbeit zum <a class="denkraum-link" data-definition="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht." href="01-denkraum.html#wertbeitrag" title="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht.">Wertbeitrag</a> des Teams und damit zur Wirkung des Gesamtsystems beiträgt.</p>
+<blockquote>
+<p><strong>Beitragsverständnis ist notwendig. Individueller Wertbeweis ist nicht das <a class="denkraum-link" data-definition="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll." href="01-denkraum.html#ziel" title="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll.">Ziel</a>.</strong></p>
+</blockquote>
+<p>Wert entsteht häufig im Zusammenspiel. Deshalb wird er nicht künstlich einzelnen Personen zugerechnet, wenn Zusammenarbeit, Infrastruktur und Abhängigkeiten ihn gemeinsam erzeugen.</p>
+<p>Die Übersetzung erfolgt dialogisch:</p>
+<ul>
+<li>Die Unternehmensstrategie gibt Richtung und Grenzen vor.</li>
+<li>Domänen und Teams entwickeln mögliche Beiträge anhand ihres Kontextwissens.</li>
+<li>Rückmeldungen aus der Anwendung verändern Annahmen und gegebenenfalls die Strategie.</li>
+</ul>
+<h2 id="strategische-arbeitseinheit">Strategische Arbeitseinheit<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#strategische-arbeitseinheit">#</a></h2>
+<p>Größere Initiativen und Epics beantworten mindestens:</p>
+<ul>
+<li>Welchen strategischen Pfeiler unterstützen wir?</li>
+<li>Für wen entsteht welcher Wert?</li>
+<li>Welche Annahme liegt zugrunde?</li>
+<li>Woran erkennen wir Wirkung oder Fortschritt?</li>
+<li>Welche Abhängigkeiten bestehen?</li>
+<li>Welcher Zielkonflikt entsteht?</li>
+<li>Was priorisieren wir dadurch bewusst nicht?</li>
+<li>Wann passen wir die Initiative an oder beenden sie?</li>
+</ul>
+<h2 id="ressourcenmodell-60-40">Ressourcenmodell 60/40<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ressourcenmodell-60-40">#</a></h2>
+<p>Im Normalbetrieb werden höchstens rund 60 Prozent der verfügbaren Kapazität für neue Lösungsentwicklung verplant. Mindestens rund 40 Prozent schützen und entwickeln die dauerhafte Leistungsfähigkeit des Systems.</p>
+<p>Der geschützte Anteil umfasst insbesondere:</p>
+<ul>
+<li>Wartung und Betrieb,</li>
+<li><a class="denkraum-link" data-definition="Refactoring ist die bewusste Verbesserung der inneren Struktur eines Systems, ohne seinen beabsichtigten Wertbeitrag unnötig zu verändern." href="01-denkraum.html#refactoring" title="Refactoring ist die bewusste Verbesserung der inneren Struktur eines Systems, ohne seinen beabsichtigten Wertbeitrag unnötig zu verändern.">Refactoring</a> und Erneuerung,</li>
+<li>Abhängigkeitsmanagement,</li>
+<li>Lernen und Experimente,</li>
+<li>Risiko- und Resilienzarbeit,</li>
+<li>Unterstützung,</li>
+<li>Beziehungs- und Abstimmungsarbeit.</li>
+</ul>
+<p>Die konkrete Verteilung findet in der <a class="denkraum-link" data-definition="Eine Domäne ist ein abgegrenzter Verantwortungs- und Wirkungsbereich mit eigenem Kontextwissen, klaren Beiträgen, Entscheidungsräumen und Beziehungen zu anderen Bereichen." href="01-denkraum.html#domane" title="Eine Domäne ist ein abgegrenzter Verantwortungs- und Wirkungsbereich mit eigenem Kontextwissen, klaren Beiträgen, Entscheidungsräumen und Beziehungen zu anderen Bereichen.">Domäne</a> statt. Sie muss transparent, begründet und überprüfbar sein. Prüfbarkeit bedeutet nicht zentrale Genehmigungspflicht.</p>
+<p>Abweichungen sind möglich, wenn sie strategisch begründet, zeitlich begrenzt, risikobewertet und mit einem Neubewertungstermin versehen werden.</p>
+<blockquote>
+<p><strong>Wer Erneuerung nicht einplant, finanziert heutige Geschwindigkeit mit der zukünftigen Handlungsfähigkeit des Systems.</strong></p>
+</blockquote>
+<h2 id="refactoring-als-strategische-erneuerung">Refactoring als strategische Erneuerung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#refactoring-als-strategische-erneuerung">#</a></h2>
+<p>Refactoring verbessert die innere Struktur eines Systems, ohne seinen beabsichtigten Wertbeitrag unnötig zu verändern. Es betrifft nicht nur Software, sondern auch Daten, Inhalte, Prozesse, Rollen, Schnittstellen und Entscheidungswege.</p>
+<p>Der Nutzen kann beobachtbar sein durch:</p>
+<ul>
+<li>kürzere Entwicklungs- oder Produktionszeiten,</li>
+<li>weniger Fehler und Nacharbeit,</li>
+<li>höhere Wiederverwendung,</li>
+<li>geringere Folgekosten,</li>
+<li>weniger kritische Abhängigkeiten,</li>
+<li>bessere Änderbarkeit und Stabilität,</li>
+<li>geringeres Risiko.</li>
+</ul>
+<p>Nicht jede Erneuerungsarbeit muss einen sofortigen finanziellen Return nachweisen. Vermiedene Schäden und langfristige Handlungsfähigkeit sind legitime Wirkungen.</p>
+<h2 id="anhorungs-und-eskalationsrecht-der-teams">Anhörungs- und Eskalationsrecht der Teams<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#anhorungs-und-eskalationsrecht-der-teams">#</a></h2>
+<p>Teams besitzen das Recht und die <a class="denkraum-link" data-definition="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a>, strukturelle Hindernisse sichtbar zu machen und notwendige Erneuerungsarbeit einzufordern.</p>
+<p>Vor weiterer Lösungsentwicklung entscheidet Governance, ob das Hindernis:</p>
+<ul>
+<li>zuerst beseitigt,</li>
+<li>parallel bearbeitet,</li>
+<li>oder als Restrisiko bewusst und zeitlich begrenzt übernommen wird.</li>
+</ul>
+<p>Wird eine Team-Einschätzung überstimmt, werden Risikoverantwortung, Begründung, Schutzmaßnahmen und Neubewertungstermin dokumentiert.</p>
+<h2 id="stop-the-line">Stop-the-Line<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#stop-the-line">#</a></h2>
+<p>Jede Person darf bei einem plausibel begründeten hohen oder schwer umkehrbaren Systemrisiko einen vorläufigen <a class="denkraum-link" data-definition="Stop-the-Line ist das zeitlich und sachlich begrenzte Recht, bei einem plausibel begründeten hohen oder schwer umkehrbaren Risiko die betroffene Arbeit bis zu einer unabhängigen Bewertung vorläufig zu stoppen." href="01-denkraum.html#stop-the-line" title="Stop-the-Line ist das zeitlich und sachlich begrenzte Recht, bei einem plausibel begründeten hohen oder schwer umkehrbaren Risiko die betroffene Arbeit bis zu einer unabhängigen Bewertung vorläufig zu stoppen.">Stop-the-Line</a> auslösen.</p>
+<p>Der Stopp:</p>
+<ul>
+<li>betrifft nur den gefährdeten Bereich,</li>
+<li>ist zeitlich begrenzt,</li>
+<li>muss begründet werden,</li>
+<li>löst unverzüglich eine unabhängige Bewertung aus,</li>
+<li>ist kein dauerhaftes Vetorecht.</li>
+</ul>
+<p>Strategischer Zeitdruck legitimiert nicht, bekannte schwerwiegende Systemrisiken stillschweigend zu übergehen.</p>
+<h2 id="governance-takt-fur-strategie-und-domanen">Governance-Takt für Strategie und Domänen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#governance-takt-fur-strategie-und-domanen">#</a></h2>
+<p>Das wiederverwendbare Taktmodell umfasst:</p>
+<table>
+<thead>
+<tr>
+<th>Takt</th>
+<th>Zweck</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Laufende Beobachtung</td>
+<td>Signale und Abweichungen früh erkennen</td>
+</tr>
+<tr>
+<td>Regelmäßige <a class="denkraum-link" data-definition="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln." href="01-denkraum.html#steuerung" title="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln.">Steuerung</a></td>
+<td>Entscheidungen treffen und Maßnahmen nachhalten</td>
+</tr>
+<tr>
+<td>Vertiefte Systemprüfung</td>
+<td>Muster und strukturelle Ursachen untersuchen</td>
+</tr>
+<tr>
+<td>Strategische Neubewertung</td>
+<td>Richtung, Annahmen und Prioritäten prüfen</td>
+</tr>
+<tr>
+<td>Anlassbezogene Eskalation</td>
+<td>Bei hohem Risiko schnell handeln</td>
+</tr>
+</tbody>
+</table>
+<p>Das Muster bleibt gleich. Der konkrete Rhythmus richtet sich nach Risiko, Veränderungsgeschwindigkeit und Tragweite.</p>
+<hr/>
+<p>Copyright © 2026 Christian Leonhardt.</p>
+</div>
+  <aside class="related-terms" aria-label="Verwandte Begriffe"><h2>Verwandte Begriffe im Denkraum</h2><p>Diese Begriffe werden in diesem Kapitel verwendet und sind direkt mit ihrer vollständigen Erklärung verknüpft.</p><div class="related-term-list"><a class="related-term" href="01-denkraum.html#rahmenbedingungen" title="Rahmenbedingungen sind innere oder äußere Gegebenheiten, die Handlungsmöglichkeiten begrenzen, ermöglichen oder beeinflussen.">Rahmenbedingungen</a><a class="related-term" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a><a class="related-term" href="01-denkraum.html#stop-the-line" title="Stop-the-Line ist das zeitlich und sachlich begrenzte Recht, bei einem plausibel begründeten hohen oder schwer umkehrbaren Risiko die betroffene Arbeit bis zu einer unabhängigen Bewertung vorläufig zu stoppen.">Stop-the-Line</a><a class="related-term" href="01-denkraum.html#transparenz" title="Transparenz bedeutet, relevante Informationen, Hintergründe und Entscheidungswege im größtmöglichen verantwortbaren Umfang nachvollziehbar und zugänglich zu machen.">Transparenz</a><a class="related-term" href="01-denkraum.html#wertbeitrag" title="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht.">Wertbeitrag</a><a class="related-term" href="01-denkraum.html#refactoring" title="Refactoring ist die bewusste Verbesserung der inneren Struktur eines Systems, ohne seinen beabsichtigten Wertbeitrag unnötig zu verändern.">Refactoring</a><a class="related-term" href="01-denkraum.html#hypothese" title="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit.">Hypothese</a><a class="related-term" href="01-denkraum.html#steuerung" title="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln.">Steuerung</a><a class="related-term" href="01-denkraum.html#strategie" title="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt.">Strategie</a><a class="related-term" href="01-denkraum.html#system" title="Ein System ist eine Menge miteinander in Beziehung stehender Elemente, die durch ihr Zusammenwirken Eigenschaften und Wirkungen hervorbringen, die kein einzelnes Element allein erzeugen kann.">System</a><a class="related-term" href="01-denkraum.html#domane" title="Eine Domäne ist ein abgegrenzter Verantwortungs- und Wirkungsbereich mit eigenem Kontextwissen, klaren Beiträgen, Entscheidungsräumen und Beziehungen zu anderen Bereichen.">Domäne</a><a class="related-term" href="01-denkraum.html#ethik" title="Ethik beschreibt im ChOS den nicht beliebig veränderbaren Rahmen, innerhalb dessen Entscheidungen, Gestaltung und wirtschaftliche Ziele verantwortet werden müssen.">Ethik</a></div></aside>
+  <nav class="document-pagination" aria-label="Vorheriges und nächstes Dokument">
+    <div><a href="24-governance-selbstkorrektur-und-integritaet.html">← Governance für Selbstkorrektur und Integrität</a></div><div><a href="27-strategische-priorisierung.html">Strategische Beitrags- und Belastungsbewertung →</a></div>
+  </nav>
+  <footer class="page-footer">Generiert aus <code>25_Strategie_und_Anwendung.md</code> · Version 0.6 Beta.1 · Copyright © 2026 Christian Leonhardt</footer>
+</article>
+</main>
+  </div>
+</body>
+</html>

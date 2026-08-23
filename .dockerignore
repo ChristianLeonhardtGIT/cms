@@ -1,0 +1,10 @@
+node_modules
+work
+.git
+apache-tomcat/logs
+apache-tomcat/temp
+apache-tomcat/work
+apache-tomcat/webapps/magnoliaAuthor/cache
+apache-tomcat/webapps/magnoliaAuthor/logs
+apache-tomcat/webapps/magnoliaAuthor/repositories
+apache-tomcat/webapps/magnoliaAuthor/tmp

@@ -1,0 +1,4 @@
+title: Karte / Teaser
+dialog: meine-website:components/cards
+templateScript: /meine-website/templates/components/cards.ftl
+renderType: freemarker

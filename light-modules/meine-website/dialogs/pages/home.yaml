@@ -1,0 +1,81 @@
+label: Seiteneinstellungen
+form:
+  properties:
+    title:
+      label: Seitentitel
+      $type: textField
+      i18n: true
+      required: true
+    navigationTitle:
+      label: Titel in der Navigation
+      description: Optional. Wenn leer, wird der Seitentitel verwendet.
+      $type: textField
+      i18n: true
+    hideInNavigation:
+      label: In der Hauptnavigation ausblenden
+      description: Zum Beispiel für Impressum, Datenschutz oder andere reine Footer-Seiten.
+      $type: checkBoxField
+    windowTitle:
+      label: Browser-Titel
+      description: Optionaler Titel für Browser und Suchmaschinen.
+      $type: textField
+      i18n: true
+    metaDescription:
+      label: Beschreibung für Suchmaschinen
+      $type: textField
+      i18n: true
+    problemReference:
+      label: Zugehörige Problemsituation
+      description: Optional. Verknüpft die öffentliche Seite mit dem strukturierten Problem-Inhalt.
+      $type: linkField
+      datasource:
+        $type: jcrDatasource
+        workspace: problems
+    socialImage:
+      label: Vorschaubild für Social Media
+      description: Optional. Empfohlen sind 1200 × 630 Pixel. Ohne Auswahl wird die zentrale Markenkarte verwendet.
+      $type: damLinkField
+    socialImageAlt:
+      label: Beschreibung des Social-Media-Bildes
+      description: Optional. Beschreibt den Bildinhalt für Barrierefreiheit und Social-Media-Plattformen.
+      $type: textField
+      i18n: true
+    datePublished:
+      label: Erstveröffentlichung
+      description: Für Fachartikel im Format JJJJ-MM-TT.
+      $type: textField
+    dateModified:
+      label: Zuletzt fachlich aktualisiert
+      description: Für Fachartikel im Format JJJJ-MM-TT.
+      $type: textField
+    serviceType:
+      label: Bezeichnung der Leistung
+      description: Optional. Macht eine Angebotsseite für Suchmaschinen und KI-Systeme als Leistung erkennbar.
+      $type: textField
+    offerReference:
+      label: Zentrales Angebot
+      description: Optional. Verknüpft diese Seite mit Preis, Produktnummer und Leistungsdaten aus dem Angebotskatalog.
+      $type: linkField
+      datasource:
+        $type: jcrDatasource
+        workspace: offers
+    serviceAudience:
+      label: Zielgruppe der Leistung
+      $type: textField
+    priceLow:
+      label: Preis ab (netto)
+      description: Nur die Zahl ohne Währung oder Tausenderpunkt.
+      $type: textField
+    priceHigh:
+      label: Preis bis (netto)
+      description: Optional. Nur die Zahl ohne Währung oder Tausenderpunkt.
+      $type: textField
+    brandName:
+      label: Name der Website
+      description: Wird auf der obersten Seite in Kopf- und Fußzeile verwendet.
+      $type: textField
+      i18n: true
+    footerText:
+      label: Text in der Fußzeile
+      $type: textField
+      i18n: true

@@ -1,0 +1,111 @@
+name: cleonhardt
+
+services:
+  magnolia-author:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+      target: author
+    environment:
+      CATALINA_OPTS: >-
+        -Xms256m
+        -Xmx2560m
+        -Djava.awt.headless=true
+        -Djava.security.egd=file:/dev/urandom
+    env_file:
+      - ./secrets/hubspot.env
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./light-modules:/opt/magnolia/light-modules:ro
+      - ./docker/microprofile-config.production.properties:/opt/magnolia/apache-tomcat/webapps/magnoliaAuthor/WEB-INF/config/default/microprofile-config.properties:ro
+      - ./secrets/magnolia-password-manager-keypair.properties:/opt/magnolia/apache-tomcat/webapps/magnoliaAuthor/WEB-INF/config/default/magnolia-password-manager-keypair.properties:ro
+      - magnolia-author-repositories:/opt/magnolia/apache-tomcat/webapps/magnoliaAuthor/repositories
+      - magnolia-author-activation-key:/opt/magnolia/apache-tomcat/webapps/magnoliaAuthor/WEB-INF/config/activation-key
+    mem_limit: 3200m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: unless-stopped
+
+  magnolia-public:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+      target: public
+    environment:
+      CATALINA_OPTS: >-
+        -Xms256m
+        -Xmx2048m
+        -Djava.awt.headless=true
+        -Djava.security.egd=file:/dev/urandom
+      MAGNOLIA_ROLE: public
+    expose:
+      - "8080"
+    volumes:
+      - ./light-modules:/opt/magnolia/light-modules:ro
+      - ./secrets/magnolia-password-manager-keypair.properties:/opt/magnolia/apache-tomcat/webapps/ROOT/WEB-INF/config/default/magnolia-password-manager-keypair.properties:ro
+      - magnolia-public-repositories:/opt/magnolia/apache-tomcat/webapps/ROOT/repositories
+    mem_limit: 2800m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: unless-stopped
+
+  beta-portal:
+    build:
+      context: ./beta-portal
+    environment:
+      BETA_PORT: "3000"
+      BETA_DATA_DIR: /app/data
+      BETA_PUBLIC_ORIGIN: https://cleonhardt.de
+      BETA_COOKIE_SECURE: "true"
+      BETA_CHOS_DIR: /app/chos-runtime/current
+    expose:
+      - "3000"
+    volumes:
+      - beta-portal-data:/app/data
+      - ./runtime/chos:/app/chos-runtime:ro
+    mem_limit: 256m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2.10-alpine
+    environment:
+      CMS_BASIC_AUTH_HASH: ${CMS_BASIC_AUTH_HASH:?Set CMS_BASIC_AUTH_HASH before deployment}
+    depends_on:
+      - magnolia-author
+      - magnolia-public
+      - beta-portal
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./deploy/static:/srv/cleonhardt-static:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: unless-stopped
+
+volumes:
+  magnolia-author-repositories:
+  magnolia-author-activation-key:
+  magnolia-public-repositories:
+  caddy-data:
+  caddy-config:
+  beta-portal-data:

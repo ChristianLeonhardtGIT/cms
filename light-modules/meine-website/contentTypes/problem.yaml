@@ -1,0 +1,142 @@
+datasource:
+  workspace: problems
+  autoCreate: true
+
+model:
+  properties:
+    - name: title
+      label: Interner Titel
+      type: String
+      i18n: true
+      required: true
+    - name: slug
+      label: Slug
+      type: String
+      required: true
+    - name: headline
+      label: Überschrift
+      type: String
+      i18n: true
+      required: true
+    - name: subheadline
+      label: Unterzeile
+      type: String
+      i18n: true
+    - name: intro
+      label: Einführung
+      type: richText
+      i18n: true
+      required: true
+    - name: situation
+      label: Situation
+      type: richText
+      i18n: true
+    - name: symptoms
+      label: Beobachtbare Symptome
+      type: contentPoint
+      multiple: true
+    - name: commonAssumption
+      label: Naheliegende Erklärung
+      type: richText
+      i18n: true
+    - name: diagnosisIntro
+      label: Diagnoseperspektive
+      type: richText
+      i18n: true
+    - name: hypotheses
+      label: Mögliche Mechanismen
+      type: contentSection
+      multiple: true
+    - name: diagnosticQuestions
+      label: Diagnosefragen
+      type: contentPoint
+      multiple: true
+    - name: selfCheckTitle
+      label: Titel des Selbstchecks
+      type: String
+      i18n: true
+    - name: selfCheckIntro
+      label: Einführung zum Selbstcheck
+      type: richText
+      i18n: true
+    - name: selfCheckSteps
+      label: Schritte des Selbstchecks
+      type: contentSection
+      multiple: true
+    - name: avoidActions
+      label: Nicht vorschnell tun
+      type: contentPoint
+      multiple: true
+    - name: smallestNextStep
+      label: Kleinster sinnvoller nächster Schritt
+      type: richText
+      i18n: true
+    - name: whenToGetHelp
+      label: Wann Unterstützung sinnvoll sein kann
+      type: richText
+      i18n: true
+    - name: closingThought
+      label: Gedanke zum Mitnehmen
+      type: richText
+      i18n: true
+    - name: targetAudience
+      label: Zielgruppe
+      type: String
+      i18n: true
+    - name: buyingSituation
+      label: Buying Situation
+      type: String
+      required: true
+    - name: topics
+      label: Themen
+      type: reference:topic
+      multiple: true
+    - name: relatedProblems
+      label: Verwandte Problemsituationen
+      type: reference:problem
+      multiple: true
+    - name: relatedInsights
+      label: Weiterführende Insights
+      type: reference:insight
+      multiple: true
+    - name: relatedTools
+      label: Passende Tools
+      type: reference:tool
+      multiple: true
+    - name: relatedOffers
+      label: Passende Leistungen
+      type: reference:offer
+      multiple: true
+    - name: relatedCases
+      label: Passende Cases
+      type: reference:case
+      multiple: true
+    - name: seo
+      label: SEO und Social Media
+      type: seoMetadata
+    - name: publishing
+      label: Veröffentlichung
+      type: publishingMetadata
+
+  subModels:
+    - !include:/meine-website/includes/content/seo-properties.yaml
+    - !include:/meine-website/includes/content/publishing-properties.yaml
+    - name: contentPoint
+      properties:
+        - name: text
+          label: Text
+          type: String
+          i18n: true
+          required: true
+    - name: contentSection
+      properties:
+        - name: title
+          label: Überschrift
+          type: String
+          i18n: true
+          required: true
+        - name: body
+          label: Inhalt
+          type: richText
+          i18n: true
+          required: true

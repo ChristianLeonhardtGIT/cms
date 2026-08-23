@@ -1,0 +1,5 @@
+title: Profil und Erfahrung
+templateScript: /meine-website/templates/components/profileTrust.ftl
+dialog: meine-website:components/profileTrust
+renderType: freemarker
+

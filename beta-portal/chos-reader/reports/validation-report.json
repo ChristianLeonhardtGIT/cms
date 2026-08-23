@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "chos_version": "0.6 Beta.1",
+  "generated_at": "2026-08-08T23:05:51+02:00",
+  "status": "BESTANDEN",
+  "strict": true,
+  "counts": {
+    "error": 0,
+    "warning": 0,
+    "info": 10,
+    "pass": 10
+  },
+  "findings": [
+    {
+      "severity": "pass",
+      "check": "STRUCTURE",
+      "message": "Alle 15 Pflichtpfade sind vorhanden.",
+      "path": ""
+    },
+    {
+      "severity": "pass",
+      "check": "MARKDOWN",
+      "message": "81 Markdown-Quellen wurden auf Lesbarkeit, H1 und Slugs geprüft.",
+      "path": ""
+    },
+    {
+      "severity": "pass",
+      "check": "VERSION",
+      "message": "README und Build verwenden Version 0.6 Beta.1.",
+      "path": ""
+    },
+    {
+      "severity": "pass",
+      "check": "DENKRAUM",
+      "message": "61 Begriffe besitzen eindeutige Namen und Kurzdefinitionen.",
+      "path": ""
+    },
+    {
+      "severity": "pass",
+      "check": "GENERATED",
+      "message": "Alle 81 Dokumentseiten entsprechen den Markdown-Quellen.",
+      "path": ""
+    },
+    {
+      "severity": "pass",
+      "check": "LINKS",
+      "message": "8829 lokale Links, Assets und Sprungmarken sind gültig.",
+      "path": ""
+    },
+    {
+      "severity": "pass",
+      "check": "JIT",
+      "message": "424 Just-in-Time-Erklärungen entsprechen 424 erkannten Erstverwendungen.",
+      "path": ""
+    },
+    {
+      "severity": "pass",
+      "check": "RELATED",
+      "message": "69 Kapitel besitzen passende Denkraum-Verweise am Seitenende.",
+      "path": ""
+    },
+    {
+      "severity": "pass",
+      "check": "NAV",
+      "message": "Navigation und Suchindex enthalten alle 81 Dokumente.",
+      "path": ""
+    },
+    {
+      "severity": "pass",
+      "check": "TERMS",
+      "message": "Keine nicht-kanonischen ChOS-Namensvarianten in aktuellen Fachdokumenten gefunden.",
+      "path": ""
+    },
+    {
+      "severity": "info",
+      "check": "MANUAL",
+      "message": "Q1 – Verständlichkeit: Erhöht der Inhalt das gemeinsame Verständnis? [menschliche Prüfung erforderlich]",
+      "path": ""
+    },
+    {
+      "severity": "info",
+      "check": "MANUAL",
+      "message": "Q2 – Anwendbarkeit: Verbessert er die praktische Anwendung? [menschliche Prüfung erforderlich]",
+      "path": ""
+    },
+    {
+      "severity": "info",
+      "check": "MANUAL",
+      "message": "Q3 – Tragfähigkeit: Erhöht er Stabilität und Belastbarkeit? [menschliche Prüfung erforderlich]",
+      "path": ""
+    },
+    {
+      "severity": "info",
+      "check": "MANUAL",
+      "message": "Q4 – Konsistenz: Passt er widerspruchsfrei zum bestehenden Aufbau? [menschliche Prüfung erforderlich]",
+      "path": ""
+    },
+    {
+      "severity": "info",
+      "check": "MANUAL",
+      "message": "Q5 – Schichtentreue: Liegt er auf der richtigen Ebene? [menschliche Prüfung erforderlich]",
+      "path": ""
+    },
+    {
+      "severity": "info",
+      "check": "MANUAL",
+      "message": "Q6 – Notwendigkeit: Ist sein Mehrwert größer als die zusätzliche Komplexität? [menschliche Prüfung erforderlich]",
+      "path": ""
+    },
+    {
+      "severity": "info",
+      "check": "MANUAL",
+      "message": "Q7 – Nachvollziehbarkeit: Ist er ausreichend begründet, hergeleitet und validiert? [menschliche Prüfung erforderlich]",
+      "path": ""
+    },
+    {
+      "severity": "info",
+      "check": "MANUAL",
+      "message": "Q8 – Selbstanwendung: Entspricht seine Entwicklung den ChOS-Prinzipien? [menschliche Prüfung erforderlich]",
+      "path": ""
+    },
+    {
+      "severity": "info",
+      "check": "MANUAL",
+      "message": "Q9 – Sprachliche Verständlichkeit: Ist die Sprache so einfach wie möglich und so präzise wie nötig? [menschliche Prüfung erforderlich]",
+      "path": ""
+    },
+    {
+      "severity": "info",
+      "check": "MANUAL",
+      "message": "Q10 – Begriffstreue: Beschreiben die verwendeten Begriffe den beabsichtigten Zweck eindeutig und konsistent? [menschliche Prüfung erforderlich]",
+      "path": ""
+    }
+  ],
+  "manual_quality_gates": [
+    {
+      "code": "Q1",
+      "name": "Verständlichkeit",
+      "question": "Erhöht der Inhalt das gemeinsame Verständnis?"
+    },
+    {
+      "code": "Q2",
+      "name": "Anwendbarkeit",
+      "question": "Verbessert er die praktische Anwendung?"
+    },
+    {
+      "code": "Q3",
+      "name": "Tragfähigkeit",
+      "question": "Erhöht er Stabilität und Belastbarkeit?"
+    },
+    {
+      "code": "Q4",
+      "name": "Konsistenz",
+      "question": "Passt er widerspruchsfrei zum bestehenden Aufbau?"
+    },
+    {
+      "code": "Q5",
+      "name": "Schichtentreue",
+      "question": "Liegt er auf der richtigen Ebene?"
+    },
+    {
+      "code": "Q6",
+      "name": "Notwendigkeit",
+      "question": "Ist sein Mehrwert größer als die zusätzliche Komplexität?"
+    },
+    {
+      "code": "Q7",
+      "name": "Nachvollziehbarkeit",
+      "question": "Ist er ausreichend begründet, hergeleitet und validiert?"
+    },
+    {
+      "code": "Q8",
+      "name": "Selbstanwendung",
+      "question": "Entspricht seine Entwicklung den ChOS-Prinzipien?"
+    },
+    {
+      "code": "Q9",
+      "name": "Sprachliche Verständlichkeit",
+      "question": "Ist die Sprache so einfach wie möglich und so präzise wie nötig?"
+    },
+    {
+      "code": "Q10",
+      "name": "Begriffstreue",
+      "question": "Beschreiben die verwendeten Begriffe den beabsichtigten Zweck eindeutig und konsistent?"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+title: Handlungsaufforderung
+dialog: meine-website:components/callToAction
+templateScript: /meine-website/templates/components/callToAction.ftl
+renderType: freemarker

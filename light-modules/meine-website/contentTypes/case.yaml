@@ -1,0 +1,72 @@
+datasource:
+  workspace: cases
+  autoCreate: true
+
+model:
+  properties:
+    - name: title
+      label: Titel
+      type: String
+      i18n: true
+      required: true
+    - name: slug
+      label: Slug
+      type: String
+      required: true
+    - name: teaser
+      label: Kurzbeschreibung
+      type: String
+      i18n: true
+      required: true
+    - name: context
+      label: Ausgangssituation
+      type: richText
+      i18n: true
+    - name: diagnosis
+      label: Diagnose
+      type: richText
+      i18n: true
+    - name: intervention
+      label: Eingriff
+      type: richText
+      i18n: true
+    - name: observedEffect
+      label: Beobachtete Wirkung
+      type: richText
+      i18n: true
+    - name: learnings
+      label: Erkenntnisse
+      type: richText
+      i18n: true
+    - name: anonymized
+      label: Anonymisiert
+      type: Boolean
+    - name: sourcePage
+      label: Bestehende Website-Seite
+      type: reference:page
+    - name: topics
+      label: Themen
+      type: reference:topic
+      multiple: true
+    - name: relatedProblems
+      label: Zugehörige Problemsituationen
+      type: reference:problem
+      multiple: true
+    - name: relatedTools
+      label: Eingesetzte Tools
+      type: reference:tool
+      multiple: true
+    - name: relatedOffers
+      label: Zugehörige Leistungen
+      type: reference:offer
+      multiple: true
+    - name: seo
+      label: SEO und Social Media
+      type: seoMetadata
+    - name: publishing
+      label: Veröffentlichung
+      type: publishingMetadata
+
+  subModels:
+    - !include:/meine-website/includes/content/seo-properties.yaml
+    - !include:/meine-website/includes/content/publishing-properties.yaml

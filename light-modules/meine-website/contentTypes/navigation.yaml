@@ -1,0 +1,56 @@
+datasource:
+  workspace: navigation
+  autoCreate: true
+
+model:
+  properties:
+    - name: title
+      label: Bezeichnung
+      type: String
+      required: true
+    - name: items
+      label: Hauptmenü
+      type: navigationLevel1
+      multiple: true
+
+  subModels:
+    - name: navigationLevel1
+      properties:
+        - name: label
+          label: Linktext
+          type: String
+          i18n: true
+        - name: targetPage
+          label: Zielseite
+          type: reference:page
+          required: true
+        - name: children
+          label: Untermenü – Ebene 2
+          type: navigationLevel2
+          multiple: true
+
+    - name: navigationLevel2
+      properties:
+        - name: label
+          label: Linktext
+          type: String
+          i18n: true
+        - name: targetPage
+          label: Zielseite
+          type: reference:page
+          required: true
+        - name: children
+          label: Untermenü – Ebene 3
+          type: navigationLevel3
+          multiple: true
+
+    - name: navigationLevel3
+      properties:
+        - name: label
+          label: Linktext
+          type: String
+          i18n: true
+        - name: targetPage
+          label: Zielseite
+          type: reference:page
+          required: true

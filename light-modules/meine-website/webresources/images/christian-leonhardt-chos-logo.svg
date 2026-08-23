@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 600 136"
+     role="img"
+     aria-labelledby="logo-title logo-description">
+  <title id="logo-title">Christian Leonhardt – ChOS</title>
+  <desc id="logo-description">
+    Ein offenes C umschließt ein L. Ein heller Punkt steht für den Moment
+    der Klarheit zwischen Diagnose und Entscheidung.
+  </desc>
+
+  <!--
+    Eigenständiger Logoentwurf für Christian Leonhardt / ChOS.
+    Ausschließlich einfache, neu kombinierte Vektorformen; keine Fremdassets.
+  -->
+  <g id="signet" transform="translate(12 12)">
+    <path
+      d="M89 25
+         C77 15 62 11 47 15
+         C27 20 14 38 14 57
+         C14 78 28 96 48 101
+         C64 105 80 101 92 90"
+      fill="none"
+      stroke="#0D3F29"
+      stroke-width="11"
+      stroke-linecap="round"/>
+
+    <path
+      d="M65 37 V79
+         Q65 87 73 87
+         H101"
+      fill="none"
+      stroke="#28714E"
+      stroke-width="10"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+
+    <circle cx="65" cy="37" r="8" fill="#D8EF77"/>
+    <circle cx="65" cy="37" r="3" fill="#0D3F29"/>
+  </g>
+
+  <g id="wordmark"
+     font-family="Inter, Arial, Helvetica, sans-serif"
+     fill="#0D3F29">
+    <text x="142" y="63"
+          font-size="32"
+          font-weight="750"
+          letter-spacing="-0.6">CHRISTIAN LEONHARDT</text>
+
+    <text x="142" y="94"
+          font-size="18"
+          font-weight="750"
+          letter-spacing="0.2">ChOS</text>
+
+    <circle cx="203" cy="88" r="2.5" fill="#D8EF77"/>
+
+    <text x="217" y="94"
+          font-size="15"
+          font-weight="600"
+          letter-spacing="0.7"
+          fill="#59665F">DIAGNOSE · KLARHEIT · WIRKUNG</text>
+  </g>
+</svg>

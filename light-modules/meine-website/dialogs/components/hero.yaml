@@ -1,0 +1,115 @@
+label: Hero / Seitenaufmacher
+form:
+  properties:
+    eyebrow:
+      $type: textField
+      label: Kleine Zeile über der Überschrift
+      i18n: true
+    title:
+      $type: textField
+      label: Überschrift
+      required: true
+      i18n: true
+    description:
+      $type: textField
+      label: Kurzbeschreibung
+      required: true
+      i18n: true
+    imageChooser:
+      $type: switchableField
+      label: Hintergrundbild (optional)
+      field:
+        $type: comboBoxField
+        emptySelectionAllowed: true
+        datasource:
+          $type: optionListDatasource
+          options:
+            - name: image
+              label: Bild aus Magnolia Assets
+              value: image
+            - name: externalImage
+              label: Bild über externe URL
+              value: externalImage
+      itemProvider:
+        $type: jcrChildNodeProvider
+      forms:
+        - name: image
+          properties:
+            image:
+              i18n: true
+              required: true
+              $type: damLinkField
+              label: Bild auswählen
+            imageAlt:
+              i18n: true
+              $type: textField
+              label: Alternativtext
+        - name: externalImage
+          properties:
+            externalImage:
+              i18n: true
+              required: true
+              $type: textField
+              label: Bild-URL
+            externalImageAlt:
+              i18n: true
+              $type: textField
+              label: Alternativtext
+    ctaChooser:
+      $type: switchableField
+      label: Schaltfläche (optional)
+      field:
+        $type: comboBoxField
+        defaultValue: noCta
+        datasource:
+          $type: optionListDatasource
+          options:
+            - name: noCta
+              label: Keine Schaltfläche
+              value: noCta
+            - name: withCta
+              label: Schaltfläche anzeigen
+              value: withCta
+      itemProvider:
+        $type: jcrChildNodeProvider
+      forms:
+        - name: noCta
+          properties: {}
+        - name: withCta
+          properties:
+            ctaText:
+              $type: textField
+              required: true
+              label: Beschriftung
+              i18n: true
+            ctaLink:
+              $type: switchableField
+              label: Ziel
+              field:
+                $type: comboBoxField
+                defaultValue: internalPageLink
+                datasource:
+                  $type: optionListDatasource
+                  options:
+                    - name: internalPageLink
+                      label: Magnolia-Seite
+                      value: internalPageLink
+                    - name: externalPageLink
+                      label: Externe URL
+                      value: externalPageLink
+              itemProvider:
+                $type: jcrChildNodeProvider
+              forms:
+                - name: internalPageLink
+                  properties:
+                    internalLink:
+                      required: true
+                      $type: pageLinkField
+                      label: Seite auswählen
+                      converterClass: info.magnolia.ui.editor.converter.JcrNodeToPathConverter
+                - name: externalPageLink
+                  properties:
+                    externalLink:
+                      required: true
+                      $type: textField
+                      label: URL

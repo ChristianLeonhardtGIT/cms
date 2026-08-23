@@ -1,0 +1,14 @@
+[Unit]
+Description=ChOS Reader aus GitHub main aktualisieren
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists=/etc/cleonhardt/chos-github-readonly
+
+[Service]
+Type=oneshot
+User=root
+EnvironmentFile=-/etc/cleonhardt/chos-sync.env
+ExecStart=/opt/cleonhardt/deploy/sync-chos-main.sh
+
+[Install]
+WantedBy=multi-user.target

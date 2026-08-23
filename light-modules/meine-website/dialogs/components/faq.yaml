@@ -1,0 +1,40 @@
+label: FAQ
+form:
+  properties:
+    eyebrow:
+      label: Kleine Überschrift
+      description: Optional, zum Beispiel „Häufige Fragen“.
+      $type: textField
+      i18n: true
+    heading:
+      label: Überschrift
+      $type: textField
+      i18n: true
+      required: true
+    introduction:
+      label: Einleitung
+      description: Optionaler kurzer Text oberhalb der Fragen.
+      $type: textAreaField
+      rows: 3
+      i18n: true
+    items:
+      label: Fragen und Antworten
+      $type: jcrMultiField
+      minItems: 1
+      field:
+        $type: compositeField
+        label: Frage
+        properties:
+          question:
+            label: Frage
+            $type: textField
+            i18n: true
+            required: true
+          answer:
+            label: Antwort
+            description: Kurz, konkret und auch ohne den übrigen Seitentext verständlich formulieren.
+            $type: textAreaField
+            rows: 5
+            i18n: true
+            required: true
+

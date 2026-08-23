@@ -1,0 +1,91 @@
+label: Karte / Teaser
+form:
+  properties:
+    title:
+      $type: textField
+      label: Überschrift
+      required: true
+      i18n: true
+    description:
+      $type: richTextField
+      label: Text
+      i18n: true
+    imageChooser:
+      $type: switchableField
+      label: Bild (optional)
+      field:
+        $type: comboBoxField
+        emptySelectionAllowed: true
+        datasource:
+          $type: optionListDatasource
+          options:
+            - name: image
+              label: Bild aus Magnolia Assets
+              value: image
+            - name: externalImage
+              label: Bild über externe URL
+              value: externalImage
+      itemProvider:
+        $type: jcrChildNodeProvider
+      forms:
+        - name: image
+          properties:
+            image:
+              $type: damLinkField
+              label: Bild auswählen
+              required: true
+            imageAlt:
+              $type: textField
+              label: Alternativtext
+              i18n: true
+        - name: externalImage
+          properties:
+            externalImage:
+              $type: textField
+              label: Bild-URL
+              required: true
+            externalImageAlt:
+              $type: textField
+              label: Alternativtext
+              i18n: true
+    linkChooser:
+      $type: switchableField
+      label: Verlinkung (optional)
+      field:
+        $type: comboBoxField
+        emptySelectionAllowed: true
+        datasource:
+          $type: optionListDatasource
+          options:
+            - name: internalLink
+              label: Magnolia-Seite
+              value: internalLink
+            - name: externalLink
+              label: Externe URL
+              value: externalLink
+      itemProvider:
+        $type: jcrChildNodeProvider
+      forms:
+        - name: internalLink
+          properties:
+            internalLink:
+              $type: pageLinkField
+              label: Seite auswählen
+              required: true
+              converterClass: info.magnolia.ui.editor.converter.JcrNodeToPathConverter
+            linkText:
+              $type: textField
+              label: Linktext
+              required: true
+              i18n: true
+        - name: externalLink
+          properties:
+            externalLink:
+              $type: textField
+              label: URL
+              required: true
+            linkText:
+              $type: textField
+              label: Linktext
+              required: true
+              i18n: true

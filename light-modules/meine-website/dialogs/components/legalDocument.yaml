@@ -1,0 +1,15 @@
+label: Rechtstext
+form:
+  properties:
+    legalDocumentReference:
+      label: Rechtstext
+      $type: linkField
+      required: true
+      datasource:
+        $type: jcrDatasource
+        workspace: legalDocuments
+    showBackground:
+      label: Hintergrund hervorheben
+      $type: checkBoxField
+      buttonLabel: Hellen Hintergrund anzeigen
+

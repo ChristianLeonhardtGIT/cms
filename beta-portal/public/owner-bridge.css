@@ -1,0 +1,23 @@
+.chos-owner-access {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.65rem;
+  padding: .55rem .85rem;
+  border: 1px solid rgba(255, 255, 255, .25);
+  border-radius: 999px;
+  color: #fff;
+  background: #0d3f29;
+  box-shadow: 0 8px 28px rgba(13, 63, 41, .28);
+  font: 700 .8rem/1 system-ui, sans-serif;
+  text-decoration: none;
+}
+
+.chos-owner-access:hover,
+.chos-owner-access:focus-visible {
+  color: #132019;
+  background: #d8ef77;
+}

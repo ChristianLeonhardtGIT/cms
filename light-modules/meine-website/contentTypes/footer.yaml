@@ -1,0 +1,27 @@
+datasource:
+  workspace: footer
+  autoCreate: true
+
+model:
+  properties:
+    - name: footerText
+      label: Text in der Fußzeile
+      type: String
+      i18n: true
+    - name: links
+      label: Footer-Links
+      type: footerLink
+      multiple: true
+
+  subModels:
+    - name: footerLink
+      properties:
+        - name: label
+          label: Linktext
+          type: String
+          i18n: true
+          required: true
+        - name: targetPage
+          label: Zielseite
+          type: reference:page
+          required: true

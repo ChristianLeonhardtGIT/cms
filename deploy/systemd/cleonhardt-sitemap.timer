@@ -1,0 +1,12 @@
+[Unit]
+Description=Refresh cleonhardt.de sitemap regularly
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=10min
+RandomizedDelaySec=1min
+Persistent=true
+Unit=cleonhardt-sitemap.service
+
+[Install]
+WantedBy=timers.target

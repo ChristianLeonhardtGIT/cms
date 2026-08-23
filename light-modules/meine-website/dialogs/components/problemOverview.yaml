@@ -1,0 +1,11 @@
+label: Problemsituationen – Übersicht
+form:
+  properties:
+    heading:
+      label: Überschrift
+      $type: textField
+      i18n: true
+    intro:
+      label: Einleitung
+      $type: richTextField
+      i18n: true

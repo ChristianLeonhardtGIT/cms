@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ChOS – lebendes Denk- und Entscheidungsmodell">
+  <title>ChOS-Kernel-Anwendung: FlowDesk GmbH · ChOS</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script defer src="../assets/search-index.js"></script>
+  <script defer src="../assets/app.js"></script>
+</head>
+<body class="document-page">
+  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <header class="topbar">
+    <button class="icon-button menu-button" type="button" data-menu-toggle aria-label="Navigation öffnen">☰</button>
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">Ch</span>
+      <span><strong>ChOS</strong><small>Version 0.6 Beta.1</small></span>
+    </a>
+    <div class="topbar-actions">
+      <a class="top-link" href="../all-in-one.html">Alles lesen</a>
+      <a class="top-link" href="../reports/validation-report.html">Systemcheck</a>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Darstellung wechseln">◐</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" data-sidebar>
+      <div class="search-wrap">
+        <label class="sr-only" for="site-search">Dokumente durchsuchen</label>
+        <input id="site-search" class="search-input" type="search" placeholder="ChOS durchsuchen …" autocomplete="off" data-search>
+        <div class="search-results" data-search-results hidden></div>
+      </div>
+      <nav class="navigation" aria-label="Dokumentation"><div class="nav-group"><div class="nav-group-title">Fundament</div><a class="nav-link" href="../docs/00-executive-summary.html" data-title="ChOS – Executive Summary"><span>ChOS – Executive Summary</span></a><a class="nav-link" href="../docs/21-ethik-und-zielkonflikte.html" data-title="Ethik und Umgang mit Zielkonflikten"><span>Ethik und Umgang mit Zielkonflikten</span></a><a class="nav-link" href="../docs/13-menschenbild.html" data-title="Menschenbild v0.2 – Beta-Grundlage"><span>Menschenbild v0.2 – Beta-Grundlage</span></a><a class="nav-link" href="../docs/06-wertearchitektur.html" data-title="Wertearchitektur"><span>Wertearchitektur</span></a><a class="nav-link" href="../docs/02-kernel-und-werte.html" data-title="Kernel, Ethik und Werte"><span>Kernel, Ethik und Werte</span></a><a class="nav-link" href="../docs/01-denkraum.html" data-title="Denkraum – die gemeinsame Kontextsprache des ChOS"><span>Denkraum – die gemeinsame Kontextsprache des ChOS</span></a><a class="nav-link" href="../docs/03-erkenntnismodell.html" data-title="Erkenntnis-, Diagnose- und Lernmodell"><span>Erkenntnis-, Diagnose- und Lernmodell</span></a><a class="nav-link" href="../docs/11-geltungsbereich-und-systembegriff.html" data-title="Geltungsbereich, Anwendung und Grenzen"><span>Geltungsbereich, Anwendung und Grenzen</span></a></div><div class="nav-group"><div class="nav-group-title">Entscheiden &amp; Gestalten</div><a class="nav-link" href="../docs/14-gestaltungsprinzipien.html" data-title="Gestaltungsprinzipien"><span>Gestaltungsprinzipien</span></a><a class="nav-link" href="../docs/04-mechanismen-und-systemeigenschaften.html" data-title="Mechanismen, Systemeigenschaften und Ergebnisse"><span>Mechanismen, Systemeigenschaften und Ergebnisse</span></a><a class="nav-link" href="../docs/17-wirkungsmodell-und-diagnose.html" data-title="Wirkungsmodell und Diagnose"><span>Wirkungsmodell und Diagnose</span></a><a class="nav-link" href="../docs/05-entscheidungsmodell.html" data-title="Entscheidungsmodell"><span>Entscheidungsmodell</span></a><a class="nav-link" href="../docs/15-ziele-feedback-und-entwicklung.html" data-title="Ziele, Feedback und Entwicklung"><span>Ziele, Feedback und Entwicklung</span></a><a class="nav-link" href="../docs/20-anwendungsarchitektur.html" data-title="Aufbau und Anwendung des ChOS"><span>Aufbau und Anwendung des ChOS</span></a><a class="nav-link" href="../docs/25-strategie-und-anwendung.html" data-title="Strategie und ihre Anwendung"><span>Strategie und ihre Anwendung</span></a><a class="nav-link" href="../docs/27-strategische-priorisierung.html" data-title="Strategische Beitrags- und Belastungsbewertung"><span>Strategische Beitrags- und Belastungsbewertung</span></a><a class="nav-link" href="../docs/26-wirtschaftliche-systemsteuerung.html" data-title="Wirtschaftliche Systemsteuerung"><span>Wirtschaftliche Systemsteuerung</span></a><a class="nav-link" href="../docs/28-fuehrung-erste-sechs-monate.html" data-title="Die ersten sechs Monate einer neuen Führungskraft"><span>Die ersten sechs Monate einer neuen Führungskraft</span></a></div><div class="nav-group"><div class="nav-group-title">Qualität &amp; Wissen</div><a class="nav-link" href="../docs/18-wirtschaftlichkeit.html" data-title="Wirtschaftlichkeitsprüfung"><span>Wirtschaftlichkeitsprüfung</span></a><a class="nav-link" href="../docs/07-validierungsprozess.html" data-title="Validierungsprozess"><span>Validierungsprozess</span></a><a class="nav-link" href="../docs/16-wissensarchitektur-und-nutzerfokus.html" data-title="Wissensarchitektur, Denkraum und Nutzerfokus"><span>Wissensarchitektur, Denkraum und Nutzerfokus</span></a><a class="nav-link" href="../docs/19-quellen-einfluesse-und-recht.html" data-title="Quellen, Einflüsse und rechtliche Aufgaben"><span>Quellen, Einflüsse und rechtliche Aufgaben</span></a><a class="nav-link" href="../docs/22-qualitaetspruefung-und-governance.html" data-title="Qualitätsprüfung und Governance"><span>Qualitätsprüfung und Governance</span></a><a class="nav-link" href="../docs/23-system-validation.html" data-title="ChOS System Validation"><span>ChOS System Validation</span></a></div><div class="nav-group"><div class="nav-group-title">Playbooks</div><a class="nav-link" href="../docs/pb-001-team-uebernehmen.html" data-title="PB-001 – Ein Team übernehmen"><span>PB-001 – Ein Team übernehmen</span></a><a class="nav-link" href="../docs/pb-002-mitarbeiterentwicklung.html" data-title="PB-002 – Mitarbeiterentwicklung"><span>PB-002 – Mitarbeiterentwicklung</span></a><a class="nav-link" href="../docs/pb-003-mvp-produktentwicklung.html" data-title="PB-003 – Ein Produkt mit einem MVP entwickeln"><span>PB-003 – Ein Produkt mit einem MVP entwickeln</span></a><a class="nav-link" href="../docs/readme.html" data-title="Playbook-Bibliothek"><span>Playbook-Bibliothek</span></a></div><div class="nav-group"><div class="nav-group-title">Entwicklung &amp; Governance</div><a class="nav-link" href="../docs/09-arbeitsweise-und-fortsetzung.html" data-title="Arbeitsweise und Fortsetzung"><span>Arbeitsweise und Fortsetzung</span></a><a class="nav-link" href="../docs/12-offene-hypothesen-und-forschungsfragen.html" data-title="Offene Hypothesen und Forschungsfragen"><span>Offene Hypothesen und Forschungsfragen</span></a><a class="nav-link" href="../docs/08-change-log.html" data-title="Change Log"><span>Change Log</span></a><a class="nav-link" href="../docs/10-gespraechsprotokoll-konsolidiert.html" data-title="Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha"><span>Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha</span></a></div><div class="nav-group"><div class="nav-group-title">Repository</div><a class="nav-link" href="../docs/readme-2.html" data-title="Repository Governance"><span>Repository Governance</span></a><a class="nav-link" href="../docs/readme-3.html" data-title="ChOS anwenden"><span>ChOS anwenden</span></a><a class="nav-link" href="../docs/readme-8.html" data-title="ChOS Repository"><span>ChOS Repository</span></a></div><div class="nav-group"><div class="nav-group-title">Weitere Dokumente</div><a class="nav-link" href="../docs/24-governance-selbstkorrektur-und-integritaet.html" data-title="Governance für Selbstkorrektur und Integrität"><span>Governance für Selbstkorrektur und Integrität</span></a><a class="nav-link" href="../docs/authorship.html" data-title="Autorschaft"><span>Autorschaft</span></a><a class="nav-link" href="../docs/copyright.html" data-title="Copyright"><span>Copyright</span></a><a class="nav-link" href="../docs/github-import.html" data-title="GitHub Initial Import"><span>GitHub Initial Import</span></a><a class="nav-link" href="../docs/konsistenzbericht-beta-1.html" data-title="Konsistenzbericht ChOS v0.6 Beta.1"><span>Konsistenzbericht ChOS v0.6 Beta.1</span></a><a class="nav-link" href="../docs/license.html" data-title="Lizenz"><span>Lizenz</span></a><a class="nav-link" href="../docs/version.html" data-title="Version"><span>Version</span></a><a class="nav-link" href="../docs/change-control.html" data-title="Change Control"><span>Change Control</span></a><a class="nav-link" href="../docs/change-record-mensch-ki-integration.html" data-title="Änderungsnachweis – Mensch und KI in einem ChOS"><span>Änderungsnachweis – Mensch und KI in einem ChOS</span></a><a class="nav-link" href="../docs/integrity-checklist.html" data-title="Integrity Checklist"><span>Integrity Checklist</span></a><a class="nav-link" href="../docs/lessons-learned.html" data-title="Lessons Learned"><span>Lessons Learned</span></a><a class="nav-link" href="../docs/recovery-procedure.html" data-title="Recovery Procedure"><span>Recovery Procedure</span></a><a class="nav-link" href="../docs/release-process.html" data-title="Release Process"><span>Release Process</span></a><a class="nav-link" href="../docs/repository-principles.html" data-title="Repository Principles"><span>Repository Principles</span></a><a class="nav-link" href="../docs/repository-roles.html" data-title="Repository Roles"><span>Repository Roles</span></a><a class="nav-link" href="../docs/repository-workflow.html" data-title="Repository Workflow"><span>Repository Workflow</span></a><a class="nav-link" href="../docs/session-start-protocol.html" data-title="Session Start Protocol"><span>Session Start Protocol</span></a><a class="nav-link" href="../docs/six-release-safeguards.html" data-title="Six Release Safeguards"><span>Six Release Safeguards</span></a><a class="nav-link" href="../docs/snapshot-policy.html" data-title="Snapshot Policy"><span>Snapshot Policy</span></a><a class="nav-link" href="../docs/versioning-policy.html" data-title="Versioning Policy"><span>Versioning Policy</span></a><a class="nav-link" href="../docs/01-diagnosebogen.html" data-title="Diagnosebogen"><span>Diagnosebogen</span></a><a class="nav-link" href="../docs/02-selbstcheck.html" data-title="ChOS Selbstcheck"><span>ChOS Selbstcheck</span></a><a class="nav-link" href="../docs/03-clarity-session.html" data-title="Clarity Session – 90 Minuten"><span>Clarity Session – 90 Minuten</span></a><a class="nav-link" href="../docs/04-clarity-brief.html" data-title="Clarity Brief – Vorlage"><span>Clarity Brief – Vorlage</span></a><a class="nav-link" href="../docs/05-entscheidungsrahmen.html" data-title="Entscheidungsrahmen"><span>Entscheidungsrahmen</span></a><a class="nav-link" href="../docs/06-fallbeispiele.html" data-title="Zwei Fallbeispiele"><span>Zwei Fallbeispiele</span></a><a class="nav-link" href="../docs/07-glossar.html" data-title="Glossar"><span>Glossar</span></a></div></nav>
+      <div class="sidebar-note">Markdown bleibt die Quelle. HTML ist die lesbare Oberfläche.</div>
+    </aside>
+    <div class="sidebar-backdrop" data-menu-toggle></div>
+    <main id="content" class="main-content">
+<article class="document">
+  <header class="document-header">
+    <span class="eyebrow">Validierung</span>
+    <h1 id="top">ChOS-Kernel-Anwendung: FlowDesk GmbH</h1>
+    <p class="document-meta">Quelle: <code>validation/VR-02B/Feedback_2_Original.md</code></p>
+  </header>
+  <div class="markdown-body"><p><strong>Hinweis zur Datenbasis:</strong> Für die sechs genannten Verantwortungsräume (Marketing, Sales, Product, Engineering, Customer Success, Support) liegen nur die Namen vor. Die im <a class="denkraum-link" data-definition="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können." href="01-denkraum.html#kernel" title="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können.">Kernel</a> geforderten Beschreibungsmerkmale je Verantwortungsraum – <a class="denkraum-link" data-definition="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht." href="01-denkraum.html#wertbeitrag" title="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht.">Wertbeitrag</a>, Zielgruppe, <a class="denkraum-link" data-definition="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a>, Entscheidungsraum, Fähigkeiten, Kontext, Abhängigkeiten – wurden nicht bereitgestellt. Die folgende Analyse stützt sich daher ausschließlich auf das, was aus den sechs beobachteten Problemen selbst über Handlungen, Entscheidungen und Verantwortungslücken hervorgeht, nicht auf formal definierte Attribute. Diese Einschränkung gilt für die gesamte Analyse und wird unter Punkt 9 im Detail geführt.</p>
+<p>Marketing wird in keinem der sechs Probleme erwähnt und daher in dieser Analyse nicht behandelt.</p>
+<hr/>
+<h2 id="1-diagnose">1 Diagnose<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#1-diagnose">#</a></h2>
+<h3 id="wichtigste-probleme">Wichtigste Probleme<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wichtigste-probleme">#</a></h3>
+<ol>
+<li>Sales macht Kunden Zusagen zu Funktionen/Terminen ohne Einbindung von Product/Engineering.</li>
+<li>Bei Vertragsverlängerungen ist unklar, welcher Verantwortungsraum (Sales oder Customer Success) das Ergebnis verantwortet.</li>
+<li>Wiederkehrende Kundenprobleme gelangen nur unregelmäßig von Support zu Product/Engineering.</li>
+<li>Zwischen Product und Engineering gibt es Zielkonflikte (Kunden-/Marktwert vs. technische Stabilität) ohne formalisierten Entscheidungsweg.</li>
+<li>Für den KI-Assistenten im Support fehlen Governance-Regeln zu Qualität, Freigabe und Verantwortung.</li>
+<li>Für die diskutierte Zusammenlegung von Support/Customer Success sowie einen neuen Verantwortungsraum „Revenue Operations“ liegt keine kernelbasierte Begründung vor.</li>
+</ol>
+<h3 id="ursachen">Ursachen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ursachen">#</a></h3>
+<ol>
+<li>Fehlende Governance-Regel, die kundengerichtete Zusagen an eine Abstimmung mit Product/Engineering bindet.</li>
+<li>Fehlende bzw. nie getroffene Verantwortungszuweisung für das Ergebnis der Vertragsverlängerung.</li>
+<li>Fehlender verbindlicher Weitergabeprozess zwischen Support und Product/Engineering.</li>
+<li>Fehlender Entscheidungsprozess für Zielkonflikte zwischen zwei legitim unterschiedlichen Prioritäten.</li>
+<li>Fehlende Governance-Regeln für delegierte Ausführung durch ein <a class="denkraum-link" data-definition="Ein KI-System verarbeitet Informationen so, dass daraus Inhalte, Einschätzungen, Empfehlungen oder Handlungen entstehen können." href="01-denkraum.html#ki-system" title="Ein KI-System verarbeitet Informationen so, dass daraus Inhalte, Einschätzungen, Empfehlungen oder Handlungen entstehen können.">KI-System</a>.</li>
+<li>Strukturveränderung wird diskutiert, ohne dass eine Änderung von Wertbeitrag, Verantwortung oder Entscheidungsraum belegt ist.</li>
+</ol>
+<h3 id="betroffene-kernel-elemente">Betroffene Kernel-Elemente<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-kernel-elemente">#</a></h3>
+<ul>
+<li>Problem 1: Governance, Entscheidungsraum (Sales / Product / Engineering)</li>
+<li>Problem 2: Verantwortung (Sales / Customer Success)</li>
+<li>Problem 3: Governance (Informationsfluss Support → Product/Engineering)</li>
+<li>Problem 4: Governance (Entscheidungsprozess Product / Engineering)</li>
+<li>Problem 5: Governance, Abschnitt „<a class="denkraum-link" data-definition="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit." href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a> und Ausführung“ (delegierte Ausführung)</li>
+<li>Problem 6: Regel zur Veränderung von Verantwortungsräumen; unklar, wer im Kernel-Modell den Entscheidungsraum für Strukturveränderungen selbst hält</li>
+</ul>
+<hr/>
+<h2 id="2-kernelprufung">2 Kernelprüfung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#2-kernelprufung">#</a></h2>
+<h3 id="problem-1-sales-zusagen-ohne-einbindung">Problem 1 – Sales-Zusagen ohne Einbindung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-1-sales-zusagen-ohne-einbindung">#</a></h3>
+<ul>
+<li><strong>Verantwortungsraum:</strong> primär Sales; mitbetroffen Product, Engineering</li>
+<li><strong>Wertbeitrag:</strong> nicht explizit definiert; aus der Problembeschreibung erkennbar, dass Sales' Handeln in den mutmaßlichen Wertbeitrag von Product/Engineering eingreift</li>
+<li><strong>Verantwortung:</strong> nicht spezifiziert, ob Sales Verantwortung für Produktzusagen tragen soll – Szenario legt nahe, dass dies nicht der Fall ist</li>
+<li><strong>Entscheidungsraum:</strong> faktisches Handeln von Sales überschreitet vermutlich den vorgesehenen Entscheidungsraum (Annahme, nicht bestätigt)</li>
+<li><strong>Reicht Governance?</strong> Ja – es fehlt eine Regel zur verbindlichen Abstimmung vor kundengerichteten Zusagen</li>
+<li><strong>Kontextanwendung <a class="denkraum-link" data-definition="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können." href="01-denkraum.html#ausreichend" title="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können.">ausreichend</a>?</strong> Ja, sofern die Grundabgrenzung der Entscheidungsräume bereits stimmt und nur nicht eingehalten wird</li>
+<li><strong>Strukturänderung nötig?</strong> Nein – keiner der drei Änderungsgründe ist berührt</li>
+</ul>
+<h3 id="problem-2-vertragsverlangerung-unklare-verantwortung">Problem 2 – Vertragsverlängerung, unklare Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-2-vertragsverlangerung-unklare-verantwortung">#</a></h3>
+<ul>
+<li><strong>Verantwortungsraum:</strong> Sales und Customer Success</li>
+<li><strong>Wertbeitrag:</strong> nicht spezifiziert</li>
+<li><strong>Verantwortung:</strong> ausdrücklich als ungeklärt benannt – Kern des Problems</li>
+<li><strong>Entscheidungsraum:</strong> keine Abgrenzung im Szenario erkennbar</li>
+<li><strong>Reicht Governance?</strong> Ja, sofern eine Klärung ohne Änderung von Wertbeitrag/Entscheidungsraum möglich ist</li>
+<li><strong>Kontextanwendung ausreichend?</strong> Fraglich – es fehlt die inhaltliche Grundlage, welchem Raum die Verantwortung näherliegt (siehe Punkt 9)</li>
+<li><strong>Strukturänderung nötig?</strong> Keine neuen Räume, aber eine explizite Verantwortungszuweisung – laut Kernel zulässig, da Verantwortung eines der drei Kriterien ist</li>
+</ul>
+<h3 id="problem-3-wiederkehrende-supportprobleme">Problem 3 – Wiederkehrende Supportprobleme<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-3-wiederkehrende-supportprobleme">#</a></h3>
+<ul>
+<li><strong>Verantwortungsraum:</strong> Support (Ausgangspunkt), Product/Engineering (Empfänger)</li>
+<li><strong>Wertbeitrag:</strong> laut Szenario löst Support Kundenprobleme; Weitergabe struktureller Erkenntnisse nicht genannt</li>
+<li><strong>Verantwortung:</strong> unklar, ob Weitergabe zu Supports Verantwortung gehört oder Product/Engineering aktiv nachfragen müssten</li>
+<li><strong>Entscheidungsraum:</strong> nicht spezifiziert</li>
+<li><strong>Reicht Governance?</strong> Ja – es fehlt ein verbindlicher Weitergabeprozess</li>
+<li><strong>Kontextanwendung ausreichend?</strong> Ja, sofern Supports Wertbeitrag unverändert bleibt</li>
+<li><strong>Strukturänderung nötig?</strong> Nein</li>
+</ul>
+<h3 id="problem-4-product-vs-engineering">Problem 4 – Product vs. Engineering<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-4-product-vs-engineering">#</a></h3>
+<ul>
+<li><strong>Verantwortungsraum:</strong> Product und Engineering</li>
+<li><strong>Wertbeitrag:</strong> Product priorisiert Kunden-/Marktwert, Engineering technische Stabilität/Risiken – so im Szenario benannt</li>
+<li><strong>Verantwortung:</strong> nicht weiter spezifiziert</li>
+<li><strong>Entscheidungsraum:</strong> Szenario stellt explizit fest, dass kein formalisierter Entscheidungsweg existiert</li>
+<li><strong>Reicht Governance?</strong> Ja – im Kernel direkt als Governance-Aufgabe definiert</li>
+<li><strong>Kontextanwendung ausreichend?</strong> Ja, sofern beide Wertbeiträge bestehen bleiben</li>
+<li><strong>Strukturänderung nötig?</strong> Nein – es fehlt ein Entscheidungsprozess, nicht eine neue Aufteilung</li>
+</ul>
+<h3 id="problem-5-ki-assistent-im-support">Problem 5 – KI-Assistent im Support<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-5-ki-assistent-im-support">#</a></h3>
+<ul>
+<li><strong>Verantwortungsraum:</strong> Support</li>
+<li><strong>Wertbeitrag:</strong> unverändert – KI-Einsatz ist laut Kernel eine Form der Ausführung</li>
+<li><strong>Verantwortung:</strong> bleibt laut Kernel explizit bei Support („Delegierte Ausführung verändert weder Verantwortung noch Entscheidungsraum“)</li>
+<li><strong>Entscheidungsraum:</strong> bleibt aus demselben Grund bei Support</li>
+<li><strong>Reicht Governance?</strong> Ja – der Kernel klärt die Verantwortungsfrage bereits selbst; es fehlen nur Regeln zu Qualität und Freigabe</li>
+<li><strong>Kontextanwendung ausreichend?</strong> Ja</li>
+<li><strong>Strukturänderung nötig?</strong> Nein – vom Kernel explizit ausgeschlossen</li>
+</ul>
+<h3 id="problem-6-zusammenlegung-support-cs-neuer-raum-revenue-operations">Problem 6 – Zusammenlegung Support/CS, neuer Raum „Revenue Operations“<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-6-zusammenlegung-support-cs-neuer-raum-revenue-operations">#</a></h3>
+<ul>
+<li><strong>Verantwortungsraum:</strong> Support, Customer Success, potenziell neuer Raum</li>
+<li><strong>Wertbeitrag:</strong> keine Aussage zu einer Veränderung</li>
+<li><strong>Verantwortung:</strong> keine Aussage zu einer Veränderung</li>
+<li><strong>Entscheidungsraum:</strong> keine Aussage zu einer Veränderung</li>
+<li><strong>Reicht Governance?</strong> Die eigentliche Frage stellt sich hier anders: Es fehlt jede kernelbasierte Begründung, nicht nur eine Governance-Regel</li>
+<li><strong>Kontextanwendung ausreichend?</strong> Nicht bewertbar ohne weitere Informationen</li>
+<li><strong>Strukturänderung nötig?</strong> Auf Basis der vorliegenden Informationen: <strong>nicht nachweisbar</strong>. Der Kernel lässt Änderungen nur bei Änderung von Wertbeitrag, Verantwortung oder Entscheidungsraum zu; Organigramm, Mitarbeiterzahl, Wachstum oder das Bündeln ungelöster Probleme sind ausdrücklich keine zulässige Begründung</li>
+</ul>
+<hr/>
+<h2 id="3-veranderungsentwurf">3 Veränderungsentwurf<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#3-veranderungsentwurf">#</a></h2>
+<h3 id="veranderung-a-abstimmungspflicht-bei-kundengerichteten-produktzusagen-problem-1">Veränderung A – Abstimmungspflicht bei kundengerichteten Produktzusagen (Problem 1)<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-a-abstimmungspflicht-bei-kundengerichteten-produktzusagen-problem-1">#</a></h3>
+<ul>
+<li><strong><a class="denkraum-link" data-definition="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll." href="01-denkraum.html#ziel" title="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll.">Ziel</a>:</strong> Zusagen zu Funktionen/Terminen gegenüber Kunden erfolgen nur nach Abstimmung mit Product und Engineering</li>
+<li><strong>Betroffene Räume:</strong> Sales, Product, Engineering</li>
+<li><strong>Wertbeitrag:</strong> unverändert</li>
+<li><strong>Verantwortung:</strong> unverändert – bestehende Verantwortung von Product/Engineering wird geschützt, nicht neu zugewiesen</li>
+<li><strong>Entscheidungsraum:</strong> unverändert – Regel bekräftigt bestehende Abgrenzung</li>
+</ul>
+<h3 id="veranderung-b-klarung-der-verantwortung-fur-vertragsverlangerungen-problem-2">Veränderung B – Klärung der Verantwortung für Vertragsverlängerungen (Problem 2)<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-b-klarung-der-verantwortung-fur-vertragsverlangerungen-problem-2">#</a></h3>
+<ul>
+<li><strong>Ziel:</strong> eindeutige Zuweisung, wer das Ergebnis einer Vertragsverlängerung verantwortet</li>
+<li><strong>Betroffene Räume:</strong> Sales, Customer Success</li>
+<li><strong>Wertbeitrag:</strong> unverändert</li>
+<li><strong>Verantwortung:</strong> wird geklärt/zugewiesen – zulässige Grundlage, da Verantwortung eines der drei Kriterien ist</li>
+<li><strong>Entscheidungsraum:</strong> ggf. mit festzulegen; aus den vorliegenden Informationen nicht abschließend bestimmbar, welchem Raum dies zufallen sollte</li>
+</ul>
+<h3 id="veranderung-c-verbindliche-weitergabe-wiederkehrender-supportprobleme-problem-3">Veränderung C – Verbindliche Weitergabe wiederkehrender Supportprobleme (Problem 3)<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-c-verbindliche-weitergabe-wiederkehrender-supportprobleme-problem-3">#</a></h3>
+<ul>
+<li><strong>Ziel:</strong> systematische Weitergabe wiederkehrender Probleme an Product/Engineering</li>
+<li><strong>Betroffene Räume:</strong> Support, Product, Engineering</li>
+<li><strong>Wertbeitrag:</strong> unverändert</li>
+<li><strong>Verantwortung:</strong> unverändert – Weitergabe ist Ausführungsdetail, keine neue Verantwortung</li>
+<li><strong>Entscheidungsraum:</strong> unverändert</li>
+</ul>
+<h3 id="veranderung-d-entscheidungsweg-fur-zielkonflikte-product-engineering-problem-4">Veränderung D – Entscheidungsweg für Zielkonflikte Product/Engineering (Problem 4)<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-d-entscheidungsweg-fur-zielkonflikte-product-engineering-problem-4">#</a></h3>
+<ul>
+<li><strong>Ziel:</strong> definierter Weg zur Entscheidung bei widersprüchlichen Prioritäten</li>
+<li><strong>Betroffene Räume:</strong> Product, Engineering</li>
+<li><strong>Wertbeitrag:</strong> unverändert – beide Prioritäten bleiben bestehen</li>
+<li><strong>Verantwortung:</strong> unverändert</li>
+<li><strong>Entscheidungsraum:</strong> im Grundsatz unverändert; nur der Prozess für den Konfliktfall wird ergänzt</li>
+</ul>
+<h3 id="veranderung-e-governance-regeln-fur-ki-gestutzte-ausfuhrung-im-support-problem-5">Veränderung E – Governance-Regeln für KI-gestützte Ausführung im Support (Problem 5)<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-e-governance-regeln-fur-ki-gestutzte-ausfuhrung-im-support-problem-5">#</a></h3>
+<ul>
+<li><strong>Ziel:</strong> Regeln für Qualität und Freigabe innerhalb der bestehenden Verantwortung von Support</li>
+<li><strong>Betroffene Räume:</strong> Support</li>
+<li><strong>Wertbeitrag:</strong> unverändert</li>
+<li><strong>Verantwortung:</strong> unverändert – bleibt bei Support</li>
+<li><strong>Entscheidungsraum:</strong> unverändert</li>
+</ul>
+<h3 id="zu-problem-6">Zu Problem 6<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#zu-problem-6">#</a></h3>
+<p><strong>Keine Veränderung empfohlen.</strong> Für die Zusammenlegung von Support/Customer Success wie für einen neuen Verantwortungsraum „Revenue Operations“ ist keine Änderung von Wertbeitrag, Verantwortung oder Entscheidungsraum belegt. Eine Empfehlung würde gegen die Kernel-Vorgabe verstoßen. Unter Punkt 8 wird stattdessen ein Prüfprozess vorgeschlagen.</p>
+<hr/>
+<h2 id="4-umsetzungsplan">4 Umsetzungsplan<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#4-umsetzungsplan">#</a></h2>
+<p><strong>Reihenfolge:</strong> D → A → (C, E parallel) → B</p>
+<p>Begründung der Reihenfolge: D schafft die Grundlage, damit Product/Engineering im Rahmen von A überhaupt zügig gemeinsam entscheiden können. C und E sind von A/D unabhängig und können parallel laufen. B wird zuletzt behandelt, da die inhaltliche Grundlage für die Zuweisung fehlt (siehe Punkt 9) und zunächst geklärt werden muss.</p>
+<table>
+<thead>
+<tr>
+<th>Veränderung</th>
+<th>Erste Schritte</th>
+<th>Beteiligte Räume</th>
+<th>Governance-Entscheidung</th>
+<th>Risiken</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D</td>
+<td>Entscheidungsregel für Zielkonflikte formulieren und abstimmen</td>
+<td>Product, Engineering</td>
+<td>Wer entscheidet bei Uneinigkeit, nach welchem Kriterium</td>
+<td>Prozess wird als zusätzliche Bürokratie wahrgenommen</td>
+</tr>
+<tr>
+<td>A</td>
+<td>Regel „keine Zusage ohne Abstimmung“ formulieren, Kommunikationsweg festlegen</td>
+<td>Sales, Product, Engineering</td>
+<td>Ab wann gilt eine Zusage als „kundengerichtet“ und abstimmungspflichtig</td>
+<td>Sales-Tempo im Kundengespräch sinkt, Umgehung der Regel möglich</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Weitergabekriterium für „wiederkehrend“ definieren, Zielort (Product/Engineering) festlegen</td>
+<td>Support, Product, Engineering</td>
+<td>Ab welcher Häufigkeit gilt ein Problem als wiederkehrend</td>
+<td>Zusätzlicher Aufwand für Support ohne sichtbaren Nutzen für Support selbst</td>
+</tr>
+<tr>
+<td>E</td>
+<td>Qualitäts- und Freigabekriterien für KI-Ausführung festlegen</td>
+<td>Support</td>
+<td>Welche Anfragen darf das KI-System ohne Freigabe abschließend bearbeiten</td>
+<td>Fehlende Kriterien führen zu Über- oder Unter-Kontrolle</td>
+</tr>
+</tbody>
+</table>
+<p>| B | Inhaltliche Aufgaben von Sales und Customer Success im Verlängerungsprozess klären, dann Verantwortung zuweisen | Sales, Customer Success | Wer verantwortet das Ergebnis; ggf. Aufteilung nach Teilaufgaben | Zuweisung ohne ausreichende Informationsgrundlage (siehe Punkt 9)</p>
+<hr/>
+<h2 id="5-wirkungsprognose">5 Wirkungsprognose<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#5-wirkungsprognose">#</a></h2>
+<p><strong>Veränderung A</strong></p>
+<ul>
+<li>Erwartete Wirkung: weniger Zusagen, die technisch nicht einhaltbar sind</li>
+<li>Erwartete Verbesserungen: weniger Konflikte über Roadmap/Liefertermine</li>
+<li>Nebenwirkungen: Verzögerung im Verkaufsprozess</li>
+<li>Langfristige Risiken: Regel wird ohne Konsequenz bei Verstoß wirkungslos</li>
+</ul>
+<p><strong>Veränderung B</strong></p>
+<ul>
+<li>Erwartete Wirkung: klare Ansprechbarkeit bei Fragen zur Vertragsverlängerung</li>
+<li>Erwartete Verbesserungen: weniger Reibung zwischen Sales und Customer Success</li>
+<li>Nebenwirkungen: der jeweils nicht verantwortliche Raum zieht sich möglicherweise zu weit zurück</li>
+<li>Langfristige Risiken: Zuweisung ohne belastbare inhaltliche Grundlage kann falsch sein und später erneut korrigiert werden müssen</li>
+</ul>
+<p><strong>Veränderung C</strong></p>
+<ul>
+<li>Erwartete Wirkung: mehr strukturelle Ursachen werden erkannt</li>
+<li>Erwartete Verbesserungen: weniger wiederkehrende Kundenprobleme mittelfristig</li>
+<li>Nebenwirkungen: kurzfristig steigende Anzahl gemeldeter Probleme (mehr Sichtbarkeit, nicht mehr Probleme)</li>
+<li>Langfristige Risiken: Weitergabe ohne Kapazität bei Product/Engineering zur Bearbeitung verpufft wirkungslos</li>
+</ul>
+<p><strong>Veränderung D</strong></p>
+<ul>
+<li>Erwartete Wirkung: schnellere Entscheidungen bei Zielkonflikten</li>
+<li>Erwartete Verbesserungen: weniger ungelöste Spannungen zwischen Product und Engineering</li>
+<li>Nebenwirkungen: eine Seite fühlt sich bei Entscheidungen strukturell benachteiligt</li>
+<li>Langfristige Risiken: Konflikte werden formal entschieden, aber nicht akzeptiert, wenn die Entscheidungsinstanz nicht als legitim wahrgenommen wird</li>
+</ul>
+<p><strong>Veränderung E</strong></p>
+<ul>
+<li>Erwartete Wirkung: definierte Qualitätssicherung für KI-gestützte Antworten</li>
+<li>Erwartete Verbesserungen: geringeres Risiko fehlerhafter Kundenantworten</li>
+<li>Nebenwirkungen: zusätzlicher Prüfaufwand für Support</li>
+<li>Langfristige Risiken: Regeln veralten, wenn sich Fähigkeiten des KI-Systems ändern und nicht überprüft werden</li>
+</ul>
+<hr/>
+<h2 id="6-messbarkeit">6 Messbarkeit<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#6-messbarkeit">#</a></h2>
+<p>Hinweis: Für keine der folgenden Kennzahlen liegen im Szenario Ausgangswerte vor. Diese sind vor Umsetzung zu erheben; Zahlen werden hier nicht angenommen.</p>
+<table>
+<thead>
+<tr>
+<th>Veränderung</th>
+<th>Kriterien</th>
+<th>Ausgangswert</th>
+<th>Zielwert</th>
+<th>Beobachtungszeitraum</th>
+<th>Überprüfungsverantwortung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>(1) Anzahl kundengerichteter Zusagen ohne vorherige Abstimmung (2) Anzahl Konflikte zu Roadmap/Terminen (3) Zeit zwischen Zusage und Abstimmung</td>
+<td>nicht bekannt, zu erheben</td>
+<td>nach Erhebung festzulegen</td>
+<td>3 Monate</td>
+<td>Product (gemeinsam mit Sales)</td>
+</tr>
+<tr>
+<td>B</td>
+<td>(1) Anzahl Vertragsverlängerungen ohne benannten Verantwortlichen (2) Zeit bis Klärung bei Unklarheiten (3) Anzahl Eskalationen zwischen Sales/CS</td>
+<td>nicht bekannt, zu erheben</td>
+<td>nach Erhebung festzulegen</td>
+<td>1–2 Vertragszyklen</td>
+<td>Geschäftsführung (bis Zuständigkeit etabliert ist)</td>
+</tr>
+<tr>
+<td>C</td>
+<td>(1) Anteil wiederkehrender Probleme, die weitergegeben werden (2) Zeit von Erkennung bis Weitergabe (3) Anzahl dauerhaft behobener Ursachen</td>
+<td>nicht bekannt, zu erheben</td>
+<td>nach Erhebung festzulegen</td>
+<td>3–6 Monate</td>
+<td>Support</td>
+</tr>
+<tr>
+<td>D</td>
+<td>(1) Zeit bis zur Entscheidung bei Zielkonflikten (2) Anzahl ungelöster Konflikte (3) Akzeptanz der Entscheidung durch beide Seiten</td>
+<td>nicht bekannt, zu erheben</td>
+<td>nach Erhebung festzulegen</td>
+<td>3 Monate</td>
+<td>Product und Engineering gemeinsam</td>
+</tr>
+<tr>
+<td>E</td>
+<td>(1) Fehlerquote KI-bearbeiteter Anfragen (2) Anteil ohne Freigabe abgeschlossener Anfragen (3) Kundenzufriedenheit bei KI-bearbeiteten Fällen</td>
+<td>nicht bekannt, zu erheben</td>
+<td>nach Erhebung festzulegen</td>
+<td>3 Monate</td>
+<td>Support</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="7-rucknahmebedingungen">7 Rücknahmebedingungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#7-rucknahmebedingungen">#</a></h2>
+<ul>
+<li><strong>A:</strong> anpassen/zurücknehmen, wenn die Abstimmungspflicht den Vertriebsprozess nachweislich lähmt, ohne die Zahl unrealistischer Zusagen zu senken</li>
+<li><strong>B:</strong> ersetzen, wenn sich die zugewiesene Verantwortung als inhaltlich falsch erweist (z. B. der verantwortliche Raum hat faktisch keinen Einfluss auf das Ergebnis)</li>
+<li><strong>C:</strong> anpassen, wenn die Weitergabe nicht zu mehr behobenen Ursachen führt, sondern nur zu mehr unbearbeiteten Meldungen bei Product/Engineering</li>
+<li><strong>D:</strong> zurücknehmen/ersetzen, wenn Entscheidungen zwar formal getroffen, aber von einer Seite dauerhaft nicht akzeptiert werden</li>
+<li><strong>E:</strong> anpassen, sobald sich Fähigkeiten oder Einsatzbereich des KI-Systems ändern; zurücknehmen, wenn Fehlerquote trotz Regeln nicht sinkt</li>
+</ul>
+<hr/>
+<h2 id="8-governance">8 Governance<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#8-governance">#</a></h2>
+<p>Neue bzw. angepasste Governance-Regeln:</p>
+<ol>
+<li>Abstimmungspflicht: kundengerichtete Zusagen zu Funktionen/Terminen erfordern vorherige Abstimmung mit Product/Engineering</li>
+<li>Verantwortungszuweisung: eindeutige Zuständigkeit für das Ergebnis von Vertragsverlängerungen</li>
+<li>Weitergabepflicht: wiederkehrende Kundenprobleme werden verbindlich von Support an Product/Engineering gemeldet</li>
+<li>Entscheidungsweg: definierter Prozess zur Entscheidung bei Zielkonflikten zwischen Product und Engineering</li>
+<li>Ausführungsregeln: Qualitäts- und Freigabekriterien für KI-gestützte Bearbeitung im Support, bei fortbestehender Verantwortung von Support</li>
+</ol>
+<p>Zusätzlich – als Reaktion auf Problem 6: ein Prüfprozess, mit dem jede vorgeschlagene Veränderung eines Verantwortungsraums (z. B. Zusammenlegung, neuer Raum) vor einer Entscheidung darauf geprüft wird, ob tatsächlich eine Änderung von Wertbeitrag, Verantwortung oder Entscheidungsraum vorliegt. Dies ist als Governance-Element (Entscheidungsprozess) kernelkonform und führt keine neue Managementmethode ein.</p>
+<hr/>
+<h2 id="9-offene-annahmen">9 Offene Annahmen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#9-offene-annahmen">#</a></h2>
+<ul>
+<li>Detaillierte Beschreibung der sechs Verantwortungsräume (Wertbeitrag, Zielgruppe, Verantwortung, Entscheidungsraum, Fähigkeiten, Kontext, Abhängigkeiten) liegt nicht vor – die Kernelprüfung stützt sich auf das aus den Problemen Ableitbare, nicht auf definierte Attribute</li>
+<li>Keine Information zu Marketing – daher nicht behandelt</li>
+<li>Keine Information, ob und welche Governance-Strukturen/Entscheidungsgremien bei FlowDesk bereits bestehen</li>
+<li>Keine Information, welchen Entscheidungsraum die Geschäftsführung im Kernel-Modell hat – sie ist kein genannter Verantwortungsraum, entscheidet aber laut Szenario über Strukturfragen</li>
+<li>Für Problem 2: keine Information zu den inhaltlichen Teilaufgaben von Sales bzw. Customer Success bei der Vertragsverlängerung – daher keine belastbare Grundlage für die konkrete Zuweisung</li>
+<li>Keine Baseline-Kennzahlen (Konflikthäufigkeit, Eskalationszahlen, Kundenzufriedenheit u. Ä.) vorhanden</li>
+<li>Keine Information zu Umfang und Grenzen des im Support eingesetzten KI-Systems</li>
+<li>Für Problem 6: keine inhaltliche Begründung für die angedachten Strukturveränderungen vorhanden, auch nicht ansatzweise – daher keine Bewertung ihrer Berechtigung möglich, nur die Feststellung, dass eine kernelbasierte Begründung fehlt</li>
+</ul>
+<hr/>
+<h2 id="10-team-red">10 Team Red<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#10-team-red">#</a></h2>
+<p><strong>Am schwächsten begründete Empfehlung:</strong> Veränderung B. Ohne Information zu den inhaltlichen Aufgaben von Sales und Customer Success bei der Vertragsverlängerung ist jede Zuweisung der Verantwortung an einen der beiden Räume letztlich eine Setzung, keine kernelbasierte Ableitung.</p>
+<p><strong>Möglicherweise überschätzte Wirkung:</strong> Veränderung A. Eine Regel allein ändert das Verhalten nicht zwangsläufig, wenn keine Konsequenz bei Nichteinhaltung besteht und z. B. Anreizstrukturen im Vertrieb der Regel entgegenlaufen könnten – dazu liegen keine Informationen vor.</p>
+<p><strong>Möglicherweise irreführende Kennzahl:</strong> „Anzahl weitergegebener wiederkehrender Probleme“ (Veränderung C). Ein Anstieg sieht zunächst wie eine Verschlechterung aus, bedeutet aber häufig nur, dass vorher unsichtbare Probleme jetzt sichtbar werden.</p>
+<p><strong>Kernelkonforme Alternative:</strong> Statt Veränderung B eine Person/einen Raum die „Gesamtverantwortung“ zuzuweisen, könnte der Entscheidungsraum beider Räume für die Vertragsverlängerung getrennt abgegrenzt werden (z. B. Verantwortung für Konditionen vs. Verantwortung für die Kundenbeziehung), ohne eine einseitige Gesamtverantwortung zu erzeugen. Dies bleibt jedoch ebenso durch die unter Punkt 9 genannte Informationslücke eingeschränkt.</p>
+<p><strong>Langfristige Risiken:</strong> Governance-Regeln ohne begleitende Durchsetzung oder Konsequenz können wirkungslos bleiben. Der unter Punkt 8 vorgeschlagene Prüfprozess für Strukturveränderungen kann als reine Formalität unterlaufen werden, wenn die Geschäftsführung Entscheidungen unabhängig davon trifft. Der Entscheidungsweg aus Veränderung D löst Konflikte nur, wenn die Entscheidungsinstanz von beiden Seiten als legitim akzeptiert wird – dazu liegen keine Informationen vor.</p>
+<hr/>
+<p>Copyright © 2026 Christian Leonhardt.</p>
+</div>
+  <aside class="related-terms" aria-label="Verwandte Begriffe"><h2>Verwandte Begriffe im Denkraum</h2><p>Diese Begriffe werden in diesem Kapitel verwendet und sind direkt mit ihrer vollständigen Erklärung verknüpft.</p><div class="related-term-list"><a class="related-term" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a><a class="related-term" href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a><a class="related-term" href="01-denkraum.html#ausreichend" title="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können.">Ausreichend</a><a class="related-term" href="01-denkraum.html#wertbeitrag" title="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht.">Wertbeitrag</a><a class="related-term" href="01-denkraum.html#ki-system" title="Ein KI-System verarbeitet Informationen so, dass daraus Inhalte, Einschätzungen, Empfehlungen oder Handlungen entstehen können.">KI-System</a><a class="related-term" href="01-denkraum.html#kernel" title="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können.">Kernel</a><a class="related-term" href="01-denkraum.html#ziel" title="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll.">Ziel</a></div></aside>
+  <nav class="document-pagination" aria-label="Vorheriges und nächstes Dokument">
+    <div><a href="feedback-2-bewertung.html">← VR-02B – Feedback 2: Bewertung</a></div><div><a href="feedback-3-bewertung.html">VR-02B – Feedback 3: Bewertung →</a></div>
+  </nav>
+  <footer class="page-footer">Generiert aus <code>validation/VR-02B/Feedback_2_Original.md</code> · Version 0.6 Beta.1 · Copyright © 2026 Christian Leonhardt</footer>
+</article>
+</main>
+  </div>
+</body>
+</html>

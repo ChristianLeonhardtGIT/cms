@@ -1,0 +1,1475 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ChOS – lebendes Denk- und Entscheidungsmodell">
+  <title>Kernelbasierte Organisationsdiagnose und Veränderungsempfehlung für die FlowDesk GmbH · ChOS</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script defer src="../assets/search-index.js"></script>
+  <script defer src="../assets/app.js"></script>
+</head>
+<body class="document-page">
+  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <header class="topbar">
+    <button class="icon-button menu-button" type="button" data-menu-toggle aria-label="Navigation öffnen">☰</button>
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">Ch</span>
+      <span><strong>ChOS</strong><small>Version 0.6 Beta.1</small></span>
+    </a>
+    <div class="topbar-actions">
+      <a class="top-link" href="../all-in-one.html">Alles lesen</a>
+      <a class="top-link" href="../reports/validation-report.html">Systemcheck</a>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Darstellung wechseln">◐</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" data-sidebar>
+      <div class="search-wrap">
+        <label class="sr-only" for="site-search">Dokumente durchsuchen</label>
+        <input id="site-search" class="search-input" type="search" placeholder="ChOS durchsuchen …" autocomplete="off" data-search>
+        <div class="search-results" data-search-results hidden></div>
+      </div>
+      <nav class="navigation" aria-label="Dokumentation"><div class="nav-group"><div class="nav-group-title">Fundament</div><a class="nav-link" href="../docs/00-executive-summary.html" data-title="ChOS – Executive Summary"><span>ChOS – Executive Summary</span></a><a class="nav-link" href="../docs/21-ethik-und-zielkonflikte.html" data-title="Ethik und Umgang mit Zielkonflikten"><span>Ethik und Umgang mit Zielkonflikten</span></a><a class="nav-link" href="../docs/13-menschenbild.html" data-title="Menschenbild v0.2 – Beta-Grundlage"><span>Menschenbild v0.2 – Beta-Grundlage</span></a><a class="nav-link" href="../docs/06-wertearchitektur.html" data-title="Wertearchitektur"><span>Wertearchitektur</span></a><a class="nav-link" href="../docs/02-kernel-und-werte.html" data-title="Kernel, Ethik und Werte"><span>Kernel, Ethik und Werte</span></a><a class="nav-link" href="../docs/01-denkraum.html" data-title="Denkraum – die gemeinsame Kontextsprache des ChOS"><span>Denkraum – die gemeinsame Kontextsprache des ChOS</span></a><a class="nav-link" href="../docs/03-erkenntnismodell.html" data-title="Erkenntnis-, Diagnose- und Lernmodell"><span>Erkenntnis-, Diagnose- und Lernmodell</span></a><a class="nav-link" href="../docs/11-geltungsbereich-und-systembegriff.html" data-title="Geltungsbereich, Anwendung und Grenzen"><span>Geltungsbereich, Anwendung und Grenzen</span></a></div><div class="nav-group"><div class="nav-group-title">Entscheiden &amp; Gestalten</div><a class="nav-link" href="../docs/14-gestaltungsprinzipien.html" data-title="Gestaltungsprinzipien"><span>Gestaltungsprinzipien</span></a><a class="nav-link" href="../docs/04-mechanismen-und-systemeigenschaften.html" data-title="Mechanismen, Systemeigenschaften und Ergebnisse"><span>Mechanismen, Systemeigenschaften und Ergebnisse</span></a><a class="nav-link" href="../docs/17-wirkungsmodell-und-diagnose.html" data-title="Wirkungsmodell und Diagnose"><span>Wirkungsmodell und Diagnose</span></a><a class="nav-link" href="../docs/05-entscheidungsmodell.html" data-title="Entscheidungsmodell"><span>Entscheidungsmodell</span></a><a class="nav-link" href="../docs/15-ziele-feedback-und-entwicklung.html" data-title="Ziele, Feedback und Entwicklung"><span>Ziele, Feedback und Entwicklung</span></a><a class="nav-link" href="../docs/20-anwendungsarchitektur.html" data-title="Aufbau und Anwendung des ChOS"><span>Aufbau und Anwendung des ChOS</span></a><a class="nav-link" href="../docs/25-strategie-und-anwendung.html" data-title="Strategie und ihre Anwendung"><span>Strategie und ihre Anwendung</span></a><a class="nav-link" href="../docs/27-strategische-priorisierung.html" data-title="Strategische Beitrags- und Belastungsbewertung"><span>Strategische Beitrags- und Belastungsbewertung</span></a><a class="nav-link" href="../docs/26-wirtschaftliche-systemsteuerung.html" data-title="Wirtschaftliche Systemsteuerung"><span>Wirtschaftliche Systemsteuerung</span></a><a class="nav-link" href="../docs/28-fuehrung-erste-sechs-monate.html" data-title="Die ersten sechs Monate einer neuen Führungskraft"><span>Die ersten sechs Monate einer neuen Führungskraft</span></a></div><div class="nav-group"><div class="nav-group-title">Qualität &amp; Wissen</div><a class="nav-link" href="../docs/18-wirtschaftlichkeit.html" data-title="Wirtschaftlichkeitsprüfung"><span>Wirtschaftlichkeitsprüfung</span></a><a class="nav-link" href="../docs/07-validierungsprozess.html" data-title="Validierungsprozess"><span>Validierungsprozess</span></a><a class="nav-link" href="../docs/16-wissensarchitektur-und-nutzerfokus.html" data-title="Wissensarchitektur, Denkraum und Nutzerfokus"><span>Wissensarchitektur, Denkraum und Nutzerfokus</span></a><a class="nav-link" href="../docs/19-quellen-einfluesse-und-recht.html" data-title="Quellen, Einflüsse und rechtliche Aufgaben"><span>Quellen, Einflüsse und rechtliche Aufgaben</span></a><a class="nav-link" href="../docs/22-qualitaetspruefung-und-governance.html" data-title="Qualitätsprüfung und Governance"><span>Qualitätsprüfung und Governance</span></a><a class="nav-link" href="../docs/23-system-validation.html" data-title="ChOS System Validation"><span>ChOS System Validation</span></a></div><div class="nav-group"><div class="nav-group-title">Playbooks</div><a class="nav-link" href="../docs/pb-001-team-uebernehmen.html" data-title="PB-001 – Ein Team übernehmen"><span>PB-001 – Ein Team übernehmen</span></a><a class="nav-link" href="../docs/pb-002-mitarbeiterentwicklung.html" data-title="PB-002 – Mitarbeiterentwicklung"><span>PB-002 – Mitarbeiterentwicklung</span></a><a class="nav-link" href="../docs/pb-003-mvp-produktentwicklung.html" data-title="PB-003 – Ein Produkt mit einem MVP entwickeln"><span>PB-003 – Ein Produkt mit einem MVP entwickeln</span></a><a class="nav-link" href="../docs/readme.html" data-title="Playbook-Bibliothek"><span>Playbook-Bibliothek</span></a></div><div class="nav-group"><div class="nav-group-title">Entwicklung &amp; Governance</div><a class="nav-link" href="../docs/09-arbeitsweise-und-fortsetzung.html" data-title="Arbeitsweise und Fortsetzung"><span>Arbeitsweise und Fortsetzung</span></a><a class="nav-link" href="../docs/12-offene-hypothesen-und-forschungsfragen.html" data-title="Offene Hypothesen und Forschungsfragen"><span>Offene Hypothesen und Forschungsfragen</span></a><a class="nav-link" href="../docs/08-change-log.html" data-title="Change Log"><span>Change Log</span></a><a class="nav-link" href="../docs/10-gespraechsprotokoll-konsolidiert.html" data-title="Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha"><span>Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha</span></a></div><div class="nav-group"><div class="nav-group-title">Repository</div><a class="nav-link" href="../docs/readme-2.html" data-title="Repository Governance"><span>Repository Governance</span></a><a class="nav-link" href="../docs/readme-3.html" data-title="ChOS anwenden"><span>ChOS anwenden</span></a><a class="nav-link" href="../docs/readme-8.html" data-title="ChOS Repository"><span>ChOS Repository</span></a></div><div class="nav-group"><div class="nav-group-title">Weitere Dokumente</div><a class="nav-link" href="../docs/24-governance-selbstkorrektur-und-integritaet.html" data-title="Governance für Selbstkorrektur und Integrität"><span>Governance für Selbstkorrektur und Integrität</span></a><a class="nav-link" href="../docs/authorship.html" data-title="Autorschaft"><span>Autorschaft</span></a><a class="nav-link" href="../docs/copyright.html" data-title="Copyright"><span>Copyright</span></a><a class="nav-link" href="../docs/github-import.html" data-title="GitHub Initial Import"><span>GitHub Initial Import</span></a><a class="nav-link" href="../docs/konsistenzbericht-beta-1.html" data-title="Konsistenzbericht ChOS v0.6 Beta.1"><span>Konsistenzbericht ChOS v0.6 Beta.1</span></a><a class="nav-link" href="../docs/license.html" data-title="Lizenz"><span>Lizenz</span></a><a class="nav-link" href="../docs/version.html" data-title="Version"><span>Version</span></a><a class="nav-link" href="../docs/change-control.html" data-title="Change Control"><span>Change Control</span></a><a class="nav-link" href="../docs/change-record-mensch-ki-integration.html" data-title="Änderungsnachweis – Mensch und KI in einem ChOS"><span>Änderungsnachweis – Mensch und KI in einem ChOS</span></a><a class="nav-link" href="../docs/integrity-checklist.html" data-title="Integrity Checklist"><span>Integrity Checklist</span></a><a class="nav-link" href="../docs/lessons-learned.html" data-title="Lessons Learned"><span>Lessons Learned</span></a><a class="nav-link" href="../docs/recovery-procedure.html" data-title="Recovery Procedure"><span>Recovery Procedure</span></a><a class="nav-link" href="../docs/release-process.html" data-title="Release Process"><span>Release Process</span></a><a class="nav-link" href="../docs/repository-principles.html" data-title="Repository Principles"><span>Repository Principles</span></a><a class="nav-link" href="../docs/repository-roles.html" data-title="Repository Roles"><span>Repository Roles</span></a><a class="nav-link" href="../docs/repository-workflow.html" data-title="Repository Workflow"><span>Repository Workflow</span></a><a class="nav-link" href="../docs/session-start-protocol.html" data-title="Session Start Protocol"><span>Session Start Protocol</span></a><a class="nav-link" href="../docs/six-release-safeguards.html" data-title="Six Release Safeguards"><span>Six Release Safeguards</span></a><a class="nav-link" href="../docs/snapshot-policy.html" data-title="Snapshot Policy"><span>Snapshot Policy</span></a><a class="nav-link" href="../docs/versioning-policy.html" data-title="Versioning Policy"><span>Versioning Policy</span></a><a class="nav-link" href="../docs/01-diagnosebogen.html" data-title="Diagnosebogen"><span>Diagnosebogen</span></a><a class="nav-link" href="../docs/02-selbstcheck.html" data-title="ChOS Selbstcheck"><span>ChOS Selbstcheck</span></a><a class="nav-link" href="../docs/03-clarity-session.html" data-title="Clarity Session – 90 Minuten"><span>Clarity Session – 90 Minuten</span></a><a class="nav-link" href="../docs/04-clarity-brief.html" data-title="Clarity Brief – Vorlage"><span>Clarity Brief – Vorlage</span></a><a class="nav-link" href="../docs/05-entscheidungsrahmen.html" data-title="Entscheidungsrahmen"><span>Entscheidungsrahmen</span></a><a class="nav-link" href="../docs/06-fallbeispiele.html" data-title="Zwei Fallbeispiele"><span>Zwei Fallbeispiele</span></a><a class="nav-link" href="../docs/07-glossar.html" data-title="Glossar"><span>Glossar</span></a></div></nav>
+      <div class="sidebar-note">Markdown bleibt die Quelle. HTML ist die lesbare Oberfläche.</div>
+    </aside>
+    <div class="sidebar-backdrop" data-menu-toggle></div>
+    <main id="content" class="main-content">
+<article class="document">
+  <header class="document-header">
+    <span class="eyebrow">Validierung</span>
+    <h1 id="top">Kernelbasierte Organisationsdiagnose und Veränderungsempfehlung für die FlowDesk GmbH</h1>
+    <p class="document-meta">Quelle: <code>validation/VR-02B/Feedback_3_Original.md</code></p>
+  </header>
+  <div class="markdown-body"><blockquote>
+<p>Quellenhinweis: Vom Nutzer im Chat als Feedback 3 bereitgestellt und bei der Wiederherstellung in Markdown übertragen. Inhaltliche Aussagen wurden nicht verändert; Listen- und Überschriftenformatierung wurde normalisiert.</p>
+</blockquote>
+<h2 id="0-gesamturteil">0. Gesamturteil<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#0-gesamturteil">#</a></h2>
+<p>Die beobachteten Probleme sind überwiegend keine Belege für ungeeignete Verantwortungsräume. Sie zeigen vor allem:</p>
+<ul>
+<li>ungeklärte Entscheidungsrechte,</li>
+<li>fehlende Regeln an den Schnittstellen bestehender Verantwortungsräume,</li>
+<li>nicht eindeutig zugeordnete Ergebnisverantwortung,</li>
+<li>fehlende Eskalations- und Rückkopplungswege,</li>
+<li>ungeklärte Governance für delegierte Ausführung durch ein <a class="denkraum-link" data-definition="Ein KI-System verarbeitet Informationen so, dass daraus Inhalte, Einschätzungen, Empfehlungen oder Handlungen entstehen können." href="01-denkraum.html#ki-system" title="Ein KI-System verarbeitet Informationen so, dass daraus Inhalte, Einschätzungen, Empfehlungen oder Handlungen entstehen können.">KI-System</a>.</li>
+</ul>
+<p>Aus den bereitgestellten Informationen lässt sich weder die Zusammenlegung von Support und Customer Success noch die Einrichtung eines Verantwortungsraums Revenue Operations kernelkonform begründen.</p>
+<p>Eine Strukturänderung wäre nur zulässig, wenn sich <a class="denkraum-link" data-definition="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht." href="01-denkraum.html#wertbeitrag" title="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht.">Wertbeitrag</a>, <a class="denkraum-link" data-definition="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a> oder Entscheidungsraum eines Verantwortungsraums verändern müssten. Dafür gibt es im Szenario keine ausreichenden Belege. Mitarbeiterzahl, Wachstum und bestehende Konflikte sind nach dem <a class="denkraum-link" data-definition="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können." href="01-denkraum.html#kernel" title="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können.">Kernel</a> keine zulässigen Begründungen.</p>
+<p>Die vorrangige Empfehlung lautet deshalb:</p>
+<ol>
+<li>Ergebnisverantwortungen eindeutig zuordnen.</li>
+<li>Entscheidungsräume an den Schnittstellen abgrenzen.</li>
+<li>Verbindliche Governance-Regeln einführen.</li>
+<li>Informations- und Eskalationswege formalisieren.</li>
+<li>Verantwortung bei KI-gestützter Ausführung ausdrücklich beim zuständigen Verantwortungsraum belassen.</li>
+<li>Strukturentscheidungen zurückstellen, bis eine kernelkonforme Veränderung von Wertbeitrag, Verantwortung oder Entscheidungsraum nachgewiesen ist.</li>
+</ol>
+<hr/>
+<h2 id="1-diagnose">1. Diagnose<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#1-diagnose">#</a></h2>
+<h3 id="1-1-unkoordinierte-kundenversprechen-durch-sales">1.1 Unkoordinierte Kundenversprechen durch Sales<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#1-1-unkoordinierte-kundenversprechen-durch-sales">#</a></h3>
+<h4 id="wichtigstes-problem">Wichtigstes Problem<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wichtigstes-problem">#</a></h4>
+<p>Sales verspricht Funktionen oder Liefertermine, obwohl die hierfür erforderlichen Entscheidungen Product und Engineering betreffen.</p>
+<p>Dadurch entstehen Verpflichtungen gegenüber Kunden, ohne dass geklärt ist:</p>
+<ul>
+<li>ob die Funktion priorisiert wird,</li>
+<li>ob sie technisch realisierbar ist,</li>
+<li>wann sie geliefert werden kann,</li>
+<li>welche Auswirkungen sie auf andere Produkt- und Stabilitätsziele hat.</li>
+</ul>
+<h4 id="ursache">Ursache<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ursache">#</a></h4>
+<p>Die Ursache ist ein nicht abgegrenzter Entscheidungsraum zwischen Sales, Product und Engineering.</p>
+<p>Sales kann Kundenanforderungen aufnehmen und kommerzielle Angebote gestalten. Aus dem Szenario folgt jedoch nicht, dass Sales allein über Produktumfang, Roadmap, technische Machbarkeit oder Liefertermine entscheiden darf.</p>
+<p>Es fehlt eine Governance-Regel, welche Zusagen Sales selbst treffen darf und welche Zusagen eine vorherige <a class="denkraum-link" data-definition="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit." href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a> anderer Verantwortungsräume erfordern.</p>
+<h4 id="betroffene-kernel-elemente">Betroffene Kernel-Elemente<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-kernel-elemente">#</a></h4>
+<ul>
+<li><a class="denkraum-link" data-definition="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt." href="01-denkraum.html#strategie" title="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt.">Strategie</a></li>
+<li>Priorisierung</li>
+<li>Governance</li>
+<li>Verantwortungsräume</li>
+<li>Entscheidung und Ausführung</li>
+</ul>
+<p>Das Problem gefährdet insbesondere:</p>
+<ul>
+<li>hohen Produktnutzen,</li>
+<li>stabile Plattform,</li>
+<li>nachhaltiges Wachstum,</li>
+<li>langfristige Kundenbindung.</li>
+</ul>
+<p>Kurzfristige Verkaufsinteressen können Produktpriorisierung und technische Stabilität übersteuern.</p>
+<hr/>
+<h3 id="1-2-unklare-verantwortung-fur-vertragsverlangerungen">1.2 Unklare Verantwortung für Vertragsverlängerungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#1-2-unklare-verantwortung-fur-vertragsverlangerungen">#</a></h3>
+<h4 id="wichtigstes-problem-2">Wichtigstes Problem<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wichtigstes-problem-2">#</a></h4>
+<p>Sales und Customer Success wirken an Vertragsverlängerungen mit. Es ist aber nicht festgelegt, welcher Verantwortungsraum das Verlängerungsergebnis organisatorisch verantwortet.</p>
+<h4 id="ursache-2">Ursache<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ursache-2">#</a></h4>
+<p>Die Zusammenarbeit ist beschrieben, nicht aber die Ergebnisverantwortung.</p>
+<p>Damit fehlen:</p>
+<ul>
+<li>ein eindeutiger verantwortlicher Verantwortungsraum,</li>
+<li>ein definierter Entscheidungsraum,</li>
+<li>Regeln für Entscheidungen bei unterschiedlichen Einschätzungen,</li>
+<li>eine eindeutige Zuordnung der Überprüfung des Ergebnisses.</li>
+</ul>
+<h4 id="betroffene-kernel-elemente-2">Betroffene Kernel-Elemente<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-kernel-elemente-2">#</a></h4>
+<ul>
+<li>Strategie</li>
+<li>Wirtschaftliche <a class="denkraum-link" data-definition="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln." href="01-denkraum.html#steuerung" title="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln.">Steuerung</a></li>
+<li>Governance</li>
+<li>Verantwortungsräume</li>
+</ul>
+<p>Das Problem betrifft unmittelbar:</p>
+<ul>
+<li>nachhaltiges Wachstum,</li>
+<li>langfristige Kundenbindung,</li>
+<li>wirksamen Ressourceneinsatz.</li>
+</ul>
+<hr/>
+<h3 id="1-3-fehlende-ruckkopplung-wiederkehrender-supportprobleme">1.3 Fehlende Rückkopplung wiederkehrender Supportprobleme<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#1-3-fehlende-ruckkopplung-wiederkehrender-supportprobleme">#</a></h3>
+<h4 id="wichtigstes-problem-3">Wichtigstes Problem<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wichtigstes-problem-3">#</a></h4>
+<p>Support löst einzelne Kundenanfragen, wiederkehrende Ursachen werden aber nicht zuverlässig an Product oder Engineering weitergegeben.</p>
+<p>Die Ausführung der unmittelbaren Problemlösung funktioniert teilweise. Die systemische Rückkopplung zur dauerhaften Ursachenbeseitigung funktioniert nicht verlässlich.</p>
+<h4 id="ursache-3">Ursache<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ursache-3">#</a></h4>
+<p>Es fehlt eine verbindliche Governance für:</p>
+<ul>
+<li>Erkennung wiederkehrender Probleme,</li>
+<li>Dokumentation,</li>
+<li>Übergabe,</li>
+<li>Bewertung,</li>
+<li>Priorisierung,</li>
+<li>Rückmeldung an Support,</li>
+<li>Nachverfolgung der Ursachenbeseitigung.</li>
+</ul>
+<h4 id="betroffene-kernel-elemente-3">Betroffene Kernel-Elemente<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-kernel-elemente-3">#</a></h4>
+<ul>
+<li>Strategie</li>
+<li>Priorisierung</li>
+<li>Governance</li>
+<li>Verantwortungsräume</li>
+<li>Kontext</li>
+<li>Abhängigkeiten</li>
+</ul>
+<p>Betroffen sind insbesondere:</p>
+<ul>
+<li>hoher Produktnutzen,</li>
+<li>stabile Plattform,</li>
+<li>hohe Kundenzufriedenheit,</li>
+<li>langfristige Kundenbindung.</li>
+</ul>
+<hr/>
+<h3 id="1-4-konflikte-zwischen-product-und-engineering">1.4 Konflikte zwischen Product und Engineering<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#1-4-konflikte-zwischen-product-und-engineering">#</a></h3>
+<h4 id="wichtigstes-problem-4">Wichtigstes Problem<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wichtigstes-problem-4">#</a></h4>
+<p>Product bewertet vor allem Kunden- und Marktwert. Engineering bewertet technische Stabilität und technische Risiken. Ein verbindlicher Entscheidungsweg für Konfliktfälle fehlt.</p>
+<h4 id="ursache-4">Ursache<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ursache-4">#</a></h4>
+<p>Der Konflikt entsteht nicht zwingend durch falsche Verantwortungsräume. Beide Perspektiven ergeben sich aus der beschriebenen Strategie:</p>
+<ul>
+<li>Product unterstützt hohen Produktnutzen.</li>
+<li>Engineering unterstützt eine stabile Plattform.</li>
+</ul>
+<p>Das eigentliche Defizit liegt darin, dass nicht geregelt ist:</p>
+<ul>
+<li>welche Entscheidungen Product treffen darf,</li>
+<li>welche Entscheidungen Engineering treffen darf,</li>
+<li>welche Entscheidungen eine gemeinsame Entscheidung erfordern,</li>
+<li>wie bei fehlender Einigung priorisiert wird,</li>
+<li>wer eine Eskalationsentscheidung trifft.</li>
+</ul>
+<h4 id="betroffene-kernel-elemente-4">Betroffene Kernel-Elemente<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-kernel-elemente-4">#</a></h4>
+<ul>
+<li>Strategie</li>
+<li>Priorisierung</li>
+<li>Wirtschaftliche Steuerung</li>
+<li>Governance</li>
+<li>Verantwortungsräume</li>
+<li>Entscheidungsräume</li>
+<li>Abhängigkeiten</li>
+</ul>
+<hr/>
+<h3 id="1-5-ungeklarte-governance-fur-den-ki-assistenten-im-support">1.5 Ungeklärte Governance für den KI-Assistenten im Support<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#1-5-ungeklarte-governance-fur-den-ki-assistenten-im-support">#</a></h3>
+<h4 id="wichtigstes-problem-5">Wichtigstes Problem<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wichtigstes-problem-5">#</a></h4>
+<p>Ein KI-System bearbeitet einfache Kundenanfragen. Qualität, Freigabe und Verantwortung sind nicht geregelt.</p>
+<h4 id="ursache-5">Ursache<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ursache-5">#</a></h4>
+<p>Delegierte Ausführung wird nicht <a class="denkraum-link" data-definition="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können." href="01-denkraum.html#ausreichend" title="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können.">ausreichend</a> von organisatorischer Verantwortung getrennt.</p>
+<p>Nach dem Kernel kann das KI-System Ausführung übernehmen. Dadurch verändern sich weder Verantwortung noch Entscheidungsraum des verantwortlichen Verantwortungsraums.</p>
+<p>Es fehlt Governance für:</p>
+<ul>
+<li>zulässige Einsatzfälle,</li>
+<li>Qualitätsanforderungen,</li>
+<li>Freigabe,</li>
+<li>menschliche Übernahme,</li>
+<li>Fehlerbehandlung,</li>
+<li>Überwachung,</li>
+<li>Abschaltung oder Einschränkung.</li>
+</ul>
+<h4 id="betroffene-kernel-elemente-5">Betroffene Kernel-Elemente<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-kernel-elemente-5">#</a></h4>
+<ul>
+<li>Governance</li>
+<li>Verantwortungsräume</li>
+<li>Entscheidung und Ausführung</li>
+<li>Kontext</li>
+<li>Abhängigkeiten</li>
+</ul>
+<hr/>
+<h3 id="1-6-diskussion-uber-support-customer-success-zusammenlegung-und-revenue-operations">1.6 Diskussion über Support-/Customer-Success-Zusammenlegung und Revenue Operations<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#1-6-diskussion-uber-support-customer-success-zusammenlegung-und-revenue-operations">#</a></h3>
+<h4 id="wichtigstes-problem-6">Wichtigstes Problem<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wichtigstes-problem-6">#</a></h4>
+<p>Es werden Strukturänderungen diskutiert, ohne dass eine Veränderung von Wertbeitrag, Verantwortung oder Entscheidungsraum nachgewiesen wurde.</p>
+<h4 id="ursache-6">Ursache<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ursache-6">#</a></h4>
+<p>Die diskutierten Strukturmaßnahmen werden offenbar als mögliche Reaktion auf Schnittstellenprobleme betrachtet.</p>
+<p>Nach dem Kernel sind jedoch keine zulässigen Strukturbegründungen:</p>
+<ul>
+<li>Organigramm,</li>
+<li>Mitarbeiterzahl,</li>
+<li>Wachstum,</li>
+<li>persönliche Präferenzen,</li>
+<li>kurzfristige Symptome.</li>
+</ul>
+<p>Die vorliegenden Probleme können zunächst durch Governance, Verantwortungszuordnung und Kontextanwendung bearbeitet werden.</p>
+<h4 id="betroffene-kernel-elemente-6">Betroffene Kernel-Elemente<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-kernel-elemente-6">#</a></h4>
+<ul>
+<li>Governance</li>
+<li>Verantwortungsräume</li>
+<li>Kontext</li>
+<li>wirtschaftliche Steuerung</li>
+</ul>
+<hr/>
+<h2 id="2-kernelprufung-der-einzelnen-probleme">2. Kernelprüfung der einzelnen Probleme<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#2-kernelprufung-der-einzelnen-probleme">#</a></h2>
+<h3 id="problem-1-kundenversprechen-durch-sales">Problem 1: Kundenversprechen durch Sales<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-1-kundenversprechen-durch-sales">#</a></h3>
+<h4 id="betroffene-verantwortungsraume">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume">#</a></h4>
+<ul>
+<li>Sales</li>
+<li>Product</li>
+<li>Engineering</li>
+</ul>
+<h4 id="betroffener-wertbeitrag">Betroffener Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-wertbeitrag">#</a></h4>
+<p>Aus den bereitgestellten Informationen lassen sich nur folgende problembezogene Beiträge ableiten:</p>
+<ul>
+<li>Sales: kommerzielle Kundengewinnung und kundenbezogene Vereinbarungen.</li>
+<li>Product: Sicherung des Produktnutzens und Priorisierung von Produktinhalten.</li>
+<li>Engineering: technische Realisierbarkeit, Stabilität und technische Risikobeherrschung.</li>
+</ul>
+<p>Die vollständigen Wertbeiträge der Räume sind nicht bereitgestellt.</p>
+<h4 id="betroffene-verantwortung">Betroffene Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortung">#</a></h4>
+<ul>
+<li>Sales verantwortet seine kommerziellen Aussagen gegenüber Kunden.</li>
+<li>Product muss in Entscheidungen über Produktumfang und Produktpriorisierung einbezogen werden.</li>
+<li>Engineering muss in Entscheidungen über technische Machbarkeit, technische Risiken und belastbare technische Lieferaussagen einbezogen werden.</li>
+</ul>
+<p>Die genaue bestehende Verantwortungsverteilung ist nicht bereitgestellt. Sie muss verbindlich dokumentiert werden.</p>
+<h4 id="betroffener-entscheidungsraum">Betroffener Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-entscheidungsraum">#</a></h4>
+<p>Zu klären sind mindestens:</p>
+<ul>
+<li>Welche Aussagen darf Sales ohne Abstimmung machen?</li>
+<li>Wer entscheidet, ob eine Funktion in die Roadmap aufgenommen wird?</li>
+<li>Wer bestätigt technische Machbarkeit?</li>
+<li>Wer bestätigt Liefertermine?</li>
+<li>Unter welchen Bedingungen darf eine Aussage als verbindliche Kundenzusage gelten?</li>
+</ul>
+<h4 id="reicht-governance">Reicht Governance?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#reicht-governance">#</a></h4>
+<p>Ja.</p>
+<p>Das Problem kann durch verbindliche Regeln für Produkt- und Terminzusagen bearbeitet werden, ohne einen Verantwortungsraum zu verändern.</p>
+<h4 id="ist-eine-kontextanwendung-ausreichend">Ist eine Kontextanwendung ausreichend?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-kontextanwendung-ausreichend">#</a></h4>
+<p>Teilweise.</p>
+<p>Innerhalb der konkreten Zusammenarbeit bei Verkaufschancen kann ein Freigabeweg angewandt werden. Eine reine Einzelfalllösung reicht aber nicht, weil das Verhalten regelmäßig auftritt. Es ist eine allgemeine Governance-Regel erforderlich.</p>
+<h4 id="ist-eine-strukturanderung-notwendig">Ist eine Strukturänderung notwendig?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-strukturanderung-notwendig">#</a></h4>
+<p>Nein.</p>
+<p>Es gibt keinen Nachweis, dass Wertbeitrag, Verantwortung oder Entscheidungsraum eines Verantwortungsraums grundsätzlich verändert werden müssen.</p>
+<hr/>
+<h3 id="problem-2-vertragsverlangerungen">Problem 2: Vertragsverlängerungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-2-vertragsverlangerungen">#</a></h3>
+<h4 id="betroffene-verantwortungsraume-2">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume-2">#</a></h4>
+<ul>
+<li>Sales</li>
+<li>Customer Success</li>
+</ul>
+<h4 id="betroffener-wertbeitrag-2">Betroffener Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-wertbeitrag-2">#</a></h4>
+<ul>
+<li>wirtschaftlicher Erhalt bestehender Kundenbeziehungen,</li>
+<li>langfristige Kundenbindung,</li>
+<li>Beitrag zu nachhaltigem Wachstum.</li>
+</ul>
+<p>Welcher Raum welchen Teil dieses Wertbeitrags heute formell verantwortet, ist nicht bereitgestellt.</p>
+<h4 id="betroffene-verantwortung-2">Betroffene Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortung-2">#</a></h4>
+<p>Die Verantwortung für das Ergebnis einer Vertragsverlängerung muss genau einem Verantwortungsraum zugeordnet werden.</p>
+<p>Der andere Verantwortungsraum kann weiterhin mitarbeiten. Zusammenarbeit oder delegierte Ausführung ersetzen keine eindeutige Ergebnisverantwortung.</p>
+<h4 id="betroffener-entscheidungsraum-2">Betroffener Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-entscheidungsraum-2">#</a></h4>
+<p>Zu klären sind insbesondere:</p>
+<ul>
+<li>Wer entscheidet über das Vorgehen bei einer Verlängerung?</li>
+<li>Wer entscheidet über kommerzielle Bedingungen?</li>
+<li>Wer bewertet Kundenbindung und Nutzungssituation?</li>
+<li>Wer entscheidet bei unterschiedlichen Einschätzungen von Sales und Customer Success?</li>
+<li>Wer verantwortet das abschließende Verlängerungsergebnis?</li>
+</ul>
+<h4 id="reicht-governance-2">Reicht Governance?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#reicht-governance-2">#</a></h4>
+<p>Ja, sofern einer der bestehenden Verantwortungsräume die Ergebnisverantwortung übernehmen kann, ohne dass sein Wertbeitrag grundlegend verändert wird.</p>
+<h4 id="ist-eine-kontextanwendung-ausreichend-2">Ist eine Kontextanwendung ausreichend?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-kontextanwendung-ausreichend-2">#</a></h4>
+<p>Ja, wahrscheinlich.</p>
+<p>Die Vertragsverlängerung kann als gemeinsamer Kontext von Sales und Customer Success behandelt werden, innerhalb dessen die Ergebnisverantwortung und Mitwirkungsrechte eindeutig festgelegt werden.</p>
+<h4 id="ist-eine-strukturanderung-notwendig-2">Ist eine Strukturänderung notwendig?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-strukturanderung-notwendig-2">#</a></h4>
+<p>Nicht nachgewiesen.</p>
+<p>Die gemeinsame Mitarbeit zweier Räume begründet keinen neuen Verantwortungsraum. Erst wenn die Verlängerungsverantwortung keinem bestehenden Wertbeitrag sinnvoll zugeordnet werden könnte, wäre eine Strukturprüfung erforderlich. Dafür fehlen Informationen.</p>
+<hr/>
+<h3 id="problem-3-wiederkehrende-supportprobleme">Problem 3: Wiederkehrende Supportprobleme<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-3-wiederkehrende-supportprobleme">#</a></h3>
+<h4 id="betroffene-verantwortungsraume-3">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume-3">#</a></h4>
+<ul>
+<li>Support</li>
+<li>Product</li>
+<li>Engineering</li>
+</ul>
+<h4 id="betroffener-wertbeitrag-3">Betroffener Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-wertbeitrag-3">#</a></h4>
+<ul>
+<li>Support: Lösung akuter Kundenprobleme.</li>
+<li>Product: Verbesserung des Produktnutzens.</li>
+<li>Engineering: dauerhafte technische Ursachenbeseitigung und Stabilität.</li>
+</ul>
+<p>Die vollständigen Wertbeiträge sind nicht beschrieben.</p>
+<h4 id="betroffene-verantwortung-3">Betroffene Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortung-3">#</a></h4>
+<ul>
+<li>Support bleibt für die Bearbeitung der Kundenanfrage verantwortlich, soweit dies seinem Raum zugeordnet ist.</li>
+<li>Product verantwortet die produktbezogene Bewertung und Priorisierung, soweit sie in seinem Entscheidungsraum liegt.</li>
+<li>Engineering verantwortet technische Bewertung und technische Umsetzung, soweit sie in seinem Entscheidungsraum liegen.</li>
+</ul>
+<p>Support kann Product oder Engineering nicht durch eine Meldung automatisch die Verantwortung für jede einzelne Anfrage übertragen. Erforderlich ist ein geregelter Übergang vom Einzelfall zur produkt- oder technikbezogenen Ursachenbearbeitung.</p>
+<h4 id="betroffener-entscheidungsraum-3">Betroffener Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-entscheidungsraum-3">#</a></h4>
+<p>Zu klären sind:</p>
+<ul>
+<li>Wann gilt ein Problem als wiederkehrend?</li>
+<li>Wer klassifiziert es?</li>
+<li>Wer entscheidet, ob es als Produktproblem, technisches Problem oder Supportfall behandelt wird?</li>
+<li>Wer priorisiert die dauerhafte Bearbeitung?</li>
+<li>Wer entscheidet über Nichtbearbeitung oder Zurückstellung?</li>
+<li>Wer informiert Support über die Entscheidung?</li>
+</ul>
+<h4 id="reicht-governance-3">Reicht Governance?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#reicht-governance-3">#</a></h4>
+<p>Ja.</p>
+<p>Ein verbindlicher Rückkopplungs- und Entscheidungsprozess reicht zunächst aus.</p>
+<h4 id="ist-eine-kontextanwendung-ausreichend-3">Ist eine Kontextanwendung ausreichend?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-kontextanwendung-ausreichend-3">#</a></h4>
+<p>Ja.</p>
+<p>Wiederkehrende Kundenprobleme bilden einen gemeinsamen Kontext, in dem Supportinformationen von Product und Engineering verarbeitet werden müssen.</p>
+<h4 id="ist-eine-strukturanderung-notwendig-3">Ist eine Strukturänderung notwendig?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-strukturanderung-notwendig-3">#</a></h4>
+<p>Nein.</p>
+<p>Es gibt keinen Nachweis, dass Support, Product oder Engineering einen anderen Wertbeitrag, eine andere grundlegende Verantwortung oder einen anderen Entscheidungsraum benötigen.</p>
+<hr/>
+<h3 id="problem-4-product-engineering-konflikte">Problem 4: Product-Engineering-Konflikte<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-4-product-engineering-konflikte">#</a></h3>
+<h4 id="betroffene-verantwortungsraume-4">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume-4">#</a></h4>
+<ul>
+<li>Product</li>
+<li>Engineering</li>
+</ul>
+<h4 id="betroffener-wertbeitrag-4">Betroffener Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-wertbeitrag-4">#</a></h4>
+<ul>
+<li>Product: Kunden- und Marktwert sowie Produktnutzen.</li>
+<li>Engineering: technische Stabilität und Umgang mit technischen Risiken.</li>
+</ul>
+<p>Beide Beiträge sind mit der Strategie vereinbar.</p>
+<h4 id="betroffene-verantwortung-4">Betroffene Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortung-4">#</a></h4>
+<p>Die Verantwortung beider Räume muss bestehen bleiben. Keine der beiden Perspektiven darf ohne eine kernelbasierte Entscheidung pauschal der anderen untergeordnet werden.</p>
+<p>Zu klären ist, welcher Raum für welche Entscheidung verantwortlich ist und wann eine gemeinsame oder eskalierte Entscheidung erforderlich ist.</p>
+<h4 id="betroffener-entscheidungsraum-4">Betroffener Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-entscheidungsraum-4">#</a></h4>
+<p>Mindestens abzugrenzen sind:</p>
+<ul>
+<li>Produktpriorisierung,</li>
+<li>technische Machbarkeit,</li>
+<li>technische Mindestanforderungen,</li>
+<li>Behandlung technischer Risiken,</li>
+<li>Entscheidung über technische Stabilisierung,</li>
+<li>Entscheidung über Zielkonflikte zwischen kurzfristigem Produktnutzen und Plattformstabilität.</li>
+</ul>
+<h4 id="reicht-governance-4">Reicht Governance?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#reicht-governance-4">#</a></h4>
+<p>Ja.</p>
+<p>Ein formalisierter Entscheidungs- und Eskalationsweg adressiert das beobachtete Problem unmittelbar.</p>
+<h4 id="ist-eine-kontextanwendung-ausreichend-4">Ist eine Kontextanwendung ausreichend?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-kontextanwendung-ausreichend-4">#</a></h4>
+<p>Teilweise.</p>
+<p>In einzelnen Produkt- oder Entwicklungsentscheidungen ist eine kontextbezogene Abwägung notwendig. Da die Konflikte regelmäßig auftreten, muss die übergeordnete Entscheidungslogik als Governance festgelegt werden.</p>
+<h4 id="ist-eine-strukturanderung-notwendig-4">Ist eine Strukturänderung notwendig?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-strukturanderung-notwendig-4">#</a></h4>
+<p>Nein.</p>
+<p>Der Konflikt entsteht aus zwei legitimen, strategisch relevanten Wertbeiträgen. Das spricht für eine bessere Abgrenzung und Integration der Entscheidungsräume, nicht für eine Zusammenlegung oder einen neuen Raum.</p>
+<hr/>
+<h3 id="problem-5-ki-assistent-im-support">Problem 5: KI-Assistent im Support<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-5-ki-assistent-im-support">#</a></h3>
+<h4 id="betroffene-verantwortungsraume-5">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume-5">#</a></h4>
+<ul>
+<li>Support</li>
+</ul>
+<p>Abhängigkeiten zu anderen Verantwortungsräumen sind möglich, aber im Szenario nicht beschrieben.</p>
+<h4 id="betroffener-wertbeitrag-5">Betroffener Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-wertbeitrag-5">#</a></h4>
+<ul>
+<li>wirksame Bearbeitung einfacher Kundenanfragen,</li>
+<li>Beitrag zur Kundenzufriedenheit,</li>
+<li>wirtschaftlicher Einsatz begrenzter Ressourcen.</li>
+</ul>
+<h4 id="betroffene-verantwortung-5">Betroffene Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortung-5">#</a></h4>
+<p>Die organisatorische Verantwortung verbleibt beim Support.</p>
+<p>Das KI-System übernimmt ausschließlich Ausführung. Es erhält dadurch keine organisatorische Verantwortung und keinen eigenständigen Entscheidungsraum.</p>
+<h4 id="betroffener-entscheidungsraum-5">Betroffener Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-entscheidungsraum-5">#</a></h4>
+<p>Zu klären sind:</p>
+<ul>
+<li>Welche Anfragen darf das <a class="denkraum-link" data-definition="Ein System ist eine Menge miteinander in Beziehung stehender Elemente, die durch ihr Zusammenwirken Eigenschaften und Wirkungen hervorbringen, die kein einzelnes Element allein erzeugen kann." href="01-denkraum.html#system" title="Ein System ist eine Menge miteinander in Beziehung stehender Elemente, die durch ihr Zusammenwirken Eigenschaften und Wirkungen hervorbringen, die kein einzelnes Element allein erzeugen kann.">System</a> bearbeiten?</li>
+<li>Welche Antworten darf es ohne vorherige menschliche Freigabe versenden?</li>
+<li>Wann muss es an Menschen übergeben?</li>
+<li>Wer darf Einsatzregeln ändern?</li>
+<li>Wer stoppt den Einsatz bei Qualitätsproblemen?</li>
+<li>Wer bewertet Fehler und Abweichungen?</li>
+</ul>
+<h4 id="reicht-governance-5">Reicht Governance?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#reicht-governance-5">#</a></h4>
+<p>Ja.</p>
+<p>Das Problem ist unmittelbar ein Governance-Problem.</p>
+<h4 id="ist-eine-kontextanwendung-ausreichend-5">Ist eine Kontextanwendung ausreichend?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-kontextanwendung-ausreichend-5">#</a></h4>
+<p>Nein, nicht allein.</p>
+<p>Einzelfallentscheidungen reichen nicht aus. Es müssen allgemeine Regeln für den Einsatz des KI-Systems gelten.</p>
+<h4 id="ist-eine-strukturanderung-notwendig-5">Ist eine Strukturänderung notwendig?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-strukturanderung-notwendig-5">#</a></h4>
+<p>Nein.</p>
+<p>Delegierte Ausführung durch KI ist nach dem Kernel keine Begründung für die Veränderung eines Verantwortungsraums.</p>
+<hr/>
+<h3 id="problem-6-strukturvorschlage">Problem 6: Strukturvorschläge<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#problem-6-strukturvorschlage">#</a></h3>
+<h4 id="betroffene-verantwortungsraume-6">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume-6">#</a></h4>
+<ul>
+<li>Support</li>
+<li>Customer Success</li>
+<li>Sales</li>
+<li>möglicherweise der vorgeschlagene, aber nicht bestehende Raum Revenue Operations</li>
+</ul>
+<h4 id="betroffener-wertbeitrag-6">Betroffener Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-wertbeitrag-6">#</a></h4>
+<p>Die Wertbeiträge von Support und Customer Success sind nicht vollständig beschrieben.</p>
+<p>Für Revenue Operations ist überhaupt kein eigenständiger Wertbeitrag beschrieben.</p>
+<h4 id="betroffene-verantwortung-6">Betroffene Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortung-6">#</a></h4>
+<p>Es ist nicht nachgewiesen:</p>
+<ul>
+<li>welche bestehende Verantwortung verlagert werden soll,</li>
+<li>welche neue Verantwortung entstehen soll,</li>
+<li>welche Verantwortung heute keinem Raum zugeordnet werden kann,</li>
+<li>warum eine Zusammenlegung erforderlich wäre.</li>
+</ul>
+<h4 id="betroffener-entscheidungsraum-6">Betroffener Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffener-entscheidungsraum-6">#</a></h4>
+<p>Für die diskutierten Strukturänderungen ist nicht beschrieben:</p>
+<ul>
+<li>welche neuen Entscheidungen entstehen,</li>
+<li>welche Entscheidungen verlagert werden,</li>
+<li>welche bestehenden Entscheidungsräume entfallen,</li>
+<li>warum Governance zwischen bestehenden Räumen nicht ausreicht.</li>
+</ul>
+<h4 id="reicht-governance-6">Reicht Governance?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#reicht-governance-6">#</a></h4>
+<p>Für die vorliegenden Probleme zunächst ja.</p>
+<h4 id="ist-eine-kontextanwendung-ausreichend-6">Ist eine Kontextanwendung ausreichend?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-kontextanwendung-ausreichend-6">#</a></h4>
+<p>Für Vertragsverlängerungen und Schnittstellen zwischen Support und Customer Success wahrscheinlich ja. Die genaue Ausgestaltung bleibt wegen fehlender Informationen offen.</p>
+<h4 id="ist-eine-strukturanderung-notwendig-6">Ist eine Strukturänderung notwendig?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ist-eine-strukturanderung-notwendig-6">#</a></h4>
+<p>Nein, jedenfalls nicht auf Basis der bereitgestellten Informationen.</p>
+<hr/>
+<h2 id="3-veranderungsentwurf">3. Veränderungsentwurf<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#3-veranderungsentwurf">#</a></h2>
+<h3 id="veranderung-1-verbindliche-governance-fur-kundenversprechen">Veränderung 1: Verbindliche Governance für Kundenversprechen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-1-verbindliche-governance-fur-kundenversprechen">#</a></h3>
+<h4 id="ziel">Ziel<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ziel">#</a></h4>
+<p>Verhindern, dass gegenüber Kunden verbindliche Produkt- oder Terminverpflichtungen entstehen, bevor die zuständigen Verantwortungsräume entschieden haben.</p>
+<h4 id="betroffene-verantwortungsraume-7">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume-7">#</a></h4>
+<ul>
+<li>Sales</li>
+<li>Product</li>
+<li>Engineering</li>
+</ul>
+<h4 id="wertbeitrag">Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wertbeitrag">#</a></h4>
+<p>Die Veränderung schützt gleichzeitig:</p>
+<ul>
+<li>nachhaltiges Wachstum,</li>
+<li>hohen Produktnutzen,</li>
+<li>stabile Plattform,</li>
+<li>langfristige Kundenbindung.</li>
+</ul>
+<h4 id="verantwortung">Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verantwortung">#</a></h4>
+<ul>
+<li>Sales bleibt für die Richtigkeit seiner Kundenaussagen verantwortlich.</li>
+<li>Product bleibt für produktbezogene Priorisierungsentscheidungen verantwortlich.</li>
+<li>Engineering bleibt für technische Machbarkeits- und Risikobewertungen verantwortlich.</li>
+</ul>
+<h4 id="entscheidungsraum">Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#entscheidungsraum">#</a></h4>
+<p>Es wird verbindlich unterschieden zwischen:</p>
+<ol>
+<li>unverbindlicher Aufnahme eines Kundenwunsches,</li>
+<li>intern geprüfter Planungsannahme,</li>
+<li>verbindlicher Kundenzusage.</li>
+</ol>
+<p>Eine verbindliche Funktions- oder Terminzusage darf erst erfolgen, wenn die dafür zuständigen Entscheidungsräume entschieden haben.</p>
+<p>Die genaue Freigabekombination muss anhand der bestehenden Verantwortungen festgelegt werden.</p>
+<hr/>
+<h3 id="veranderung-2-eindeutige-ergebnisverantwortung-fur-vertragsverlangerungen">Veränderung 2: Eindeutige Ergebnisverantwortung für Vertragsverlängerungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-2-eindeutige-ergebnisverantwortung-fur-vertragsverlangerungen">#</a></h3>
+<h4 id="ziel-2">Ziel<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ziel-2">#</a></h4>
+<p>Jede Vertragsverlängerung erhält einen eindeutig verantwortlichen Verantwortungsraum.</p>
+<h4 id="betroffene-verantwortungsraume-8">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume-8">#</a></h4>
+<ul>
+<li>Sales</li>
+<li>Customer Success</li>
+</ul>
+<h4 id="wertbeitrag-2">Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wertbeitrag-2">#</a></h4>
+<ul>
+<li>langfristige Kundenbindung,</li>
+<li>wirtschaftlich nachhaltige Kundenbeziehungen,</li>
+<li>nachhaltiges Wachstum.</li>
+</ul>
+<h4 id="verantwortung-2">Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verantwortung-2">#</a></h4>
+<p>Einer der beiden bestehenden Räume muss das Verlängerungsergebnis organisatorisch verantworten.</p>
+<p>Der andere Raum erhält definierte Mitwirkungs- und Entscheidungsrechte, soweit sein eigener Verantwortungsraum betroffen ist.</p>
+<p>Auf Basis des Szenarios kann nicht entschieden werden, ob Sales oder Customer Success die Ergebnisverantwortung erhalten soll.</p>
+<h4 id="entscheidungsraum-2">Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#entscheidungsraum-2">#</a></h4>
+<p>Festzulegen sind:</p>
+<ul>
+<li>Ergebnisverantwortung,</li>
+<li>kommerzielle Entscheidungen,</li>
+<li>kundenbezogene Bewertung,</li>
+<li>Eskalation,</li>
+<li>Abschlussentscheidung,</li>
+<li>Dokumentation des Ergebnisses.</li>
+</ul>
+<hr/>
+<h3 id="veranderung-3-verbindlicher-ruckkopplungsweg-fur-wiederkehrende-kundenprobleme">Veränderung 3: Verbindlicher Rückkopplungsweg für wiederkehrende Kundenprobleme<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-3-verbindlicher-ruckkopplungsweg-fur-wiederkehrende-kundenprobleme">#</a></h3>
+<h4 id="ziel-3">Ziel<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ziel-3">#</a></h4>
+<p>Wiederkehrende Probleme sollen regelmäßig erkannt, bewertet und einer Entscheidung über dauerhafte Ursachenbeseitigung zugeführt werden.</p>
+<h4 id="betroffene-verantwortungsraume-9">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume-9">#</a></h4>
+<ul>
+<li>Support</li>
+<li>Product</li>
+<li>Engineering</li>
+</ul>
+<h4 id="wertbeitrag-3">Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wertbeitrag-3">#</a></h4>
+<ul>
+<li>höherer Produktnutzen,</li>
+<li>stabilere Plattform,</li>
+<li>höhere Kundenzufriedenheit,</li>
+<li>geringerer wiederkehrender Bearbeitungsaufwand.</li>
+</ul>
+<h4 id="verantwortung-3">Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verantwortung-3">#</a></h4>
+<ul>
+<li>Support verantwortet die Erfassung und Weitergabe nach festgelegten Kriterien.</li>
+<li>Product verantwortet produktbezogene Bewertung und Priorisierung innerhalb seines Entscheidungsraums.</li>
+<li>Engineering verantwortet technische Bewertung und technische Umsetzung innerhalb seines Entscheidungsraums.</li>
+<li>Die Verantwortung für den ursprünglichen Kundenfall bleibt unabhängig davon beim dafür zuständigen Raum.</li>
+</ul>
+<h4 id="entscheidungsraum-3">Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#entscheidungsraum-3">#</a></h4>
+<p>Festzulegen sind:</p>
+<ul>
+<li>Schwelle für „wiederkehrend“,</li>
+<li>Klassifikation,</li>
+<li>Empfänger,</li>
+<li>Bewertungsfrist,</li>
+<li>Priorisierungsentscheidung,</li>
+<li>Rückmeldung,</li>
+<li>Abschluss oder begründete Nichtbearbeitung.</li>
+</ul>
+<hr/>
+<h3 id="veranderung-4-gemeinsamer-entscheidungs-und-eskalationsweg-zwischen-product-und-engineering">Veränderung 4: Gemeinsamer Entscheidungs- und Eskalationsweg zwischen Product und Engineering<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-4-gemeinsamer-entscheidungs-und-eskalationsweg-zwischen-product-und-engineering">#</a></h3>
+<h4 id="ziel-4">Ziel<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ziel-4">#</a></h4>
+<p>Zielkonflikte zwischen Produktnutzen und technischer Stabilität sollen nachvollziehbar und verbindlich entschieden werden.</p>
+<h4 id="betroffene-verantwortungsraume-10">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume-10">#</a></h4>
+<ul>
+<li>Product</li>
+<li>Engineering</li>
+</ul>
+<h4 id="wertbeitrag-4">Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wertbeitrag-4">#</a></h4>
+<ul>
+<li>hoher Produktnutzen,</li>
+<li>stabile Plattform,</li>
+<li>nachhaltiger Ressourceneinsatz.</li>
+</ul>
+<h4 id="verantwortung-4">Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verantwortung-4">#</a></h4>
+<p>Beide Verantwortungsräume behalten ihre jeweilige Verantwortung.</p>
+<p>Die Veränderung schafft keine gemeinsame diffuse Verantwortung, sondern regelt:</p>
+<ul>
+<li>Einzelentscheidungen,</li>
+<li>notwendige Mitwirkung,</li>
+<li>gemeinsame Entscheidungen,</li>
+<li>Eskalationen.</li>
+</ul>
+<h4 id="entscheidungsraum-4">Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#entscheidungsraum-4">#</a></h4>
+<p>Festzulegen sind:</p>
+<ul>
+<li>Entscheidungen allein durch Product,</li>
+<li>Entscheidungen allein durch Engineering,</li>
+<li>Entscheidungen mit Zustimmung beider Räume,</li>
+<li>Eskalationskriterien,</li>
+<li>eskalationsberechtigte Instanz,</li>
+<li>Dokumentation der Abwägung.</li>
+</ul>
+<p>Die konkrete Eskalationsinstanz ist im Szenario nicht beschrieben.</p>
+<hr/>
+<h3 id="veranderung-5-governance-fur-ki-gestutzte-supportausfuhrung">Veränderung 5: Governance für KI-gestützte Supportausführung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-5-governance-fur-ki-gestutzte-supportausfuhrung">#</a></h3>
+<h4 id="ziel-5">Ziel<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ziel-5">#</a></h4>
+<p>Der KI-Assistent darf nur innerhalb eines ausdrücklich festgelegten Ausführungsrahmens tätig werden.</p>
+<h4 id="betroffene-verantwortungsraume-11">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume-11">#</a></h4>
+<ul>
+<li>Support</li>
+</ul>
+<p>Weitere Beteiligungen sind nur festzulegen, wenn sie aus bestehenden Verantwortungen folgen. Dazu fehlen Informationen.</p>
+<h4 id="wertbeitrag-5">Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wertbeitrag-5">#</a></h4>
+<ul>
+<li>wirksamer Ressourceneinsatz,</li>
+<li>zuverlässige Bearbeitung einfacher Anfragen,</li>
+<li>Schutz der Kundenzufriedenheit.</li>
+</ul>
+<h4 id="verantwortung-5">Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verantwortung-5">#</a></h4>
+<p>Die Verantwortung für alle durch den KI-Assistenten bearbeiteten Supportfälle verbleibt beim Support.</p>
+<h4 id="entscheidungsraum-5">Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#entscheidungsraum-5">#</a></h4>
+<p>Festzulegen sind:</p>
+<ul>
+<li>zugelassene Anfragetypen,</li>
+<li>verbotene oder freigabepflichtige Fälle,</li>
+<li>Qualitätsgrenzen,</li>
+<li>menschliche Übernahme,</li>
+<li>Änderungsrechte,</li>
+<li>Überwachungsrechte,</li>
+<li>Stopprechte.</li>
+</ul>
+<hr/>
+<h3 id="veranderung-6-kernelprufung-als-verpflichtende-voraussetzung-fur-strukturanderungen">Veränderung 6: Kernelprüfung als verpflichtende Voraussetzung für Strukturänderungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-6-kernelprufung-als-verpflichtende-voraussetzung-fur-strukturanderungen">#</a></h3>
+<h4 id="ziel-6">Ziel<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ziel-6">#</a></h4>
+<p>Zusammenlegung von Verantwortungsräumen oder Einrichtung neuer Räume darf nur erfolgen, wenn eine zulässige kernelbasierte Begründung vorliegt.</p>
+<h4 id="betroffene-verantwortungsraume-12">Betroffene Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#betroffene-verantwortungsraume-12">#</a></h4>
+<ul>
+<li>Geschäftsführung</li>
+<li>Support</li>
+<li>Customer Success</li>
+<li>Sales</li>
+<li>gegebenenfalls weitere Räume, deren Verantwortung verlagert werden soll</li>
+</ul>
+<h4 id="wertbeitrag-6">Wertbeitrag<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#wertbeitrag-6">#</a></h4>
+<ul>
+<li>Vermeidung unbegründeter organisatorischer Umstrukturierung,</li>
+<li>wirtschaftlicher Einsatz organisatorischer Ressourcen,</li>
+<li>Erhalt eindeutiger Verantwortung.</li>
+</ul>
+<h4 id="verantwortung-6">Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verantwortung-6">#</a></h4>
+<p>Die Geschäftsführung muss vor einer Strukturentscheidung dokumentieren:</p>
+<ul>
+<li>welchen Wertbeitrag der betroffene Raum künftig leistet,</li>
+<li>welche Verantwortung sich verändert,</li>
+<li>welcher Entscheidungsraum sich verändert,</li>
+<li>warum Governance oder Kontextanwendung nicht ausreichen.</li>
+</ul>
+<h4 id="entscheidungsraum-6">Entscheidungsraum<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#entscheidungsraum-6">#</a></h4>
+<p>Die Geschäftsführung entscheidet über Strukturänderungen erst nach dokumentierter Kernelprüfung.</p>
+<p>Für Support und Customer Success sowie Revenue Operations bedeutet dies aktuell:</p>
+<ul>
+<li>keine positive Strukturentscheidung auf Basis der vorhandenen Informationen,</li>
+<li>erneute Prüfung nur bei neuen Informationen zu Wertbeitrag, Verantwortung oder Entscheidungsraum.</li>
+</ul>
+<hr/>
+<h2 id="4-umsetzungsplan">4. Umsetzungsplan<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#4-umsetzungsplan">#</a></h2>
+<h3 id="phase-1-verantwortungsklarung">Phase 1: Verantwortungsklärung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#phase-1-verantwortungsklarung">#</a></h3>
+<h4 id="reihenfolge">Reihenfolge<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#reihenfolge">#</a></h4>
+<ol>
+<li>Kundenversprechen</li>
+<li>Vertragsverlängerungen</li>
+<li>Product-Engineering-Entscheidungen</li>
+<li>wiederkehrende Supportprobleme</li>
+<li>KI-Governance</li>
+<li>formale Prüfung der Strukturvorschläge</li>
+</ol>
+<p>Die ersten drei Themen betreffen unmittelbar externe Verpflichtungen, Umsatz- beziehungsweise Bindungsergebnisse und zentrale Produktentscheidungen.</p>
+<h4 id="erste-schritte">Erste Schritte<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erste-schritte">#</a></h4>
+<ul>
+<li>Bestehende Entscheidungsrechte der betroffenen Räume dokumentieren.</li>
+<li>Unklare oder überlappende Entscheidungsrechte kennzeichnen.</li>
+<li>Für jedes Ergebnis genau einen verantwortlichen Raum festlegen.</li>
+<li>Mitwirkung und Freigaben anderer Räume getrennt dokumentieren.</li>
+<li>Offene Punkte als Governance-Entscheidungen der Geschäftsführung vorlegen.</li>
+</ul>
+<h4 id="beteiligte-verantwortungsraume">Beteiligte Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#beteiligte-verantwortungsraume">#</a></h4>
+<ul>
+<li>Sales</li>
+<li>Customer Success</li>
+<li>Product</li>
+<li>Engineering</li>
+<li>Support</li>
+<li>Geschäftsführung</li>
+</ul>
+<h4 id="governance-entscheidungen">Governance-Entscheidungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#governance-entscheidungen">#</a></h4>
+<ul>
+<li>Was ist eine verbindliche Kundenzusage?</li>
+<li>Wer verantwortet Vertragsverlängerungen?</li>
+<li>Welche Product-Engineering-Entscheidungen benötigen gemeinsame Zustimmung?</li>
+<li>Wer entscheidet Eskalationen?</li>
+<li>Welche Verantwortung bleibt bei delegierter Ausführung bestehen?</li>
+</ul>
+<h4 id="risiken">Risiken<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#risiken">#</a></h4>
+<ul>
+<li>Bestehende informelle Entscheidungsrechte könnten verteidigt werden.</li>
+<li>Mehrdeutige Formulierungen könnten die Unklarheit nur dokumentieren, statt sie zu beseitigen.</li>
+<li>Zu viele Freigaben könnten Entscheidungen verzögern.</li>
+<li>Eine scheinbar gemeinsame Verantwortung könnte weiterhin eindeutige Ergebnisverantwortung verhindern.</li>
+</ul>
+<hr/>
+<h3 id="phase-2-einfuhrung-der-schnittstellen-governance">Phase 2: Einführung der Schnittstellen-Governance<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#phase-2-einfuhrung-der-schnittstellen-governance">#</a></h3>
+<h4 id="erste-schritte-2">Erste Schritte<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erste-schritte-2">#</a></h4>
+<ul>
+<li>Freigabestatus für Kundenversprechen definieren.</li>
+<li>Verlängerungsprozess mit einem Ergebnisverantwortlichen versehen.</li>
+<li>Wiederkehrende Supportprobleme nach einheitlichen Kriterien erfassen.</li>
+<li>Product-Engineering-Eskalationsweg festlegen.</li>
+<li>Regeln für KI-Übergabe und Qualitätskontrolle aktivieren.</li>
+</ul>
+<h4 id="governance-entscheidungen-2">Governance-Entscheidungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#governance-entscheidungen-2">#</a></h4>
+<ul>
+<li>zulässige Entscheidung ohne Beteiligung anderer Räume,</li>
+<li>erforderliche Zustimmung,</li>
+<li>Fristen,</li>
+<li>Dokumentationspflicht,</li>
+<li>Eskalationsauslöser,</li>
+<li>Überprüfungsverantwortung.</li>
+</ul>
+<h4 id="risiken-2">Risiken<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#risiken-2">#</a></h4>
+<ul>
+<li>Governance kann zu umfangreich werden.</li>
+<li>Formale Regeln können umgangen werden.</li>
+<li>Fehlende Fähigkeiten oder Ressourcen können die Umsetzung begrenzen.</li>
+<li>Eine Regel kann Verantwortung fälschlich auf einen Prozess oder ein <a class="denkraum-link" data-definition="Ein Werkzeug ist ein konkretes Hilfsmittel, das einen Schritt in Diagnose, Entscheidung, Gestaltung oder Reflexion unterstützt." href="01-denkraum.html#werkzeug" title="Ein Werkzeug ist ein konkretes Hilfsmittel, das einen Schritt in Diagnose, Entscheidung, Gestaltung oder Reflexion unterstützt.">Werkzeug</a> verschieben.</li>
+</ul>
+<hr/>
+<h3 id="phase-3-beobachtung-und-uberprufung">Phase 3: Beobachtung und Überprüfung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#phase-3-beobachtung-und-uberprufung">#</a></h3>
+<h4 id="erste-schritte-3">Erste Schritte<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erste-schritte-3">#</a></h4>
+<ul>
+<li>Ausgangswerte erheben.</li>
+<li>Regelverletzungen und ungeklärte Entscheidungen dokumentieren.</li>
+<li>Wirkung nach definierten Beobachtungszeiträumen prüfen.</li>
+<li>Regeln anpassen, wenn sie die vorgesehenen Entscheidungen nicht verbessern.</li>
+<li>Strukturfragen nur erneut öffnen, wenn Governance und Kontextanwendung nachweislich nicht ausreichen.</li>
+</ul>
+<h4 id="risiken-3">Risiken<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#risiken-3">#</a></h4>
+<ul>
+<li>Kennzahlen können Regelbefolgung messen, ohne tatsächliche Wirkung abzubilden.</li>
+<li>Kurze Beobachtungszeiträume können falsche Schlussfolgerungen erzeugen.</li>
+<li>Einzelne Konflikte können fälschlich als Strukturversagen interpretiert werden.</li>
+</ul>
+<hr/>
+<h2 id="5-wirkungsprognose">5. Wirkungsprognose<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#5-wirkungsprognose">#</a></h2>
+<h3 id="veranderung-1-governance-fur-kundenversprechen">Veränderung 1: Governance für Kundenversprechen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-1-governance-fur-kundenversprechen">#</a></h3>
+<h4 id="erwartete-wirkung">Erwartete Wirkung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-wirkung">#</a></h4>
+<p>Verbindliche Zusagen werden erst nach den notwendigen Produkt- und Technikentscheidungen gemacht.</p>
+<h4 id="erwartete-verbesserungen">Erwartete Verbesserungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-verbesserungen">#</a></h4>
+<ul>
+<li>weniger nicht autorisierte Zusagen,</li>
+<li>weniger Konflikte über Roadmap und Termine,</li>
+<li>höhere Verlässlichkeit gegenüber Kunden,</li>
+<li>bessere Verbindung von Vertrieb und Strategie.</li>
+</ul>
+<h4 id="mogliche-nebenwirkungen">Mögliche Nebenwirkungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#mogliche-nebenwirkungen">#</a></h4>
+<ul>
+<li>längere Reaktionszeit im Verkaufsprozess,</li>
+<li>zusätzlicher Abstimmungsaufwand,</li>
+<li>Risiko übermäßiger Freigaben.</li>
+</ul>
+<h4 id="langfristige-risiken">Langfristige Risiken<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#langfristige-risiken">#</a></h4>
+<ul>
+<li>Sales könnte unverbindliche Aussagen weiterhin als faktische Zusagen vermitteln.</li>
+<li>Product oder Engineering könnten zu Engpässen im Freigabeprozess werden.</li>
+<li>Regeln könnten zu starr für unterschiedliche Verkaufskontexte sein.</li>
+</ul>
+<hr/>
+<h3 id="veranderung-2-verantwortung-fur-vertragsverlangerungen">Veränderung 2: Verantwortung für Vertragsverlängerungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-2-verantwortung-fur-vertragsverlangerungen">#</a></h3>
+<h4 id="erwartete-wirkung-2">Erwartete Wirkung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-wirkung-2">#</a></h4>
+<p>Das Verlängerungsergebnis ist eindeutig zurechenbar.</p>
+<h4 id="erwartete-verbesserungen-2">Erwartete Verbesserungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-verbesserungen-2">#</a></h4>
+<ul>
+<li>klarere Entscheidungen,</li>
+<li>weniger Verantwortungsverschiebung,</li>
+<li>bessere wirtschaftliche Steuerung,</li>
+<li>nachvollziehbare Zusammenarbeit.</li>
+</ul>
+<h4 id="mogliche-nebenwirkungen-2">Mögliche Nebenwirkungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#mogliche-nebenwirkungen-2">#</a></h4>
+<ul>
+<li>der nicht verantwortliche Raum könnte seine Mitwirkung reduzieren,</li>
+<li>Ergebnisverantwortung könnte fälschlich als Alleinbearbeitung verstanden werden.</li>
+</ul>
+<h4 id="langfristige-risiken-2">Langfristige Risiken<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#langfristige-risiken-2">#</a></h4>
+<ul>
+<li>eine falsche Zuordnung der Ergebnisverantwortung könnte Kundenbindung oder wirtschaftliche Entscheidungen schwächen,</li>
+<li>die Verantwortung könnte formal eindeutig, praktisch aber ohne ausreichenden Entscheidungsraum ausgestattet sein.</li>
+</ul>
+<hr/>
+<h3 id="veranderung-3-ruckkopplung-wiederkehrender-probleme">Veränderung 3: Rückkopplung wiederkehrender Probleme<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-3-ruckkopplung-wiederkehrender-probleme">#</a></h3>
+<h4 id="erwartete-wirkung-3">Erwartete Wirkung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-wirkung-3">#</a></h4>
+<p>Wiederkehrende Ursachen werden häufiger erkannt und einer bewussten Priorisierungsentscheidung zugeführt.</p>
+<h4 id="erwartete-verbesserungen-3">Erwartete Verbesserungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-verbesserungen-3">#</a></h4>
+<ul>
+<li>weniger Wiederholungsfälle,</li>
+<li>dauerhaftere Problembeseitigung,</li>
+<li>bessere Nutzung von Supportwissen,</li>
+<li>höhere Plattformstabilität und Produktqualität.</li>
+</ul>
+<h4 id="mogliche-nebenwirkungen-3">Mögliche Nebenwirkungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#mogliche-nebenwirkungen-3">#</a></h4>
+<ul>
+<li>mehr Meldungen und Bewertungsaufwand,</li>
+<li>Überlastung von Product oder Engineering,</li>
+<li>konkurrierende Prioritäten.</li>
+</ul>
+<h4 id="langfristige-risiken-3">Langfristige Risiken<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#langfristige-risiken-3">#</a></h4>
+<ul>
+<li>Support könnte zu viele Einzelfälle als strukturell einstufen.</li>
+<li>Product oder Engineering könnten Meldungen formal bearbeiten, aber nicht wirksam priorisieren.</li>
+<li>Die Anzahl eingereichter Probleme könnte mit tatsächlicher Produktqualität verwechselt werden.</li>
+</ul>
+<hr/>
+<h3 id="veranderung-4-product-engineering-entscheidungsweg">Veränderung 4: Product-Engineering-Entscheidungsweg<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-4-product-engineering-entscheidungsweg">#</a></h3>
+<h4 id="erwartete-wirkung-4">Erwartete Wirkung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-wirkung-4">#</a></h4>
+<p>Konflikte werden nicht informell oder durch Durchsetzungsmacht entschieden, sondern über definierte Entscheidungsräume und Eskalationen.</p>
+<h4 id="erwartete-verbesserungen-4">Erwartete Verbesserungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-verbesserungen-4">#</a></h4>
+<ul>
+<li>nachvollziehbare Priorisierung,</li>
+<li>Schutz von Produktnutzen und Stabilität,</li>
+<li>weniger wiederkehrende Grundsatzkonflikte,</li>
+<li>klarere Verantwortlichkeit.</li>
+</ul>
+<h4 id="mogliche-nebenwirkungen-4">Mögliche Nebenwirkungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#mogliche-nebenwirkungen-4">#</a></h4>
+<ul>
+<li>Eskalationen können häufiger sichtbar werden,</li>
+<li>Entscheidungen können zunächst langsamer werden,</li>
+<li>eine Eskalationsinstanz könnte zu stark in operative Entscheidungen eingreifen.</li>
+</ul>
+<h4 id="langfristige-risiken-4">Langfristige Risiken<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#langfristige-risiken-4">#</a></h4>
+<ul>
+<li>zu häufige Eskalation schwächt die Entscheidungsräume von Product und Engineering,</li>
+<li>technische Risiken könnten nur formal dokumentiert, aber wirtschaftlich nicht angemessen behandelt werden,</li>
+<li>Produktentscheidungen könnten durch übervorsichtige technische Bewertung blockiert werden.</li>
+</ul>
+<hr/>
+<h3 id="veranderung-5-ki-governance">Veränderung 5: KI-Governance<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-5-ki-governance">#</a></h3>
+<h4 id="erwartete-wirkung-5">Erwartete Wirkung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-wirkung-5">#</a></h4>
+<p>KI-Ausführung erfolgt innerhalb eines kontrollierten und verantworteten Rahmens.</p>
+<h4 id="erwartete-verbesserungen-5">Erwartete Verbesserungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-verbesserungen-5">#</a></h4>
+<ul>
+<li>klarere Qualitätsverantwortung,</li>
+<li>weniger ungeprüfte oder ungeeignete KI-Antworten,</li>
+<li>geregelte menschliche Übernahme,</li>
+<li>nachvollziehbare Einsatzgrenzen.</li>
+</ul>
+<h4 id="mogliche-nebenwirkungen-5">Mögliche Nebenwirkungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#mogliche-nebenwirkungen-5">#</a></h4>
+<ul>
+<li>sinkender Automatisierungsumfang,</li>
+<li>höherer Kontrollaufwand,</li>
+<li>längere Bearbeitungszeiten bei Grenzfällen.</li>
+</ul>
+<h4 id="langfristige-risiken-5">Langfristige Risiken<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#langfristige-risiken-5">#</a></h4>
+<ul>
+<li>schleichende Ausweitung des KI-Einsatzes ohne erneute Entscheidung,</li>
+<li>Verlust menschlicher Überwachungsfähigkeit,</li>
+<li>Qualitätskennzahlen könnten seltene, aber gravierende Fehler verdecken,</li>
+<li>Verantwortung könnte faktisch dem System oder Anbieter zugeschrieben werden.</li>
+</ul>
+<hr/>
+<h3 id="veranderung-6-verbindliche-kernelprufung-fur-strukturentscheidungen">Veränderung 6: Verbindliche Kernelprüfung für Strukturentscheidungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-6-verbindliche-kernelprufung-fur-strukturentscheidungen">#</a></h3>
+<h4 id="erwartete-wirkung-6">Erwartete Wirkung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-wirkung-6">#</a></h4>
+<p>Strukturänderungen werden nicht als erste Reaktion auf Schnittstellenprobleme verwendet.</p>
+<h4 id="erwartete-verbesserungen-6">Erwartete Verbesserungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#erwartete-verbesserungen-6">#</a></h4>
+<ul>
+<li>höhere Begründungsqualität,</li>
+<li>weniger organisatorische Unruhe,</li>
+<li>Schutz bestehender Verantwortungen,</li>
+<li>wirtschaftlicherer Veränderungsaufwand.</li>
+</ul>
+<h4 id="mogliche-nebenwirkungen-6">Mögliche Nebenwirkungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#mogliche-nebenwirkungen-6">#</a></h4>
+<ul>
+<li>berechtigte Strukturänderungen könnten verzögert werden,</li>
+<li>die Kernelprüfung könnte zu einer rein formalen Dokumentationsübung werden.</li>
+</ul>
+<h4 id="langfristige-risiken-6">Langfristige Risiken<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#langfristige-risiken-6">#</a></h4>
+<ul>
+<li>bestehende Räume könnten trotz nachweislicher Veränderung zu lange erhalten bleiben,</li>
+<li>Governance könnte überlastet werden, obwohl später eine Strukturänderung erforderlich wäre.</li>
+</ul>
+<hr/>
+<h2 id="6-messbarkeit">6. Messbarkeit<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#6-messbarkeit">#</a></h2>
+<p>Da keine Ausgangswerte bereitgestellt wurden, sind sämtliche Ist-Ausgangswerte vor Umsetzung zu erheben. Es werden keine Ausgangswerte rekonstruiert.</p>
+<h3 id="veranderung-1-kundenversprechen">Veränderung 1: Kundenversprechen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-1-kundenversprechen">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Messkriterium</th>
+<th>Ausgangswert</th>
+<th>Zielwert</th>
+<th>Beobachtungszeitraum</th>
+<th>Überprüfungsverantwortung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anteil verbindlicher Funktionszusagen mit dokumentierter Product-Entscheidung</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>monatlich, erstmals nach 3 Monaten</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Anteil verbindlicher Terminzusagen mit dokumentierter Engineering-Bestätigung</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>monatlich, erstmals nach 3 Monaten</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Anzahl verbindlicher Zusagen ohne erforderliche Freigabe</td>
+<td>Nicht bereitgestellt</td>
+<td>0</td>
+<td>monatlich</td>
+<td>Sales</td>
+</tr>
+<tr>
+<td>Anteil strittiger Zusagen mit eindeutig nachvollziehbarem Freigabestatus</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>nach 3 und 6 Monaten</td>
+<td>Sales, mit Product und Engineering</td>
+</tr>
+</tbody>
+</table>
+<p>Die Verantwortung von Sales für die Überprüfung bezieht sich auf die eigenen Kundenzusagen. Product und Engineering überprüfen die Richtigkeit der ihnen zugeordneten Freigaben.</p>
+<hr/>
+<h3 id="veranderung-2-vertragsverlangerungen">Veränderung 2: Vertragsverlängerungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-2-vertragsverlangerungen">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Messkriterium</th>
+<th>Ausgangswert</th>
+<th>Zielwert</th>
+<th>Beobachtungszeitraum</th>
+<th>Überprüfungsverantwortung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anteil an Verlängerungsfällen mit vorab eindeutig zugeordnetem Ergebnisverantwortlichen</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>monatlich</td>
+<td>festgelegter verantwortlicher Raum</td>
+</tr>
+<tr>
+<td>Anzahl Verlängerungsfälle mit ungeklärter Abschlussentscheidung</td>
+<td>Nicht bereitgestellt</td>
+<td>0</td>
+<td>monatlich</td>
+<td>festgelegter verantwortlicher Raum</td>
+</tr>
+<tr>
+<td>Anteil abgeschlossener Verlängerungsfälle mit dokumentierter Entscheidung</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>nach 3 Monaten</td>
+<td>festgelegter verantwortlicher Raum</td>
+</tr>
+<tr>
+<td>Anzahl Eskalationen ohne definierten Entscheider</td>
+<td>Nicht bereitgestellt</td>
+<td>0</td>
+<td>nach 3 und 6 Monaten</td>
+<td>Geschäftsführung</td>
+</tr>
+</tbody>
+</table>
+<p>Ein Zielwert für die tatsächliche Verlängerungsquote wird nicht festgelegt, weil weder Ausgangswert noch Markt-, Kunden- oder Vertragsinformationen bereitgestellt wurden.</p>
+<hr/>
+<h3 id="veranderung-3-wiederkehrende-supportprobleme">Veränderung 3: Wiederkehrende Supportprobleme<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-3-wiederkehrende-supportprobleme">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Messkriterium</th>
+<th>Ausgangswert</th>
+<th>Zielwert</th>
+<th>Beobachtungszeitraum</th>
+<th>Überprüfungsverantwortung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anteil erkannter wiederkehrender Probleme mit dokumentierter Übergabe</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>monatlich</td>
+<td>Support</td>
+</tr>
+<tr>
+<td>Anteil übergebener Probleme mit dokumentierter Product- oder Engineering-Entscheidung</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>monatlich</td>
+<td>empfangender Verantwortungsraum</td>
+</tr>
+<tr>
+<td>Anzahl übergebener Probleme ohne Entscheidung innerhalb der festgelegten Governance-Frist</td>
+<td>Nicht bereitgestellt</td>
+<td>0</td>
+<td>monatlich</td>
+<td>Product beziehungsweise Engineering</td>
+</tr>
+<tr>
+<td>Anteil abgeschlossener Probleme mit Rückmeldung an Support</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>nach 3 Monaten</td>
+<td>entscheidender Verantwortungsraum</td>
+</tr>
+</tbody>
+</table>
+<p>Eine konkrete Bearbeitungsfrist kann aus dem Szenario nicht abgeleitet werden. Sie muss als Governance-Entscheidung festgelegt werden.</p>
+<hr/>
+<h3 id="veranderung-4-product-engineering-entscheidungsweg-2">Veränderung 4: Product-Engineering-Entscheidungsweg<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-4-product-engineering-entscheidungsweg-2">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Messkriterium</th>
+<th>Ausgangswert</th>
+<th>Zielwert</th>
+<th>Beobachtungszeitraum</th>
+<th>Überprüfungsverantwortung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anteil strittiger Entscheidungen mit dokumentiertem verantwortlichen Entscheidungsraum</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>monatlich</td>
+<td>Product und Engineering jeweils für eigene Entscheidungen</td>
+</tr>
+<tr>
+<td>Anzahl Konflikte ohne anwendbaren Entscheidungs- oder Eskalationsweg</td>
+<td>Nicht bereitgestellt</td>
+<td>0</td>
+<td>monatlich</td>
+<td>Geschäftsführung</td>
+</tr>
+<tr>
+<td>Anteil von Eskalationen mit dokumentierter Abwägung von Produktnutzen und technischem Risiko</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>nach 3 und 6 Monaten</td>
+<td>zuständige Eskalationsinstanz</td>
+</tr>
+<tr>
+<td>Anteil wiederholt eskalierter Konflikttypen ohne Governance-Anpassung</td>
+<td>Nicht bereitgestellt</td>
+<td>0</td>
+<td>nach 6 Monaten</td>
+<td>Geschäftsführung</td>
+</tr>
+</tbody>
+</table>
+<p>Ein pauschales <a class="denkraum-link" data-definition="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll." href="01-denkraum.html#ziel" title="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll.">Ziel</a>, die Anzahl aller Konflikte zu reduzieren, wäre irreführend. Sichtbare Konflikte können ein Zeichen dafür sein, dass relevante Risiken tatsächlich eingebracht werden.</p>
+<hr/>
+<h3 id="veranderung-5-ki-governance-2">Veränderung 5: KI-Governance<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-5-ki-governance-2">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Messkriterium</th>
+<th>Ausgangswert</th>
+<th>Zielwert</th>
+<th>Beobachtungszeitraum</th>
+<th>Überprüfungsverantwortung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anteil KI-bearbeiteter Fälle innerhalb der zugelassenen Einsatzkategorien</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>monatlich</td>
+<td>Support</td>
+</tr>
+<tr>
+<td>Anzahl KI-Fälle ohne zuordenbare organisatorische Verantwortung</td>
+<td>Nicht bereitgestellt</td>
+<td>0</td>
+<td>monatlich</td>
+<td>Support</td>
+</tr>
+<tr>
+<td>Anteil freigabepflichtiger Fälle mit dokumentierter menschlicher Freigabe</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>monatlich</td>
+<td>Support</td>
+</tr>
+<tr>
+<td>Anteil erkannter Grenzfälle mit regelkonformer menschlicher Übernahme</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>monatlich</td>
+<td>Support</td>
+</tr>
+<tr>
+<td>Anzahl Qualitätsabweichungen ohne dokumentierte Folgeentscheidung</td>
+<td>Nicht bereitgestellt</td>
+<td>0</td>
+<td>nach 3 Monaten</td>
+<td>Support</td>
+</tr>
+</tbody>
+</table>
+<p>Ein Zielwert für eine allgemeine „KI-Genauigkeit“ wird nicht festgelegt, weil weder Qualitätsdefinition noch Risikokategorien bereitgestellt wurden.</p>
+<hr/>
+<h3 id="veranderung-6-kernelprufung-von-strukturentscheidungen">Veränderung 6: Kernelprüfung von Strukturentscheidungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-6-kernelprufung-von-strukturentscheidungen">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Messkriterium</th>
+<th>Ausgangswert</th>
+<th>Zielwert</th>
+<th>Beobachtungszeitraum</th>
+<th>Überprüfungsverantwortung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Anteil vorgeschlagener Strukturänderungen mit dokumentierter Veränderung von Wertbeitrag, Verantwortung oder Entscheidungsraum</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>bei jeder Strukturentscheidung</td>
+<td>Geschäftsführung</td>
+</tr>
+<tr>
+<td>Anzahl beschlossener Strukturänderungen, die ausschließlich mit Wachstum, Mitarbeiterzahl, Organigramm, Präferenzen oder Symptomen begründet sind</td>
+<td>Nicht bereitgestellt</td>
+<td>0</td>
+<td>fortlaufend</td>
+<td>Geschäftsführung</td>
+</tr>
+<tr>
+<td>Anteil der Strukturvorschläge mit dokumentierter Prüfung, ob Governance oder Kontextanwendung ausreichen</td>
+<td>Nicht bereitgestellt</td>
+<td>100 %</td>
+<td>bei jeder Strukturentscheidung</td>
+<td>Geschäftsführung</td>
+</tr>
+<tr>
+<td>Anzahl neu eingerichteter Verantwortungsräume ohne eigenständigen beschriebenen Wertbeitrag</td>
+<td>Nicht bereitgestellt</td>
+<td>0</td>
+<td>jährlich</td>
+<td>Geschäftsführung</td>
+</tr>
+</tbody>
+</table>
+<hr/>
+<h2 id="7-rucknahmebedingungen">7. Rücknahmebedingungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#7-rucknahmebedingungen">#</a></h2>
+<h3 id="veranderung-1-kundenversprechen-2">Veränderung 1: Kundenversprechen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-1-kundenversprechen-2">#</a></h3>
+<h4 id="anpassen">Anpassen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#anpassen">#</a></h4>
+<p>Die Regel ist anzupassen, wenn:</p>
+<ul>
+<li>zulässige und unzulässige Zusagen nicht eindeutig unterschieden werden können,</li>
+<li>notwendige Freigaben regelmäßig unnötige Verzögerungen verursachen,</li>
+<li>unterschiedliche Verkaufsfälle unterschiedliche Freigaben benötigen,</li>
+<li>Sales trotz regelkonformen Handelns keine belastbaren Aussagen treffen kann.</li>
+</ul>
+<h4 id="zurucknehmen">Zurücknehmen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#zurucknehmen">#</a></h4>
+<p>Die konkrete Regel ist zurückzunehmen, wenn sie:</p>
+<ul>
+<li>Verantwortung von Sales, Product oder Engineering verwischt,</li>
+<li>Entscheidungen faktisch an ein Verfahren statt an einen Verantwortungsraum überträgt,</li>
+<li>nicht autorisierte Zusagen nicht verhindert.</li>
+</ul>
+<h4 id="ersetzen">Ersetzen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ersetzen">#</a></h4>
+<p>Sie ist zu ersetzen, wenn ein anderer Governance-Mechanismus dieselbe Verantwortungs- und Entscheidungsabgrenzung nachweislich klarer erfüllt.</p>
+<hr/>
+<h3 id="veranderung-2-vertragsverlangerungen-2">Veränderung 2: Vertragsverlängerungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-2-vertragsverlangerungen-2">#</a></h3>
+<h4 id="anpassen-2">Anpassen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#anpassen-2">#</a></h4>
+<p>Die Zuordnung ist anzupassen, wenn:</p>
+<ul>
+<li>der verantwortliche Raum nicht über den erforderlichen Entscheidungsraum verfügt,</li>
+<li>Mitwirkungsrechte des anderen Raums unklar bleiben,</li>
+<li>Entscheidungen regelmäßig außerhalb des zugeordneten Raums getroffen werden.</li>
+</ul>
+<h4 id="zurucknehmen-2">Zurücknehmen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#zurucknehmen-2">#</a></h4>
+<p>Die Zuordnung ist zurückzunehmen, wenn sie nachweislich einem Wertbeitrag zugeordnet wurde, den der betreffende Raum nicht verantwortet.</p>
+<h4 id="ersetzen-2">Ersetzen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ersetzen-2">#</a></h4>
+<p>Eine andere Verantwortungszuordnung oder eine Strukturprüfung ist erforderlich, wenn kein bestehender Raum das Verlängerungsergebnis übernehmen kann, ohne dass sich sein Wertbeitrag oder grundlegender Entscheidungsraum verändern müsste.</p>
+<hr/>
+<h3 id="veranderung-3-ruckkopplung-von-supportproblemen">Veränderung 3: Rückkopplung von Supportproblemen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-3-ruckkopplung-von-supportproblemen">#</a></h3>
+<h4 id="anpassen-3">Anpassen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#anpassen-3">#</a></h4>
+<p>Der Prozess ist anzupassen, wenn:</p>
+<ul>
+<li>zu viele Einzelfälle als wiederkehrende Probleme eingestuft werden,</li>
+<li>relevante Probleme nicht erfasst werden,</li>
+<li>Übergaben keine Entscheidungen auslösen,</li>
+<li>Product oder Engineering keine ausreichenden Informationen erhalten.</li>
+</ul>
+<h4 id="zurucknehmen-3">Zurücknehmen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#zurucknehmen-3">#</a></h4>
+<p>Die konkrete Regel ist zurückzunehmen, wenn sie lediglich Meldungen erzeugt, aber Verantwortungen und Entscheidungen unklar lässt.</p>
+<h4 id="ersetzen-3">Ersetzen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ersetzen-3">#</a></h4>
+<p>Sie ist durch eine andere Kontextanwendung zu ersetzen, wenn diese eine zuverlässigere Übergabe, Entscheidung und Rückmeldung ermöglicht, ohne Verantwortungsräume unbegründet zu verändern.</p>
+<hr/>
+<h3 id="veranderung-4-product-engineering-entscheidungsweg-3">Veränderung 4: Product-Engineering-Entscheidungsweg<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-4-product-engineering-entscheidungsweg-3">#</a></h3>
+<h4 id="anpassen-4">Anpassen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#anpassen-4">#</a></h4>
+<p>Die Governance ist anzupassen, wenn:</p>
+<ul>
+<li>zu viele Entscheidungen eskaliert werden,</li>
+<li>Entscheidungen trotz klarer Zuständigkeit blockiert werden,</li>
+<li>technische Risiken oder Produktnutzen systematisch nicht berücksichtigt werden,</li>
+<li>die Eskalationsinstanz operative Verantwortung übernimmt.</li>
+</ul>
+<h4 id="zurucknehmen-4">Zurücknehmen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#zurucknehmen-4">#</a></h4>
+<p>Die konkrete Regel ist zurückzunehmen, wenn sie Verantwortung von Product oder Engineering aufhebt oder diffuse gemeinsame Verantwortung erzeugt.</p>
+<h4 id="ersetzen-4">Ersetzen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ersetzen-4">#</a></h4>
+<p>Sie ist zu ersetzen, wenn ein anderer Entscheidungsweg die Entscheidungsräume eindeutiger schützt und strategische Zielkonflikte wirksamer behandelt.</p>
+<hr/>
+<h3 id="veranderung-5-ki-governance-3">Veränderung 5: KI-Governance<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-5-ki-governance-3">#</a></h3>
+<h4 id="anpassen-5">Anpassen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#anpassen-5">#</a></h4>
+<p>Die Regeln sind anzupassen, wenn:</p>
+<ul>
+<li>das System außerhalb zulässiger Fälle eingesetzt wird,</li>
+<li>Qualitätsabweichungen auftreten,</li>
+<li>Übergabekriterien nicht funktionieren,</li>
+<li>neue Arten von Kundenanfragen bearbeitet werden sollen,</li>
+<li>die menschliche Kontrolle nicht wirksam ist.</li>
+</ul>
+<h4 id="zurucknehmen-5">Zurücknehmen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#zurucknehmen-5">#</a></h4>
+<p>Der KI-Einsatz in einzelnen oder allen Kategorien ist zurückzunehmen, wenn:</p>
+<ul>
+<li>Qualität nicht ausreichend kontrolliert werden kann,</li>
+<li>organisatorische Verantwortung nicht mehr eindeutig wahrgenommen wird,</li>
+<li>notwendige menschliche Übernahme nicht zuverlässig funktioniert,</li>
+<li>Fehler nicht erkannt oder bearbeitet werden.</li>
+</ul>
+<h4 id="ersetzen-5">Ersetzen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ersetzen-5">#</a></h4>
+<p>Die Ausführung ist durch Menschen, andere Software oder eine andere Ausführungsform zu ersetzen, wenn diese innerhalb derselben Verantwortung zuverlässiger arbeitet.</p>
+<p>Ein Wechsel der Ausführungsform verändert die Verantwortung des Supports nicht.</p>
+<hr/>
+<h3 id="veranderung-6-kernelprufung-fur-strukturentscheidungen">Veränderung 6: Kernelprüfung für Strukturentscheidungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#veranderung-6-kernelprufung-fur-strukturentscheidungen">#</a></h3>
+<h4 id="anpassen-6">Anpassen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#anpassen-6">#</a></h4>
+<p>Das Prüfverfahren ist anzupassen, wenn:</p>
+<ul>
+<li>es nur formal ausgefüllt wird,</li>
+<li>Veränderungen von Wertbeitrag, Verantwortung oder Entscheidungsraum nicht ausreichend geprüft werden,</li>
+<li>Governance-Alternativen nicht ernsthaft bewertet werden.</li>
+</ul>
+<h4 id="zurucknehmen-6">Zurücknehmen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#zurucknehmen-6">#</a></h4>
+<p>Nur die konkrete Ausgestaltung des Prüfverfahrens ist zurückzunehmen, wenn sie Strukturentscheidungen verhindert, obwohl eine kernelkonforme Veränderung nachgewiesen ist.</p>
+<h4 id="ersetzen-6">Ersetzen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ersetzen-6">#</a></h4>
+<p>Sie ist durch eine andere Form der Kernelprüfung zu ersetzen, wenn diese dieselben Kriterien eindeutiger und wirksamer anwendet.</p>
+<p>Der Kernelmaßstab selbst wird nicht ersetzt.</p>
+<hr/>
+<h2 id="8-erforderliche-governance-regeln">8. Erforderliche Governance-Regeln<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#8-erforderliche-governance-regeln">#</a></h2>
+<h3 id="8-1-regel-fur-externe-kundenverpflichtungen">8.1 Regel für externe Kundenverpflichtungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#8-1-regel-fur-externe-kundenverpflichtungen">#</a></h3>
+<p>Eine Aussage zu Funktion oder Liefertermin darf nur als verbindliche Zusage erfolgen, wenn die zuständigen Entscheidungsräume zugestimmt haben.</p>
+<p>Die Governance muss unterscheiden zwischen:</p>
+<ul>
+<li>Kundenwunsch,</li>
+<li>unverbindlicher Einschätzung,</li>
+<li>interner Planung,</li>
+<li>verbindlicher Zusage.</li>
+</ul>
+<hr/>
+<h3 id="8-2-regel-fur-ergebnisverantwortung-bei-vertragsverlangerungen">8.2 Regel für Ergebnisverantwortung bei Vertragsverlängerungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#8-2-regel-fur-ergebnisverantwortung-bei-vertragsverlangerungen">#</a></h3>
+<p>Jeder Verlängerungsfall erhält vor der Bearbeitung genau einen organisatorisch verantwortlichen Verantwortungsraum.</p>
+<p>Mitwirkung anderer Räume ändert diese Ergebnisverantwortung nicht.</p>
+<hr/>
+<h3 id="8-3-regel-fur-wiederkehrende-kundenprobleme">8.3 Regel für wiederkehrende Kundenprobleme<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#8-3-regel-fur-wiederkehrende-kundenprobleme">#</a></h3>
+<p>Wiederkehrende Probleme müssen nach festgelegten Kriterien:</p>
+<ul>
+<li>erfasst,</li>
+<li>klassifiziert,</li>
+<li>übergeben,</li>
+<li>entschieden,</li>
+<li>nachverfolgt,</li>
+<li>an Support zurückgemeldet werden.</li>
+</ul>
+<p>Jede Übergabe benötigt einen entscheidungszuständigen Verantwortungsraum.</p>
+<hr/>
+<h3 id="8-4-regel-fur-product-engineering-entscheidungen">8.4 Regel für Product-Engineering-Entscheidungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#8-4-regel-fur-product-engineering-entscheidungen">#</a></h3>
+<p>Für regelmäßig auftretende Entscheidungstypen muss festgelegt werden:</p>
+<ul>
+<li>alleiniger Entscheidungsraum Product,</li>
+<li>alleiniger Entscheidungsraum Engineering,</li>
+<li>Zustimmungserfordernis,</li>
+<li>Eskalationsbedingung,</li>
+<li>Eskalationsinstanz,</li>
+<li>Dokumentation der Entscheidung.</li>
+</ul>
+<hr/>
+<h3 id="8-5-regel-fur-ki-ausfuhrung">8.5 Regel für KI-Ausführung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#8-5-regel-fur-ki-ausfuhrung">#</a></h3>
+<p>Der KI-Assistent ist ein Ausführungsmittel des Supports.</p>
+<p>Die Governance muss mindestens festlegen:</p>
+<ul>
+<li>zulässige Einsatzkategorien,</li>
+<li>ausgeschlossene Einsatzkategorien,</li>
+<li>Freigabepflichten,</li>
+<li>Übergabekriterien,</li>
+<li>Qualitätskontrollen,</li>
+<li>Änderungsrechte,</li>
+<li>Stopprechte,</li>
+<li>Fehlerbehandlung,</li>
+<li>Überprüfungsintervalle.</li>
+</ul>
+<hr/>
+<h3 id="8-6-regel-fur-organisatorische-strukturentscheidungen">8.6 Regel für organisatorische Strukturentscheidungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#8-6-regel-fur-organisatorische-strukturentscheidungen">#</a></h3>
+<p>Vor jeder Zusammenlegung, Teilung oder Neueinrichtung eines Verantwortungsraums muss dokumentiert werden:</p>
+<ol>
+<li>Welcher Wertbeitrag verändert sich?</li>
+<li>Welche Verantwortung verändert sich?</li>
+<li>Welcher Entscheidungsraum verändert sich?</li>
+<li>Warum reichen Governance oder Kontextanwendung nicht aus?</li>
+<li>Welche Abhängigkeiten entstehen oder entfallen?</li>
+</ol>
+<p>Eine Strukturänderung darf nicht allein mit Organigramm, Mitarbeiterzahl, Wachstum, persönlichen Präferenzen oder kurzfristigen Symptomen begründet werden.</p>
+<hr/>
+<h2 id="9-offene-annahmen">9. Offene Annahmen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#9-offene-annahmen">#</a></h2>
+<p>Die folgenden Informationen fehlen. Sie begrenzen die Sicherheit der Empfehlungen.</p>
+<h3 id="orientierung-und-strategie">Orientierung und Strategie<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#orientierung-und-strategie">#</a></h3>
+<ul>
+<li>Es ist nicht beschrieben, wie Konflikte zwischen nachhaltigem Wachstum, Produktnutzen, Stabilität und Kundenbindung gewichtet werden.</li>
+<li>Es ist nicht beschrieben, wer über strategische Zielkonflikte entscheidet.</li>
+</ul>
+<h3 id="verantwortungsraume-allgemein">Verantwortungsräume allgemein<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verantwortungsraume-allgemein">#</a></h3>
+<p>Für keinen der sechs bestehenden Verantwortungsräume liegt eine vollständige Kernelbeschreibung vor. Es fehlen jeweils teilweise oder vollständig:</p>
+<ul>
+<li>konkreter Wertbeitrag,</li>
+<li>Zielgruppe,</li>
+<li>Verantwortung,</li>
+<li>Entscheidungsraum,</li>
+<li>Fähigkeiten,</li>
+<li>Kontext,</li>
+<li>Abhängigkeiten.</li>
+</ul>
+<h3 id="sales-product-und-engineering">Sales, Product und Engineering<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#sales-product-und-engineering">#</a></h3>
+<ul>
+<li>Es ist nicht beschrieben, welche Zusagen Sales heute formell machen darf.</li>
+<li>Es ist nicht beschrieben, wer die Roadmap final entscheidet.</li>
+<li>Es ist nicht beschrieben, wer Liefertermine verbindlich festlegt.</li>
+<li>Es ist nicht beschrieben, wer technische Mindeststandards oder Risikogrenzen festlegt.</li>
+<li>Es ist nicht beschrieben, ob es bereits Freigaben gibt, die lediglich nicht angewandt werden.</li>
+</ul>
+<h3 id="vertragsverlangerungen">Vertragsverlängerungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#vertragsverlangerungen">#</a></h3>
+<ul>
+<li>Es ist nicht beschrieben, welchen Wertbeitrag Sales bei Verlängerungen leistet.</li>
+<li>Es ist nicht beschrieben, welchen Wertbeitrag Customer Success bei Verlängerungen leistet.</li>
+<li>Es ist nicht beschrieben, wer über Preise, Konditionen oder Abweichungen entscheidet.</li>
+<li>Es ist nicht beschrieben, ob Vertragsverlängerung primär als kommerzielles Ergebnis, Kundenbindungsergebnis oder Kombination behandelt wird.</li>
+<li>Es liegen keine Daten über Verlängerungsquoten oder Konfliktarten vor.</li>
+</ul>
+<h3 id="supportprobleme">Supportprobleme<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#supportprobleme">#</a></h3>
+<ul>
+<li>Es ist nicht definiert, wann ein Problem als wiederkehrend gilt.</li>
+<li>Es ist nicht beschrieben, welche Informationen Support heute erfasst.</li>
+<li>Es ist nicht beschrieben, ob Product oder Engineering bestehende Eingangskanäle haben.</li>
+<li>Es ist nicht beschrieben, wer Produktfehler von technischen Betriebsproblemen unterscheidet.</li>
+<li>Es liegen keine Fallzahlen oder Bearbeitungszeiten vor.</li>
+</ul>
+<h3 id="product-und-engineering">Product und Engineering<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#product-und-engineering">#</a></h3>
+<ul>
+<li>Es ist nicht beschrieben, welche Entscheidungstypen regelmäßig strittig sind.</li>
+<li>Es ist nicht beschrieben, ob die Konflikte Priorisierung, Architektur, Termine, Qualität oder Ressourceneinsatz betreffen.</li>
+<li>Es ist keine Eskalationsinstanz benannt.</li>
+<li>Es ist nicht beschrieben, ob Product und Engineering eigene wirtschaftliche Ressourcenentscheidungen treffen dürfen.</li>
+</ul>
+<h3 id="ki-assistent">KI-Assistent<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ki-assistent">#</a></h3>
+<ul>
+<li>Es ist nicht beschrieben, welche einfachen Anfragen der Assistent bearbeitet.</li>
+<li>Es ist nicht beschrieben, ob Antworten automatisch versendet werden.</li>
+<li>Es ist nicht beschrieben, wie Qualität derzeit gemessen wird.</li>
+<li>Es ist nicht beschrieben, ob menschliche Freigabe oder Übergabe existiert.</li>
+<li>Es ist nicht beschrieben, wer den Assistenten konfigurieren oder abschalten kann.</li>
+<li>Es liegen keine Fehler-, Qualitäts- oder Beschwerdedaten vor.</li>
+</ul>
+<h3 id="strukturvorschlage">Strukturvorschläge<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#strukturvorschlage">#</a></h3>
+<ul>
+<li>Es ist kein eigener Wertbeitrag für Revenue Operations beschrieben.</li>
+<li>Es ist keine neue oder veränderte Verantwortung für Revenue Operations beschrieben.</li>
+<li>Es ist kein eigenständiger Entscheidungsraum für Revenue Operations beschrieben.</li>
+<li>Es ist nicht beschrieben, welche Verantwortungen aus Sales, Marketing, Customer Success oder anderen Räumen verlagert würden.</li>
+<li>Es ist nicht beschrieben, welcher Wertbeitrag durch die Zusammenlegung von Support und Customer Success verändert würde.</li>
+<li>Es ist nicht beschrieben, welche Verantwortung oder welcher Entscheidungsraum durch die Zusammenlegung verändert würde.</li>
+<li>Es ist nicht beschrieben, ob die Geschäftsführung mit den Vorschlägen ein dauerhaftes Problem oder ein kurzfristiges Symptom adressieren will.</li>
+</ul>
+<hr/>
+<h2 id="10-team-red">10. Team Red<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#10-team-red">#</a></h2>
+<h3 id="10-1-welche-empfehlung-ist-am-schwachsten-begrundet">10.1 Welche Empfehlung ist am schwächsten begründet?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#10-1-welche-empfehlung-ist-am-schwachsten-begrundet">#</a></h3>
+<p>Die Empfehlung zur eindeutigen Ergebnisverantwortung für Vertragsverlängerungen ist in ihrer Richtung stark, aber in ihrer konkreten Zuordnung am schwächsten bestimmt.</p>
+<p>Es ist kernelkonform notwendig, die Ergebnisverantwortung zu klären. Aus den Informationen lässt sich aber nicht entscheiden, ob Sales oder Customer Success verantwortlich sein soll.</p>
+<p>Eine konkrete Zuordnung zu einem der beiden Räume wäre ohne zusätzliche Informationen eine unzulässige Annahme.</p>
+<hr/>
+<h3 id="10-2-welche-wirkung-konnte-uberschatzt-werden">10.2 Welche Wirkung könnte überschätzt werden?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#10-2-welche-wirkung-konnte-uberschatzt-werden">#</a></h3>
+<p>Die Wirkung eines formalisierten Product-Engineering-Entscheidungswegs könnte überschätzt werden.</p>
+<p>Ein Entscheidungsweg klärt Zuständigkeit und Eskalation. Er beseitigt jedoch nicht automatisch:</p>
+<ul>
+<li>unvereinbare Prioritäten,</li>
+<li>fehlende Ressourcen,</li>
+<li>fehlende Fähigkeiten,</li>
+<li>technische Altprobleme,</li>
+<li>unrealistische Kundenerwartungen.</li>
+</ul>
+<p>Diese möglichen Faktoren sind im Szenario nicht beschrieben und dürfen nicht unterstellt werden. Sie begrenzen aber die Aussage, dass Governance allein sämtliche Konflikte lösen wird.</p>
+<hr/>
+<h3 id="10-3-welche-kennzahl-konnte-irrefuhrend-sein">10.3 Welche Kennzahl könnte irreführend sein?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#10-3-welche-kennzahl-konnte-irrefuhrend-sein">#</a></h3>
+<p>Die Anzahl der Product-Engineering-Konflikte wäre als alleinige Kennzahl irreführend.</p>
+<p>Eine sinkende Konfliktzahl kann bedeuten:</p>
+<ul>
+<li>bessere Entscheidungsfähigkeit,</li>
+<li>aber auch unterdrückte technische Risiken,</li>
+<li>vermiedene Diskussionen,</li>
+<li>einseitige Dominanz eines Verantwortungsraums.</li>
+</ul>
+<p>Geeigneter ist die Messung, ob Konflikte:</p>
+<ul>
+<li>einem klaren Entscheidungsraum zugeordnet,</li>
+<li>mit beiden strategisch relevanten Perspektiven bewertet,</li>
+<li>innerhalb der Governance entschieden,</li>
+<li>nachvollziehbar dokumentiert wurden.</li>
+</ul>
+<p>Auch die Anzahl gemeldeter Supportprobleme ist mehrdeutig. Ein Anstieg kann eine Verschlechterung des Produkts oder eine Verbesserung der Erkennung bedeuten.</p>
+<hr/>
+<h3 id="10-4-welche-kernelkonforme-alternative-existiert">10.4 Welche kernelkonforme Alternative existiert?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#10-4-welche-kernelkonforme-alternative-existiert">#</a></h3>
+<h4 id="alternative-zur-zusammenlegung-von-support-und-customer-success">Alternative zur Zusammenlegung von Support und Customer Success<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#alternative-zur-zusammenlegung-von-support-und-customer-success">#</a></h4>
+<p>Statt einer Zusammenlegung kann ein gemeinsamer Kontext für bestimmte Kundenfälle eingerichtet werden, während Wertbeitrag, Verantwortung und Entscheidungsraum beider Räume getrennt bleiben.</p>
+<p>Das ist kernelkonform, solange:</p>
+<ul>
+<li>Ergebnisverantwortung eindeutig bleibt,</li>
+<li>Abhängigkeiten geregelt werden,</li>
+<li>keine unbegründete Strukturänderung erfolgt.</li>
+</ul>
+<h4 id="alternative-zu-revenue-operations">Alternative zu Revenue Operations<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#alternative-zu-revenue-operations">#</a></h4>
+<p>Statt eines neuen Verantwortungsraums können die bestehenden Entscheidungs- und Informationswege zwischen Sales und Customer Success geklärt werden.</p>
+<p>Ein neuer Raum wäre erst zu prüfen, wenn ein eigenständiger Wertbeitrag, eine eigenständige Verantwortung oder ein eigenständiger Entscheidungsraum nachgewiesen wird, der keinem bestehenden Raum zugeordnet werden kann.</p>
+<h4 id="alternative-zu-umfangreicher-freigabe-governance">Alternative zu umfangreicher Freigabe-Governance<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#alternative-zu-umfangreicher-freigabe-governance">#</a></h4>
+<p>Für Kundenzusagen können klar definierte Kategorien eingesetzt werden:</p>
+<ul>
+<li>von Sales allein entscheidbar,</li>
+<li>mit Product abzustimmen,</li>
+<li>mit Engineering abzustimmen,</li>
+<li>gemeinsam zu entscheiden.</li>
+</ul>
+<p>Dies begrenzt Governance auf die tatsächlich notwendigen Schnittstellen.</p>
+<hr/>
+<h3 id="10-5-welche-langfristigen-risiken-entstehen">10.5 Welche langfristigen Risiken entstehen?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#10-5-welche-langfristigen-risiken-entstehen">#</a></h3>
+<h4 id="uberregulierung">Überregulierung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#uberregulierung">#</a></h4>
+<p>Zu viele Freigaben und Eskalationen können Verantwortungsräume schwächen. Entscheidungen würden dann faktisch von Verfahren statt von verantwortlichen Räumen getroffen.</p>
+<h4 id="diffuse-gemeinsame-verantwortung">Diffuse gemeinsame Verantwortung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#diffuse-gemeinsame-verantwortung">#</a></h4>
+<p>Die Formulierung „Sales und Customer Success sind gemeinsam verantwortlich“ würde das Problem wahrscheinlich verschärfen. Zusammenarbeit darf eindeutige Ergebnisverantwortung nicht ersetzen.</p>
+<h4 id="eskalationsabhangigkeit">Eskalationsabhängigkeit<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#eskalationsabhangigkeit">#</a></h4>
+<p>Wenn Product und Engineering zu viele Entscheidungen eskalieren, übernimmt die Eskalationsinstanz faktisch deren Entscheidungsräume.</p>
+<h4 id="verfahrenskonformitat-ohne-wirkung">Verfahrenskonformität ohne Wirkung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verfahrenskonformitat-ohne-wirkung">#</a></h4>
+<p>Alle Vorgänge könnten formal dokumentiert werden, ohne dass Kundenversprechen realistischer, Ursachen dauerhaft beseitigt oder Entscheidungen besser werden.</p>
+<h4 id="verschiebung-von-verantwortung-auf-ki">Verschiebung von Verantwortung auf KI<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verschiebung-von-verantwortung-auf-ki">#</a></h4>
+<p>Der Support könnte Fehler als Systemfehler behandeln, obwohl die organisatorische Verantwortung weiterhin bei ihm liegt.</p>
+<h4 id="zu-spates-erkennen-eines-tatsachlichen-strukturbedarfs">Zu spätes Erkennen eines tatsächlichen Strukturbedarfs<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#zu-spates-erkennen-eines-tatsachlichen-strukturbedarfs">#</a></h4>
+<p>Die Empfehlung gegen eine sofortige Strukturänderung darf nicht zu einem dauerhaften Strukturverbot werden. Wenn sich später nachweislich Wertbeitrag, Verantwortung oder Entscheidungsraum verändern, muss eine erneute kernelbasierte Strukturprüfung erfolgen.</p>
+<hr/>
+<h2 id="schlussfolgerung">Schlussfolgerung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#schlussfolgerung">#</a></h2>
+<p>Die FlowDesk GmbH benötigt auf Basis der bereitgestellten Informationen keine unmittelbar neue Organisationsstruktur.</p>
+<p>Sie benötigt zunächst:</p>
+<ul>
+<li>eindeutige Ergebnisverantwortung,</li>
+<li>klar abgegrenzte Entscheidungsräume,</li>
+<li>verbindliche Regeln für bereichsübergreifende Entscheidungen,</li>
+<li>geregelte Rückkopplung zwischen Support, Product und Engineering,</li>
+<li>klare Governance für KI-gestützte Ausführung,</li>
+<li>eine verpflichtende Kernelprüfung vor Strukturänderungen.</li>
+</ul>
+<p>Die Zusammenlegung von Support und Customer Success sowie die Einrichtung von Revenue Operations sind derzeit nicht kernelkonform begründet.</p>
+<p>Beide Vorschläge dürfen erst weiterverfolgt werden, wenn nachgewiesen wird, dass sich mindestens einer der folgenden Punkte tatsächlich verändert:</p>
+<ul>
+<li>Wertbeitrag,</li>
+<li>Verantwortung,</li>
+<li>Entscheidungsraum.</li>
+</ul>
+<hr/>
+<p>Copyright © 2026 Christian Leonhardt.</p>
+</div>
+  <aside class="related-terms" aria-label="Verwandte Begriffe"><h2>Verwandte Begriffe im Denkraum</h2><p>Diese Begriffe werden in diesem Kapitel verwendet und sind direkt mit ihrer vollständigen Erklärung verknüpft.</p><div class="related-term-list"><a class="related-term" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a><a class="related-term" href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a><a class="related-term" href="01-denkraum.html#ausreichend" title="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können.">Ausreichend</a><a class="related-term" href="01-denkraum.html#wertbeitrag" title="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht.">Wertbeitrag</a><a class="related-term" href="01-denkraum.html#ki-system" title="Ein KI-System verarbeitet Informationen so, dass daraus Inhalte, Einschätzungen, Empfehlungen oder Handlungen entstehen können.">KI-System</a><a class="related-term" href="01-denkraum.html#steuerung" title="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln.">Steuerung</a><a class="related-term" href="01-denkraum.html#strategie" title="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt.">Strategie</a><a class="related-term" href="01-denkraum.html#werkzeug" title="Ein Werkzeug ist ein konkretes Hilfsmittel, das einen Schritt in Diagnose, Entscheidung, Gestaltung oder Reflexion unterstützt.">Werkzeug</a><a class="related-term" href="01-denkraum.html#system" title="Ein System ist eine Menge miteinander in Beziehung stehender Elemente, die durch ihr Zusammenwirken Eigenschaften und Wirkungen hervorbringen, die kein einzelnes Element allein erzeugen kann.">System</a><a class="related-term" href="01-denkraum.html#kernel" title="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können.">Kernel</a><a class="related-term" href="01-denkraum.html#ziel" title="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll.">Ziel</a></div></aside>
+  <nav class="document-pagination" aria-label="Vorheriges und nächstes Dokument">
+    <div><a href="feedback-3-bewertung.html">← VR-02B – Feedback 3: Bewertung</a></div><div><a href="gesamtauswertung.html">VR-02B – Gesamtauswertung →</a></div>
+  </nav>
+  <footer class="page-footer">Generiert aus <code>validation/VR-02B/Feedback_3_Original.md</code> · Version 0.6 Beta.1 · Copyright © 2026 Christian Leonhardt</footer>
+</article>
+</main>
+  </div>
+</body>
+</html>

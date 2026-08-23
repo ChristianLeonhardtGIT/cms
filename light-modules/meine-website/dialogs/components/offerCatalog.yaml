@@ -1,0 +1,58 @@
+label: Angebote anzeigen
+form:
+  properties:
+    heading:
+      $type: textField
+      label: Überschrift
+      i18n: true
+    intro:
+      $type: richTextField
+      label: Einleitung
+      i18n: true
+    category:
+      $type: comboBoxField
+      label: Angebotskategorie
+      emptySelectionAllowed: true
+      datasource:
+        $type: optionListDatasource
+        options:
+          - name: all
+            label: Alle aktiven Angebote
+            value: all
+          - name: entry
+            label: Bezahlter Einstieg
+            value: entry
+          - name: sparring
+            label: Persönliches Sparring
+            value: sparring
+          - name: company
+            label: Unternehmensangebote
+            value: company
+    columns:
+      $type: comboBoxField
+      label: Spalten
+      datasource:
+        $type: optionListDatasource
+        options:
+          - name: two
+            label: Zwei Spalten
+            value: '2'
+          - name: three
+            label: Drei Spalten
+            value: '3'
+    showFeatures:
+      $type: checkBoxField
+      label: Leistungsumfang anzeigen
+      buttonLabel: Enthaltene Leistungen ausgeben
+    featuredOnly:
+      $type: checkBoxField
+      label: Auswahl begrenzen
+      buttonLabel: Nur als Übersicht markierte Angebote anzeigen
+    showPriceNote:
+      $type: checkBoxField
+      label: Preishinweis anzeigen
+      buttonLabel: Individuellen Preishinweis ausgeben
+    showBackground:
+      $type: checkBoxField
+      label: Hintergrund hervorheben
+      buttonLabel: Abschnitt mit hellem Hintergrund darstellen

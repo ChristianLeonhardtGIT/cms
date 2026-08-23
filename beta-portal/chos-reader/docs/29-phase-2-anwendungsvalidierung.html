@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ChOS – lebendes Denk- und Entscheidungsmodell">
+  <title>Phase 2 – Anwendungsvalidierung · ChOS</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script defer src="../assets/search-index.js"></script>
+  <script defer src="../assets/app.js"></script>
+</head>
+<body class="document-page">
+  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <header class="topbar">
+    <button class="icon-button menu-button" type="button" data-menu-toggle aria-label="Navigation öffnen">☰</button>
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">Ch</span>
+      <span><strong>ChOS</strong><small>Version 0.6 Beta.1</small></span>
+    </a>
+    <div class="topbar-actions">
+      <a class="top-link" href="../all-in-one.html">Alles lesen</a>
+      <a class="top-link" href="../reports/validation-report.html">Systemcheck</a>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Darstellung wechseln">◐</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" data-sidebar>
+      <div class="search-wrap">
+        <label class="sr-only" for="site-search">Dokumente durchsuchen</label>
+        <input id="site-search" class="search-input" type="search" placeholder="ChOS durchsuchen …" autocomplete="off" data-search>
+        <div class="search-results" data-search-results hidden></div>
+      </div>
+      <nav class="navigation" aria-label="Dokumentation"><div class="nav-group"><div class="nav-group-title">Fundament</div><a class="nav-link" href="../docs/00-executive-summary.html" data-title="ChOS – Executive Summary"><span>ChOS – Executive Summary</span></a><a class="nav-link" href="../docs/21-ethik-und-zielkonflikte.html" data-title="Ethik und Umgang mit Zielkonflikten"><span>Ethik und Umgang mit Zielkonflikten</span></a><a class="nav-link" href="../docs/13-menschenbild.html" data-title="Menschenbild v0.2 – Beta-Grundlage"><span>Menschenbild v0.2 – Beta-Grundlage</span></a><a class="nav-link" href="../docs/06-wertearchitektur.html" data-title="Wertearchitektur"><span>Wertearchitektur</span></a><a class="nav-link" href="../docs/02-kernel-und-werte.html" data-title="Kernel, Ethik und Werte"><span>Kernel, Ethik und Werte</span></a><a class="nav-link" href="../docs/01-denkraum.html" data-title="Denkraum – die gemeinsame Kontextsprache des ChOS"><span>Denkraum – die gemeinsame Kontextsprache des ChOS</span></a><a class="nav-link" href="../docs/03-erkenntnismodell.html" data-title="Erkenntnis-, Diagnose- und Lernmodell"><span>Erkenntnis-, Diagnose- und Lernmodell</span></a><a class="nav-link" href="../docs/11-geltungsbereich-und-systembegriff.html" data-title="Geltungsbereich, Anwendung und Grenzen"><span>Geltungsbereich, Anwendung und Grenzen</span></a></div><div class="nav-group"><div class="nav-group-title">Entscheiden &amp; Gestalten</div><a class="nav-link" href="../docs/14-gestaltungsprinzipien.html" data-title="Gestaltungsprinzipien"><span>Gestaltungsprinzipien</span></a><a class="nav-link" href="../docs/04-mechanismen-und-systemeigenschaften.html" data-title="Mechanismen, Systemeigenschaften und Ergebnisse"><span>Mechanismen, Systemeigenschaften und Ergebnisse</span></a><a class="nav-link" href="../docs/17-wirkungsmodell-und-diagnose.html" data-title="Wirkungsmodell und Diagnose"><span>Wirkungsmodell und Diagnose</span></a><a class="nav-link" href="../docs/05-entscheidungsmodell.html" data-title="Entscheidungsmodell"><span>Entscheidungsmodell</span></a><a class="nav-link" href="../docs/15-ziele-feedback-und-entwicklung.html" data-title="Ziele, Feedback und Entwicklung"><span>Ziele, Feedback und Entwicklung</span></a><a class="nav-link" href="../docs/20-anwendungsarchitektur.html" data-title="Aufbau und Anwendung des ChOS"><span>Aufbau und Anwendung des ChOS</span></a><a class="nav-link" href="../docs/25-strategie-und-anwendung.html" data-title="Strategie und ihre Anwendung"><span>Strategie und ihre Anwendung</span></a><a class="nav-link" href="../docs/27-strategische-priorisierung.html" data-title="Strategische Beitrags- und Belastungsbewertung"><span>Strategische Beitrags- und Belastungsbewertung</span></a><a class="nav-link" href="../docs/26-wirtschaftliche-systemsteuerung.html" data-title="Wirtschaftliche Systemsteuerung"><span>Wirtschaftliche Systemsteuerung</span></a><a class="nav-link" href="../docs/28-fuehrung-erste-sechs-monate.html" data-title="Die ersten sechs Monate einer neuen Führungskraft"><span>Die ersten sechs Monate einer neuen Führungskraft</span></a></div><div class="nav-group"><div class="nav-group-title">Qualität &amp; Wissen</div><a class="nav-link" href="../docs/18-wirtschaftlichkeit.html" data-title="Wirtschaftlichkeitsprüfung"><span>Wirtschaftlichkeitsprüfung</span></a><a class="nav-link" href="../docs/07-validierungsprozess.html" data-title="Validierungsprozess"><span>Validierungsprozess</span></a><a class="nav-link" href="../docs/16-wissensarchitektur-und-nutzerfokus.html" data-title="Wissensarchitektur, Denkraum und Nutzerfokus"><span>Wissensarchitektur, Denkraum und Nutzerfokus</span></a><a class="nav-link" href="../docs/19-quellen-einfluesse-und-recht.html" data-title="Quellen, Einflüsse und rechtliche Aufgaben"><span>Quellen, Einflüsse und rechtliche Aufgaben</span></a><a class="nav-link" href="../docs/22-qualitaetspruefung-und-governance.html" data-title="Qualitätsprüfung und Governance"><span>Qualitätsprüfung und Governance</span></a><a class="nav-link" href="../docs/23-system-validation.html" data-title="ChOS System Validation"><span>ChOS System Validation</span></a></div><div class="nav-group"><div class="nav-group-title">Playbooks</div><a class="nav-link" href="../docs/pb-001-team-uebernehmen.html" data-title="PB-001 – Ein Team übernehmen"><span>PB-001 – Ein Team übernehmen</span></a><a class="nav-link" href="../docs/pb-002-mitarbeiterentwicklung.html" data-title="PB-002 – Mitarbeiterentwicklung"><span>PB-002 – Mitarbeiterentwicklung</span></a><a class="nav-link" href="../docs/pb-003-mvp-produktentwicklung.html" data-title="PB-003 – Ein Produkt mit einem MVP entwickeln"><span>PB-003 – Ein Produkt mit einem MVP entwickeln</span></a><a class="nav-link" href="../docs/readme.html" data-title="Playbook-Bibliothek"><span>Playbook-Bibliothek</span></a></div><div class="nav-group"><div class="nav-group-title">Entwicklung &amp; Governance</div><a class="nav-link" href="../docs/09-arbeitsweise-und-fortsetzung.html" data-title="Arbeitsweise und Fortsetzung"><span>Arbeitsweise und Fortsetzung</span></a><a class="nav-link" href="../docs/12-offene-hypothesen-und-forschungsfragen.html" data-title="Offene Hypothesen und Forschungsfragen"><span>Offene Hypothesen und Forschungsfragen</span></a><a class="nav-link" href="../docs/08-change-log.html" data-title="Change Log"><span>Change Log</span></a><a class="nav-link" href="../docs/10-gespraechsprotokoll-konsolidiert.html" data-title="Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha"><span>Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha</span></a></div><div class="nav-group"><div class="nav-group-title">Repository</div><a class="nav-link" href="../docs/readme-2.html" data-title="Repository Governance"><span>Repository Governance</span></a><a class="nav-link" href="../docs/readme-3.html" data-title="ChOS anwenden"><span>ChOS anwenden</span></a><a class="nav-link" href="../docs/readme-8.html" data-title="ChOS Repository"><span>ChOS Repository</span></a></div><div class="nav-group"><div class="nav-group-title">Weitere Dokumente</div><a class="nav-link" href="../docs/24-governance-selbstkorrektur-und-integritaet.html" data-title="Governance für Selbstkorrektur und Integrität"><span>Governance für Selbstkorrektur und Integrität</span></a><a class="nav-link" href="../docs/authorship.html" data-title="Autorschaft"><span>Autorschaft</span></a><a class="nav-link" href="../docs/copyright.html" data-title="Copyright"><span>Copyright</span></a><a class="nav-link" href="../docs/github-import.html" data-title="GitHub Initial Import"><span>GitHub Initial Import</span></a><a class="nav-link" href="../docs/konsistenzbericht-beta-1.html" data-title="Konsistenzbericht ChOS v0.6 Beta.1"><span>Konsistenzbericht ChOS v0.6 Beta.1</span></a><a class="nav-link" href="../docs/license.html" data-title="Lizenz"><span>Lizenz</span></a><a class="nav-link" href="../docs/version.html" data-title="Version"><span>Version</span></a><a class="nav-link" href="../docs/change-control.html" data-title="Change Control"><span>Change Control</span></a><a class="nav-link" href="../docs/change-record-mensch-ki-integration.html" data-title="Änderungsnachweis – Mensch und KI in einem ChOS"><span>Änderungsnachweis – Mensch und KI in einem ChOS</span></a><a class="nav-link" href="../docs/integrity-checklist.html" data-title="Integrity Checklist"><span>Integrity Checklist</span></a><a class="nav-link" href="../docs/lessons-learned.html" data-title="Lessons Learned"><span>Lessons Learned</span></a><a class="nav-link" href="../docs/recovery-procedure.html" data-title="Recovery Procedure"><span>Recovery Procedure</span></a><a class="nav-link" href="../docs/release-process.html" data-title="Release Process"><span>Release Process</span></a><a class="nav-link" href="../docs/repository-principles.html" data-title="Repository Principles"><span>Repository Principles</span></a><a class="nav-link" href="../docs/repository-roles.html" data-title="Repository Roles"><span>Repository Roles</span></a><a class="nav-link" href="../docs/repository-workflow.html" data-title="Repository Workflow"><span>Repository Workflow</span></a><a class="nav-link" href="../docs/session-start-protocol.html" data-title="Session Start Protocol"><span>Session Start Protocol</span></a><a class="nav-link" href="../docs/six-release-safeguards.html" data-title="Six Release Safeguards"><span>Six Release Safeguards</span></a><a class="nav-link" href="../docs/snapshot-policy.html" data-title="Snapshot Policy"><span>Snapshot Policy</span></a><a class="nav-link" href="../docs/versioning-policy.html" data-title="Versioning Policy"><span>Versioning Policy</span></a><a class="nav-link" href="../docs/01-diagnosebogen.html" data-title="Diagnosebogen"><span>Diagnosebogen</span></a><a class="nav-link" href="../docs/02-selbstcheck.html" data-title="ChOS Selbstcheck"><span>ChOS Selbstcheck</span></a><a class="nav-link" href="../docs/03-clarity-session.html" data-title="Clarity Session – 90 Minuten"><span>Clarity Session – 90 Minuten</span></a><a class="nav-link" href="../docs/04-clarity-brief.html" data-title="Clarity Brief – Vorlage"><span>Clarity Brief – Vorlage</span></a><a class="nav-link" href="../docs/05-entscheidungsrahmen.html" data-title="Entscheidungsrahmen"><span>Entscheidungsrahmen</span></a><a class="nav-link" href="../docs/06-fallbeispiele.html" data-title="Zwei Fallbeispiele"><span>Zwei Fallbeispiele</span></a><a class="nav-link" href="../docs/07-glossar.html" data-title="Glossar"><span>Glossar</span></a></div></nav>
+      <div class="sidebar-note">Markdown bleibt die Quelle. HTML ist die lesbare Oberfläche.</div>
+    </aside>
+    <div class="sidebar-backdrop" data-menu-toggle></div>
+    <main id="content" class="main-content">
+<article class="document">
+  <header class="document-header">
+    <span class="eyebrow">Validierung</span>
+    <h1 id="top">Phase 2 – Anwendungsvalidierung</h1>
+    <p class="document-meta">Quelle: <code>29_Phase_2_Anwendungsvalidierung.md</code></p>
+  </header>
+  <div class="markdown-body"><h2 id="warum">Warum?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#warum">#</a></h2>
+<p>Phase 2 prüft, ob der bestehende ChOS-Kernel in unterschiedlichen organisatorischen Kontexten tragfähige Diagnosen und Veränderungsrichtungen ermöglicht, ohne bei jedem Fall erweitert zu werden.</p>
+<blockquote>
+<p><strong>Der bestehende <a class="denkraum-link" data-definition="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können." href="01-denkraum.html#kernel" title="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können.">Kernel</a> gilt als <a class="denkraum-link" data-definition="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können." href="01-denkraum.html#ausreichend" title="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können.">ausreichend</a>, bis ein reproduzierbarer Gap nach Kernel-Check, Kontextanwendung und Team Red nachgewiesen ist.</strong></p>
+</blockquote>
+<h2 id="verbindlicher-ablauf">Verbindlicher Ablauf<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verbindlicher-ablauf">#</a></h2>
+<ol>
+<li>Fragestellung</li>
+<li>Kernel-Check</li>
+<li>Anwendung des bestehenden Kernels</li>
+<li>Gap-Analyse</li>
+<li>Team Red</li>
+<li>Erst danach gegebenenfalls Kontextanwendung, ADR oder Kernelerweiterung</li>
+</ol>
+<p>Kerneländerungen erfolgen ausschließlich über einen ADR.</p>
+<h2 id="validierter-anwendungskern">Validierter Anwendungskern<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#validierter-anwendungskern">#</a></h2>
+<p>Das in den bisherigen Fällen wiederkehrende Anwendungsmuster lautet:</p>
+<ol>
+<li>Orientierung</li>
+<li>Diagnose</li>
+<li><a class="denkraum-link" data-definition="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt." href="01-denkraum.html#strategie" title="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt.">Strategie</a></li>
+<li>Priorisierung</li>
+<li>wirtschaftliche <a class="denkraum-link" data-definition="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln." href="01-denkraum.html#steuerung" title="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln.">Steuerung</a></li>
+<li>Verantwortungsräume</li>
+<li>Governance</li>
+<li>Maßnahmen</li>
+</ol>
+<h2 id="verantwortungsraume">Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verantwortungsraume">#</a></h2>
+<p>Ein Verantwortungsraum wird anhand folgender Elemente beschrieben:</p>
+<ul>
+<li><a class="denkraum-link" data-definition="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht." href="01-denkraum.html#wertbeitrag" title="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht.">Wertbeitrag</a></li>
+<li>Zielgruppe</li>
+<li><a class="denkraum-link" data-definition="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a></li>
+<li>Entscheidungsraum</li>
+<li>Fähigkeiten</li>
+<li>Kontext</li>
+<li>Abhängigkeiten</li>
+</ul>
+<p>Ein Verantwortungsraum wird nur verändert, wenn sich Wertbeitrag, Verantwortung oder organisatorische Entscheidungsautorität nachhaltig verändern. Mitarbeiterzahl, Organigramm, eine neue Führungskraft oder kurzfristige Symptome sind keine ausreichende Begründung.</p>
+<h2 id="verantwortung-und-ausfuhrung">Verantwortung und Ausführung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#verantwortung-und-ausfuhrung">#</a></h2>
+<p>Verantwortung, <a class="denkraum-link" data-definition="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit." href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a>, Aufgabe und Ausführung werden getrennt betrachtet. Ausführung kann durch Menschen, Teams, Software, KI-Systeme oder Maschinen erfolgen. Die Delegation der Ausführung überträgt weder organisatorische Verantwortung noch organisatorischen Entscheidungsraum.</p>
+<h2 id="vr-01">VR-01<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#vr-01">#</a></h2>
+<p>VR-01 bestätigte modellübergreifend eine hohe Konvergenz der Diagnose im FlowDesk-Szenario. Drei Gruppen erreichten 15/16, 14/16 und 15/16 Punkte. Es wurde kein Kernel-Gap festgestellt.</p>
+<h2 id="vr-02b">VR-02B<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#vr-02b">#</a></h2>
+<p>VR-02B prüfte zusätzlich Veränderungsentwurf, Umsetzung, Wirkung, Messbarkeit, Rücknahme und Team Red. Drei gültige Läufe erreichten:</p>
+<table>
+<thead>
+<tr>
+<th>Lauf</th>
+<th style="text-align:right">Bewertung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feedback 1</td>
+<td style="text-align:right">13/16</td>
+</tr>
+<tr>
+<td>Feedback 2</td>
+<td style="text-align:right">14/16</td>
+</tr>
+<tr>
+<td>Feedback 3</td>
+<td style="text-align:right">15/16</td>
+</tr>
+<tr>
+<td><strong>Durchschnitt</strong></td>
+<td style="text-align:right"><strong>14/16</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Alle Läufe erkannten unabhängig:</p>
+<ul>
+<li>nicht autorisierte Kundenversprechen durch Sales,</li>
+<li>ungeklärte Ergebnisverantwortung für Vertragsverlängerungen,</li>
+<li>fehlende Rückkopplung wiederkehrender Supportprobleme,</li>
+<li>einen legitimen, aber governancepflichtigen Konflikt zwischen Product und Engineering,</li>
+<li>die fortbestehende Supportverantwortung bei KI-Ausführung,</li>
+<li>die fehlende Begründung für Support-/Customer-Success-Zusammenlegung und Revenue Operations,</li>
+<li>den Vorrang von Governance und Kontextanwendung vor Strukturänderungen.</li>
+</ul>
+<h2 id="ergebnis">Ergebnis<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ergebnis">#</a></h2>
+<p>Der Kernel hat die bisherigen Phase-2-Validierungen ohne reproduzierbaren Gap überstanden. Kein ADR und keine Kernelerweiterung sind aus VR-01 oder VR-02B erforderlich.</p>
+<p>Nicht nachgewiesen sind weiterhin:</p>
+<ul>
+<li>reale organisatorische Wirkung,</li>
+<li>unabhängige menschliche Anwendbarkeit,</li>
+<li>Belastbarkeit der Kennzahlen im Betrieb,</li>
+<li>wirtschaftlicher Nutzen,</li>
+<li>Umsetzbarkeit ohne Governance-Überlastung.</li>
+</ul>
+<h2 id="einordnung">Einordnung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#einordnung">#</a></h2>
+<p>Phase 2 ist in der KI-basierten Diagnose- und Entwurfsvalidierung weitgehend bestanden. Der nächste Reifeschritt ist eine kontrollierte Beta zur menschlichen und realen Anwendungsvalidierung. Die Beta-Freigabe ist noch nicht erfolgt.</p>
+<hr/>
+<p>Copyright © 2026 Christian Leonhardt.</p>
+</div>
+  <aside class="related-terms" aria-label="Verwandte Begriffe"><h2>Verwandte Begriffe im Denkraum</h2><p>Diese Begriffe werden in diesem Kapitel verwendet und sind direkt mit ihrer vollständigen Erklärung verknüpft.</p><div class="related-term-list"><a class="related-term" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a><a class="related-term" href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a><a class="related-term" href="01-denkraum.html#ausreichend" title="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können.">Ausreichend</a><a class="related-term" href="01-denkraum.html#wertbeitrag" title="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht.">Wertbeitrag</a><a class="related-term" href="01-denkraum.html#steuerung" title="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln.">Steuerung</a><a class="related-term" href="01-denkraum.html#strategie" title="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt.">Strategie</a><a class="related-term" href="01-denkraum.html#kernel" title="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können.">Kernel</a></div></aside>
+  <nav class="document-pagination" aria-label="Vorheriges und nächstes Dokument">
+    <div><a href="28-fuehrung-erste-sechs-monate.html">← Die ersten sechs Monate einer neuen Führungskraft</a></div><div><a href="30-beta-vorbereitung.html">Beta.1-Anwendung →</a></div>
+  </nav>
+  <footer class="page-footer">Generiert aus <code>29_Phase_2_Anwendungsvalidierung.md</code> · Version 0.6 Beta.1 · Copyright © 2026 Christian Leonhardt</footer>
+</article>
+</main>
+  </div>
+</body>
+</html>

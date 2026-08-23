@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+Disallow: /.magnolia/
+Disallow: /.rest/
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /.magnolia/
+Disallow: /.rest/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /.magnolia/
+Disallow: /.rest/
+
+User-agent: GPTBot
+Allow: /
+Disallow: /.magnolia/
+Disallow: /.rest/
+
+Sitemap: https://cleonhardt.de/sitemap.xml

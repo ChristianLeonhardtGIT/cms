@@ -1,0 +1,49 @@
+label: Handlungsaufforderung
+form:
+  properties:
+    title:
+      label: Überschrift
+      $type: textField
+      i18n: true
+      required: true
+    description:
+      label: Text
+      $type: richTextField
+      i18n: true
+    buttonText:
+      label: Beschriftung der Schaltfläche
+      $type: textField
+      i18n: true
+      required: true
+    pageLinkChooser:
+      $type: switchableField
+      label: Ziel
+      field:
+        $type: comboBoxField
+        defaultValue: internalPageLink
+        required: true
+        datasource:
+          $type: optionListDatasource
+          options:
+            - name: internalPageLink
+              label: Magnolia-Seite
+              value: internalPageLink
+            - name: externalPageLink
+              label: Externe URL
+              value: externalPageLink
+      itemProvider:
+        $type: jcrChildNodeProvider
+      forms:
+        - name: internalPageLink
+          properties:
+            internalLink:
+              $type: pageLinkField
+              label: Seite auswählen
+              required: true
+              converterClass: info.magnolia.ui.editor.converter.JcrNodeToPathConverter
+        - name: externalPageLink
+          properties:
+            externalLink:
+              $type: textField
+              label: URL
+              required: true

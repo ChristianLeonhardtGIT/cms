@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ChOS – lebendes Denk- und Entscheidungsmodell">
+  <title>PB-003 – Ein Produkt mit einem MVP entwickeln · ChOS</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script defer src="../assets/search-index.js"></script>
+  <script defer src="../assets/app.js"></script>
+</head>
+<body class="document-page">
+  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <header class="topbar">
+    <button class="icon-button menu-button" type="button" data-menu-toggle aria-label="Navigation öffnen">☰</button>
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">Ch</span>
+      <span><strong>ChOS</strong><small>Version 0.6 Beta.1</small></span>
+    </a>
+    <div class="topbar-actions">
+      <a class="top-link" href="../all-in-one.html">Alles lesen</a>
+      <a class="top-link" href="../reports/validation-report.html">Systemcheck</a>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Darstellung wechseln">◐</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" data-sidebar>
+      <div class="search-wrap">
+        <label class="sr-only" for="site-search">Dokumente durchsuchen</label>
+        <input id="site-search" class="search-input" type="search" placeholder="ChOS durchsuchen …" autocomplete="off" data-search>
+        <div class="search-results" data-search-results hidden></div>
+      </div>
+      <nav class="navigation" aria-label="Dokumentation"><div class="nav-group"><div class="nav-group-title">Fundament</div><a class="nav-link" href="../docs/00-executive-summary.html" data-title="ChOS – Executive Summary"><span>ChOS – Executive Summary</span></a><a class="nav-link" href="../docs/21-ethik-und-zielkonflikte.html" data-title="Ethik und Umgang mit Zielkonflikten"><span>Ethik und Umgang mit Zielkonflikten</span></a><a class="nav-link" href="../docs/13-menschenbild.html" data-title="Menschenbild v0.2 – Beta-Grundlage"><span>Menschenbild v0.2 – Beta-Grundlage</span></a><a class="nav-link" href="../docs/06-wertearchitektur.html" data-title="Wertearchitektur"><span>Wertearchitektur</span></a><a class="nav-link" href="../docs/02-kernel-und-werte.html" data-title="Kernel, Ethik und Werte"><span>Kernel, Ethik und Werte</span></a><a class="nav-link" href="../docs/01-denkraum.html" data-title="Denkraum – die gemeinsame Kontextsprache des ChOS"><span>Denkraum – die gemeinsame Kontextsprache des ChOS</span></a><a class="nav-link" href="../docs/03-erkenntnismodell.html" data-title="Erkenntnis-, Diagnose- und Lernmodell"><span>Erkenntnis-, Diagnose- und Lernmodell</span></a><a class="nav-link" href="../docs/11-geltungsbereich-und-systembegriff.html" data-title="Geltungsbereich, Anwendung und Grenzen"><span>Geltungsbereich, Anwendung und Grenzen</span></a></div><div class="nav-group"><div class="nav-group-title">Entscheiden &amp; Gestalten</div><a class="nav-link" href="../docs/14-gestaltungsprinzipien.html" data-title="Gestaltungsprinzipien"><span>Gestaltungsprinzipien</span></a><a class="nav-link" href="../docs/04-mechanismen-und-systemeigenschaften.html" data-title="Mechanismen, Systemeigenschaften und Ergebnisse"><span>Mechanismen, Systemeigenschaften und Ergebnisse</span></a><a class="nav-link" href="../docs/17-wirkungsmodell-und-diagnose.html" data-title="Wirkungsmodell und Diagnose"><span>Wirkungsmodell und Diagnose</span></a><a class="nav-link" href="../docs/05-entscheidungsmodell.html" data-title="Entscheidungsmodell"><span>Entscheidungsmodell</span></a><a class="nav-link" href="../docs/15-ziele-feedback-und-entwicklung.html" data-title="Ziele, Feedback und Entwicklung"><span>Ziele, Feedback und Entwicklung</span></a><a class="nav-link" href="../docs/20-anwendungsarchitektur.html" data-title="Aufbau und Anwendung des ChOS"><span>Aufbau und Anwendung des ChOS</span></a><a class="nav-link" href="../docs/25-strategie-und-anwendung.html" data-title="Strategie und ihre Anwendung"><span>Strategie und ihre Anwendung</span></a><a class="nav-link" href="../docs/27-strategische-priorisierung.html" data-title="Strategische Beitrags- und Belastungsbewertung"><span>Strategische Beitrags- und Belastungsbewertung</span></a><a class="nav-link" href="../docs/26-wirtschaftliche-systemsteuerung.html" data-title="Wirtschaftliche Systemsteuerung"><span>Wirtschaftliche Systemsteuerung</span></a><a class="nav-link" href="../docs/28-fuehrung-erste-sechs-monate.html" data-title="Die ersten sechs Monate einer neuen Führungskraft"><span>Die ersten sechs Monate einer neuen Führungskraft</span></a></div><div class="nav-group"><div class="nav-group-title">Qualität &amp; Wissen</div><a class="nav-link" href="../docs/18-wirtschaftlichkeit.html" data-title="Wirtschaftlichkeitsprüfung"><span>Wirtschaftlichkeitsprüfung</span></a><a class="nav-link" href="../docs/07-validierungsprozess.html" data-title="Validierungsprozess"><span>Validierungsprozess</span></a><a class="nav-link" href="../docs/16-wissensarchitektur-und-nutzerfokus.html" data-title="Wissensarchitektur, Denkraum und Nutzerfokus"><span>Wissensarchitektur, Denkraum und Nutzerfokus</span></a><a class="nav-link" href="../docs/19-quellen-einfluesse-und-recht.html" data-title="Quellen, Einflüsse und rechtliche Aufgaben"><span>Quellen, Einflüsse und rechtliche Aufgaben</span></a><a class="nav-link" href="../docs/22-qualitaetspruefung-und-governance.html" data-title="Qualitätsprüfung und Governance"><span>Qualitätsprüfung und Governance</span></a><a class="nav-link" href="../docs/23-system-validation.html" data-title="ChOS System Validation"><span>ChOS System Validation</span></a></div><div class="nav-group"><div class="nav-group-title">Playbooks</div><a class="nav-link" href="../docs/pb-001-team-uebernehmen.html" data-title="PB-001 – Ein Team übernehmen"><span>PB-001 – Ein Team übernehmen</span></a><a class="nav-link" href="../docs/pb-002-mitarbeiterentwicklung.html" data-title="PB-002 – Mitarbeiterentwicklung"><span>PB-002 – Mitarbeiterentwicklung</span></a><a class="nav-link active" href="../docs/pb-003-mvp-produktentwicklung.html" data-title="PB-003 – Ein Produkt mit einem MVP entwickeln"><span>PB-003 – Ein Produkt mit einem MVP entwickeln</span></a><a class="nav-link" href="../docs/readme.html" data-title="Playbook-Bibliothek"><span>Playbook-Bibliothek</span></a></div><div class="nav-group"><div class="nav-group-title">Entwicklung &amp; Governance</div><a class="nav-link" href="../docs/09-arbeitsweise-und-fortsetzung.html" data-title="Arbeitsweise und Fortsetzung"><span>Arbeitsweise und Fortsetzung</span></a><a class="nav-link" href="../docs/12-offene-hypothesen-und-forschungsfragen.html" data-title="Offene Hypothesen und Forschungsfragen"><span>Offene Hypothesen und Forschungsfragen</span></a><a class="nav-link" href="../docs/08-change-log.html" data-title="Change Log"><span>Change Log</span></a><a class="nav-link" href="../docs/10-gespraechsprotokoll-konsolidiert.html" data-title="Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha"><span>Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha</span></a></div><div class="nav-group"><div class="nav-group-title">Repository</div><a class="nav-link" href="../docs/readme-2.html" data-title="Repository Governance"><span>Repository Governance</span></a><a class="nav-link" href="../docs/readme-3.html" data-title="ChOS anwenden"><span>ChOS anwenden</span></a><a class="nav-link" href="../docs/readme-8.html" data-title="ChOS Repository"><span>ChOS Repository</span></a></div><div class="nav-group"><div class="nav-group-title">Weitere Dokumente</div><a class="nav-link" href="../docs/24-governance-selbstkorrektur-und-integritaet.html" data-title="Governance für Selbstkorrektur und Integrität"><span>Governance für Selbstkorrektur und Integrität</span></a><a class="nav-link" href="../docs/authorship.html" data-title="Autorschaft"><span>Autorschaft</span></a><a class="nav-link" href="../docs/copyright.html" data-title="Copyright"><span>Copyright</span></a><a class="nav-link" href="../docs/github-import.html" data-title="GitHub Initial Import"><span>GitHub Initial Import</span></a><a class="nav-link" href="../docs/konsistenzbericht-beta-1.html" data-title="Konsistenzbericht ChOS v0.6 Beta.1"><span>Konsistenzbericht ChOS v0.6 Beta.1</span></a><a class="nav-link" href="../docs/license.html" data-title="Lizenz"><span>Lizenz</span></a><a class="nav-link" href="../docs/version.html" data-title="Version"><span>Version</span></a><a class="nav-link" href="../docs/change-control.html" data-title="Change Control"><span>Change Control</span></a><a class="nav-link" href="../docs/change-record-mensch-ki-integration.html" data-title="Änderungsnachweis – Mensch und KI in einem ChOS"><span>Änderungsnachweis – Mensch und KI in einem ChOS</span></a><a class="nav-link" href="../docs/integrity-checklist.html" data-title="Integrity Checklist"><span>Integrity Checklist</span></a><a class="nav-link" href="../docs/lessons-learned.html" data-title="Lessons Learned"><span>Lessons Learned</span></a><a class="nav-link" href="../docs/recovery-procedure.html" data-title="Recovery Procedure"><span>Recovery Procedure</span></a><a class="nav-link" href="../docs/release-process.html" data-title="Release Process"><span>Release Process</span></a><a class="nav-link" href="../docs/repository-principles.html" data-title="Repository Principles"><span>Repository Principles</span></a><a class="nav-link" href="../docs/repository-roles.html" data-title="Repository Roles"><span>Repository Roles</span></a><a class="nav-link" href="../docs/repository-workflow.html" data-title="Repository Workflow"><span>Repository Workflow</span></a><a class="nav-link" href="../docs/session-start-protocol.html" data-title="Session Start Protocol"><span>Session Start Protocol</span></a><a class="nav-link" href="../docs/six-release-safeguards.html" data-title="Six Release Safeguards"><span>Six Release Safeguards</span></a><a class="nav-link" href="../docs/snapshot-policy.html" data-title="Snapshot Policy"><span>Snapshot Policy</span></a><a class="nav-link" href="../docs/versioning-policy.html" data-title="Versioning Policy"><span>Versioning Policy</span></a><a class="nav-link" href="../docs/01-diagnosebogen.html" data-title="Diagnosebogen"><span>Diagnosebogen</span></a><a class="nav-link" href="../docs/02-selbstcheck.html" data-title="ChOS Selbstcheck"><span>ChOS Selbstcheck</span></a><a class="nav-link" href="../docs/03-clarity-session.html" data-title="Clarity Session – 90 Minuten"><span>Clarity Session – 90 Minuten</span></a><a class="nav-link" href="../docs/04-clarity-brief.html" data-title="Clarity Brief – Vorlage"><span>Clarity Brief – Vorlage</span></a><a class="nav-link" href="../docs/05-entscheidungsrahmen.html" data-title="Entscheidungsrahmen"><span>Entscheidungsrahmen</span></a><a class="nav-link" href="../docs/06-fallbeispiele.html" data-title="Zwei Fallbeispiele"><span>Zwei Fallbeispiele</span></a><a class="nav-link" href="../docs/07-glossar.html" data-title="Glossar"><span>Glossar</span></a></div></nav>
+      <div class="sidebar-note">Markdown bleibt die Quelle. HTML ist die lesbare Oberfläche.</div>
+    </aside>
+    <div class="sidebar-backdrop" data-menu-toggle></div>
+    <main id="content" class="main-content">
+<article class="document">
+  <header class="document-header">
+    <span class="eyebrow">Playbooks</span>
+    <h1 id="top">PB-003 – Ein Produkt mit einem MVP entwickeln</h1>
+    <p class="document-meta">Quelle: <code>06_Playbooks/PB-003_MVP_Produktentwicklung.md</code></p>
+  </header>
+  <div class="markdown-body"><h2 id="warum">Warum?<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#warum">#</a></h2>
+<p>Ein Produkt soll ein relevantes Problem lösen. Ein MVP dient dazu, die zentrale <a class="denkraum-link" data-definition="Eine Wirkungshypothese ist eine überprüfbare Annahme darüber, wie eine Gestaltung oder Entscheidung Systemeigenschaften und Ergebnisse beeinflussen könnte." href="01-denkraum.html#wirkungshypothese" title="Eine Wirkungshypothese ist eine überprüfbare Annahme darüber, wie eine Gestaltung oder Entscheidung Systemeigenschaften und Ergebnisse beeinflussen könnte.">Wirkungshypothese</a> mit minimal notwendigem Umfang zu prüfen, bevor unnötig viel Zeit und Ressourcen investiert werden.</p>
+<h2 id="anwendungsbereich">Anwendungsbereich<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#anwendungsbereich">#</a></h2>
+<p>Neue Produkte, Services oder wesentliche Produktfunktionen mit relevanter Unsicherheit über Problem, Nutzung oder Markt.</p>
+<h2 id="grenzen">Grenzen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#grenzen">#</a></h2>
+<p>Ein MVP ist kein Freibrief für schlechte Qualität. Sicherheitskritische, rechtliche oder regulatorische Anforderungen können einen größeren Mindestumfang verlangen. Fachliche, rechtliche, Datenschutz-, Marken-, Patent-, Produkt- und Sicherheitsprüfungen bleiben abhängig vom Kontext notwendig.</p>
+<h2 id="phase-1-warum-und-problem-verstehen">Phase 1 – Warum und Problem verstehen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#phase-1-warum-und-problem-verstehen">#</a></h2>
+<ul>
+<li>Welches Problem soll gelöst werden?</li>
+<li>Für wen besteht es?</li>
+<li>Warum ist es <a class="denkraum-link" data-definition="Relevant ist eine Information oder Perspektive, wenn sie Verständnis, Entscheidung oder Handeln im betrachteten Kontext beeinflussen kann." href="01-denkraum.html#relevant" title="Relevant ist eine Information oder Perspektive, wenn sie Verständnis, Entscheidung oder Handeln im betrachteten Kontext beeinflussen kann.">relevant</a>?</li>
+<li>Wie wird es heute gelöst?</li>
+<li>Gibt es bereits tragfähige Lösungen?</li>
+<li>Woran erkennen wir eine Verbesserung?</li>
+</ul>
+<h2 id="phase-2-relevante-perspektiven-und-stakeholder">Phase 2 – Relevante Perspektiven und Stakeholder<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#phase-2-relevante-perspektiven-und-stakeholder">#</a></h2>
+<ul>
+<li>Kunden und Fachanwender früh einbeziehen</li>
+<li>UX, UI, Produkt, Entwicklung, Architektur und Betrieb verbinden</li>
+<li>Legal, Datenschutz, Sicherheit oder Compliance bei Relevanz einbinden</li>
+<li>End-to-End-Verantwortliche aus dem Fachbereich beteiligen</li>
+<li>Stakeholder-Map und Entscheidungsrechte klären</li>
+<li>bei KI-Funktionen betroffene Menschen, Datenverantwortliche und die verantwortliche Rolle für den KI-Einsatz einbeziehen</li>
+</ul>
+<h2 id="phase-3-zielbild-entwickeln">Phase 3 – Zielbild entwickeln<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#phase-3-zielbild-entwickeln">#</a></h2>
+<p>Zunächst groß denken:</p>
+<ul>
+<li>Wie könnte eine umfassende Ziel- oder Goldrandlösung aussehen?</li>
+<li>Welche Nutzerreise und welche Systemwirkung wären langfristig sinnvoll?</li>
+<li>Welche Architektur und Ausbaustufen könnten dies ermöglichen?</li>
+</ul>
+<p>Das Zielbild ist Orientierung, keine unveränderliche Spezifikation.</p>
+<h2 id="phase-4-ausreichende-grundlage-schaffen">Phase 4 – Ausreichende Grundlage schaffen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#phase-4-ausreichende-grundlage-schaffen">#</a></h2>
+<p>Vor Umsetzung klären:</p>
+<ul>
+<li>Problem und <a class="denkraum-link" data-definition="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll." href="01-denkraum.html#ziel" title="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll.">Ziel</a></li>
+<li>wichtigste <a class="denkraum-link" data-definition="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit." href="01-denkraum.html#hypothese" title="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit.">Hypothese</a></li>
+<li>Erfolgskriterien und Akzeptanzkriterien</li>
+<li>rechtliche und regulatorische <a class="denkraum-link" data-definition="Rahmenbedingungen sind innere oder äußere Gegebenheiten, die Handlungsmöglichkeiten begrenzen, ermöglichen oder beeinflussen." href="01-denkraum.html#rahmenbedingungen" title="Rahmenbedingungen sind innere oder äußere Gegebenheiten, die Handlungsmöglichkeiten begrenzen, ermöglichen oder beeinflussen.">Rahmenbedingungen</a></li>
+<li>technische und fachliche Richtung</li>
+<li>Rollen, Entscheidungsrechte und Verfügbarkeit</li>
+<li>wesentliche Risiken und Annahmen</li>
+<li>Fähigkeit des Teams, eigenständig zu starten</li>
+<li>bei KI-Einsatz: Zweck, notwendige Daten, erlaubte und verbotene Handlungen, Grad der <a class="denkraum-link" data-definition="Selbstständigkeit beschreibt, in welchem Umfang ein Mensch oder ein System innerhalb eines geklärten Verantwortungsrahmens ohne vorherige Einzelfreigabe entscheiden und handeln darf." href="01-denkraum.html#selbststandigkeit" title="Selbstständigkeit beschreibt, in welchem Umfang ein Mensch oder ein System innerhalb eines geklärten Verantwortungsrahmens ohne vorherige Einzelfreigabe entscheiden und handeln darf.">Selbstständigkeit</a>, menschliche Freigaben, Eskalation und Stoppbedingungen</li>
+</ul>
+<blockquote>
+<p><strong>Nicht alles muss bekannt sein. Das Wesentliche muss <a class="denkraum-link" data-definition="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können." href="01-denkraum.html#ausreichend" title="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können.">ausreichend</a> verstanden sein, damit der nächste Schritt <a class="denkraum-link" data-definition="Verantwortungsvoll bedeutet, bekannte Informationen, Werte, wesentliche Auswirkungen, Unsicherheiten und die eigene Rolle bei einer Entscheidung oder Handlung angemessen zu berücksichtigen." href="01-denkraum.html#verantwortungsvoll" title="Verantwortungsvoll bedeutet, bekannte Informationen, Werte, wesentliche Auswirkungen, Unsicherheiten und die eigene Rolle bei einer Entscheidung oder Handlung angemessen zu berücksichtigen.">verantwortungsvoll</a> umgesetzt werden kann.</strong></p>
+</blockquote>
+<h2 id="phase-5-mvp-und-ausbaustufen-schneiden">Phase 5 – MVP und Ausbaustufen schneiden<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#phase-5-mvp-und-ausbaustufen-schneiden">#</a></h2>
+<blockquote>
+<p><strong>Das MVP ist die kleinste sinnvolle Lösung, mit der die zentrale Hypothese unter den geltenden Rahmenbedingungen überprüft werden kann.</strong></p>
+</blockquote>
+<p>Parallel können nächste Ausbaustufen vorbereitet werden, ohne sie festzuschreiben. Priorisierung entsteht aus Problem, Hypothese, Risiko und Mindestnutzen.</p>
+<h2 id="phase-6-umsetzen-und-kontinuierlich-klaren">Phase 6 – Umsetzen und kontinuierlich klären<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#phase-6-umsetzen-und-kontinuierlich-klaren">#</a></h2>
+<ul>
+<li>kurze Lernschleifen</li>
+<li>enge Zusammenarbeit mit Fachanwendern</li>
+<li>offene Fragen schnell sichtbar machen</li>
+<li>Architektur evolutionär, nicht als monatelangen Big Bang gestalten</li>
+<li>Entscheidungen und Annahmen dokumentieren</li>
+<li>KI-Empfehlungen und selbstständige Handlungen soweit dokumentieren, dass Auftrag, Grundlage, Eingriffe und Wirkung nachvollziehbar bleiben</li>
+</ul>
+<h2 id="phase-7-validieren">Phase 7 – Validieren<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#phase-7-validieren">#</a></h2>
+<ul>
+<li>Löst das MVP das Problem ausreichend?</li>
+<li>Welche Hypothesen wurden bestätigt oder widerlegt?</li>
+<li>Welche unerwarteten Wirkungen treten auf?</li>
+<li>Ist Ausbau, Anpassung oder Stopp die tragfähigste <a class="denkraum-link" data-definition="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit." href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a>?</li>
+<li>War die Selbstständigkeit der KI angemessen oder muss ihr Auftrag erweitert, begrenzt oder beendet werden?</li>
+<li>Hat die KI bei Unsicherheit sichtbar nachgefragt oder ordnungsgemäß eskaliert?</li>
+</ul>
+<h2 id="phase-8-reflexion-anerkennung-und-transfer">Phase 8 – Reflexion, Anerkennung und Transfer<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#phase-8-reflexion-anerkennung-und-transfer">#</a></h2>
+<ul>
+<li>Ergebnisse und Learnings transparent machen</li>
+<li>Teamleistung und Fortschritt anerkennen</li>
+<li>relevante Erkenntnisse in andere Produkte oder Teams tragen</li>
+<li>Zielbild und Ausbaustufen anhand neuer Erkenntnisse anpassen</li>
+</ul>
+<h2 id="red-team">Red Team<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#red-team">#</a></h2>
+<ul>
+<li>MVP nicht mit „billig und unfertig“ verwechseln</li>
+<li>Goldrandbild nicht zum verbindlichen Großprojekt machen</li>
+<li>Stakeholder-Beteiligung nicht zur Entscheidungsblockade werden lassen</li>
+<li>Analyse nicht endlos verlängern</li>
+<li>Erfolg nicht nur an Lieferung oder Umsatz messen</li>
+<li>keine unklare Produktlogik durch KI automatisieren</li>
+<li>KI nicht mit mehr Datenzugriff oder Selbstständigkeit ausstatten, als für die Prüfung der Wirkungshypothese notwendig ist</li>
+</ul>
+<hr/>
+<p>Copyright © 2026 Christian Leonhardt.</p>
+</div>
+  <aside class="related-terms" aria-label="Verwandte Begriffe"><h2>Verwandte Begriffe im Denkraum</h2><p>Diese Begriffe werden in diesem Kapitel verwendet und sind direkt mit ihrer vollständigen Erklärung verknüpft.</p><div class="related-term-list"><a class="related-term" href="01-denkraum.html#verantwortungsvoll" title="Verantwortungsvoll bedeutet, bekannte Informationen, Werte, wesentliche Auswirkungen, Unsicherheiten und die eigene Rolle bei einer Entscheidung oder Handlung angemessen zu berücksichtigen.">Verantwortungsvoll</a><a class="related-term" href="01-denkraum.html#rahmenbedingungen" title="Rahmenbedingungen sind innere oder äußere Gegebenheiten, die Handlungsmöglichkeiten begrenzen, ermöglichen oder beeinflussen.">Rahmenbedingungen</a><a class="related-term" href="01-denkraum.html#selbststandigkeit" title="Selbstständigkeit beschreibt, in welchem Umfang ein Mensch oder ein System innerhalb eines geklärten Verantwortungsrahmens ohne vorherige Einzelfreigabe entscheiden und handeln darf.">Selbstständigkeit</a><a class="related-term" href="01-denkraum.html#wirkungshypothese" title="Eine Wirkungshypothese ist eine überprüfbare Annahme darüber, wie eine Gestaltung oder Entscheidung Systemeigenschaften und Ergebnisse beeinflussen könnte.">Wirkungshypothese</a><a class="related-term" href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a><a class="related-term" href="01-denkraum.html#ausreichend" title="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können.">Ausreichend</a><a class="related-term" href="01-denkraum.html#hypothese" title="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit.">Hypothese</a><a class="related-term" href="01-denkraum.html#relevant" title="Relevant ist eine Information oder Perspektive, wenn sie Verständnis, Entscheidung oder Handeln im betrachteten Kontext beeinflussen kann.">Relevant</a><a class="related-term" href="01-denkraum.html#ziel" title="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll.">Ziel</a></div></aside>
+  <nav class="document-pagination" aria-label="Vorheriges und nächstes Dokument">
+    <div><a href="pb-002-mitarbeiterentwicklung.html">← PB-002 – Mitarbeiterentwicklung</a></div><div><a href="readme.html">Playbook-Bibliothek →</a></div>
+  </nav>
+  <footer class="page-footer">Generiert aus <code>06_Playbooks/PB-003_MVP_Produktentwicklung.md</code> · Version 0.6 Beta.1 · Copyright © 2026 Christian Leonhardt</footer>
+</article>
+</main>
+  </div>
+</body>
+</html>

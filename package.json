@@ -1,0 +1,31 @@
+{
+	"name": "ka",
+	"version": "1.0.0",
+	"description": "Magnolia CMS Community Edition mit einem eigenen FreeMarker-Website-Modul",
+	"main": "index.js",
+	"scripts": {
+		"test": "node scripts/check-setup.mjs",
+		"test:content-model": "node scripts/check-content-model.mjs",
+		"test:lead-funnel": "node scripts/test-lead-funnel-live.mjs",
+		"test:mobile-ctas": "node scripts/test-mobile-cta-contract.mjs",
+		"test:problem-pages": "node scripts/test-problem-pages-e2e.mjs",
+		"test:tone": "node scripts/audit-site-tone.mjs",
+		"test:beta-portal": "node --test beta-portal/test.mjs",
+		"mgnl": "node node_modules/@magnolia/cli",
+		"start": "npm run mgnl -- start"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "UNLICENSED",
+	"type": "module",
+	"devDependencies": {
+		"@magnolia/cli": "^5.3.0",
+		"@magnolia/cli-create-app-plugin": "^1.2.0",
+		"@magnolia/cli-create-component-plugin": "^1.4.0",
+		"@magnolia/cli-create-content-type-plugin": "^1.1.1",
+		"@magnolia/cli-create-light-module-plugin": "^1.0.3",
+		"@magnolia/cli-create-page-plugin": "^1.4.0",
+		"@magnolia/cli-create-virtual-uri-plugin": "^1.0.2",
+		"@magnolia/cli-start-plugin": "^1.0.5"
+	}
+}

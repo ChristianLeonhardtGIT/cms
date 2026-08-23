@@ -1,0 +1,3 @@
+class: info.magnolia.virtualuri.mapping.RegexpVirtualUriMapping
+fromUri: '^/ueber-uns(?:\.html)?$'
+toUri: 'permanent:/ueber-mich'

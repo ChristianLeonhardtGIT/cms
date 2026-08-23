@@ -1,0 +1,3 @@
+class: info.magnolia.virtualuri.mapping.RegexpVirtualUriMapping
+fromUri: '^/(?!\.magnolia(?:/|$)|\.resources(?:/|$)|VAADIN(?:/|$)|dam(?:/|$))(.+)\.html$'
+toUri: 'permanent:/$1'

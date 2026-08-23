@@ -1,0 +1,120 @@
+(public_site) {
+	encode zstd gzip
+
+	@legacy_start path /start
+	header @legacy_start X-Robots-Tag "noindex, follow"
+
+	@homepage path /
+	rewrite @homepage /start
+
+	@leadership_transition_alias path /probleme/neu-in-fuehrung
+	redir @leadership_transition_alias /probleme/leadership-transition permanent
+
+	@paused_offers path /leadership-product-sparring /leadership-product-sparring/* /quick-diagnostic /quick-diagnostic/* /workshops /workshops/* /chos-transformation-program /chos-transformation-program/*
+	handle @paused_offers {
+		root * /srv/cleonhardt-static
+		rewrite * /404.html
+		file_server {
+			status 404
+		}
+	}
+
+	@site_metadata path /robots.txt /sitemap.xml /4eba2fbccd4fbe055b49e6d9d41c4e00.txt
+	handle @site_metadata {
+		root * /srv/cleonhardt-static
+		file_server
+	}
+
+	@beta_portal path /beta /beta/*
+	handle @beta_portal {
+		header {
+			-Server
+			Cache-Control "no-store"
+			Strict-Transport-Security "max-age=31536000; includeSubDomains"
+			Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'"
+			Referrer-Policy "no-referrer"
+			Permissions-Policy "camera=(), geolocation=(), microphone=()"
+			X-Content-Type-Options "nosniff"
+			X-Frame-Options "DENY"
+			X-Robots-Tag "noindex, nofollow, noarchive"
+		}
+		reverse_proxy beta-portal:3000
+	}
+
+	@versioned_resources {
+		path /.resources/meine-website/webresources/*
+		query v=*
+	}
+	header @versioned_resources {
+		Cache-Control "public, max-age=31536000, immutable"
+		-Pragma
+		-Expires
+	}
+
+	handle {
+		reverse_proxy magnolia-public:8080 {
+			@not_found status 404
+			handle_response @not_found {
+				header Cache-Control "no-store"
+				root * /srv/cleonhardt-static
+				rewrite * /404.html
+				file_server {
+					status 404
+				}
+			}
+		}
+	}
+
+	@non_beta not path /beta /beta/*
+	header @non_beta {
+		-Server
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.hsforms.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), geolocation=(), microphone=()"
+	}
+}
+
+http://191.218.164.219 {
+	import public_site
+}
+
+cleonhardt.de {
+	import public_site
+}
+
+cms.cleonhardt.de {
+	encode zstd gzip
+	log
+
+	header {
+		-Server
+		Cache-Control "no-store"
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		Content-Security-Policy "frame-ancestors 'self'"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "no-referrer"
+		Permissions-Policy "camera=(), geolocation=(), microphone=()"
+	}
+
+	route {
+		basic_auth {
+			christian {$CMS_BASIC_AUTH_HASH}
+		}
+
+		@cms_root path /
+		redir @cms_root /magnoliaAuthor/.magnolia/admincentral 302
+
+		reverse_proxy magnolia-author:8080 {
+			header_up -Authorization
+			header_down X-Frame-Options "SAMEORIGIN"
+			header_down Content-Security-Policy "frame-ancestors 'self'"
+		}
+	}
+}
+
+www.cleonhardt.de {
+	redir https://cleonhardt.de{uri} permanent
+}

@@ -1,0 +1,26 @@
+!content-type:offer
+name: offerCatalog
+subApps:
+  browser:
+    actions:
+      syncHubSpotProduct:
+        $type: jcrCommandAction
+        label: Mit HubSpot synchronisieren
+        icon: icon-export
+        command: syncHubSpotProduct
+        catalog: default
+        asynchronous: false
+        availability:
+          nodes: true
+          nodeTypes:
+            - mgnl:content
+          writePermissionRequired: true
+    actionbar:
+      sections:
+        - name: item
+          groups:
+            - name: hubspotActions
+              items:
+                - name: syncHubSpotProduct
+label: Angebotskatalog
+icon: icon-items

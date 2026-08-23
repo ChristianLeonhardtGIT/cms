@@ -1,0 +1,4 @@
+title: Problemsituationen – Übersicht
+renderType: freemarker
+templateScript: /meine-website/templates/components/problemOverview.ftl
+dialog: meine-website:components/problemOverview

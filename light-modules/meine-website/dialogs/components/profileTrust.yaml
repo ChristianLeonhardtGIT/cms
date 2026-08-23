@@ -1,0 +1,48 @@
+label: Profil und Erfahrung
+form:
+  properties:
+    eyebrow:
+      label: Kleine Überschrift
+      $type: textField
+      i18n: true
+    heading:
+      label: Abschnittsüberschrift
+      $type: textField
+      i18n: true
+      required: true
+    title:
+      label: Profilüberschrift
+      $type: textField
+      i18n: true
+      required: true
+    lead:
+      label: Einleitung
+      $type: textAreaField
+      rows: 3
+      i18n: true
+    body:
+      label: Profiltext
+      $type: richTextField
+      i18n: true
+    topics:
+      label: Themen
+      description: Mehrere Themen mit Komma trennen.
+      $type: textField
+      i18n: true
+    signature:
+      label: Signatur
+      $type: textField
+      i18n: true
+    aboutMode:
+      label: Darstellung für „Über mich“
+      $type: checkBoxField
+      buttonLabel: Porträt beim Scrollen stehen lassen
+    linkText:
+      label: Linktext
+      $type: textField
+      i18n: true
+    targetPage:
+      label: Linkziel
+      $type: pageLinkField
+      converterClass: info.magnolia.ui.editor.converter.JcrNodeToPathConverter
+

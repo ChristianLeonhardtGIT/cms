@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ChOS – lebendes Denk- und Entscheidungsmodell">
+  <title>Start · ChOS</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script defer src="assets/search-index.js"></script>
+  <script defer src="assets/app.js"></script>
+</head>
+<body class="home-page">
+  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <header class="topbar">
+    <button class="icon-button menu-button" type="button" data-menu-toggle aria-label="Navigation öffnen">☰</button>
+    <a class="brand" href="index.html">
+      <span class="brand-mark">Ch</span>
+      <span><strong>ChOS</strong><small>Version 0.6 Beta.1</small></span>
+    </a>
+    <div class="topbar-actions">
+      <a class="top-link" href="all-in-one.html">Alles lesen</a>
+      <a class="top-link" href="reports/validation-report.html">Systemcheck</a>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Darstellung wechseln">◐</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" data-sidebar>
+      <div class="search-wrap">
+        <label class="sr-only" for="site-search">Dokumente durchsuchen</label>
+        <input id="site-search" class="search-input" type="search" placeholder="ChOS durchsuchen …" autocomplete="off" data-search>
+        <div class="search-results" data-search-results hidden></div>
+      </div>
+      <nav class="navigation" aria-label="Dokumentation"><div class="nav-group"><div class="nav-group-title">Fundament</div><a class="nav-link" href="docs/00-executive-summary.html" data-title="ChOS – Executive Summary"><span>ChOS – Executive Summary</span></a><a class="nav-link" href="docs/21-ethik-und-zielkonflikte.html" data-title="Ethik und Umgang mit Zielkonflikten"><span>Ethik und Umgang mit Zielkonflikten</span></a><a class="nav-link" href="docs/13-menschenbild.html" data-title="Menschenbild v0.2 – Beta-Grundlage"><span>Menschenbild v0.2 – Beta-Grundlage</span></a><a class="nav-link" href="docs/06-wertearchitektur.html" data-title="Wertearchitektur"><span>Wertearchitektur</span></a><a class="nav-link" href="docs/02-kernel-und-werte.html" data-title="Kernel, Ethik und Werte"><span>Kernel, Ethik und Werte</span></a><a class="nav-link" href="docs/01-denkraum.html" data-title="Denkraum – die gemeinsame Kontextsprache des ChOS"><span>Denkraum – die gemeinsame Kontextsprache des ChOS</span></a><a class="nav-link" href="docs/03-erkenntnismodell.html" data-title="Erkenntnis-, Diagnose- und Lernmodell"><span>Erkenntnis-, Diagnose- und Lernmodell</span></a><a class="nav-link" href="docs/11-geltungsbereich-und-systembegriff.html" data-title="Geltungsbereich, Anwendung und Grenzen"><span>Geltungsbereich, Anwendung und Grenzen</span></a></div><div class="nav-group"><div class="nav-group-title">Entscheiden &amp; Gestalten</div><a class="nav-link" href="docs/14-gestaltungsprinzipien.html" data-title="Gestaltungsprinzipien"><span>Gestaltungsprinzipien</span></a><a class="nav-link" href="docs/04-mechanismen-und-systemeigenschaften.html" data-title="Mechanismen, Systemeigenschaften und Ergebnisse"><span>Mechanismen, Systemeigenschaften und Ergebnisse</span></a><a class="nav-link" href="docs/17-wirkungsmodell-und-diagnose.html" data-title="Wirkungsmodell und Diagnose"><span>Wirkungsmodell und Diagnose</span></a><a class="nav-link" href="docs/05-entscheidungsmodell.html" data-title="Entscheidungsmodell"><span>Entscheidungsmodell</span></a><a class="nav-link" href="docs/15-ziele-feedback-und-entwicklung.html" data-title="Ziele, Feedback und Entwicklung"><span>Ziele, Feedback und Entwicklung</span></a><a class="nav-link" href="docs/20-anwendungsarchitektur.html" data-title="Aufbau und Anwendung des ChOS"><span>Aufbau und Anwendung des ChOS</span></a><a class="nav-link" href="docs/25-strategie-und-anwendung.html" data-title="Strategie und ihre Anwendung"><span>Strategie und ihre Anwendung</span></a><a class="nav-link" href="docs/27-strategische-priorisierung.html" data-title="Strategische Beitrags- und Belastungsbewertung"><span>Strategische Beitrags- und Belastungsbewertung</span></a><a class="nav-link" href="docs/26-wirtschaftliche-systemsteuerung.html" data-title="Wirtschaftliche Systemsteuerung"><span>Wirtschaftliche Systemsteuerung</span></a><a class="nav-link" href="docs/28-fuehrung-erste-sechs-monate.html" data-title="Die ersten sechs Monate einer neuen Führungskraft"><span>Die ersten sechs Monate einer neuen Führungskraft</span></a></div><div class="nav-group"><div class="nav-group-title">Qualität &amp; Wissen</div><a class="nav-link" href="docs/18-wirtschaftlichkeit.html" data-title="Wirtschaftlichkeitsprüfung"><span>Wirtschaftlichkeitsprüfung</span></a><a class="nav-link" href="docs/07-validierungsprozess.html" data-title="Validierungsprozess"><span>Validierungsprozess</span></a><a class="nav-link" href="docs/16-wissensarchitektur-und-nutzerfokus.html" data-title="Wissensarchitektur, Denkraum und Nutzerfokus"><span>Wissensarchitektur, Denkraum und Nutzerfokus</span></a><a class="nav-link" href="docs/19-quellen-einfluesse-und-recht.html" data-title="Quellen, Einflüsse und rechtliche Aufgaben"><span>Quellen, Einflüsse und rechtliche Aufgaben</span></a><a class="nav-link" href="docs/22-qualitaetspruefung-und-governance.html" data-title="Qualitätsprüfung und Governance"><span>Qualitätsprüfung und Governance</span></a><a class="nav-link" href="docs/23-system-validation.html" data-title="ChOS System Validation"><span>ChOS System Validation</span></a></div><div class="nav-group"><div class="nav-group-title">Playbooks</div><a class="nav-link" href="docs/pb-001-team-uebernehmen.html" data-title="PB-001 – Ein Team übernehmen"><span>PB-001 – Ein Team übernehmen</span></a><a class="nav-link" href="docs/pb-002-mitarbeiterentwicklung.html" data-title="PB-002 – Mitarbeiterentwicklung"><span>PB-002 – Mitarbeiterentwicklung</span></a><a class="nav-link" href="docs/pb-003-mvp-produktentwicklung.html" data-title="PB-003 – Ein Produkt mit einem MVP entwickeln"><span>PB-003 – Ein Produkt mit einem MVP entwickeln</span></a><a class="nav-link" href="docs/readme.html" data-title="Playbook-Bibliothek"><span>Playbook-Bibliothek</span></a></div><div class="nav-group"><div class="nav-group-title">Entwicklung &amp; Governance</div><a class="nav-link" href="docs/09-arbeitsweise-und-fortsetzung.html" data-title="Arbeitsweise und Fortsetzung"><span>Arbeitsweise und Fortsetzung</span></a><a class="nav-link" href="docs/12-offene-hypothesen-und-forschungsfragen.html" data-title="Offene Hypothesen und Forschungsfragen"><span>Offene Hypothesen und Forschungsfragen</span></a><a class="nav-link" href="docs/08-change-log.html" data-title="Change Log"><span>Change Log</span></a><a class="nav-link" href="docs/10-gespraechsprotokoll-konsolidiert.html" data-title="Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha"><span>Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha</span></a></div><div class="nav-group"><div class="nav-group-title">Repository</div><a class="nav-link" href="docs/readme-2.html" data-title="Repository Governance"><span>Repository Governance</span></a><a class="nav-link" href="docs/readme-3.html" data-title="ChOS anwenden"><span>ChOS anwenden</span></a><a class="nav-link" href="docs/readme-8.html" data-title="ChOS Repository"><span>ChOS Repository</span></a></div><div class="nav-group"><div class="nav-group-title">Weitere Dokumente</div><a class="nav-link" href="docs/24-governance-selbstkorrektur-und-integritaet.html" data-title="Governance für Selbstkorrektur und Integrität"><span>Governance für Selbstkorrektur und Integrität</span></a><a class="nav-link" href="docs/authorship.html" data-title="Autorschaft"><span>Autorschaft</span></a><a class="nav-link" href="docs/copyright.html" data-title="Copyright"><span>Copyright</span></a><a class="nav-link" href="docs/github-import.html" data-title="GitHub Initial Import"><span>GitHub Initial Import</span></a><a class="nav-link" href="docs/konsistenzbericht-beta-1.html" data-title="Konsistenzbericht ChOS v0.6 Beta.1"><span>Konsistenzbericht ChOS v0.6 Beta.1</span></a><a class="nav-link" href="docs/license.html" data-title="Lizenz"><span>Lizenz</span></a><a class="nav-link" href="docs/version.html" data-title="Version"><span>Version</span></a><a class="nav-link" href="docs/change-control.html" data-title="Change Control"><span>Change Control</span></a><a class="nav-link" href="docs/change-record-mensch-ki-integration.html" data-title="Änderungsnachweis – Mensch und KI in einem ChOS"><span>Änderungsnachweis – Mensch und KI in einem ChOS</span></a><a class="nav-link" href="docs/integrity-checklist.html" data-title="Integrity Checklist"><span>Integrity Checklist</span></a><a class="nav-link" href="docs/lessons-learned.html" data-title="Lessons Learned"><span>Lessons Learned</span></a><a class="nav-link" href="docs/recovery-procedure.html" data-title="Recovery Procedure"><span>Recovery Procedure</span></a><a class="nav-link" href="docs/release-process.html" data-title="Release Process"><span>Release Process</span></a><a class="nav-link" href="docs/repository-principles.html" data-title="Repository Principles"><span>Repository Principles</span></a><a class="nav-link" href="docs/repository-roles.html" data-title="Repository Roles"><span>Repository Roles</span></a><a class="nav-link" href="docs/repository-workflow.html" data-title="Repository Workflow"><span>Repository Workflow</span></a><a class="nav-link" href="docs/session-start-protocol.html" data-title="Session Start Protocol"><span>Session Start Protocol</span></a><a class="nav-link" href="docs/six-release-safeguards.html" data-title="Six Release Safeguards"><span>Six Release Safeguards</span></a><a class="nav-link" href="docs/snapshot-policy.html" data-title="Snapshot Policy"><span>Snapshot Policy</span></a><a class="nav-link" href="docs/versioning-policy.html" data-title="Versioning Policy"><span>Versioning Policy</span></a><a class="nav-link" href="docs/01-diagnosebogen.html" data-title="Diagnosebogen"><span>Diagnosebogen</span></a><a class="nav-link" href="docs/02-selbstcheck.html" data-title="ChOS Selbstcheck"><span>ChOS Selbstcheck</span></a><a class="nav-link" href="docs/03-clarity-session.html" data-title="Clarity Session – 90 Minuten"><span>Clarity Session – 90 Minuten</span></a><a class="nav-link" href="docs/04-clarity-brief.html" data-title="Clarity Brief – Vorlage"><span>Clarity Brief – Vorlage</span></a><a class="nav-link" href="docs/05-entscheidungsrahmen.html" data-title="Entscheidungsrahmen"><span>Entscheidungsrahmen</span></a><a class="nav-link" href="docs/06-fallbeispiele.html" data-title="Zwei Fallbeispiele"><span>Zwei Fallbeispiele</span></a><a class="nav-link" href="docs/07-glossar.html" data-title="Glossar"><span>Glossar</span></a></div></nav>
+      <div class="sidebar-note">Markdown bleibt die Quelle. HTML ist die lesbare Oberfläche.</div>
+    </aside>
+    <div class="sidebar-backdrop" data-menu-toggle></div>
+    <main id="content" class="main-content">
+<section class="hero">
+  <span class="eyebrow">Lebendes Denk- und Entscheidungsmodell</span>
+  <h1>ChOS</h1>
+  <blockquote>Suche nicht nach Gewissheit. Schaffe einen Entscheidungsprozess, der verantwortungsvoll mit Unsicherheit umgehen kann.</blockquote>
+  <p class="hero-copy">Diese Browser-Version bündelt das vollständige Repository in einer lesbaren, durchsuchbaren und offline nutzbaren Oberfläche.</p>
+  <div class="hero-actions">
+    <a class="button primary" href="docs/00-executive-summary.html">Mit der Executive Summary starten</a>
+    <a class="button secondary" href="all-in-one.html">Alles in einem Dokument lesen</a>
+  </div>
+</section>
+<section class="question-grid" aria-label="Vier Leitfragen">
+  <div><span>1</span><strong>Was wissen wir?</strong></div>
+  <div><span>2</span><strong>Was wissen wir nicht?</strong></div>
+  <div><span>3</span><strong>Was ist uns trotzdem wichtig?</strong></div>
+  <div><span>4</span><strong>Was tun wir jetzt?</strong></div>
+</section>
+<section class="section-heading">
+  <div><span class="eyebrow">Repository</span><h2>Dokumente</h2></div>
+  <p>Jede neue Markdown-Datei wird beim nächsten Build automatisch in Navigation, Suche und Gesamtansicht aufgenommen.</p>
+</section>
+<section class="card-grid"><a class="document-card" href="docs/00-executive-summary.html">
+  <span class="card-group">Fundament</span>
+  <h2>ChOS – Executive Summary</h2>
+  <p>ChOS – Executive Summary Version: 0.6 Beta.1 Meilenstein: konsistente Beta-Grundlage Status: anwendbare Beta; reale Wirkung und Wiederholbarkeit werden weiter geprüft Arbeitstitel: ChOS …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/21-ethik-und-zielkonflikte.html">
+  <span class="card-group">Fundament</span>
+  <h2>Ethik und Umgang mit Zielkonflikten</h2>
+  <p>Ethik und Umgang mit Zielkonflikten Warum? ChOS ist nicht wertneutral. Ohne ethische Grenzen könnten seine Methoden für nahezu jede Absicht genutzt und beliebig umgedeutet werden. Der …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/13-menschenbild.html">
+  <span class="card-group">Fundament</span>
+  <h2>Menschenbild v0.2 – Beta-Grundlage</h2>
+  <p>Menschenbild v0.2 – Beta-Grundlage Warum? Das Menschenbild bestimmt, wie Verhalten interpretiert, Verantwortung entwickelt und Systeme gestaltet werden. ChOS formuliert keine endgültige …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/06-wertearchitektur.html">
+  <span class="card-group">Fundament</span>
+  <h2>Wertearchitektur</h2>
+  <p>Wertearchitektur Warum? Gestaltungsprinzipien brauchen eine begründete Richtung. Ohne Ethik, Menschenbild und Werte könnte ChOS beliebig ausgelegt werden. Schichten 1. Ethik: Welche …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/02-kernel-und-werte.html">
+  <span class="card-group">Fundament</span>
+  <h2>Kernel, Ethik und Werte</h2>
+  <p>Kernel, Ethik und Werte Warum? Der Kernel soll Richtung und Stabilität geben, ohne zum Sammelplatz aller Erkenntnisse zu werden. Ein aufgeblähter Kernel wird widersprüchlich, schwer …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/01-denkraum.html">
+  <span class="card-group">Fundament</span>
+  <h2>Denkraum – die gemeinsame Kontextsprache des ChOS</h2>
+  <p>Denkraum – die gemeinsame Kontextsprache des ChOS Warum? Missverständnisse entstehen häufig nicht durch fehlende Kommunikation, sondern durch unterschiedliche Interpretationen derselben …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/03-erkenntnismodell.html">
+  <span class="card-group">Fundament</span>
+  <h2>Erkenntnis-, Diagnose- und Lernmodell</h2>
+  <p>Erkenntnis-, Diagnose- und Lernmodell Warum? In komplexen Systemen sind Informationen unvollständig, Perspektiven begrenzt und Wirkungen nicht vollständig vorhersagbar. ChOS benötigt …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/14-gestaltungsprinzipien.html">
+  <span class="card-group">Entscheiden &amp; Gestalten</span>
+  <h2>Gestaltungsprinzipien</h2>
+  <p>Gestaltungsprinzipien Warum? Werte geben Richtung, beantworten aber noch nicht, wie gestaltet werden soll. Gestaltungsprinzipien machen Werte und Arbeitsannahmen in unterschiedlichen …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/04-mechanismen-und-systemeigenschaften.html">
+  <span class="card-group">Entscheiden &amp; Gestalten</span>
+  <h2>Mechanismen, Systemeigenschaften und Ergebnisse</h2>
+  <p>Mechanismen, Systemeigenschaften und Ergebnisse Warum? Gestaltungsprinzipien wirken nicht direkt als Geschäftsergebnis. Sie verändern Bedingungen und Wechselwirkungen. Daraus können …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/17-wirkungsmodell-und-diagnose.html">
+  <span class="card-group">Entscheiden &amp; Gestalten</span>
+  <h2>Wirkungsmodell und Diagnose</h2>
+  <p>Wirkungsmodell und Diagnose Warum? Das Wirkungsmodell soll erklären, warum Ergebnisse entstehen oder ausbleiben. Es verbindet Gestaltung, Diagnose, Lernen und Selbstvalidierung. Lernpfad …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/05-entscheidungsmodell.html">
+  <span class="card-group">Entscheiden &amp; Gestalten</span>
+  <h2>Entscheidungsmodell</h2>
+  <p>Entscheidungsmodell Warum? ChOS sucht keine unfehlbaren Entscheidungen. Es schafft einen Prozess, der auch unter Unsicherheit verantwortungsvolle, nachvollziehbare und lernfähige …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/15-ziele-feedback-und-entwicklung.html">
+  <span class="card-group">Entscheiden &amp; Gestalten</span>
+  <h2>Ziele, Feedback und Entwicklung</h2>
+  <p>Ziele, Feedback und Entwicklung Ziel Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/20-anwendungsarchitektur.html">
+  <span class="card-group">Entscheiden &amp; Gestalten</span>
+  <h2>Aufbau und Anwendung des ChOS</h2>
+  <p>Aufbau und Anwendung des ChOS Warum? Definitionen allein schaffen keine Anwendung. ChOS trennt stabile Grundlagen von kontextabhängigen Situationen und konkreten Hilfsmitteln. …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/11-geltungsbereich-und-systembegriff.html">
+  <span class="card-group">Fundament</span>
+  <h2>Geltungsbereich, Anwendung und Grenzen</h2>
+  <p>Geltungsbereich, Anwendung und Grenzen Geltungsbereich ChOS richtet sich auf komplexe, gestaltbare Systeme, deren Entwicklung durch menschliches Handeln wesentlich beeinflusst werden …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/18-wirtschaftlichkeit.html">
+  <span class="card-group">Qualität &amp; Wissen</span>
+  <h2>Wirtschaftlichkeitsprüfung</h2>
+  <p>Wirtschaftlichkeitsprüfung Warum? ChOS verursacht Lern-, Einführungs- und Reflexionsaufwand. Es ist nur tragfähig, wenn dieser Aufwand im jeweiligen Kontext durch einen plausiblen Nutzen …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/07-validierungsprozess.html">
+  <span class="card-group">Qualität &amp; Wissen</span>
+  <h2>Validierungsprozess</h2>
+  <p>Validierungsprozess Warum? ChOS soll nicht aus gut klingenden Behauptungen bestehen. Der Validierungsprozess schützt vor Widersprüchen, Selbstbestätigung, Übertreibung und …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/16-wissensarchitektur-und-nutzerfokus.html">
+  <span class="card-group">Qualität &amp; Wissen</span>
+  <h2>Wissensarchitektur, Denkraum und Nutzerfokus</h2>
+  <p>Wissensarchitektur, Denkraum und Nutzerfokus Warum? Ein fachlich belastbares Modell scheitert, wenn es nicht verstanden und im Alltag genutzt werden kann. Wissensarchitektur ist deshalb …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/19-quellen-einfluesse-und-recht.html">
+  <span class="card-group">Qualität &amp; Wissen</span>
+  <h2>Quellen, Einflüsse und rechtliche Aufgaben</h2>
+  <p>Quellen, Einflüsse und rechtliche Aufgaben Warum? ChOS soll eigene Erfahrungen, gemeinsame Herleitungen und bestehende fachliche Einflüsse transparent trennen. Quellen erhöhen …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/22-qualitaetspruefung-und-governance.html">
+  <span class="card-group">Qualität &amp; Wissen</span>
+  <h2>Qualitätsprüfung und Governance</h2>
+  <p>Qualitätsprüfung und Governance Warum? ChOS soll sich weiterentwickeln, ohne widersprüchlich, akademisch, unverständlich oder unnötig komplex zu werden. Die Qualitätsprüfung bewertet …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/23-system-validation.html">
+  <span class="card-group">Qualität &amp; Wissen</span>
+  <h2>ChOS System Validation</h2>
+  <p>ChOS System Validation Warum? ChOS soll seine technisch überprüfbaren Regeln nicht nur beschreiben, sondern bei jedem Build nachvollziehbar prüfen. Dadurch werden Fehler früh sichtbar, …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/24-governance-selbstkorrektur-und-integritaet.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Governance für Selbstkorrektur und Integrität</h2>
+  <p>Governance für Selbstkorrektur und Integrität Zweck Dieses Governance-Modell schützt die Selbstkorrekturfähigkeit eines gestaltbaren Systems. Es soll schwerwiegende Fehlentwicklungen, …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/25-strategie-und-anwendung.html">
+  <span class="card-group">Entscheiden &amp; Gestalten</span>
+  <h2>Strategie und ihre Anwendung</h2>
+  <p>Strategie und ihre Anwendung Zweck Strategie ist kein Dokument und keine jährliche Präsentation. Sie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/27-strategische-priorisierung.html">
+  <span class="card-group">Entscheiden &amp; Gestalten</span>
+  <h2>Strategische Beitrags- und Belastungsbewertung</h2>
+  <p>Strategische Beitrags- und Belastungsbewertung Zweck Das Modell verbindet Hypothesen, Initiativen, Epics und Roadmap-Themen mit strategischer Ausrichtung, taktischem Beitrag, erwarteter …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/26-wirtschaftliche-systemsteuerung.html">
+  <span class="card-group">Entscheiden &amp; Gestalten</span>
+  <h2>Wirtschaftliche Systemsteuerung</h2>
+  <p>Wirtschaftliche Systemsteuerung Begriff Der im Markt übliche Begriff „Controlling“ wird im ChOS extern weiterhin verstanden und übersetzt. Intern wird bevorzugt von wirtschaftlicher …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/28-fuehrung-erste-sechs-monate.html">
+  <span class="card-group">Entscheiden &amp; Gestalten</span>
+  <h2>Die ersten sechs Monate einer neuen Führungskraft</h2>
+  <p>Die ersten sechs Monate einer neuen Führungskraft Zweck Dieses Playbook zeigt, wie eine neue Führungskraft das ChOS auf der eigenen Ebene anwendet. Es ist kein starres …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/29-phase-2-anwendungsvalidierung.html">
+  <span class="card-group">Validierung</span>
+  <h2>Phase 2 – Anwendungsvalidierung</h2>
+  <p>Phase 2 – Anwendungsvalidierung Warum? Phase 2 prüft, ob der bestehende ChOS-Kernel in unterschiedlichen organisatorischen Kontexten tragfähige Diagnosen und Veränderungsrichtungen …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/30-beta-vorbereitung.html">
+  <span class="card-group">Beta-Vorbereitung</span>
+  <h2>Beta.1-Anwendung</h2>
+  <p>Beta.1-Anwendung Warum? Die Alpha-Validierungen zeigen eine stabile, modellübergreifend anwendbare Kernel-Logik. Eine Beta soll nicht erneut primär fragen, ob der Kernel intern …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/09-arbeitsweise-und-fortsetzung.html">
+  <span class="card-group">Entwicklung &amp; Governance</span>
+  <h2>Arbeitsweise und Fortsetzung</h2>
+  <p>Arbeitsweise und Fortsetzung Verbindliche Basis Aktueller Stand: ChOS v0.6 Beta.1 – Baseline festgelegt, reale Anwendung läuft . Arbeitszyklus 1. Erfahrung, Problem oder Idee …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/12-offene-hypothesen-und-forschungsfragen.html">
+  <span class="card-group">Entwicklung &amp; Governance</span>
+  <h2>Offene Hypothesen und Forschungsfragen</h2>
+  <p>Offene Hypothesen und Forschungsfragen Mensch und KI in einem System - Tragen die fünf Perspektiven Richtung, Entscheidungen, Verantwortung, Zusammenarbeit und Lernen in rein …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/08-change-log.html">
+  <span class="card-group">Entwicklung &amp; Governance</span>
+  <h2>Change Log</h2>
+  <p>Change Log 0.6 Beta.1 – konsistente Baseline - Menschenbild v0.2 als Beta-Grundlage festgelegt, - sieben verbindliche Kernel-Prinzipien aufgenommen, - ethische Grenze „Menschen sind …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/10-gespraechsprotokoll-konsolidiert.html">
+  <span class="card-group">Entwicklung &amp; Governance</span>
+  <h2>Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha</h2>
+  <p>Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha Dieses Dokument ist keine wortgetreue Transkription. Es hält die fachlich relevanten Gedanken, Korrekturen, …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/authorship.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Autorschaft</h2>
+  <p>Autorschaft Autor und konzeptioneller Urheber: Christian Leonhardt ChOS wurde konzeptionell und inhaltlich von Christian Leonhardt entwickelt. KI-Systeme wurden als Entwicklungs-, …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/copyright.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Copyright</h2>
+  <p>Copyright Copyright © 2026 Christian Leonhardt. Konzeption und inhaltliche Urheberschaft: Christian Leonhardt. KI wurde als Entwicklungswerkzeug verwendet.</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/github-import.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>GitHub Initial Import</h2>
+  <p>GitHub Initial Import Zielrepository: ChristianLeonhardtGIT/ChOS Nach dem Erstimport gilt der freigegebene Git-Commit als Single Source of Truth. Das ZIP bleibt ein geprüfter …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/konsistenzbericht-beta-1.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Konsistenzbericht ChOS v0.6 Beta.1</h2>
+  <p>Konsistenzbericht ChOS v0.6 Beta.1 Prüfdatum: 8. August 2026 Ausgangsstand: ChOS v0.5 Alpha.9 Mensch und KI, 190 Dateien Ziel: Prüfung und direkte Anpassung an die festgelegte …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/license.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Lizenz</h2>
+  <p>Lizenz Die externe Lizenzentscheidung ist noch offen. Bis zur ausdrücklichen Festlegung einer Lizenz werden durch die Bereitstellung dieses Arbeitsstands keine weitergehenden …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/version.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Version</h2>
+  <p>Version ChOS 0.6 Beta.1 Status: konsistente Beta-Grundlage mit fünf Perspektiven, Menschenbild v0.2 und sieben verbindlichen Kernel-Prinzipien. Die Beta.1 setzt den zuvor geprüften …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/pb-001-team-uebernehmen.html">
+  <span class="card-group">Playbooks</span>
+  <h2>PB-001 – Ein Team übernehmen</h2>
+  <p>PB-001 – Ein Team übernehmen Warum? Eine neue Führungskraft verändert ein bestehendes System bereits durch ihre Anwesenheit. Vorschnelle Bewertungen oder Maßnahmen können Vertrauen …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/pb-002-mitarbeiterentwicklung.html">
+  <span class="card-group">Playbooks</span>
+  <h2>PB-002 – Mitarbeiterentwicklung</h2>
+  <p>PB-002 – Mitarbeiterentwicklung Warum? Mitarbeiterentwicklung braucht gemeinsames Rollenverständnis, klare Erwartungen, Befähigung, Feedback und Eigenverantwortung. Bewertungen ohne …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/pb-003-mvp-produktentwicklung.html">
+  <span class="card-group">Playbooks</span>
+  <h2>PB-003 – Ein Produkt mit einem MVP entwickeln</h2>
+  <p>PB-003 – Ein Produkt mit einem MVP entwickeln Warum? Ein Produkt soll ein relevantes Problem lösen. Ein MVP dient dazu, die zentrale Wirkungshypothese mit minimal notwendigem Umfang zu …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/readme.html">
+  <span class="card-group">Playbooks</span>
+  <h2>Playbook-Bibliothek</h2>
+  <p>Playbook-Bibliothek Playbooks übersetzen die ChOS-Architektur in wiederkehrende Situationen. Sie sind keine starren Checklisten und keine Garantien. Sie bieten einen Denkablauf, …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/change-control.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Change Control</h2>
+  <p>Change Control Änderungsklassen Klasse A – Redaktionell Rechtschreibung, Formatierung, Links ohne Bedeutungsänderung. Review und Integritätscheck erforderlich; kein ADR. Klasse B – …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/change-record-mensch-ki-integration.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Änderungsnachweis – Mensch und KI in einem ChOS</h2>
+  <p>Änderungsnachweis – Mensch und KI in einem ChOS Ausgangslage ChOS soll rein menschliche Organisationen und Organisationen mit Software, KI-Systemen oder KI-Agenten mit demselben System …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/integrity-checklist.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Integrity Checklist</h2>
+  <p>Integrity Checklist Struktur - [ ] Erwartete Verzeichnisse und Kerndokumente vorhanden. - [ ] Keine unbeabsichtigten leeren Verzeichnisse oder Dubletten. - [ ] Archivquellen klar von …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/lessons-learned.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Lessons Learned</h2>
+  <p>Lessons Learned Vorfall Alpha.6 / Recovery Alpha.7 Beobachtung Ein als fortgeschrittener Repository-Stand behandelter Snapshot enthielt nur ein neu aufgebautes Skelett und war keine …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/readme-2.html">
+  <span class="card-group">Repository</span>
+  <h2>Repository Governance</h2>
+  <p>Repository Governance Zweck Die Repository Governance schützt den kanonischen Wissensstand von ChOS vor Verlust, unbemerkter Rekonstruktion, unvollständigen Releases und nicht …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/recovery-procedure.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Recovery Procedure</h2>
+  <p>Recovery Procedure Auslöser Die Recovery Procedure wird aktiviert, wenn Dateien fehlen, ein Snapshot unvollständig ist, Historie verloren ging oder der behauptete Versionsstand nicht …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/release-process.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Release Process</h2>
+  <p>Release Process Ein Release oder Repository-Snapshot ist nur freigabefähig, wenn alle folgenden Schritte abgeschlossen sind: 1. Arbeitsbranch auf aktuellem Hauptbranch aufbauen. 2. …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/repository-principles.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Repository Principles</h2>
+  <p>Repository Principles 1. Single Source of Truth: Das freigegebene Git-Repository ist die alleinige Quelle des gültigen Wissensstands. 2. Chat ist Werkstatt: Gespräche, Entwürfe und …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/repository-roles.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Repository Roles</h2>
+  <p>Repository Roles Autor Erarbeitet eine Änderung und dokumentiert Zweck, Auswirkungen und offene Unsicherheiten. Reviewer Prüft Nachvollziehbarkeit, Schichtentreue, Konsistenz und …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/repository-workflow.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Repository Workflow</h2>
+  <p>Repository Workflow Regeln - Ein Entwurf ist noch kein gültiges ChOS-Wissen. - Der Kernel Check erfolgt vor Architektur- oder Modelländerungen. - Ein reproduzierbarer Kernel-Gap wird …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/session-start-protocol.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Session Start Protocol</h2>
+  <p>Session Start Protocol Verbindlicher Einstieg Vor jeder fachlichen ChOS-Arbeit wird der kanonische Repository-Stand synchronisiert. 1. Repository und Standardbranch identifizieren. 2. …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/six-release-safeguards.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Six Release Safeguards</h2>
+  <p>Six Release Safeguards Diese sechs Maßnahmen sind für jeden ChOS-Meilenstein verbindlich. 1. Keine Version ohne vollständigen Diff Vor Freigabe wird der gesamte Unterschied zur …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/snapshot-policy.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Snapshot Policy</h2>
+  <p>Snapshot Policy Snapshots werden erstellt: - bei einem fachlichen oder technischen Meilenstein, - vor einem kritischen Strukturumbau, - vor Alpha-, Beta-, RC- oder Stable-Übergängen, - …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/versioning-policy.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Versioning Policy</h2>
+  <p>Versioning Policy Alpha Struktur und Inhalte werden aktiv entwickelt. Rückwärtskompatibilität ist nicht garantiert. Jeder Alpha-Meilenstein muss dennoch vollständig und wiederherstellbar …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/01-diagnosebogen.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Diagnosebogen</h2>
+  <p>Diagnosebogen Anlass und Grenze - Welche konkrete Situation betrachten wir? - Was gehört nicht zu dieser Diagnose? - Wer ist betroffen oder verfügt über wichtige Beobachtungen? …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/02-selbstcheck.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>ChOS Selbstcheck</h2>
+  <p>ChOS Selbstcheck Zweck Der Selbstcheck bietet eine erste Orientierung. Er ist kein Reifegradmodell, keine vollständige Diagnose und kein Vergleich mit einem Idealzustand. Bewertung je …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/03-clarity-session.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Clarity Session – 90 Minuten</h2>
+  <p>Clarity Session – 90 Minuten Ziel Eine konkrete Situation ausreichend verstehen, eine überprüfbare Diagnose formulieren und einen kleinen sinnvollen nächsten Schritt bestimmen. Die …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/04-clarity-brief.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Clarity Brief – Vorlage</h2>
+  <p>Clarity Brief – Vorlage Fragestellung und Grenze Welche konkrete Situation wurde betrachtet und was lag außerhalb des Auftrags? Wichtigste Beobachtungen Nur nachweisbare oder eindeutig …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/05-entscheidungsrahmen.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Entscheidungsrahmen</h2>
+  <p>Entscheidungsrahmen Entscheidung - Was muss entschieden werden und warum jetzt? - Wer trägt die menschliche Verantwortung für Entscheidung und Ergebnis? - Wer darf entscheiden und wer …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/06-fallbeispiele.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Zwei Fallbeispiele</h2>
+  <p>Zwei Fallbeispiele Fall 1 – Produktpriorisierung mit KI-Unterstützung Ausgangslage Ein Produktteam erhält viele Rückmeldungen, Supportfälle und Nutzungsdaten. Eine KI soll „den …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/07-glossar.html">
+  <span class="card-group">Weitere Dokumente</span>
+  <h2>Glossar</h2>
+  <p>Glossar ChOS Ein Diagnose- und Handlungssystem für komplexe, gestaltbare Systeme. Es liefert keine fertige Standardlösung. Fünf Perspektiven Richtung, Entscheidungen, Verantwortung, …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/readme-3.html">
+  <span class="card-group">Repository</span>
+  <h2>ChOS anwenden</h2>
+  <p>ChOS anwenden Dieser Bereich bündelt die verbindlichen Werkzeuge der Beta.1. Alle Werkzeuge verwenden dieselben fünf Perspektiven: Richtung, Entscheidungen, Verantwortung, Zusammenarbeit …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/beta-charter-draft.html">
+  <span class="card-group">Beta-Vorbereitung</span>
+  <h2>ChOS Beta.1 – Auftrag und Rahmen</h2>
+  <p>ChOS Beta.1 – Auftrag und Rahmen Zweck Die Beta validiert die praktische Anwendbarkeit des ChOS-Kernels außerhalb der bisherigen Entwicklungs- und KI-Testszenarien. Sie prüft nicht, ob …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/beta-evaluation-sheet-draft.html">
+  <span class="card-group">Beta-Vorbereitung</span>
+  <h2>Beta.1-Auswertungsbogen</h2>
+  <p>Beta.1-Auswertungsbogen Bewertungsskala - 0 – nicht vorhanden oder kernelwidrig - 1 – teilweise vorhanden, unklar oder nicht belastbar - 2 – klar, kernelkonform und nachvollziehbar …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/beta-log.html">
+  <span class="card-group">Beta-Vorbereitung</span>
+  <h2>Beta Log</h2>
+  <p>Beta Log Fall Organisation / Kontext Anwender Status Ergebnis Kernel-Gap? ADR? Nächster Schritt --- --- --- --- --- --- --- --- B-01 offen offen nicht gestartet – – – Charter freigeben …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/beta-readiness.html">
+  <span class="card-group">Beta-Vorbereitung</span>
+  <h2>Beta-Bereitschaft – Arbeitsstand</h2>
+  <p>Beta-Bereitschaft – Arbeitsstand Vorläufiges Urteil Eine begrenzte ChOS-Beta erscheint nach VR-01 und VR-02B vertretbar, sofern sie als kontrollierte Validierungsphase und nicht als …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/beta-test-protocol-draft.html">
+  <span class="card-group">Beta-Vorbereitung</span>
+  <h2>Beta.1-Prüfablauf</h2>
+  <p>Beta.1-Prüfablauf Standardablauf 1. Fragestellung 2. Datenbasis und offene Annahmen 3. Kernel-Check 4. Diagnose 5. Strategie und Priorisierung 6. wirtschaftliche Steuerung 7. …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/readme-4.html">
+  <span class="card-group">Beta-Vorbereitung</span>
+  <h2>Beta-Vorbereitung</h2>
+  <p>Beta-Vorbereitung Die Dokumente in diesem Bereich sind Arbeitsentwürfe . Sie dokumentieren die Vorbereitung einer kontrollierten Beta, stellen aber noch keine formale Beta-Freigabe und …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/phase-2-status.html">
+  <span class="card-group">Validierung</span>
+  <h2>Phase 2 – Validierungsstatus</h2>
+  <p>Phase 2 – Validierungsstatus Abgeschlossene KI-Validierungen VR-01 – Diagnostische Reproduzierbarkeit Bestätigt wurde die modellübergreifende Konvergenz bei der Diagnose und …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/phase-2-validierungsuebersicht.html">
+  <span class="card-group">Validierung</span>
+  <h2>ChOS – Phase 2 Validierungsübersicht</h2>
+  <p>ChOS – Phase 2 Validierungsübersicht Phase: 2 – Validierung durch Anwendungen Stand: 19. Juli 2026 Status: Weitgehend bestanden, Abschluss noch nicht vollständig Copyright: © 2026 …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/readme-5.html">
+  <span class="card-group">Validierung</span>
+  <h2>Validierung</h2>
+  <p>Validierung Dieser Bereich enthält aktive Validierungsartefakte ab Phase 2. Er ergänzt die grundlegenden Kapitel 07 Validierungsprozess.md, 22 Qualitaetspruefung und Governance.md und 23 …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/readme-6.html">
+  <span class="card-group">Validierung</span>
+  <h2>VR-01 – Modellübergreifende diagnostische Reproduzierbarkeit</h2>
+  <p>VR-01 – Modellübergreifende diagnostische Reproduzierbarkeit Ziel Prüfung, ob getrennte KI-Systeme mit demselben Kernel-Auszug, demselben FlowDesk-Szenario und derselben Aufgabenstellung …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/feedback-1-status-und-bewertung.html">
+  <span class="card-group">Validierung</span>
+  <h2>VR-02B – Feedback 1: Status und Bewertung</h2>
+  <p>VR-02B – Feedback 1: Status und Bewertung Quellenstatus Die vollständige Originalantwort von Feedback 1 lag bei der Repository-Wiederherstellung nicht als Datei vor. Sie wird deshalb …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/feedback-2-bewertung.html">
+  <span class="card-group">Validierung</span>
+  <h2>VR-02B – Feedback 2: Bewertung</h2>
+  <p>VR-02B – Feedback 2: Bewertung Status - Lauf: gültig - Bewertung: 14/16 - Kernel-Gap: nein - ADR erforderlich: nein Stärken - hohe Szenariotreue, - fehlende Raumdefinitionen werden …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/feedback-2-original.html">
+  <span class="card-group">Validierung</span>
+  <h2>ChOS-Kernel-Anwendung: FlowDesk GmbH</h2>
+  <p>ChOS-Kernel-Anwendung: FlowDesk GmbH Hinweis zur Datenbasis: Für die sechs genannten Verantwortungsräume (Marketing, Sales, Product, Engineering, Customer Success, Support) liegen nur …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/feedback-3-bewertung.html">
+  <span class="card-group">Validierung</span>
+  <h2>VR-02B – Feedback 3: Bewertung</h2>
+  <p>VR-02B – Feedback 3: Bewertung Status - Lauf: gültig - Bewertung: 15/16 - Kernel-Gap: nein - ADR erforderlich: nein Stärken - vollständige und szenariotreue Diagnose, - präzise Trennung …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/feedback-3-original.html">
+  <span class="card-group">Validierung</span>
+  <h2>Kernelbasierte Organisationsdiagnose und Veränderungsempfehlung für die FlowDesk GmbH</h2>
+  <p>Kernelbasierte Organisationsdiagnose und Veränderungsempfehlung für die FlowDesk GmbH Quellenhinweis: Vom Nutzer im Chat als Feedback 3 bereitgestellt und bei der Wiederherstellung in …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/gesamtauswertung.html">
+  <span class="card-group">Validierung</span>
+  <h2>VR-02B – Gesamtauswertung</h2>
+  <p>VR-02B – Gesamtauswertung Fragestellung Kann ein unabhängiges KI-System aus demselben ChOS-Kernel und demselben FlowDesk-Szenario nicht nur eine vergleichbare Diagnose, sondern auch eine …</p>
+  <span class="card-action">Öffnen →</span>
+</a><a class="document-card" href="docs/readme-7.html">
+  <span class="card-group">Validierung</span>
+  <h2>VR-02B – Wirkungsvalidierung als kontrollierter Blindtest</h2>
+  <p>VR-02B – Wirkungsvalidierung als kontrollierter Blindtest Ziel Prüfung, ob unterschiedliche KI-Systeme aus demselben ChOS-Kernel und demselben Organisationsszenario vergleichbare …</p>
+  <span class="card-action">Öffnen →</span>
+</a></section>
+<footer class="page-footer">Stand 08.08.2026 · Version 0.6 Beta.1 · Offline lesbar · Copyright © 2026 Christian Leonhardt</footer>
+</main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,4 @@
+title: Angebotskatalog
+renderType: freemarker
+templateScript: /meine-website/templates/components/offerCatalog.ftl
+dialog: meine-website:components/offerCatalog

@@ -1,0 +1,31 @@
+datasource:
+  workspace: siteSettings
+  autoCreate: true
+
+model:
+  properties:
+    - name: logo
+      label: Logo
+      type: reference:asset
+      required: true
+    - name: logoAltText
+      label: Alternativtext für das Logo
+      type: String
+      i18n: true
+    - name: logoTargetPage
+      label: Linkziel des Logos
+      type: reference:page
+    - name: portraitImage
+      label: Zentrales Porträt
+      type: reference:asset
+    - name: portraitImageAlt
+      label: Alternativtext für das Porträt
+      type: String
+      i18n: true
+    - name: socialImage
+      label: Zentrales Social-Media-Bild
+      type: reference:asset
+    - name: socialImageAlt
+      label: Alternativtext für das Social-Media-Bild
+      type: String
+      i18n: true

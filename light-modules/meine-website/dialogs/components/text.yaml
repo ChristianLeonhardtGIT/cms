@@ -1,0 +1,16 @@
+label: Textabschnitt
+form:
+  properties:
+    heading:
+      label: Überschrift
+      $type: textField
+      i18n: true
+    text:
+      label: Text
+      $type: richTextField
+      i18n: true
+      required: true
+    showBackground:
+      label: Hintergrund hervorheben
+      $type: checkBoxField
+      buttonLabel: Hellen Hintergrund anzeigen

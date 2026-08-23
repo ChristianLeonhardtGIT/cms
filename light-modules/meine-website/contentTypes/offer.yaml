@@ -1,0 +1,93 @@
+datasource:
+  workspace: offers
+  autoCreate: true
+
+model:
+  properties:
+    - name: sku
+      label: Produktnummer
+      type: String
+      required: true
+    - name: title
+      label: Öffentlicher Titel
+      type: String
+      i18n: true
+      required: true
+    - name: shortDescription
+      label: Kurzbeschreibung
+      type: String
+      i18n: true
+      required: true
+    - name: category
+      label: Angebotskategorie
+      type: String
+      required: true
+    - name: duration
+      label: Dauer oder Rahmen
+      type: String
+      i18n: true
+    - name: pricingModel
+      label: Preisart
+      type: String
+      required: true
+    - name: priceFrom
+      label: Preis von
+      type: Double
+    - name: priceTo
+      label: Preis bis
+      type: Double
+    - name: currency
+      label: Währung
+      type: String
+      required: true
+    - name: taxRate
+      label: Umsatzsteuersatz
+      type: Double
+    - name: priceUnit
+      label: Preiseinheit
+      type: String
+      i18n: true
+    - name: priceLabel
+      label: Öffentliche Preisdarstellung
+      type: String
+      i18n: true
+      required: true
+    - name: priceNote
+      label: Preishinweis
+      type: String
+      i18n: true
+    - name: features
+      label: Enthaltene Leistungen
+      type: offerFeature
+      multiple: true
+    - name: targetPage
+      label: Detailseite
+      type: reference:page
+    - name: ctaLabel
+      label: CTA-Beschriftung
+      type: String
+      i18n: true
+    - name: active
+      label: Aktiv
+      type: Boolean
+    - name: featured
+      label: Auf Übersichtsseiten zeigen
+      type: Boolean
+    - name: accent
+      label: Karte hervorheben
+      type: Boolean
+    - name: sortOrder
+      label: Sortierung
+      type: Long
+    - name: hubspotProductId
+      label: HubSpot-Produkt-ID
+      type: String
+
+  subModels:
+    - name: offerFeature
+      properties:
+        - name: text
+          label: Leistung
+          type: String
+          i18n: true
+          required: true

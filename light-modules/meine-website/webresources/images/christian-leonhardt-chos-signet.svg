@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 128 128"
+     role="img"
+     aria-labelledby="signet-title signet-description">
+  <title id="signet-title">Christian Leonhardt – ChOS Signet</title>
+  <desc id="signet-description">
+    Ein offenes C umschließt ein L. Ein heller Punkt markiert Klarheit.
+  </desc>
+
+  <path
+    d="M101 27
+       C88 16 71 12 55 16
+       C33 21 18 41 18 63
+       C18 86 34 106 56 111
+       C73 115 91 111 104 99"
+    fill="none"
+    stroke="#0D3F29"
+    stroke-width="12"
+    stroke-linecap="round"/>
+
+  <path
+    d="M75 40 V86
+       Q75 94 83 94
+       H112"
+    fill="none"
+    stroke="#28714E"
+    stroke-width="11"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+
+  <circle cx="75" cy="40" r="9" fill="#D8EF77"/>
+  <circle cx="75" cy="40" r="3.5" fill="#0D3F29"/>
+</svg>

@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ChOS – lebendes Denk- und Entscheidungsmodell">
+  <title>ChOS – Phase 2 Validierungsübersicht · ChOS</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script defer src="../assets/search-index.js"></script>
+  <script defer src="../assets/app.js"></script>
+</head>
+<body class="document-page">
+  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <header class="topbar">
+    <button class="icon-button menu-button" type="button" data-menu-toggle aria-label="Navigation öffnen">☰</button>
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">Ch</span>
+      <span><strong>ChOS</strong><small>Version 0.6 Beta.1</small></span>
+    </a>
+    <div class="topbar-actions">
+      <a class="top-link" href="../all-in-one.html">Alles lesen</a>
+      <a class="top-link" href="../reports/validation-report.html">Systemcheck</a>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Darstellung wechseln">◐</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" data-sidebar>
+      <div class="search-wrap">
+        <label class="sr-only" for="site-search">Dokumente durchsuchen</label>
+        <input id="site-search" class="search-input" type="search" placeholder="ChOS durchsuchen …" autocomplete="off" data-search>
+        <div class="search-results" data-search-results hidden></div>
+      </div>
+      <nav class="navigation" aria-label="Dokumentation"><div class="nav-group"><div class="nav-group-title">Fundament</div><a class="nav-link" href="../docs/00-executive-summary.html" data-title="ChOS – Executive Summary"><span>ChOS – Executive Summary</span></a><a class="nav-link" href="../docs/21-ethik-und-zielkonflikte.html" data-title="Ethik und Umgang mit Zielkonflikten"><span>Ethik und Umgang mit Zielkonflikten</span></a><a class="nav-link" href="../docs/13-menschenbild.html" data-title="Menschenbild v0.2 – Beta-Grundlage"><span>Menschenbild v0.2 – Beta-Grundlage</span></a><a class="nav-link" href="../docs/06-wertearchitektur.html" data-title="Wertearchitektur"><span>Wertearchitektur</span></a><a class="nav-link" href="../docs/02-kernel-und-werte.html" data-title="Kernel, Ethik und Werte"><span>Kernel, Ethik und Werte</span></a><a class="nav-link" href="../docs/01-denkraum.html" data-title="Denkraum – die gemeinsame Kontextsprache des ChOS"><span>Denkraum – die gemeinsame Kontextsprache des ChOS</span></a><a class="nav-link" href="../docs/03-erkenntnismodell.html" data-title="Erkenntnis-, Diagnose- und Lernmodell"><span>Erkenntnis-, Diagnose- und Lernmodell</span></a><a class="nav-link" href="../docs/11-geltungsbereich-und-systembegriff.html" data-title="Geltungsbereich, Anwendung und Grenzen"><span>Geltungsbereich, Anwendung und Grenzen</span></a></div><div class="nav-group"><div class="nav-group-title">Entscheiden &amp; Gestalten</div><a class="nav-link" href="../docs/14-gestaltungsprinzipien.html" data-title="Gestaltungsprinzipien"><span>Gestaltungsprinzipien</span></a><a class="nav-link" href="../docs/04-mechanismen-und-systemeigenschaften.html" data-title="Mechanismen, Systemeigenschaften und Ergebnisse"><span>Mechanismen, Systemeigenschaften und Ergebnisse</span></a><a class="nav-link" href="../docs/17-wirkungsmodell-und-diagnose.html" data-title="Wirkungsmodell und Diagnose"><span>Wirkungsmodell und Diagnose</span></a><a class="nav-link" href="../docs/05-entscheidungsmodell.html" data-title="Entscheidungsmodell"><span>Entscheidungsmodell</span></a><a class="nav-link" href="../docs/15-ziele-feedback-und-entwicklung.html" data-title="Ziele, Feedback und Entwicklung"><span>Ziele, Feedback und Entwicklung</span></a><a class="nav-link" href="../docs/20-anwendungsarchitektur.html" data-title="Aufbau und Anwendung des ChOS"><span>Aufbau und Anwendung des ChOS</span></a><a class="nav-link" href="../docs/25-strategie-und-anwendung.html" data-title="Strategie und ihre Anwendung"><span>Strategie und ihre Anwendung</span></a><a class="nav-link" href="../docs/27-strategische-priorisierung.html" data-title="Strategische Beitrags- und Belastungsbewertung"><span>Strategische Beitrags- und Belastungsbewertung</span></a><a class="nav-link" href="../docs/26-wirtschaftliche-systemsteuerung.html" data-title="Wirtschaftliche Systemsteuerung"><span>Wirtschaftliche Systemsteuerung</span></a><a class="nav-link" href="../docs/28-fuehrung-erste-sechs-monate.html" data-title="Die ersten sechs Monate einer neuen Führungskraft"><span>Die ersten sechs Monate einer neuen Führungskraft</span></a></div><div class="nav-group"><div class="nav-group-title">Qualität &amp; Wissen</div><a class="nav-link" href="../docs/18-wirtschaftlichkeit.html" data-title="Wirtschaftlichkeitsprüfung"><span>Wirtschaftlichkeitsprüfung</span></a><a class="nav-link" href="../docs/07-validierungsprozess.html" data-title="Validierungsprozess"><span>Validierungsprozess</span></a><a class="nav-link" href="../docs/16-wissensarchitektur-und-nutzerfokus.html" data-title="Wissensarchitektur, Denkraum und Nutzerfokus"><span>Wissensarchitektur, Denkraum und Nutzerfokus</span></a><a class="nav-link" href="../docs/19-quellen-einfluesse-und-recht.html" data-title="Quellen, Einflüsse und rechtliche Aufgaben"><span>Quellen, Einflüsse und rechtliche Aufgaben</span></a><a class="nav-link" href="../docs/22-qualitaetspruefung-und-governance.html" data-title="Qualitätsprüfung und Governance"><span>Qualitätsprüfung und Governance</span></a><a class="nav-link" href="../docs/23-system-validation.html" data-title="ChOS System Validation"><span>ChOS System Validation</span></a></div><div class="nav-group"><div class="nav-group-title">Playbooks</div><a class="nav-link" href="../docs/pb-001-team-uebernehmen.html" data-title="PB-001 – Ein Team übernehmen"><span>PB-001 – Ein Team übernehmen</span></a><a class="nav-link" href="../docs/pb-002-mitarbeiterentwicklung.html" data-title="PB-002 – Mitarbeiterentwicklung"><span>PB-002 – Mitarbeiterentwicklung</span></a><a class="nav-link" href="../docs/pb-003-mvp-produktentwicklung.html" data-title="PB-003 – Ein Produkt mit einem MVP entwickeln"><span>PB-003 – Ein Produkt mit einem MVP entwickeln</span></a><a class="nav-link" href="../docs/readme.html" data-title="Playbook-Bibliothek"><span>Playbook-Bibliothek</span></a></div><div class="nav-group"><div class="nav-group-title">Entwicklung &amp; Governance</div><a class="nav-link" href="../docs/09-arbeitsweise-und-fortsetzung.html" data-title="Arbeitsweise und Fortsetzung"><span>Arbeitsweise und Fortsetzung</span></a><a class="nav-link" href="../docs/12-offene-hypothesen-und-forschungsfragen.html" data-title="Offene Hypothesen und Forschungsfragen"><span>Offene Hypothesen und Forschungsfragen</span></a><a class="nav-link" href="../docs/08-change-log.html" data-title="Change Log"><span>Change Log</span></a><a class="nav-link" href="../docs/10-gespraechsprotokoll-konsolidiert.html" data-title="Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha"><span>Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha</span></a></div><div class="nav-group"><div class="nav-group-title">Repository</div><a class="nav-link" href="../docs/readme-2.html" data-title="Repository Governance"><span>Repository Governance</span></a><a class="nav-link" href="../docs/readme-3.html" data-title="ChOS anwenden"><span>ChOS anwenden</span></a><a class="nav-link" href="../docs/readme-8.html" data-title="ChOS Repository"><span>ChOS Repository</span></a></div><div class="nav-group"><div class="nav-group-title">Weitere Dokumente</div><a class="nav-link" href="../docs/24-governance-selbstkorrektur-und-integritaet.html" data-title="Governance für Selbstkorrektur und Integrität"><span>Governance für Selbstkorrektur und Integrität</span></a><a class="nav-link" href="../docs/authorship.html" data-title="Autorschaft"><span>Autorschaft</span></a><a class="nav-link" href="../docs/copyright.html" data-title="Copyright"><span>Copyright</span></a><a class="nav-link" href="../docs/github-import.html" data-title="GitHub Initial Import"><span>GitHub Initial Import</span></a><a class="nav-link" href="../docs/konsistenzbericht-beta-1.html" data-title="Konsistenzbericht ChOS v0.6 Beta.1"><span>Konsistenzbericht ChOS v0.6 Beta.1</span></a><a class="nav-link" href="../docs/license.html" data-title="Lizenz"><span>Lizenz</span></a><a class="nav-link" href="../docs/version.html" data-title="Version"><span>Version</span></a><a class="nav-link" href="../docs/change-control.html" data-title="Change Control"><span>Change Control</span></a><a class="nav-link" href="../docs/change-record-mensch-ki-integration.html" data-title="Änderungsnachweis – Mensch und KI in einem ChOS"><span>Änderungsnachweis – Mensch und KI in einem ChOS</span></a><a class="nav-link" href="../docs/integrity-checklist.html" data-title="Integrity Checklist"><span>Integrity Checklist</span></a><a class="nav-link" href="../docs/lessons-learned.html" data-title="Lessons Learned"><span>Lessons Learned</span></a><a class="nav-link" href="../docs/recovery-procedure.html" data-title="Recovery Procedure"><span>Recovery Procedure</span></a><a class="nav-link" href="../docs/release-process.html" data-title="Release Process"><span>Release Process</span></a><a class="nav-link" href="../docs/repository-principles.html" data-title="Repository Principles"><span>Repository Principles</span></a><a class="nav-link" href="../docs/repository-roles.html" data-title="Repository Roles"><span>Repository Roles</span></a><a class="nav-link" href="../docs/repository-workflow.html" data-title="Repository Workflow"><span>Repository Workflow</span></a><a class="nav-link" href="../docs/session-start-protocol.html" data-title="Session Start Protocol"><span>Session Start Protocol</span></a><a class="nav-link" href="../docs/six-release-safeguards.html" data-title="Six Release Safeguards"><span>Six Release Safeguards</span></a><a class="nav-link" href="../docs/snapshot-policy.html" data-title="Snapshot Policy"><span>Snapshot Policy</span></a><a class="nav-link" href="../docs/versioning-policy.html" data-title="Versioning Policy"><span>Versioning Policy</span></a><a class="nav-link" href="../docs/01-diagnosebogen.html" data-title="Diagnosebogen"><span>Diagnosebogen</span></a><a class="nav-link" href="../docs/02-selbstcheck.html" data-title="ChOS Selbstcheck"><span>ChOS Selbstcheck</span></a><a class="nav-link" href="../docs/03-clarity-session.html" data-title="Clarity Session – 90 Minuten"><span>Clarity Session – 90 Minuten</span></a><a class="nav-link" href="../docs/04-clarity-brief.html" data-title="Clarity Brief – Vorlage"><span>Clarity Brief – Vorlage</span></a><a class="nav-link" href="../docs/05-entscheidungsrahmen.html" data-title="Entscheidungsrahmen"><span>Entscheidungsrahmen</span></a><a class="nav-link" href="../docs/06-fallbeispiele.html" data-title="Zwei Fallbeispiele"><span>Zwei Fallbeispiele</span></a><a class="nav-link" href="../docs/07-glossar.html" data-title="Glossar"><span>Glossar</span></a></div></nav>
+      <div class="sidebar-note">Markdown bleibt die Quelle. HTML ist die lesbare Oberfläche.</div>
+    </aside>
+    <div class="sidebar-backdrop" data-menu-toggle></div>
+    <main id="content" class="main-content">
+<article class="document">
+  <header class="document-header">
+    <span class="eyebrow">Validierung</span>
+    <h1 id="top">ChOS – Phase 2 Validierungsübersicht</h1>
+    <p class="document-meta">Quelle: <code>validation/Phase_2_Validierungsuebersicht.md</code></p>
+  </header>
+  <div class="markdown-body"><p><strong>Phase:</strong> 2 – Validierung durch Anwendungen<br/>
+<strong>Stand:</strong> 19. Juli 2026<br/>
+<strong>Status:</strong> Weitgehend bestanden, Abschluss noch nicht vollständig<br/>
+<strong>Copyright:</strong> © 2026 Christian Leonhardt</p>
+<hr/>
+<h2 id="1-ziel-von-phase-2">1. Ziel von Phase 2<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#1-ziel-von-phase-2">#</a></h2>
+<p>Phase 2 soll zeigen, dass der bestehende ChOS-Kernel auf unterschiedliche organisatorische Kontexte angewendet werden kann, ohne bei jedem Szenario erweitert werden zu müssen.</p>
+<p>Geprüft wird insbesondere, ob Anwender mit dem <a class="denkraum-link" data-definition="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können." href="01-denkraum.html#kernel" title="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können.">Kernel</a>:</p>
+<ul>
+<li>vergleichbare organisatorische Diagnosen erzeugen,</li>
+<li>Wertbeiträge, Verantwortungen und Entscheidungsräume nachvollziehbar unterscheiden,</li>
+<li>Strukturveränderungen kernelbasiert begründen,</li>
+<li><a class="denkraum-link" data-definition="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a>, <a class="denkraum-link" data-definition="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit." href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a>, Aufgabe und Ausführung trennen,</li>
+<li>KI als Ausführungsform behandeln, ohne organisatorische Verantwortung an sie zu übertragen,</li>
+<li>und alternative Organisationslösungen transparent kritisieren können.</li>
+</ul>
+<p>Nicht <a class="denkraum-link" data-definition="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll." href="01-denkraum.html#ziel" title="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll.">Ziel</a> ist, dass alle Anwender identische Organigramme oder identische Verantwortungsräume entwerfen.</p>
+<hr/>
+<h2 id="2-verbindlicher-validierungsablauf">2. Verbindlicher Validierungsablauf<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#2-verbindlicher-validierungsablauf">#</a></h2>
+<p>Jede Architektur- und Validierungsdiskussion folgt diesem Ablauf:</p>
+<ol>
+<li>Fragestellung</li>
+<li>Kernel-Check</li>
+<li>Anwendung des bestehenden Kernels</li>
+<li>Gap-Analyse</li>
+<li>Team Red</li>
+<li>Erst danach gegebenenfalls:<ul>
+<li>Kontextanwendung</li>
+<li>ADR</li>
+<li>Kernel-Erweiterung</li>
+</ul>
+</li>
+</ol>
+<p>Vor jedem ADR ist zusätzlich ein Kernel Cross-Check erforderlich:</p>
+<ul>
+<li>Welche Kernel-Elemente wurden geprüft?</li>
+<li>Warum reichen sie nicht aus?</li>
+<li>Ist der Gap reproduzierbar?</li>
+<li>Kann er durch eine Kontextanwendung gelöst werden?</li>
+<li>Hat Team Red den Gap bestätigt?</li>
+</ul>
+<p>Grundannahme bleibt: Der bestehende Kernel gilt als <a class="denkraum-link" data-definition="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können." href="01-denkraum.html#ausreichend" title="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können.">ausreichend</a>, bis das Gegenteil reproduzierbar nachgewiesen ist.</p>
+<hr/>
+<h2 id="3-bisher-validierte-anwendungsszenarien">3. Bisher validierte Anwendungsszenarien<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#3-bisher-validierte-anwendungsszenarien">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Szenario</th>
+<th>Ergebnis</th>
+<th>Kernel-Gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Startup-Hypergrowth</td>
+<td>Kernel anwendbar</td>
+<td>Nein</td>
+</tr>
+<tr>
+<td>Krise und Restrukturierung</td>
+<td>Kernel anwendbar</td>
+<td>Nein</td>
+</tr>
+<tr>
+<td>CEO-Wechsel und Begründung organisatorischer Änderungen</td>
+<td>Kernel anwendbar</td>
+<td>Nein</td>
+</tr>
+<tr>
+<td>AI-native Organisationen</td>
+<td>Kernel anwendbar</td>
+<td>Nein</td>
+</tr>
+<tr>
+<td>Verkauf von Geschäftseinheiten</td>
+<td>Kernel anwendbar</td>
+<td>Nein</td>
+</tr>
+<tr>
+<td>Verantwortungsräume entwickeln und verändern</td>
+<td>Kernel anwendbar</td>
+<td>Nein</td>
+</tr>
+<tr>
+<td>Modellübergreifender Blindtest VR-01</td>
+<td>Bestanden</td>
+<td>Nein</td>
+</tr>
+</tbody>
+</table>
+<p>Das wiederkehrende Anwendungsmuster war:</p>
+<ol>
+<li>Orientierung</li>
+<li>Diagnose</li>
+<li><a class="denkraum-link" data-definition="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt." href="01-denkraum.html#strategie" title="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt.">Strategie</a></li>
+<li>Priorisierung</li>
+<li>wirtschaftliche <a class="denkraum-link" data-definition="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln." href="01-denkraum.html#steuerung" title="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln.">Steuerung</a></li>
+<li>Verantwortungsräume</li>
+<li>Governance</li>
+<li>Maßnahmen</li>
+</ol>
+<p>Die bisherigen Szenarien führten zu Kontextanwendungen, nicht zu begründeten Kernel-Erweiterungen.</p>
+<hr/>
+<h2 id="4-validierte-kernaussagen">4. Validierte Kernaussagen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#4-validierte-kernaussagen">#</a></h2>
+<h3 id="4-1-verantwortungsraume">4.1 Verantwortungsräume<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#4-1-verantwortungsraume">#</a></h3>
+<p>Ein Verantwortungsraum wird anhand folgender Elemente bestimmt:</p>
+<ul>
+<li><a class="denkraum-link" data-definition="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht." href="01-denkraum.html#wertbeitrag" title="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht.">Wertbeitrag</a></li>
+<li>Zielgruppe</li>
+<li>Verantwortung</li>
+<li>Entscheidungsraum</li>
+<li>Fähigkeiten</li>
+<li>Kontext</li>
+<li>Abhängigkeiten</li>
+</ul>
+<p>Ein Verantwortungsraum soll nur entstehen oder verändert werden, wenn sich mindestens eines der folgenden Elemente nachhaltig verändert:</p>
+<ul>
+<li>Wertbeitrag</li>
+<li>Verantwortung</li>
+<li>organisatorische Entscheidungsautorität</li>
+</ul>
+<p>Keine ausreichenden Gründe sind:</p>
+<ul>
+<li>höhere Mitarbeiterzahl,</li>
+<li>ein gewünschtes Organigramm,</li>
+<li>eine neue Führungskraft,</li>
+<li>persönliche Präferenzen,</li>
+<li>reine Kostensenkung,</li>
+<li>kurzfristige Symptome.</li>
+</ul>
+<h3 id="4-2-verantwortung-entscheidung-aufgabe-und-ausfuhrung">4.2 Verantwortung, Entscheidung, Aufgabe und Ausführung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#4-2-verantwortung-entscheidung-aufgabe-und-ausfuhrung">#</a></h3>
+<p>Die Validierungen bestätigen die notwendige Trennung von:</p>
+<ul>
+<li>Verantwortung</li>
+<li>Entscheidung</li>
+<li>Aufgabe</li>
+<li>Ausführung</li>
+</ul>
+<p>Ausführung kann erfolgen durch:</p>
+<ul>
+<li>Menschen,</li>
+<li>Teams,</li>
+<li>Software,</li>
+<li>KI-Systeme,</li>
+<li>Maschinen.</li>
+</ul>
+<p>Die Delegation von Ausführung überträgt weder organisatorische Verantwortung noch organisatorischen Entscheidungsraum.</p>
+<h3 id="4-3-stabilitat-von-verantwortungsraumen">4.3 Stabilität von Verantwortungsräumen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#4-3-stabilitat-von-verantwortungsraumen">#</a></h3>
+<p>Die bisherige Evidenz stützt die Arbeitshypothese, dass Verantwortungsräume stabil bleiben sollten, solange sich Wertbeitrag, Verantwortung und Entscheidungsautorität nicht nachhaltig verändern.</p>
+<p>Diese Aussage ist weiterhin eine validierte Arbeitshypothese und noch keine eigenständige Kernel-Regel.</p>
+<hr/>
+<h2 id="5-vr-01-modellubergreifender-blindtest">5. VR-01 – Modellübergreifender Blindtest<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#5-vr-01-modellubergreifender-blindtest">#</a></h2>
+<h3 id="5-1-versuchsaufbau">5.1 Versuchsaufbau<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#5-1-versuchsaufbau">#</a></h3>
+<p>Drei voneinander getrennte KI-Chats bearbeiteten dasselbe Testpaket. Dabei wurden mindestens zwei andere KI-Systeme neben ChatGPT verwendet.</p>
+<p>Alle Gruppen erhielten:</p>
+<ul>
+<li>denselben Kernel-Auszug,</li>
+<li>dasselbe Organisationsszenario,</li>
+<li>dieselbe Aufgabenstellung,</li>
+<li>dasselbe Ergebnisformat,</li>
+<li>keine Ergebnisse der anderen Gruppen.</li>
+</ul>
+<p>Szenario war die FlowDesk GmbH mit Konflikten zwischen Marketing, Vertrieb, Product, Engineering, Customer Success und Support sowie dem Einsatz eines KI-Assistenten.</p>
+<h3 id="5-2-prufhypothesen">5.2 Prüfhypothesen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#5-2-prufhypothesen">#</a></h3>
+<table>
+<thead>
+<tr>
+<th><a class="denkraum-link" data-definition="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit." href="01-denkraum.html#hypothese" title="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit.">Hypothese</a></th>
+<th style="text-align:right">Gruppe 1</th>
+<th style="text-align:right">Gruppe 2</th>
+<th style="text-align:right">Gruppe 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H1: Überlappung bei Vertragsverlängerungen wird erkannt</td>
+<td style="text-align:right">Ja</td>
+<td style="text-align:right">Ja</td>
+<td style="text-align:right">Ja</td>
+</tr>
+<tr>
+<td>H2: Product- und Engineering-Entscheidungsräume werden unterschieden</td>
+<td style="text-align:right">Ja</td>
+<td style="text-align:right">Ja</td>
+<td style="text-align:right">Ja</td>
+</tr>
+<tr>
+<td>H3: Einzelfall-Support wird von dauerhafter Ursachenbeseitigung unterschieden</td>
+<td style="text-align:right">Ja</td>
+<td style="text-align:right">Ja</td>
+<td style="text-align:right">Ja</td>
+</tr>
+<tr>
+<td>H4: KI verändert Ausführung, nicht Verantwortung</td>
+<td style="text-align:right">Ja</td>
+<td style="text-align:right">Ja</td>
+<td style="text-align:right">Ja</td>
+</tr>
+<tr>
+<td>H5: Zusammenlegung und Revenue Operations werden nur bei eigenständigem Wertbeitrag, Verantwortung und Entscheidungsraum akzeptiert</td>
+<td style="text-align:right">Ja</td>
+<td style="text-align:right">Ja</td>
+<td style="text-align:right">Ja</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ergebnis:</strong> 15 von 15 möglichen Hypothesentreffern.</p>
+<h3 id="5-3-bewertungsmatrix">5.3 Bewertungsmatrix<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#5-3-bewertungsmatrix">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>Kriterium</th>
+<th style="text-align:right">Gruppe 1</th>
+<th style="text-align:right">Gruppe 2</th>
+<th style="text-align:right">Gruppe 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Orientierung und Strategie</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">2</td>
+</tr>
+<tr>
+<td>Wertbeitrag</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+</tr>
+<tr>
+<td>Verantwortung</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+</tr>
+<tr>
+<td>Entscheidungsraum</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+</tr>
+<tr>
+<td>Aufgabe und Ausführung</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+</tr>
+<tr>
+<td>Abhängigkeiten</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+</tr>
+<tr>
+<td>kernelbasierte Veränderungsbegründung</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+<td style="text-align:right">2</td>
+</tr>
+<tr>
+<td>konkrete Validierbarkeit</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">1</td>
+<td style="text-align:right">1</td>
+</tr>
+<tr>
+<td><strong>Gesamt</strong></td>
+<td style="text-align:right"><strong>15/16</strong></td>
+<td style="text-align:right"><strong>14/16</strong></td>
+<td style="text-align:right"><strong>15/16</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Vorab definierte Bestehensgrenze: mindestens 12 von 16 Punkten je Gruppe.</p>
+<p>Alle drei Gruppen haben bestanden.</p>
+<h3 id="5-4-gemeinsame-diagnose">5.4 Gemeinsame Diagnose<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#5-4-gemeinsame-diagnose">#</a></h3>
+<p>Alle drei Gruppen erkannten unabhängig voneinander:</p>
+<ul>
+<li>eine Entscheidungsraumverletzung durch Vertriebszusagen,</li>
+<li>eine ungeklärte Ergebnisverantwortung für Vertragsverlängerungen,</li>
+<li>eine fehlende Rückkopplung zwischen Support, Product und Engineering,</li>
+<li>einen legitimen, aber governancepflichtigen Konflikt zwischen Produktpriorisierung und technischer Risikoverantwortung,</li>
+<li>die fortbestehende Supportverantwortung trotz KI-Ausführung,</li>
+<li>die fehlende kernelbasierte Begründung für die Zusammenlegung von Support und Customer Success,</li>
+<li>die fehlende Definition eines eigenständigen Verantwortungsraums Revenue Operations,</li>
+<li>und die Unzulässigkeit von Mitarbeiterwachstum als alleiniger Strukturbegründung.</li>
+</ul>
+<h3 id="5-5-unterschiedliche-strukturvorschlage">5.5 Unterschiedliche Strukturvorschläge<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#5-5-unterschiedliche-strukturvorschlage">#</a></h3>
+<p>Die Gruppen kamen nicht zu identischen Strukturen:</p>
+<ul>
+<li>Eine Gruppe führte Marketing und Vertrieb zu einem Verantwortungsraum „Marktzugang“ zusammen; zwei Gruppen ließen beide getrennt.</li>
+<li>Eine Gruppe führte Product und Engineering zusammen; zwei Gruppen ließen beide getrennt und forderten Governance für den Konflikt.</li>
+<li>Die Verantwortung für Vertragsverlängerungen wurde unterschiedlich zugeordnet oder bewusst offengelassen.</li>
+</ul>
+<p>Diese Abweichungen widerlegen den Test nicht. Sie stützen vielmehr das vorgesehene Reproduzierbarkeitsverständnis:</p>
+<blockquote>
+<p>Reproduzierbarkeit bedeutet vergleichbare Diagnose und kernelbasierte Begründung, nicht identisches Organisationsdesign.</p>
+</blockquote>
+<hr/>
+<h2 id="6-ergebnis-der-gap-analyse">6. Ergebnis der Gap-Analyse<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#6-ergebnis-der-gap-analyse">#</a></h2>
+<h3 id="6-1-kein-nachgewiesener-kernel-gap">6.1 Kein nachgewiesener Kernel-Gap<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#6-1-kein-nachgewiesener-kernel-gap">#</a></h3>
+<p>Keines der bisherigen Szenarien und auch VR-01 verlangten ein neues Kernel-Element.</p>
+<p>Der bestehende Kernel war ausreichend für:</p>
+<ul>
+<li>Diagnose,</li>
+<li>Verantwortungsabgrenzung,</li>
+<li>Entscheidungsraumklärung,</li>
+<li>Analyse von Abhängigkeiten,</li>
+<li>Governance-Ableitung,</li>
+<li>KI-Einordnung,</li>
+<li>und Team-Red-Kritik.</li>
+</ul>
+<p>Damit ist derzeit weder ein ADR noch eine Kernel-Erweiterung begründet.</p>
+<h3 id="6-2-moglicher-gap-in-der-kontextanwendung">6.2 Möglicher Gap in der Kontextanwendung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#6-2-moglicher-gap-in-der-kontextanwendung">#</a></h3>
+<p>Die drei VR-01-Gruppen waren stark bei Diagnose und Begründung, aber schwächer bei der späteren Wirkungsvalidierung.</p>
+<p>Möglicherweise sollte eine Kontextanwendung künftig ausdrücklich verlangen:</p>
+<ul>
+<li>erwartete Wirkung,</li>
+<li>beobachtbares Signal,</li>
+<li>Mess- oder Beobachtungszeitraum,</li>
+<li>verantwortlichen Raum für die Überprüfung,</li>
+<li>Anpassungs- oder Rücknahmekriterium.</li>
+</ul>
+<p>Dieser Punkt ist noch kein bestätigter Gap. Er muss in weiteren Anwendungen reproduziert werden.</p>
+<hr/>
+<h2 id="7-team-red">7. Team Red<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#7-team-red">#</a></h2>
+<h3 id="7-1-grenzen-des-vr-01-ergebnisses">7.1 Grenzen des VR-01-Ergebnisses<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#7-1-grenzen-des-vr-01-ergebnisses">#</a></h3>
+<p>Der Test ist modellübergreifend, aber noch nicht menschlich unabhängig validiert.</p>
+<p>Auch unterschiedliche KI-Systeme können:</p>
+<ul>
+<li>ähnliche öffentliche Organisationskonzepte kennen,</li>
+<li>ähnliche Sprachmuster erzeugen,</li>
+<li>durch den expliziten Testprompt in dieselbe Richtung gelenkt werden,</li>
+<li>und dieselben systematischen blinden Flecken besitzen.</li>
+</ul>
+<h3 id="7-2-starker-prompt">7.2 Starker Prompt<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#7-2-starker-prompt">#</a></h3>
+<p>Der Kernel-Auszug enthielt bereits klare Regeln zu:</p>
+<ul>
+<li>Mitarbeiterzahlen,</li>
+<li>Verantwortung,</li>
+<li>Entscheidungsräumen,</li>
+<li>und KI-Ausführung.</li>
+</ul>
+<p>Der Test zeigt daher sicher, dass der Kernel verständlich und über mehrere Modelle hinweg anwendbar ist. Er zeigt noch nicht vollständig, ob Anwender in schwächer strukturierten Realsituationen dieselben Diagnosen selbstständig erzeugen.</p>
+<h3 id="7-3-kleine-stichprobe">7.3 Kleine Stichprobe<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#7-3-kleine-stichprobe">#</a></h3>
+<p>Drei Gruppen reichen für einen belastbaren qualitativen Hinweis, aber nicht für statistische Evidenz.</p>
+<h3 id="7-4-bewertungsrisiko">7.4 Bewertungsrisiko<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#7-4-bewertungsrisiko">#</a></h3>
+<p>Die Bewertung wurde anhand vorher definierter Hypothesen vorgenommen. Dadurch könnten wichtige, unerwartete Diagnosen unterbewertet werden.</p>
+<p>Künftige Auswertungen sollten zusätzlich verpflichtend fragen:</p>
+<blockquote>
+<p>Welche wichtige Diagnose wurde gefunden, die im Bewertungsmodell nicht erwartet war?</p>
+</blockquote>
+<h3 id="7-5-strukturqualitat-nicht-abschliessend-gepruft">7.5 Strukturqualität nicht abschließend geprüft<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#7-5-strukturqualitat-nicht-abschliessend-gepruft">#</a></h3>
+<p>VR-01 zeigt, dass unterschiedliche Strukturen kernelbasiert hergeleitet werden können. Der Test zeigt nicht, welche Struktur unter realen Bedingungen die bessere Wirkung erzielt.</p>
+<p>Dafür wären reale Implementierung und spätere Wirkungsbeobachtung notwendig.</p>
+<hr/>
+<h2 id="8-prufung-des-phase-2-status">8. Prüfung des Phase-2-Status<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#8-prufung-des-phase-2-status">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Abschlusskriterium</th>
+<th>Status</th>
+<th>Bewertung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kernel in mehreren unterschiedlichen Szenarien anwendbar</td>
+<td>Erfüllt</td>
+<td>Mehrere stark unterschiedliche Szenarien validiert</td>
+</tr>
+<tr>
+<td>Keine vorschnellen Kernel-Erweiterungen</td>
+<td>Erfüllt</td>
+<td>Kein reproduzierbarer Kernel-Gap festgestellt</td>
+</tr>
+<tr>
+<td>Verantwortung und Ausführung sauber trennbar</td>
+<td>Erfüllt</td>
+<td>Einschließlich AI-native und VR-01</td>
+</tr>
+<tr>
+<td>Strukturänderungen kernelbasiert begründbar</td>
+<td>Erfüllt</td>
+<td>Wiederholt bestätigt</td>
+</tr>
+<tr>
+<td>Vergleichbare Diagnose durch unabhängige Anwender</td>
+<td>Teilweise erfüllt</td>
+<td>Modellübergreifend bestätigt, menschlich noch offen</td>
+</tr>
+<tr>
+<td>Kontextanwendungen reproduzierbar nutzbar</td>
+<td>Weitgehend erfüllt</td>
+<td>Diagnosekonvergenz hoch</td>
+</tr>
+<tr>
+<td>Wirkung realer Organisationsänderungen validiert</td>
+<td>Offen</td>
+<td>Bisher überwiegend Analyse- und Entwurfsvalidierung</td>
+</tr>
+<tr>
+<td>Menschliche Anwendung ohne Mitentwicklungskontext</td>
+<td>Offen</td>
+<td>Noch kein kontrollierter Test</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gesamturteil">Gesamturteil<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#gesamturteil">#</a></h3>
+<p>Phase 2 ist <strong>inhaltlich weit fortgeschritten und qualitativ erfolgreich</strong>, aber noch nicht vollständig abgeschlossen.</p>
+<p>Empfohlener Status:</p>
+<blockquote>
+<p><strong>Phase 2 – Kernvalidierung bestanden; externe menschliche und wirkungsbezogene Validierung noch offen.</strong></p>
+</blockquote>
+<hr/>
+<h2 id="9-empfohlene-nachsten-validierungen">9. Empfohlene nächsten Validierungen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#9-empfohlene-nachsten-validierungen">#</a></h2>
+<h3 id="vr-02-menschliche-anwendergruppen">VR-02 – Menschliche Anwendergruppen<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#vr-02-menschliche-anwendergruppen">#</a></h3>
+<p>Ziel:</p>
+<p>Prüfen, ob Menschen ohne Beteiligung an der ChOS-Entwicklung mit demselben Testpaket zu vergleichbaren Diagnosen kommen.</p>
+<p>Empfohlen werden mindestens drei Personen oder Gruppen:</p>
+<ul>
+<li>mit Organisationserfahrung,</li>
+<li>mit Führungserfahrung, aber ohne Organisationsarchitektur-Hintergrund,</li>
+<li>ohne ChOS-Vorerfahrung.</li>
+</ul>
+<h3 id="vr-03-reduzierter-prompt">VR-03 – Reduzierter Prompt<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#vr-03-reduzierter-prompt">#</a></h3>
+<p>Ziel:</p>
+<p>Prüfen, ob die Diagnosekonvergenz auch dann erhalten bleibt, wenn die Kontextanwendung weniger stark strukturiert ist.</p>
+<h3 id="vr-04-reale-wirkung">VR-04 – Reale Wirkung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#vr-04-reale-wirkung">#</a></h3>
+<p>Ziel:</p>
+<p>Eine konkrete Organisationsänderung vor und nach der Anwendung beobachten.</p>
+<p>Mögliche Validierungssignale:</p>
+<ul>
+<li>weniger Verantwortungsüberschneidungen,</li>
+<li>kürzere Entscheidungszeiten,</li>
+<li>geringere Zahl nicht autorisierter Zusagen,</li>
+<li>sinkende Zahl wiederkehrender Supportursachen,</li>
+<li>klarere Eskalationen,</li>
+<li>überprüfbare KI-Qualität,</li>
+<li>weniger informelle Entscheidungsverschiebungen.</li>
+</ul>
+<hr/>
+<h2 id="10-vorlaufige-schlussfolgerung-fur-phase-2">10. Vorläufige Schlussfolgerung für Phase 2<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#10-vorlaufige-schlussfolgerung-fur-phase-2">#</a></h2>
+<p>Die bisherige Evidenz stützt folgende Aussage:</p>
+<blockquote>
+<p>ChOS erzeugt nicht zwingend identische Organisationsstrukturen. Der Kernel führt jedoch in unterschiedlichen Szenarien und über verschiedene KI-Systeme hinweg zu einer stark vergleichbaren Diagnose, zu nachvollziehbaren Verantwortungs- und Entscheidungsgrenzen sowie zu kritisierbaren, kernelbasierten Strukturentscheidungen.</p>
+</blockquote>
+<p>Der Kernel hat Phase 2 bisher ohne nachgewiesene Erweiterungsnotwendigkeit überstanden.</p>
+<p>Ein formaler Abschluss von Phase 2 sollte erst nach mindestens einer unabhängigen menschlichen Validierung oder einer realen Wirkungsvalidierung erfolgen.</p>
+<hr/>
+<h2 id="11-dokumentationsentscheidung">11. Dokumentationsentscheidung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#11-dokumentationsentscheidung">#</a></h2>
+<p>VR-01 wird eingeordnet als:</p>
+<ul>
+<li>Validierungsartefakt,</li>
+<li>kein ADR,</li>
+<li>keine Kernel-Erweiterung,</li>
+<li>keine Governance-Änderung.</li>
+</ul>
+<p>Aus dem Ergebnis wird aktuell keine Architekturänderung abgeleitet.</p>
+<hr/>
+<p>Copyright © 2026 Christian Leonhardt.</p>
+</div>
+  <aside class="related-terms" aria-label="Verwandte Begriffe"><h2>Verwandte Begriffe im Denkraum</h2><p>Diese Begriffe werden in diesem Kapitel verwendet und sind direkt mit ihrer vollständigen Erklärung verknüpft.</p><div class="related-term-list"><a class="related-term" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a><a class="related-term" href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a><a class="related-term" href="01-denkraum.html#ausreichend" title="Ausreichend bedeutet, dass die wesentlichen Informationen oder Voraussetzungen vorliegen, um den nächsten Schritt verantwortungsvoll durchführen zu können.">Ausreichend</a><a class="related-term" href="01-denkraum.html#wertbeitrag" title="Ein Wertbeitrag beschreibt die nachvollziehbare Wirkung, die eine Person, ein Team oder eine Domäne für Kunden, Organisation oder Gesamtsystem ermöglicht.">Wertbeitrag</a><a class="related-term" href="01-denkraum.html#hypothese" title="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit.">Hypothese</a><a class="related-term" href="01-denkraum.html#steuerung" title="Steuerung bedeutet, ein System durch bewusste Entscheidungen, Rückmeldungen und Anpassungen in Richtung eines gewünschten Zustands zu entwickeln.">Steuerung</a><a class="related-term" href="01-denkraum.html#strategie" title="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt.">Strategie</a><a class="related-term" href="01-denkraum.html#kernel" title="Der Kernel ist die kleinste stabile Grundlage des ChOS, aus der unterschiedliche Anwendungen, Playbooks und Werkzeuge abgeleitet werden können.">Kernel</a><a class="related-term" href="01-denkraum.html#ziel" title="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll.">Ziel</a></div></aside>
+  <nav class="document-pagination" aria-label="Vorheriges und nächstes Dokument">
+    <div><a href="phase-2-status.html">← Phase 2 – Validierungsstatus</a></div><div><a href="readme-5.html">Validierung →</a></div>
+  </nav>
+  <footer class="page-footer">Generiert aus <code>validation/Phase_2_Validierungsuebersicht.md</code> · Version 0.6 Beta.1 · Copyright © 2026 Christian Leonhardt</footer>
+</article>
+</main>
+  </div>
+</body>
+</html>

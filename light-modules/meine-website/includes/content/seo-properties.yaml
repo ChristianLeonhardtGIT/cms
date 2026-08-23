@@ -1,0 +1,25 @@
+name: seoMetadata
+properties:
+  - name: seoTitle
+    label: SEO-Titel
+    type: String
+    i18n: true
+  - name: metaDescription
+    label: Meta-Beschreibung
+    type: String
+    i18n: true
+  - name: socialTitle
+    label: Social-Media-Titel
+    type: String
+    i18n: true
+  - name: socialDescription
+    label: Social-Media-Beschreibung
+    type: String
+    i18n: true
+  - name: socialImage
+    label: Social-Media-Bild
+    type: reference:asset
+  - name: socialImageAlt
+    label: Alternativtext des Social-Media-Bildes
+    type: String
+    i18n: true

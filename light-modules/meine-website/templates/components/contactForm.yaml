@@ -1,0 +1,26 @@
+class: info.magnolia.module.form.templates.components.FormParagraph
+dialog: form:form
+modelClass: info.magnolia.module.form.templates.components.FormModel
+renderType: freemarker
+templateScript: /meine-website/templates/components/contactForm.ftl
+
+formProcessors:
+  trackEMail:
+    class: info.magnolia.module.form.processors.TrackEmailProcessor
+    enabled: false
+    loggerName: log-form
+  sendContactEMail:
+    class: info.magnolia.module.form.processors.SendContactEMailProcessor
+    enabled: false
+
+parameters:
+  formEnctype: application/x-www-form-urlencoded
+
+areas:
+  fieldsets:
+    enabled: true
+    templateScript: /form/generic/listArea.ftl
+    type: list
+    availableComponents:
+      formGroupFields:
+        id: form:components/formGroupFields

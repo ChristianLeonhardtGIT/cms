@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ChOS – lebendes Denk- und Entscheidungsmodell">
+  <title>Konsistenzbericht ChOS v0.6 Beta.1 · ChOS</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script defer src="../assets/search-index.js"></script>
+  <script defer src="../assets/app.js"></script>
+</head>
+<body class="document-page">
+  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <header class="topbar">
+    <button class="icon-button menu-button" type="button" data-menu-toggle aria-label="Navigation öffnen">☰</button>
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">Ch</span>
+      <span><strong>ChOS</strong><small>Version 0.6 Beta.1</small></span>
+    </a>
+    <div class="topbar-actions">
+      <a class="top-link" href="../all-in-one.html">Alles lesen</a>
+      <a class="top-link" href="../reports/validation-report.html">Systemcheck</a>
+      <button class="icon-button" type="button" data-theme-toggle aria-label="Darstellung wechseln">◐</button>
+    </div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" data-sidebar>
+      <div class="search-wrap">
+        <label class="sr-only" for="site-search">Dokumente durchsuchen</label>
+        <input id="site-search" class="search-input" type="search" placeholder="ChOS durchsuchen …" autocomplete="off" data-search>
+        <div class="search-results" data-search-results hidden></div>
+      </div>
+      <nav class="navigation" aria-label="Dokumentation"><div class="nav-group"><div class="nav-group-title">Fundament</div><a class="nav-link" href="../docs/00-executive-summary.html" data-title="ChOS – Executive Summary"><span>ChOS – Executive Summary</span></a><a class="nav-link" href="../docs/21-ethik-und-zielkonflikte.html" data-title="Ethik und Umgang mit Zielkonflikten"><span>Ethik und Umgang mit Zielkonflikten</span></a><a class="nav-link" href="../docs/13-menschenbild.html" data-title="Menschenbild v0.2 – Beta-Grundlage"><span>Menschenbild v0.2 – Beta-Grundlage</span></a><a class="nav-link" href="../docs/06-wertearchitektur.html" data-title="Wertearchitektur"><span>Wertearchitektur</span></a><a class="nav-link" href="../docs/02-kernel-und-werte.html" data-title="Kernel, Ethik und Werte"><span>Kernel, Ethik und Werte</span></a><a class="nav-link" href="../docs/01-denkraum.html" data-title="Denkraum – die gemeinsame Kontextsprache des ChOS"><span>Denkraum – die gemeinsame Kontextsprache des ChOS</span></a><a class="nav-link" href="../docs/03-erkenntnismodell.html" data-title="Erkenntnis-, Diagnose- und Lernmodell"><span>Erkenntnis-, Diagnose- und Lernmodell</span></a><a class="nav-link" href="../docs/11-geltungsbereich-und-systembegriff.html" data-title="Geltungsbereich, Anwendung und Grenzen"><span>Geltungsbereich, Anwendung und Grenzen</span></a></div><div class="nav-group"><div class="nav-group-title">Entscheiden &amp; Gestalten</div><a class="nav-link" href="../docs/14-gestaltungsprinzipien.html" data-title="Gestaltungsprinzipien"><span>Gestaltungsprinzipien</span></a><a class="nav-link" href="../docs/04-mechanismen-und-systemeigenschaften.html" data-title="Mechanismen, Systemeigenschaften und Ergebnisse"><span>Mechanismen, Systemeigenschaften und Ergebnisse</span></a><a class="nav-link" href="../docs/17-wirkungsmodell-und-diagnose.html" data-title="Wirkungsmodell und Diagnose"><span>Wirkungsmodell und Diagnose</span></a><a class="nav-link" href="../docs/05-entscheidungsmodell.html" data-title="Entscheidungsmodell"><span>Entscheidungsmodell</span></a><a class="nav-link" href="../docs/15-ziele-feedback-und-entwicklung.html" data-title="Ziele, Feedback und Entwicklung"><span>Ziele, Feedback und Entwicklung</span></a><a class="nav-link" href="../docs/20-anwendungsarchitektur.html" data-title="Aufbau und Anwendung des ChOS"><span>Aufbau und Anwendung des ChOS</span></a><a class="nav-link" href="../docs/25-strategie-und-anwendung.html" data-title="Strategie und ihre Anwendung"><span>Strategie und ihre Anwendung</span></a><a class="nav-link" href="../docs/27-strategische-priorisierung.html" data-title="Strategische Beitrags- und Belastungsbewertung"><span>Strategische Beitrags- und Belastungsbewertung</span></a><a class="nav-link" href="../docs/26-wirtschaftliche-systemsteuerung.html" data-title="Wirtschaftliche Systemsteuerung"><span>Wirtschaftliche Systemsteuerung</span></a><a class="nav-link" href="../docs/28-fuehrung-erste-sechs-monate.html" data-title="Die ersten sechs Monate einer neuen Führungskraft"><span>Die ersten sechs Monate einer neuen Führungskraft</span></a></div><div class="nav-group"><div class="nav-group-title">Qualität &amp; Wissen</div><a class="nav-link" href="../docs/18-wirtschaftlichkeit.html" data-title="Wirtschaftlichkeitsprüfung"><span>Wirtschaftlichkeitsprüfung</span></a><a class="nav-link" href="../docs/07-validierungsprozess.html" data-title="Validierungsprozess"><span>Validierungsprozess</span></a><a class="nav-link" href="../docs/16-wissensarchitektur-und-nutzerfokus.html" data-title="Wissensarchitektur, Denkraum und Nutzerfokus"><span>Wissensarchitektur, Denkraum und Nutzerfokus</span></a><a class="nav-link" href="../docs/19-quellen-einfluesse-und-recht.html" data-title="Quellen, Einflüsse und rechtliche Aufgaben"><span>Quellen, Einflüsse und rechtliche Aufgaben</span></a><a class="nav-link" href="../docs/22-qualitaetspruefung-und-governance.html" data-title="Qualitätsprüfung und Governance"><span>Qualitätsprüfung und Governance</span></a><a class="nav-link" href="../docs/23-system-validation.html" data-title="ChOS System Validation"><span>ChOS System Validation</span></a></div><div class="nav-group"><div class="nav-group-title">Playbooks</div><a class="nav-link" href="../docs/pb-001-team-uebernehmen.html" data-title="PB-001 – Ein Team übernehmen"><span>PB-001 – Ein Team übernehmen</span></a><a class="nav-link" href="../docs/pb-002-mitarbeiterentwicklung.html" data-title="PB-002 – Mitarbeiterentwicklung"><span>PB-002 – Mitarbeiterentwicklung</span></a><a class="nav-link" href="../docs/pb-003-mvp-produktentwicklung.html" data-title="PB-003 – Ein Produkt mit einem MVP entwickeln"><span>PB-003 – Ein Produkt mit einem MVP entwickeln</span></a><a class="nav-link" href="../docs/readme.html" data-title="Playbook-Bibliothek"><span>Playbook-Bibliothek</span></a></div><div class="nav-group"><div class="nav-group-title">Entwicklung &amp; Governance</div><a class="nav-link" href="../docs/09-arbeitsweise-und-fortsetzung.html" data-title="Arbeitsweise und Fortsetzung"><span>Arbeitsweise und Fortsetzung</span></a><a class="nav-link" href="../docs/12-offene-hypothesen-und-forschungsfragen.html" data-title="Offene Hypothesen und Forschungsfragen"><span>Offene Hypothesen und Forschungsfragen</span></a><a class="nav-link" href="../docs/08-change-log.html" data-title="Change Log"><span>Change Log</span></a><a class="nav-link" href="../docs/10-gespraechsprotokoll-konsolidiert.html" data-title="Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha"><span>Gesprächsprotokoll – konsolidierter Entwicklungsstand bis v0.5 Alpha</span></a></div><div class="nav-group"><div class="nav-group-title">Repository</div><a class="nav-link" href="../docs/readme-2.html" data-title="Repository Governance"><span>Repository Governance</span></a><a class="nav-link" href="../docs/readme-3.html" data-title="ChOS anwenden"><span>ChOS anwenden</span></a><a class="nav-link" href="../docs/readme-8.html" data-title="ChOS Repository"><span>ChOS Repository</span></a></div><div class="nav-group"><div class="nav-group-title">Weitere Dokumente</div><a class="nav-link" href="../docs/24-governance-selbstkorrektur-und-integritaet.html" data-title="Governance für Selbstkorrektur und Integrität"><span>Governance für Selbstkorrektur und Integrität</span></a><a class="nav-link" href="../docs/authorship.html" data-title="Autorschaft"><span>Autorschaft</span></a><a class="nav-link" href="../docs/copyright.html" data-title="Copyright"><span>Copyright</span></a><a class="nav-link" href="../docs/github-import.html" data-title="GitHub Initial Import"><span>GitHub Initial Import</span></a><a class="nav-link active" href="../docs/konsistenzbericht-beta-1.html" data-title="Konsistenzbericht ChOS v0.6 Beta.1"><span>Konsistenzbericht ChOS v0.6 Beta.1</span></a><a class="nav-link" href="../docs/license.html" data-title="Lizenz"><span>Lizenz</span></a><a class="nav-link" href="../docs/version.html" data-title="Version"><span>Version</span></a><a class="nav-link" href="../docs/change-control.html" data-title="Change Control"><span>Change Control</span></a><a class="nav-link" href="../docs/change-record-mensch-ki-integration.html" data-title="Änderungsnachweis – Mensch und KI in einem ChOS"><span>Änderungsnachweis – Mensch und KI in einem ChOS</span></a><a class="nav-link" href="../docs/integrity-checklist.html" data-title="Integrity Checklist"><span>Integrity Checklist</span></a><a class="nav-link" href="../docs/lessons-learned.html" data-title="Lessons Learned"><span>Lessons Learned</span></a><a class="nav-link" href="../docs/recovery-procedure.html" data-title="Recovery Procedure"><span>Recovery Procedure</span></a><a class="nav-link" href="../docs/release-process.html" data-title="Release Process"><span>Release Process</span></a><a class="nav-link" href="../docs/repository-principles.html" data-title="Repository Principles"><span>Repository Principles</span></a><a class="nav-link" href="../docs/repository-roles.html" data-title="Repository Roles"><span>Repository Roles</span></a><a class="nav-link" href="../docs/repository-workflow.html" data-title="Repository Workflow"><span>Repository Workflow</span></a><a class="nav-link" href="../docs/session-start-protocol.html" data-title="Session Start Protocol"><span>Session Start Protocol</span></a><a class="nav-link" href="../docs/six-release-safeguards.html" data-title="Six Release Safeguards"><span>Six Release Safeguards</span></a><a class="nav-link" href="../docs/snapshot-policy.html" data-title="Snapshot Policy"><span>Snapshot Policy</span></a><a class="nav-link" href="../docs/versioning-policy.html" data-title="Versioning Policy"><span>Versioning Policy</span></a><a class="nav-link" href="../docs/01-diagnosebogen.html" data-title="Diagnosebogen"><span>Diagnosebogen</span></a><a class="nav-link" href="../docs/02-selbstcheck.html" data-title="ChOS Selbstcheck"><span>ChOS Selbstcheck</span></a><a class="nav-link" href="../docs/03-clarity-session.html" data-title="Clarity Session – 90 Minuten"><span>Clarity Session – 90 Minuten</span></a><a class="nav-link" href="../docs/04-clarity-brief.html" data-title="Clarity Brief – Vorlage"><span>Clarity Brief – Vorlage</span></a><a class="nav-link" href="../docs/05-entscheidungsrahmen.html" data-title="Entscheidungsrahmen"><span>Entscheidungsrahmen</span></a><a class="nav-link" href="../docs/06-fallbeispiele.html" data-title="Zwei Fallbeispiele"><span>Zwei Fallbeispiele</span></a><a class="nav-link" href="../docs/07-glossar.html" data-title="Glossar"><span>Glossar</span></a></div></nav>
+      <div class="sidebar-note">Markdown bleibt die Quelle. HTML ist die lesbare Oberfläche.</div>
+    </aside>
+    <div class="sidebar-backdrop" data-menu-toggle></div>
+    <main id="content" class="main-content">
+<article class="document">
+  <header class="document-header">
+    <span class="eyebrow">Weitere Dokumente</span>
+    <h1 id="top">Konsistenzbericht ChOS v0.6 Beta.1</h1>
+    <p class="document-meta">Quelle: <code>KONSISTENZBERICHT_BETA_1.md</code></p>
+  </header>
+  <div class="markdown-body"><p><strong>Prüfdatum:</strong> 8. August 2026<br/>
+<strong>Ausgangsstand:</strong> ChOS v0.5 Alpha.9 Mensch und KI, 190 Dateien<br/>
+<strong><a class="denkraum-link" data-definition="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll." href="01-denkraum.html#ziel" title="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll.">Ziel</a>:</strong> Prüfung und direkte Anpassung an die festgelegte Beta.1-Baseline</p>
+<h2 id="ergebnis">Ergebnis<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#ergebnis">#</a></h2>
+<p>Die kanonische fachliche Quelle ist jetzt in sich konsistent mit:</p>
+<ul>
+<li>fünf Perspektiven: Richtung, Entscheidungen, <a class="denkraum-link" data-definition="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a>, Zusammenarbeit und Lernen,</li>
+<li>einem ChOS für Menschen, Software und KI,</li>
+<li><a class="denkraum-link" data-definition="Das Menschenbild bündelt die überprüfbaren Arbeitsannahmen, mit denen ChOS menschliches Handeln, Entwicklung und Interpretation betrachtet." href="01-denkraum.html#menschenbild" title="Das Menschenbild bündelt die überprüfbaren Arbeitsannahmen, mit denen ChOS menschliches Handeln, Entwicklung und Interpretation betrachtet.">Menschenbild</a> v0.2,</li>
+<li>sieben Kernel-Prinzipien,</li>
+<li>der ethischen Grenze „Menschen sind nicht nur Mittel zur Zielerreichung“,</li>
+<li>klaren Grenzen von ChOS,</li>
+<li>einer gemeinsamen Sprache für Diagnose, Selbstcheck, Klärung, <a class="denkraum-link" data-definition="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit." href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a> und Ergebnisse.</li>
+</ul>
+<p>Historische Archive, Gesprächsprotokolle und originale Validierungsausgaben wurden nicht nachträglich umgeschrieben. Sie sind als Belege früherer Stände gekennzeichnet und nicht normativ.</p>
+<h2 id="bewertungsregel">Bewertungsregel<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#bewertungsregel">#</a></h2>
+<ul>
+<li><strong>passt:</strong> mit der Baseline vereinbar; keine fachliche Änderung nötig.</li>
+<li><strong>anpassen:</strong> Inhalt blieb bestehen, wurde aber sprachlich oder fachlich an Beta.1 angeglichen.</li>
+<li><strong>zusammenführen:</strong> mehrere überlappende Inhalte wurden über eine gemeinsame Referenz oder ein kanonisches Artefakt verbunden.</li>
+<li><strong>entfernen:</strong> nicht mehr gültiger normativer Inhalt wurde aus dem aktiven Stand entfernt; historische Belege bleiben im Archiv.</li>
+</ul>
+<h2 id="zentrale-artefakte">Zentrale Artefakte<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#zentrale-artefakte">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Artefakt</th>
+<th>Status</th>
+<th>Begründung und Maßnahme</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>anpassen</td>
+<td>Version, Status, Baseline und neue Anwendungsartefakte ergänzt.</td>
+</tr>
+<tr>
+<td><code>VERSION.md</code></td>
+<td>anpassen</td>
+<td>Alpha.9 durch 0.6 Beta.1 ersetzt.</td>
+</tr>
+<tr>
+<td><code>00_Executive_Summary.md</code></td>
+<td>anpassen</td>
+<td>Beta-Status, sieben Prinzipien und ethische Grenze aufgenommen.</td>
+</tr>
+<tr>
+<td><code>01_Denkraum.md</code></td>
+<td>passt</td>
+<td>Arbeits- und Begriffsgeschichte bleibt als <a class="denkraum-link" data-definition="Der Denkraum ist die vernetzte gemeinsame Kontextsprache des ChOS. Er erklärt zentrale Begriffe, ihre Abgrenzungen, Beziehungen und Anwendungsorte." href="01-denkraum.html#denkraum" title="Der Denkraum ist die vernetzte gemeinsame Kontextsprache des ChOS. Er erklärt zentrale Begriffe, ihre Abgrenzungen, Beziehungen und Anwendungsorte.">Denkraum</a> erhalten; nicht allein normativ.</td>
+</tr>
+<tr>
+<td><code>02_Kernel_und_Werte.md</code></td>
+<td>anpassen</td>
+<td>Alte Kernel-Kandidaten als normative Liste entfernt und durch sieben verbindliche Prinzipien ersetzt.</td>
+</tr>
+<tr>
+<td><code>03_Erkenntnismodell.md</code></td>
+<td>anpassen</td>
+<td>„Diagnose vor Intervention“ ist inhaltlich passend; verbindliche Sprache ist künftig „Diagnose vor Eingriff“. Anpassung erfolgt über Glossar und Anwendungsartefakte.</td>
+</tr>
+<tr>
+<td><code>04_Mechanismen_und_Systemeigenschaften.md</code></td>
+<td>passt</td>
+<td>Beschreibt mögliche, nicht garantierte Systemwirkungen und widerspricht keinem Idealmodell.</td>
+</tr>
+<tr>
+<td><code>05_Entscheidungsmodell.md</code></td>
+<td>zusammenführen</td>
+<td>Inhalt passt; kompakte Anwendung ist nun im gemeinsamen <code>anwendung/05_Entscheidungsrahmen.md</code> gebündelt.</td>
+</tr>
+<tr>
+<td><code>06_Wertearchitektur.md</code></td>
+<td>passt</td>
+<td>Würde und Schutz von Menschen sind bereits verankert.</td>
+</tr>
+<tr>
+<td><code>07_Validierungsprozess.md</code></td>
+<td>passt</td>
+<td>Kernel-Kandidat bleibt als Entwicklungsstatus zulässig; die aktuelle Beta-Baseline selbst ist festgelegt.</td>
+</tr>
+<tr>
+<td><code>08_Change_Log.md</code></td>
+<td>anpassen</td>
+<td>Beta.1-Änderung ergänzt; historische Alpha-Einträge bleiben erhalten.</td>
+</tr>
+<tr>
+<td><code>09_Arbeitsweise_und_Fortsetzung.md</code></td>
+<td>anpassen</td>
+<td>Arbeitsauftrag und Version auf Beta.1 umgestellt.</td>
+</tr>
+<tr>
+<td><code>10_Gespraechsprotokoll_konsolidiert.md</code></td>
+<td>passt</td>
+<td>Historischer Gesprächsnachweis; nicht als aktuelle Baseline zu lesen.</td>
+</tr>
+<tr>
+<td><code>11_Geltungsbereich_und_Systembegriff.md</code></td>
+<td>passt</td>
+<td>Keine Gewissheit oder garantierte Wirkung; Geltungsgrenzen sind klar.</td>
+</tr>
+<tr>
+<td><code>12_Offene_Hypothesen_und_Forschungsfragen.md</code></td>
+<td>anpassen</td>
+<td>Alte Frage zu offenen Kernel-Kandidaten durch Beta-Frage zu realen Lücken ersetzt.</td>
+</tr>
+<tr>
+<td><code>13_Menschenbild.md</code></td>
+<td>anpassen</td>
+<td>Vollständig auf Menschenbild v0.2 mit neun Arbeitsannahmen und Diagnosehaltung gebracht.</td>
+</tr>
+<tr>
+<td><code>14_Gestaltungsprinzipien.md</code></td>
+<td>anpassen</td>
+<td>KI-Sonderregeln zu allgemeinen Regeln für Menschen, Software und KI erweitert; kein zweites <a class="denkraum-link" data-definition="Ein System ist eine Menge miteinander in Beziehung stehender Elemente, die durch ihr Zusammenwirken Eigenschaften und Wirkungen hervorbringen, die kein einzelnes Element allein erzeugen kann." href="01-denkraum.html#system" title="Ein System ist eine Menge miteinander in Beziehung stehender Elemente, die durch ihr Zusammenwirken Eigenschaften und Wirkungen hervorbringen, die kein einzelnes Element allein erzeugen kann.">System</a>.</td>
+</tr>
+<tr>
+<td><code>15_Ziele_Feedback_und_Entwicklung.md</code></td>
+<td>passt</td>
+<td>Ziele, Rückmeldung und Entwicklung unterstützen Wirkung und Lernen.</td>
+</tr>
+<tr>
+<td><code>16_Wissensarchitektur_und_Nutzerfokus.md</code></td>
+<td>passt</td>
+<td>Unterstützt verständliche, nutzerbezogene Anwendung.</td>
+</tr>
+<tr>
+<td><code>17_Wirkungsmodell_und_Diagnose.md</code></td>
+<td>passt</td>
+<td>Alle fünf Perspektiven und KI-Fragen sind bereits konsistent integriert.</td>
+</tr>
+<tr>
+<td><code>18_Wirtschaftlichkeit.md</code></td>
+<td>passt</td>
+<td>Wirkung wird ausdrücklich als <a class="denkraum-link" data-definition="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit." href="01-denkraum.html#hypothese" title="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit.">Hypothese</a> und nicht als Garantie behandelt.</td>
+</tr>
+<tr>
+<td><code>19_Quellen_Einfluesse_und_Recht.md</code></td>
+<td>passt</td>
+<td>Quellen- und Rechtsgrenzen bleiben gültig.</td>
+</tr>
+<tr>
+<td><code>20_Anwendungsarchitektur.md</code></td>
+<td>passt</td>
+<td>Eine Werkzeugwelt für Menschen, Software und KI ist ausdrücklich festgelegt.</td>
+</tr>
+<tr>
+<td><code>21_Ethik_und_Zielkonflikte.md</code></td>
+<td>passt</td>
+<td>Menschenwürde, Folgenverantwortung und KI-Anwendung sind abgedeckt.</td>
+</tr>
+<tr>
+<td><code>22_Qualitaetspruefung_und_Governance.md</code></td>
+<td>passt</td>
+<td>Entwicklungs- und Rückstufungsregeln bleiben mit stabiler Beta-Baseline vereinbar.</td>
+</tr>
+<tr>
+<td><code>23_System_Validation.md</code></td>
+<td>passt</td>
+<td>Technische und fachliche Prüfung bleibt gültig.</td>
+</tr>
+<tr>
+<td><code>24_Governance_Selbstkorrektur_und_Integritaet.md</code></td>
+<td>passt</td>
+<td>Schutz, Einspruch und Selbstkorrektur widersprechen keiner Baseline-Aussage.</td>
+</tr>
+<tr>
+<td><code>25_Strategie_und_Anwendung.md</code></td>
+<td>passt</td>
+<td>Kontextbezogene <a class="denkraum-link" data-definition="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt." href="01-denkraum.html#strategie" title="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt.">Strategie</a> statt Standardlösung.</td>
+</tr>
+<tr>
+<td><code>26_Wirtschaftliche_Systemsteuerung.md</code></td>
+<td>passt</td>
+<td>Wirtschaftlichkeit wird nicht über die ethische Grenze gestellt.</td>
+</tr>
+<tr>
+<td><code>27_Strategische_Priorisierung.md</code></td>
+<td>passt</td>
+<td>Priorisierung bleibt kontextbezogen und überprüfbar.</td>
+</tr>
+<tr>
+<td><code>28_Fuehrung_Erste_Sechs_Monate.md</code></td>
+<td>passt</td>
+<td>Führung ist ein Anwendungskontext, keine sechste Perspektive.</td>
+</tr>
+<tr>
+<td><code>29_Phase_2_Anwendungsvalidierung.md</code></td>
+<td>passt</td>
+<td>Historische Validierung bleibt gültiger Nachweis mit begrenzter Aussage.</td>
+</tr>
+<tr>
+<td><code>30_Beta_Vorbereitung.md</code></td>
+<td>anpassen</td>
+<td>Von Vorbereitung auf laufende Beta.1-Anwendung umgestellt.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="geforderte-anwendungsartefakte">Geforderte Anwendungsartefakte<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#geforderte-anwendungsartefakte">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Artefakt</th>
+<th>Status</th>
+<th>Begründung und Maßnahme</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Diagnosefragen</td>
+<td>zusammenführen</td>
+<td>Kernfragen aus Kapitel 17 in <code>anwendung/01_Diagnosebogen.md</code> als einheitliches Arbeitsblatt gebündelt.</td>
+</tr>
+<tr>
+<td>Selbstcheck</td>
+<td>anpassen</td>
+<td>Neuer 20-Fragen-Check mit genau fünf Perspektiven; Führung ist keine sechste Perspektive.</td>
+</tr>
+<tr>
+<td>Clarity Session</td>
+<td>anpassen</td>
+<td>Neuer 90-Minuten-Ablauf mit Diagnose, Hypothesen, kleinem Eingriff und Wirkungsprüfung.</td>
+</tr>
+<tr>
+<td>Ergebnisdokument</td>
+<td>anpassen</td>
+<td>Neuer Clarity Brief trennt Beobachtung, Hypothese, Empfehlung und Aussagegrenzen.</td>
+</tr>
+<tr>
+<td>Entscheidungslogik</td>
+<td>zusammenführen</td>
+<td>Kapitel 5 bleibt Herleitung; kompakter Entscheidungsrahmen dient als Anwendung.</td>
+</tr>
+<tr>
+<td>Fallbeispiele/Praxisfälle</td>
+<td>anpassen</td>
+<td>Zwei Fälle mit demselben ChOS durchgespielt; KI ist in fünf Perspektiven integriert.</td>
+</tr>
+<tr>
+<td>Glossar</td>
+<td>anpassen</td>
+<td>Verbindliches Glossar in einfacher deutscher Sprache angelegt.</td>
+</tr>
+<tr>
+<td>Playbooks</td>
+<td>zusammenführen</td>
+<td>Drei vorhandene Playbooks bleiben gültig; <code>anwendung/</code> stellt den gemeinsamen Diagnose- und Ergebnisrahmen bereit.</td>
+</tr>
+<tr>
+<td>Templates</td>
+<td>zusammenführen</td>
+<td>Diagnosebogen, Clarity Brief und Entscheidungsrahmen sind die kanonischen Vorlagen der Beta.1.</td>
+</tr>
+<tr>
+<td>Webtexte im Repository</td>
+<td>anpassen</td>
+<td>README und Executive Summary angepasst; erzeugte HTML-Seiten werden aus den Markdown-Quellen neu gebaut.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="playbooks">Playbooks<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#playbooks">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Artefakt</th>
+<th>Status</th>
+<th>Begründung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>06_Playbooks/README.md</code></td>
+<td>passt</td>
+<td>Playbooks bleiben kontextbezogene Anwendungen.</td>
+</tr>
+<tr>
+<td><code>PB-001_Team_uebernehmen.md</code></td>
+<td>passt</td>
+<td>Nutzt bereits die fünf Perspektiven und integriert KI nur bei tatsächlicher Beteiligung.</td>
+</tr>
+<tr>
+<td><code>PB-002_Mitarbeiterentwicklung.md</code></td>
+<td>anpassen</td>
+<td>Wird durch Menschenbild v0.2 und ethische Grenze verbindlich gerahmt; keine eigene Perspektivlogik.</td>
+</tr>
+<tr>
+<td><code>PB-003_MVP_Produktentwicklung.md</code></td>
+<td>anpassen</td>
+<td>Wird durch Diagnosebogen und Wirkungsprüfung vereinheitlicht; keine fertige Standardlösung.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="beta-und-validierungsartefakte">Beta- und Validierungsartefakte<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#beta-und-validierungsartefakte">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Artefaktgruppe</th>
+<th>Status</th>
+<th>Begründung und Maßnahme</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>beta/BETA_CHARTER_DRAFT.md</code></td>
+<td>anpassen</td>
+<td>Für Beta.1 freigegebene Arbeitsgrundlage; Inhalt bleibt bewusst überprüfbar.</td>
+</tr>
+<tr>
+<td><code>beta/BETA_TEST_PROTOCOL_DRAFT.md</code></td>
+<td>anpassen</td>
+<td>Titel und Status vereinfacht; Wirkungs- und Rücknahmelogik passt.</td>
+</tr>
+<tr>
+<td><code>beta/BETA_EVALUATION_SHEET_DRAFT.md</code></td>
+<td>anpassen</td>
+<td>Titel und Status vereinfacht; kein allgemeines Reifegradmodell, sondern Fallauswertung.</td>
+</tr>
+<tr>
+<td><code>beta/BETA_LOG.md</code></td>
+<td>passt</td>
+<td>Offenes Lernprotokoll der Beta.</td>
+</tr>
+<tr>
+<td><code>beta/BETA_READINESS.md</code></td>
+<td>passt</td>
+<td>Historische Bereitschaftsbewertung und Risiken bleiben <a class="denkraum-link" data-definition="Relevant ist eine Information oder Perspektive, wenn sie Verständnis, Entscheidung oder Handeln im betrachteten Kontext beeinflussen kann." href="01-denkraum.html#relevant" title="Relevant ist eine Information oder Perspektive, wenn sie Verständnis, Entscheidung oder Handeln im betrachteten Kontext beeinflussen kann.">relevant</a>.</td>
+</tr>
+<tr>
+<td><code>validation/PHASE_2_STATUS.md</code></td>
+<td>passt</td>
+<td>Begrenzter historischer Nachweis.</td>
+</tr>
+<tr>
+<td><code>validation/Phase_2_Validierungsuebersicht.md</code></td>
+<td>passt</td>
+<td>Originaler Validierungsstand; offene AI-native Prüfung bleibt historisch nachvollziehbar.</td>
+</tr>
+<tr>
+<td><code>validation/VR-01/README.md</code></td>
+<td>passt</td>
+<td>Fallvalidierung bleibt erhalten.</td>
+</tr>
+<tr>
+<td><code>validation/VR-02B/README.md</code> und Bewertungen</td>
+<td>passt</td>
+<td>Zeigen die frühere Prüfung; englische Originalbegriffe in fremden Originalausgaben werden nicht nachträglich verfälscht.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="repository-regeln-und-technische-artefakte">Repository-Regeln und technische Artefakte<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#repository-regeln-und-technische-artefakte">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Artefaktgruppe</th>
+<th>Status</th>
+<th>Begründung und Maßnahme</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>09_Repository_Governance/</code></td>
+<td>anpassen</td>
+<td>Versionierungsbeispiel und Änderungsnachweis aktualisiert; übrige Sicherungsregeln passen.</td>
+</tr>
+<tr>
+<td><code>AUTHORSHIP.md</code>, <code>COPYRIGHT.md</code>, <code>LICENSE.md</code></td>
+<td>passt</td>
+<td>Keine fachliche Baseline-Abweichung.</td>
+</tr>
+<tr>
+<td><code>GITHUB_IMPORT.md</code></td>
+<td>anpassen</td>
+<td>Historische englische Commit-Beispielzeile ist technisch, nicht Teil der ChOS-Sprache; vor Veröffentlichung optional eindeutschen.</td>
+</tr>
+<tr>
+<td><code>tools/</code>, <code>assets/</code>, <code>requirements.txt</code></td>
+<td>passt</td>
+<td>Technische Build- und Prüfwerkzeuge; keine fachliche Perspektivlogik.</td>
+</tr>
+<tr>
+<td><code>docs/</code>, <code>index.html</code>, <code>all-in-one.html</code></td>
+<td>zusammenführen</td>
+<td>Erzeugte Lesefassungen, keine fachliche Quelle; werden aus aktualisierten Markdown-Dateien neu aufgebaut.</td>
+</tr>
+<tr>
+<td><code>reports/recovery-integrity.*</code></td>
+<td>passt</td>
+<td>Historischer Wiederherstellungsnachweis.</td>
+</tr>
+<tr>
+<td><code>archive/</code></td>
+<td>passt</td>
+<td>Unverändertes historisches Quellenarchiv; nicht normativ.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="entfernte-oder-abgeloste-varianten">Entfernte oder abgelöste Varianten<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#entfernte-oder-abgeloste-varianten">#</a></h2>
+<ul>
+<li>Die alte normative Liste von sechs Kernel-Kandidaten wurde aus <code>02_Kernel_und_Werte.md</code> entfernt.</li>
+<li>„Führung“ wird nicht als sechste Perspektive verwendet. Im Glossar ist Führung als Wirkung innerhalb aller fünf Perspektiven eingeordnet.</li>
+<li>Eigenständige KI-Prinzipien wurden in <code>14_Gestaltungsprinzipien.md</code> auf Menschen, Software und KI verallgemeinert.</li>
+<li>Ein separates KI-Regelwerk wurde nicht angelegt.</li>
+<li>Alte Alpha-Statusangaben wurden in aktiven Einstiegs- und Fortsetzungsdokumenten ersetzt. Historische Protokolle und Archive behalten ihre damalige Bezeichnung.</li>
+</ul>
+<h2 id="geanderte-und-neu-angelegte-dateien">Geänderte und neu angelegte Dateien<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#geanderte-und-neu-angelegte-dateien">#</a></h2>
+<h3 id="geandert">Geändert<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#geandert">#</a></h3>
+<ul>
+<li><code>README.md</code></li>
+<li><code>VERSION.md</code></li>
+<li><code>00_Executive_Summary.md</code></li>
+<li><code>02_Kernel_und_Werte.md</code></li>
+<li><code>08_Change_Log.md</code></li>
+<li><code>09_Arbeitsweise_und_Fortsetzung.md</code></li>
+<li><code>09_Repository_Governance/Change_Record_Mensch_KI_Integration.md</code></li>
+<li><code>09_Repository_Governance/Versioning_Policy.md</code></li>
+<li><code>12_Offene_Hypothesen_und_Forschungsfragen.md</code></li>
+<li><code>13_Menschenbild.md</code></li>
+<li><code>14_Gestaltungsprinzipien.md</code></li>
+<li><code>30_Beta_Vorbereitung.md</code></li>
+<li><code>beta/BETA_CHARTER_DRAFT.md</code></li>
+<li><code>beta/BETA_TEST_PROTOCOL_DRAFT.md</code></li>
+<li><code>beta/BETA_EVALUATION_SHEET_DRAFT.md</code></li>
+</ul>
+<h3 id="neu">Neu<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#neu">#</a></h3>
+<ul>
+<li><code>anwendung/README.md</code></li>
+<li><code>anwendung/01_Diagnosebogen.md</code></li>
+<li><code>anwendung/02_Selbstcheck.md</code></li>
+<li><code>anwendung/03_Clarity_Session.md</code></li>
+<li><code>anwendung/04_Clarity_Brief.md</code></li>
+<li><code>anwendung/05_Entscheidungsrahmen.md</code></li>
+<li><code>anwendung/06_Fallbeispiele.md</code></li>
+<li><code>anwendung/07_Glossar.md</code></li>
+<li><code>KONSISTENZBERICHT_BETA_1.md</code></li>
+</ul>
+<h2 id="offene-punkte-fur-beta-1">Offene Punkte für Beta.1<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#offene-punkte-fur-beta-1">#</a></h2>
+<ol>
+<li>Die neuen Anwendungsartefakte müssen in mindestens drei realen Fällen durch unabhängige Anwender geprüft werden.</li>
+<li>Der Selbstcheck braucht Verständlichkeitsprüfung; seine Antworten dürfen nicht zu einem versteckten Reifegrad oder Gesamtscore verdichtet werden.</li>
+<li>Die Clarity Session braucht Prüfung auf Zeitbedarf, ausreichende Perspektivenvielfalt und Qualität des Clarity Briefs.</li>
+<li>Praxisfälle aus realen Einsätzen müssen anonymisiert dokumentiert werden; die zwei Modellfälle sind noch kein Wirkungsnachweis.</li>
+<li>Dateinamen der drei Beta-Arbeitsgrundlagen tragen noch <code>_DRAFT</code>, obwohl ihr Inhalt für Beta.1 freigegeben ist. Um Links nicht zu brechen, wurden sie nicht umbenannt; das kann in einem gesonderten, kontrollierten Schritt erfolgen.</li>
+<li>Reale Wirkung, wirtschaftlicher Nutzen und unabhängige Wiederholbarkeit bleiben bewusst offen. Beta.1 ist keine wissenschaftliche Validierung und keine Wirkungsgarantie.</li>
+</ol>
+<h2 id="technische-prufung">Technische Prüfung<a aria-label="Link zu diesem Abschnitt" class="heading-link" href="#technische-prufung">#</a></h2>
+<p>Die Offline-Lesefassung wurde aus allen aktuellen Markdown-Quellen neu erzeugt. Der ChOS Doctor prüft Struktur, 81 Markdown-Quellen, erzeugte Seiten, lokale Links, Navigation, Suche, Begriffe und Versionsgleichheit. Der abschließende strenge Prüflauf ist Bestandteil der Freigabe.</p>
+</div>
+  <aside class="related-terms" aria-label="Verwandte Begriffe"><h2>Verwandte Begriffe im Denkraum</h2><p>Diese Begriffe werden in diesem Kapitel verwendet und sind direkt mit ihrer vollständigen Erklärung verknüpft.</p><div class="related-term-list"><a class="related-term" href="01-denkraum.html#verantwortung" title="Verantwortung ist die bewusste Verpflichtung sicherzustellen, dass ein Ziel, eine Aufgabe oder eine Entscheidung gemäß den aktuell vereinbarten Erfolgskriterien umgesetzt, bewusst beendet oder transparent an eine …">Verantwortung</a><a class="related-term" href="01-denkraum.html#entscheidung" title="Eine Entscheidung ist die bewusste Auswahl, Ablehnung oder Vertagung einer Handlungsoption auf Grundlage verfügbarer Informationen, geltender Werte, des Kontextes und der akzeptierten Unsicherheit.">Entscheidung</a><a class="related-term" href="01-denkraum.html#menschenbild" title="Das Menschenbild bündelt die überprüfbaren Arbeitsannahmen, mit denen ChOS menschliches Handeln, Entwicklung und Interpretation betrachtet.">Menschenbild</a><a class="related-term" href="01-denkraum.html#hypothese" title="Eine Hypothese ist eine überprüfbare Annahme über einen Zusammenhang, eine Wirkung oder eine erwartete Entwicklung unter Unsicherheit.">Hypothese</a><a class="related-term" href="01-denkraum.html#strategie" title="Strategie ist ein zusammenhängendes System bewusster Entscheidungen darüber, wo und wie ein Unternehmen unter Unsicherheit nachhaltigen Wert schaffen will – einschließlich dessen, was es ausdrücklich nicht verfolgt.">Strategie</a><a class="related-term" href="01-denkraum.html#relevant" title="Relevant ist eine Information oder Perspektive, wenn sie Verständnis, Entscheidung oder Handeln im betrachteten Kontext beeinflussen kann.">Relevant</a><a class="related-term" href="01-denkraum.html#denkraum" title="Der Denkraum ist die vernetzte gemeinsame Kontextsprache des ChOS. Er erklärt zentrale Begriffe, ihre Abgrenzungen, Beziehungen und Anwendungsorte.">Denkraum</a><a class="related-term" href="01-denkraum.html#system" title="Ein System ist eine Menge miteinander in Beziehung stehender Elemente, die durch ihr Zusammenwirken Eigenschaften und Wirkungen hervorbringen, die kein einzelnes Element allein erzeugen kann.">System</a><a class="related-term" href="01-denkraum.html#ziel" title="Ein Ziel beschreibt einen gewünschten, überprüfbaren Zustand oder eine beabsichtigte Wirkung, die innerhalb eines vereinbarten Rahmens erreicht werden soll.">Ziel</a></div></aside>
+  <nav class="document-pagination" aria-label="Vorheriges und nächstes Dokument">
+    <div><a href="github-import.html">← GitHub Initial Import</a></div><div><a href="license.html">Lizenz →</a></div>
+  </nav>
+  <footer class="page-footer">Generiert aus <code>KONSISTENZBERICHT_BETA_1.md</code> · Version 0.6 Beta.1 · Copyright © 2026 Christian Leonhardt</footer>
+</article>
+</main>
+  </div>
+</body>
+</html>

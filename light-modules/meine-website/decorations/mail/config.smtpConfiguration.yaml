@@ -1,0 +1,7 @@
+server: smtp.hostinger.com
+port: 465
+security: SSL
+authentication:
+  class: info.magnolia.module.mail.smtp.authentication.UsernamePasswordSmtpAuthentication
+  user: kontakt@cleonhardt.de
+  passwordKeyStoreId: 493749ed-6d60-44cc-99b2-58cd919703dc

@@ -1,0 +1,10 @@
+label: Problemsituation – Detail
+form:
+  properties:
+    problemReference:
+      label: Problemsituation
+      $type: linkField
+      required: true
+      datasource:
+        $type: jcrDatasource
+        workspace: problems

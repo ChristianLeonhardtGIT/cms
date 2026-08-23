@@ -1,0 +1,30 @@
+# Dependencies and local runtime
+node_modules/
+apache-tomcat/
+work/
+tmp/
+runtime/
+backups/
+deploy-backups/
+
+# Secrets and personal/runtime data
+secrets/
+.env
+.env.*
+!.env.example
+beta-portal/data/
+beta-portal/*.log
+*.key
+*.pem
+*.p12
+*.jks
+
+# Generated archives and local backups
+*.tar
+*.tar.gz
+*.zip
+*.bak
+*.bak-*
+*.before-*
+*.log
+

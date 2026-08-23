@@ -1,0 +1,15 @@
+[Unit]
+Description=Generate cleonhardt.de sitemap from verified public pages
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /opt/cleonhardt/scripts/generate-public-sitemap.py --output /opt/cleonhardt/deploy/static/sitemap.xml
+User=root
+Group=root
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/cleonhardt/deploy/static

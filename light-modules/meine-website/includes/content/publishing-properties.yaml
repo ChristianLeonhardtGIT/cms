@@ -1,0 +1,22 @@
+name: publishingMetadata
+properties:
+  - name: contentStatus
+    label: Redaktionsstatus
+    type: String
+    required: true
+  - name: contentObjective
+    label: Aufgabe des Inhalts
+    type: String
+    required: true
+  - name: priority
+    label: Priorität
+    type: Long
+  - name: datePublished
+    label: Erstveröffentlichung
+    type: Date
+  - name: dateModified
+    label: Fachlich aktualisiert
+    type: Date
+  - name: active
+    label: Aktiv
+    type: Boolean

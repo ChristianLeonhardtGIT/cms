@@ -1,0 +1,4 @@
+title: Problemsituation – Detail
+renderType: freemarker
+templateScript: /meine-website/templates/components/problemDetail.ftl
+dialog: meine-website:components/problemDetail
