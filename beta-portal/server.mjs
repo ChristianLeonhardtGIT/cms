@@ -129,7 +129,7 @@ function redirect(response, location, setCookie) {
 function page({ title, eyebrow = 'ChOS Beta', body }) {
   return `<!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHtml(title)} · ChOS Beta</title><link rel="stylesheet" href="/beta/assets/portal.css"></head>
+<title>${escapeHtml(title)} · ChOS Beta</title><link rel="stylesheet" href="/beta/assets/portal.css?v=20260824-1"></head>
 <body><header class="site-header"><a class="brand" href="/beta/" aria-label="ChOS Beta Startseite">ChOS<span>Beta</span></a></header>
 <main><div class="shell"><p class="eyebrow">${escapeHtml(eyebrow)}</p>${body}</div></main>
 <footer><span>© Christian Leonhardt</span><a href="https://cleonhardt.de/impressum">Impressum</a><a href="https://cleonhardt.de/datenschutz">Datenschutz</a></footer></body></html>`;

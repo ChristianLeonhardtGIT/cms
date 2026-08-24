@@ -14,7 +14,7 @@
 body { margin: 0; color: var(--ink); background: var(--soft); line-height: 1.55; }
 a { color: var(--brand); }
 .site-header { height: 76px; padding: 0 5vw; display: flex; align-items: center; background: var(--white); border-bottom: 1px solid var(--line); }
-.brand { text-decoration: none; color: var(--ink); font-size: 1.35rem; font-weight: 750; letter-spacing: -.03em; }
+.brand { display: inline-flex; min-height: 44px; align-items: center; text-decoration: none; color: var(--ink); font-size: 1.35rem; font-weight: 750; letter-spacing: -.03em; }
 .brand span { margin-left: .45rem; color: var(--brand); font-weight: 550; }
 main { min-height: calc(100vh - 150px); padding: clamp(3rem, 8vw, 7rem) 5vw; }
 .shell { width: min(1040px, 100%); margin: 0 auto; }
@@ -61,6 +61,7 @@ dd { margin: 0; font-weight: 700; text-align: right; }
 .steps p { color: var(--muted); }
 footer { min-height: 74px; padding: 1.5rem 5vw; display: flex; gap: 1.25rem; align-items: center; color: var(--muted); background: var(--white); border-top: 1px solid var(--line); font-size: .84rem; }
 footer span { margin-right: auto; }
+footer a { display: inline-flex; min-height: 44px; align-items: center; }
 @media (max-width: 720px) {
   main { padding-top: 2.5rem; }
   .dashboard-head, .content-card { display: block; }
