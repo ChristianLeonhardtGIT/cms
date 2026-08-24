@@ -20,6 +20,11 @@ import {
   createDisabledAiProvider,
   createHybridAiService
 } from './lib/ai-runtime.mjs';
+import {
+  buildKnowledgeIndexFromHtml,
+  rankRelatedContent,
+  validateKnowledgeIndex
+} from './lib/related-content.mjs';
 
 function hidden(html, name) {
   const match = html.match(new RegExp(`name="${name}" value="([^"]+)"`));
@@ -114,10 +119,27 @@ test('Hybrid-AI bevorzugt lokal und schützt private Daten vor Cloud-Fallback', 
   assert.equal(cloudCalls, 1);
 });
 
+test('ChOS-Inhalte werden lokal und nachvollziehbar zum Arbeitskontext zugeordnet', async () => {
+  const html = await readFile(new URL('./chos-reader/index.html', import.meta.url), 'utf8');
+  const entries = buildKnowledgeIndexFromHtml(html);
+  assert.ok(entries.length > 50);
+  const index = validateKnowledgeIndex({ schemaVersion: 1, version: 'test-index-000001', entries });
+  const recommendations = rankRelatedContent(index, {
+    title: 'Neuer Verantwortungsbereich',
+    context: 'Ich übernehme ein neues Produktteam.',
+    items: [{ text: 'Die Entscheidungswege und Rollen sind unklar.' }]
+  });
+  assert.equal(recommendations.length, 3);
+  assert.ok(recommendations.some((entry) => entry.path === 'docs/pb-001-team-uebernehmen.html'));
+  assert.ok(recommendations.some((entry) => entry.path === 'docs/05-entscheidungsmodell.html'));
+  assert.ok(recommendations.every((entry) => entry.path.startsWith('docs/')));
+});
+
 test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskontrakte', async () => {
-  const [workspaceHtml, workspaceCss, portalCss, serverSource, pageTemplate, siteCss, offlineReader, offlineWorker, ownerBridgeCss] = await Promise.all([
+  const [workspaceHtml, workspaceCss, workspaceApp, portalCss, serverSource, pageTemplate, siteCss, offlineReader, offlineWorker, ownerBridgeCss] = await Promise.all([
     readFile(new URL('./public/workspace/index.html', import.meta.url), 'utf8'),
     readFile(new URL('./public/workspace/workspace.css', import.meta.url), 'utf8'),
+    readFile(new URL('./public/workspace/app.mjs', import.meta.url), 'utf8'),
     readFile(new URL('./public/portal.css', import.meta.url), 'utf8'),
     readFile(new URL('./server.mjs', import.meta.url), 'utf8'),
     readFile(new URL('../light-modules/meine-website/templates/pages/home.ftl', import.meta.url), 'utf8'),
@@ -129,14 +151,22 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
 
   assert.match(workspaceHtml, /class="workspace-brand__mark"/);
   assert.match(workspaceHtml, /id="workspace-main"/);
-  assert.match(workspaceHtml, /workspace\.css\?v=20260824-3/);
+  assert.match(workspaceHtml, /workspace\.css\?v=20260825-1/);
   assert.match(workspaceHtml, /Lokale Speicherung zuerst/);
+  assert.match(workspaceHtml, /ChOS-Wissen zum Vertiefen/);
   assert.match(workspaceHtml, /href="\/beta\/konto">Konto/);
   assert.match(workspaceHtml, />Zurück zu ChOS</);
   assert.doesNotMatch(workspaceHtml, /\bMVP\b|Magnolia/i);
   assert.match(workspaceCss, /--brand-dark:\s*#0d3f29/);
   assert.match(workspaceCss, /--accent:\s*#d8ef77/);
   assert.match(workspaceCss, /prefers-reduced-motion/);
+  assert.match(workspaceCss, /\.related-card__link/);
+  assert.match(workspaceCss, /\.related-card a:focus-visible/);
+  assert.match(workspaceApp, /target = '_blank'/);
+  assert.match(workspaceApp, /rel = 'noopener'/);
+  assert.match(workspaceApp, /rankRelatedContent/);
+  assert.match(workspaceApp, /localStorage\.setItem\(KNOWLEDGE_CACHE_KEY/);
+  assert.match(workspaceApp, /\/beta\/api\/workspace\/knowledge-index/);
   assert.match(portalCss, /\.brand\s*\{[^}]*min-height:\s*44px/s);
   assert.match(portalCss, /footer a\s*\{[^}]*min-height:\s*44px/s);
   assert.match(portalCss, /\.portal-nav a\s*\{[^}]*min-height:\s*44px/s);
@@ -149,8 +179,11 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.doesNotMatch(pageTemplate, /class="site-workspace-link"/);
   assert.match(offlineReader, /\/beta\/api\/chos\/offline-bundle/);
   assert.match(offlineReader, /await cache\.put/);
+  assert.match(offlineReader, /localStorage\.setItem\(KNOWLEDGE_CACHE_KEY/);
+  assert.match(offlineReader, /localStorage\.removeItem\(KNOWLEDGE_CACHE_KEY/);
   assert.match(offlineWorker, /response\.redirected \|\| response\.status === 401 \|\| response\.status === 403/);
   assert.match(offlineWorker, /CACHE_PREFIX = 'chos-reader-v1-'/);
+  assert.match(offlineWorker, /\/beta\/api\/chos\/knowledge-index/);
   assert.match(serverSource, /fingerprint\.update\(`portal:\$\{portalVersion\}/);
   assert.match(serverSource, /fingerprint\.update\(ownerBridgeCss\)/);
   assert.match(ownerBridgeCss, /min-height:\s*44px/);
@@ -218,7 +251,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   await waitForServer(origin);
 
   let response = await fetch(`${origin}/beta/health`);
-  assert.deepEqual(await response.json(), { status: 'ok', version: '0.5.1' });
+  assert.deepEqual(await response.json(), { status: 'ok', version: '0.6.0' });
 
   response = await fetch(`${origin}/beta/`, { redirect: 'manual' });
   assert.equal(response.status, 303);
@@ -371,6 +404,10 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(response.status, 200);
   assert.equal(bootstrap.canWrite, true);
   assert.equal(bootstrap.boundaries.userData, 'local-first-workspace');
+  assert.equal(bootstrap.knowledge.available, false);
+
+  response = await fetch(`${origin}/beta/api/workspace/knowledge-index`, { headers: { cookie: participantLoginCookie } });
+  assert.equal(response.status, 403);
 
   const actorId = 'browser_test_0001';
   const caseOperation = createCaseOperation({ actorId, title: 'Neuer Verantwortungsbereich', context: 'Produktteam' });
@@ -459,6 +496,20 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(response.headers.get('location'), '/beta/chos/');
   const ownerSessionCookie = firstCookie(response, 'chos_beta_session');
 
+  response = await fetch(`${origin}/beta/api/workspace/bootstrap`, { headers: { cookie: ownerSessionCookie } });
+  const ownerBootstrap = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(ownerBootstrap.knowledge.available, true);
+  assert.equal(ownerBootstrap.knowledge.processing, 'local');
+
+  response = await fetch(`${origin}/beta/api/workspace/knowledge-index`, { headers: { cookie: ownerSessionCookie } });
+  const knowledgeIndex = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(knowledgeIndex.schemaVersion, 1);
+  assert.match(knowledgeIndex.version, /^[a-f0-9]{16}$/);
+  assert.ok(knowledgeIndex.entries.length > 50);
+  assert.ok(knowledgeIndex.entries.some((entry) => entry.path === 'docs/05-entscheidungsmodell.html'));
+
   response = await fetch(`${origin}/beta/chos/`, { headers: { cookie: ownerSessionCookie } });
   const chosHome = await response.text();
   assert.equal(response.status, 200);
@@ -480,6 +531,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.ok(offlineManifest.sizeBytes > 2 * 1024 * 1024);
   assert.ok(offlineManifest.urls.includes('/beta/chos/'));
   assert.ok(offlineManifest.urls.includes('/beta/assets/offline-reader.mjs'));
+  assert.ok(offlineManifest.urls.includes('/beta/api/chos/knowledge-index'));
 
   response = await fetch(`${origin}/beta/api/chos/offline-bundle`, { headers: { cookie: ownerSessionCookie } });
   const offlineBundle = await response.json();
@@ -488,6 +540,10 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(offlineBundle.manifest.version, offlineManifest.version);
   assert.equal(offlineBundle.files.length, offlineManifest.fileCount);
   assert.match(Buffer.from(offlineBundle.files.find((file) => file.url === '/beta/chos/').body, 'base64').toString('utf8'), /data-offline-reader/);
+  assert.deepEqual(
+    JSON.parse(Buffer.from(offlineBundle.files.find((file) => file.url === '/beta/api/chos/knowledge-index').body, 'base64').toString('utf8')),
+    knowledgeIndex
+  );
 
   response = await fetch(`${origin}/beta/api/chos/offline-manifest`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 403);
@@ -549,7 +605,9 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   response = await fetch(`${origin}/beta/assets/account-delete.mjs`);
   assert.equal(response.status, 200);
   assert.match(response.headers.get('content-type'), /text\/javascript/);
-  assert.match(await response.text(), /chos-reader-v1-/);
+  const accountDeleteScript = await response.text();
+  assert.match(accountDeleteScript, /chos-reader-v1-/);
+  assert.match(accountDeleteScript, /chos:published-knowledge-index:v1/);
 
   const afterRemoval = JSON.parse(await readFile(path.join(directory, 'accounts.json'), 'utf8'));
   assert.equal(afterRemoval.users.length, 1);

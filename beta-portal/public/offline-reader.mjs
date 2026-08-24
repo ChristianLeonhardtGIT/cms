@@ -1,6 +1,7 @@
 const root = document.querySelector('[data-offline-reader]');
 const CACHE_PREFIX = 'chos-reader-v1-';
 const READY_URL = new URL('/beta/__offline__/ready', location.origin).href;
+const KNOWLEDGE_CACHE_KEY = 'chos:published-knowledge-index:v1';
 
 if (root) {
   const panel = root.querySelector('[data-offline-panel]');
@@ -83,6 +84,8 @@ if (root) {
           headers: { 'Content-Type': file.contentType }
         }));
       }
+      const knowledgeFile = bundle.files.find((file) => file.url === '/beta/api/chos/knowledge-index');
+      if (knowledgeFile) localStorage.setItem(KNOWLEDGE_CACHE_KEY, new TextDecoder().decode(decodeBase64(knowledgeFile.body)));
       const readyManifest = { ...bundle.manifest, savedAt: new Date().toISOString() };
       await cache.put(READY_URL, new Response(JSON.stringify(readyManifest), {
         headers: { 'Content-Type': 'application/json; charset=utf-8' }
@@ -152,6 +155,7 @@ if (root) {
       try {
         const names = (await caches.keys()).filter((name) => name.startsWith(CACHE_PREFIX));
         await Promise.all(names.map((name) => caches.delete(name)));
+        localStorage.removeItem(KNOWLEDGE_CACHE_KEY);
         showStatus('Der ChOS-Lesestand wurde von diesem Gerät gelöscht.');
         save.textContent = 'Aktuellen Stand speichern';
         remove.disabled = true;

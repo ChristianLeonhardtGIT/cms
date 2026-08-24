@@ -129,6 +129,29 @@ muss die lokale Kopie nach der Nutzung gelöscht werden. Cache Storage ist keine
 zusätzliche Verschlüsselung und ersetzt weder Geräteschutz noch Browserprofil-
 Trennung.
 
+## Kontextbezogene Wissensempfehlungen
+
+Der Workspace verbindet einen persönlichen Arbeitsfall mit passenden Inhalten
+aus dem jeweils atomar freigegebenen ChOS-Lesestand, ohne die beiden Datenwelten
+zu vermischen:
+
+1. Der Server erzeugt aus dem veröffentlichten Reader einen versionierten Index
+   mit Pfad, Titel, Bereich und freigegebenem Kurztext.
+2. Nur dieser öffentliche Wissensindex wird an den Browser übertragen und dort
+   lokal gespeichert. Er ist außerdem Teil des bewusst gespeicherten
+   Offline-Lesestands.
+3. Titel, Kontext und Diagnoseelemente des Arbeitsfalls werden ausschließlich im
+   Browser gegen kuratierte ChOS-Themensignale ausgewertet. Private Arbeitsdaten
+   werden für die Zuordnung weder an den Server noch an einen AI-Provider
+   übertragen.
+4. Die Oberfläche zeigt höchstens drei Empfehlungen. Eine Kurzvorschau bleibt im
+   Workspace; das vollständige Dokument öffnet in einem neuen Tab, damit der
+   Arbeitskontext erhalten bleibt.
+
+Die regelbasierte Zuordnung ist absichtlich nachvollziehbar und bildet später
+die sichere Basis für ein optionales lokales semantisches Re-Ranking. Ein
+Cloud-Fallback ist für private Arbeitskontexte nicht vorgesehen.
+
 ## Lokale und Cloud-AI
 
 `ai-runtime.mjs` definiert zwei gleichartige Provider:
