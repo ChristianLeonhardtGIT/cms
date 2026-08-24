@@ -1,6 +1,6 @@
 const CACHE_PREFIX = 'chos-reader-v1-';
 const READY_URL = new URL('/beta/__offline__/ready', self.location.origin).href;
-const SUPPORT_PATHS = new Set(['/beta/assets/owner-bridge.css', '/beta/assets/offline-reader.mjs']);
+const SUPPORT_PATHS = new Set(['/beta/assets/owner-bridge.css', '/beta/assets/offline-reader.mjs', '/beta/api/chos/knowledge-index']);
 
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));

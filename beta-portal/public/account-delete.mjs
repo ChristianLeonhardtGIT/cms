@@ -29,6 +29,7 @@ async function deleteLocalWorkspace() {
 }
 
 async function deleteOfflineReader() {
+  localStorage.removeItem('chos:published-knowledge-index:v1');
   if (!globalThis.caches) return;
   const names = (await caches.keys()).filter((name) => name.startsWith('chos-reader-v1-'));
   await Promise.all(names.map((name) => caches.delete(name)));

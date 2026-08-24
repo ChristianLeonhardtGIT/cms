@@ -17,6 +17,7 @@ import {
   createLocalAiProvider,
   createHybridAiService
 } from './ai-runtime.mjs';
+import { rankRelatedContent, validateKnowledgeIndex } from './related-content.mjs';
 import { createIndexedDbRuntimeStore } from './indexed-db.mjs';
 
 const elements = {
@@ -31,6 +32,9 @@ const elements = {
   itemForm: document.querySelector('#item-form'),
   itemList: document.querySelector('#item-list'),
   networkDot: document.querySelector('#network-dot'),
+  relatedContent: document.querySelector('#related-content'),
+  relatedList: document.querySelector('#related-list'),
+  relatedStatus: document.querySelector('#related-status'),
   readonlyNotice: document.querySelector('#readonly-notice'),
   syncStatus: document.querySelector('#sync-status'),
   aiStatus: document.querySelector('#ai-status')
@@ -42,6 +46,11 @@ let runtimeStore;
 let selectedCaseId = null;
 let syncing = false;
 let runtimeEpoch = 0;
+let knowledgeIndex = null;
+let knowledgeState = 'loading';
+let openPreviewPath = null;
+
+const KNOWLEDGE_CACHE_KEY = 'chos:published-knowledge-index:v1';
 
 const kindLabels = {
   observation: 'Beobachtung',
@@ -91,6 +100,92 @@ function button(label, className, data = {}) {
   element.textContent = label;
   for (const [key, value] of Object.entries(data)) element.dataset[key] = value;
   return element;
+}
+
+function cachedKnowledgeIndex() {
+  try {
+    const stored = localStorage.getItem(KNOWLEDGE_CACHE_KEY);
+    return stored ? validateKnowledgeIndex(JSON.parse(stored)) : null;
+  } catch {
+    return null;
+  }
+}
+
+function cacheKnowledgeIndex(index) {
+  try {
+    localStorage.setItem(KNOWLEDGE_CACHE_KEY, JSON.stringify(index));
+  } catch {}
+}
+
+function relatedCard(entry, index) {
+  const article = document.createElement('article');
+  article.className = 'related-card';
+
+  const meta = document.createElement('p');
+  meta.className = 'related-card__meta';
+  meta.textContent = entry.group;
+
+  const title = document.createElement('h3');
+  title.textContent = entry.title;
+
+  const reason = document.createElement('p');
+  reason.className = 'related-card__reason';
+  reason.textContent = entry.reason;
+
+  const actions = document.createElement('div');
+  actions.className = 'related-card__actions';
+  const previewId = `related-preview-${index}`;
+  const previewOpen = openPreviewPath === entry.path;
+  const previewToggle = button(previewOpen ? 'Vorschau schließen' : 'Kurz ansehen', 'preview-toggle', { previewPath: entry.path });
+  previewToggle.setAttribute('aria-expanded', String(previewOpen));
+  previewToggle.setAttribute('aria-controls', previewId);
+
+  const fullLink = document.createElement('a');
+  fullLink.className = 'related-card__link';
+  fullLink.href = `/beta/chos/${entry.path}`;
+  fullLink.target = '_blank';
+  fullLink.rel = 'noopener';
+  fullLink.textContent = 'Vollständig lesen ↗';
+  fullLink.setAttribute('aria-label', `${entry.title} vollständig lesen (öffnet einen neuen Tab)`);
+  actions.append(previewToggle, fullLink);
+
+  const preview = document.createElement('div');
+  preview.id = previewId;
+  preview.className = 'related-preview';
+  preview.hidden = !previewOpen;
+  const previewLabel = document.createElement('strong');
+  previewLabel.textContent = 'Kurzvorschau';
+  const excerpt = document.createElement('p');
+  excerpt.textContent = entry.excerpt;
+  preview.append(previewLabel, excerpt);
+
+  article.append(meta, title, reason, actions, preview);
+  return article;
+}
+
+function renderRelatedContent(selected, items) {
+  if (!bootstrap.knowledge?.available) {
+    elements.relatedContent.hidden = true;
+    return;
+  }
+  elements.relatedContent.hidden = false;
+  elements.relatedList.replaceChildren();
+  if (!knowledgeIndex) {
+    elements.relatedStatus.textContent = knowledgeState === 'error'
+      ? 'Passende ChOS-Inhalte sind im Moment nicht verfügbar.'
+      : 'Passende Inhalte werden auf diesem Gerät ermittelt …';
+    return;
+  }
+
+  const recommendations = rankRelatedContent(knowledgeIndex, {
+    title: selected.title,
+    context: selected.context,
+    items
+  });
+  elements.relatedStatus.textContent = knowledgeState === 'cached'
+    ? `${recommendations.length} passende Inhalte · aus dem lokal gespeicherten Wissensstand.`
+    : `${recommendations.length} passende Inhalte · lokal aus deinem Arbeitskontext ermittelt.`;
+  recommendations.forEach((entry, index) => elements.relatedList.append(relatedCard(entry, index)));
 }
 
 function render() {
@@ -143,6 +238,7 @@ function render() {
       article.append(kind, itemText, remove);
       elements.itemList.append(article);
     }
+    renderRelatedContent(selected, items);
   }
 
   for (const control of elements.caseForm.elements) control.disabled = !bootstrap.canWrite;
@@ -210,7 +306,16 @@ elements.caseList.addEventListener('click', (event) => {
   const target = event.target.closest('[data-case-id]');
   if (!target) return;
   selectedCaseId = target.dataset.caseId;
+  openPreviewPath = null;
   render();
+});
+
+elements.relatedList.addEventListener('click', (event) => {
+  const target = event.target.closest('[data-preview-path]');
+  if (!target) return;
+  openPreviewPath = openPreviewPath === target.dataset.previewPath ? null : target.dataset.previewPath;
+  render();
+  document.querySelector(`[data-preview-path="${CSS.escape(target.dataset.previewPath)}"]`)?.focus();
 });
 
 elements.itemForm.addEventListener('submit', async (event) => {
@@ -264,7 +369,22 @@ async function start() {
   bootstrap = await jsonRequest('/beta/api/workspace/bootstrap');
   runtimeStore = createIndexedDbRuntimeStore(`user:${bootstrap.user.id}`);
   runtime = await runtimeStore.load();
+  if (bootstrap.knowledge?.available) {
+    knowledgeIndex = cachedKnowledgeIndex();
+    knowledgeState = knowledgeIndex ? 'cached' : 'loading';
+  }
   render();
+
+  if (bootstrap.knowledge?.available) {
+    try {
+      knowledgeIndex = validateKnowledgeIndex(await jsonRequest('/beta/api/workspace/knowledge-index'));
+      knowledgeState = 'current';
+      cacheKnowledgeIndex(knowledgeIndex);
+    } catch {
+      knowledgeState = knowledgeIndex ? 'cached' : 'error';
+    }
+    render();
+  }
 
   const ai = createHybridAiService({
     local: createLocalAiProvider(),

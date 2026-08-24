@@ -20,6 +20,7 @@ import {
   WorkspaceReadOnlyError,
   WorkspaceRequestError
 } from './lib/workspace-repository.mjs';
+import { buildKnowledgeIndexFromHtml } from './lib/related-content.mjs';
 
 const port = Number(process.env.BETA_PORT || 3000);
 const host = process.env.BETA_HOST || '0.0.0.0';
@@ -52,7 +53,8 @@ const workspaceAssets = new Map([
   ['indexed-db.mjs', { file: path.join(workspaceDirectory, 'indexed-db.mjs'), type: 'text/javascript; charset=utf-8' }],
   ['chos-domain.mjs', { file: path.join(applicationDirectory, 'lib', 'chos-domain.mjs'), type: 'text/javascript; charset=utf-8' }],
   ['local-first-workspace.mjs', { file: path.join(applicationDirectory, 'lib', 'local-first-workspace.mjs'), type: 'text/javascript; charset=utf-8' }],
-  ['ai-runtime.mjs', { file: path.join(applicationDirectory, 'lib', 'ai-runtime.mjs'), type: 'text/javascript; charset=utf-8' }]
+  ['ai-runtime.mjs', { file: path.join(applicationDirectory, 'lib', 'ai-runtime.mjs'), type: 'text/javascript; charset=utf-8' }],
+  ['related-content.mjs', { file: path.join(applicationDirectory, 'lib', 'related-content.mjs'), type: 'text/javascript; charset=utf-8' }]
 ]);
 const css = await readFile(cssPath, 'utf8');
 const accountDeleteScript = await readFile(accountDeleteScriptPath, 'utf8');
@@ -401,8 +403,30 @@ function workspaceBootstrap(auth) {
       domain: 'chos-domain',
       userData: 'local-first-workspace'
     },
+    knowledge: { available: auth.user.role === 'owner', processing: 'local' },
     ai: { localProvider: false, cloudProvider: false }
   };
+}
+
+let knowledgeIndexMemo;
+
+async function publishedKnowledgeIndex() {
+  const rootDirectory = await realpath(chosDirectory);
+  const indexPath = path.join(rootDirectory, 'index.html');
+  const indexStat = await stat(indexPath);
+  const cacheKey = `${indexPath}:${indexStat.size}:${Math.floor(indexStat.mtimeMs)}`;
+  if (knowledgeIndexMemo?.cacheKey === cacheKey) return knowledgeIndexMemo.payload;
+  const content = await readFile(indexPath, 'utf8');
+  const entries = buildKnowledgeIndexFromHtml(content);
+  if (!entries.length) throw new Error('Der ChOS-Lesestand enthält keinen auswertbaren Wissensindex.');
+  const payload = {
+    schemaVersion: 1,
+    version: createHash('sha256').update(content).digest('hex').slice(0, 16),
+    generatedAt: new Date(indexStat.mtimeMs).toISOString(),
+    entries
+  };
+  knowledgeIndexMemo = { cacheKey, payload };
+  return payload;
 }
 
 const mimeTypes = new Map([
@@ -421,7 +445,8 @@ const mimeTypes = new Map([
 const offlineReaderExtensions = new Set(mimeTypes.keys());
 const offlineSupportUrls = [
   '/beta/assets/owner-bridge.css',
-  '/beta/assets/offline-reader.mjs'
+  '/beta/assets/offline-reader.mjs',
+  '/beta/api/chos/knowledge-index'
 ];
 
 async function listOfflineReaderFiles(directory, relativeDirectory = '') {
@@ -445,11 +470,13 @@ async function listOfflineReaderFiles(directory, relativeDirectory = '') {
 async function offlineReaderSnapshot() {
   const rootDirectory = await realpath(chosDirectory);
   const files = (await listOfflineReaderFiles(rootDirectory)).sort((left, right) => left.path.localeCompare(right.path));
+  const knowledgeIndexJson = JSON.stringify(await publishedKnowledgeIndex());
   const fingerprint = createHash('sha256');
   for (const file of files) fingerprint.update(`${file.path}:${file.size}:${file.modified}\n`);
   fingerprint.update(`portal:${portalVersion}\n`);
   fingerprint.update(offlineReaderScript);
   fingerprint.update(ownerBridgeCss);
+  fingerprint.update(knowledgeIndexJson);
   const version = fingerprint.digest('hex').slice(0, 16);
   const readerUrls = files
     .filter((file) => file.path !== 'index.html')
@@ -459,9 +486,9 @@ async function offlineReaderSnapshot() {
     version,
     generatedAt: new Date().toISOString(),
     fileCount: 1 + readerUrls.length + offlineSupportUrls.length,
-    sizeBytes: files.reduce((sum, file) => sum + file.size, 0) + offlineReaderScript.length + ownerBridgeCss.length,
+    sizeBytes: files.reduce((sum, file) => sum + file.size, 0) + offlineReaderScript.length + ownerBridgeCss.length + Buffer.byteLength(knowledgeIndexJson),
     urls: ['/beta/chos/', ...readerUrls, ...offlineSupportUrls]
-  } };
+  }, knowledgeIndexJson };
 }
 
 async function offlineReaderManifest() {
@@ -498,7 +525,8 @@ async function offlineReaderBundle() {
   }
   bundledFiles.push(
     { url: '/beta/assets/owner-bridge.css', contentType: 'text/css; charset=utf-8', body: Buffer.from(ownerBridgeCss).toString('base64') },
-    { url: '/beta/assets/offline-reader.mjs', contentType: 'text/javascript; charset=utf-8', body: Buffer.from(offlineReaderScript).toString('base64') }
+    { url: '/beta/assets/offline-reader.mjs', contentType: 'text/javascript; charset=utf-8', body: Buffer.from(offlineReaderScript).toString('base64') },
+    { url: '/beta/api/chos/knowledge-index', contentType: 'application/json; charset=utf-8', body: Buffer.from(snapshot.knowledgeIndexJson).toString('base64') }
   );
   return { schemaVersion: 1, manifest: snapshot.manifest, files: bundledFiles };
 }
@@ -805,11 +833,25 @@ export const server = createServer(async (request, response) => {
       }
       return;
     }
+    if (url.pathname === '/beta/api/workspace/knowledge-index' && request.method === 'GET') {
+      const auth = await authenticatedUser(request);
+      if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
+      if (auth.user.role !== 'owner') return sendJson(response, 403, { error: 'Die ChOS-Inhalte sind für dein Konto nicht freigeschaltet.' });
+      sendJson(response, 200, await publishedKnowledgeIndex());
+      return;
+    }
     if (url.pathname === '/beta/api/chos/offline-manifest' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
       if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
       if (auth.user.role !== 'owner') return sendJson(response, 403, { error: 'Dieser Lesestand ist für dein Konto nicht freigeschaltet.' });
       sendJson(response, 200, await offlineReaderManifest());
+      return;
+    }
+    if (url.pathname === '/beta/api/chos/knowledge-index' && request.method === 'GET') {
+      const auth = await authenticatedUser(request);
+      if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
+      if (auth.user.role !== 'owner') return sendJson(response, 403, { error: 'Die ChOS-Inhalte sind für dein Konto nicht freigeschaltet.' });
+      sendJson(response, 200, await publishedKnowledgeIndex());
       return;
     }
     if (url.pathname === '/beta/api/chos/offline-bundle' && request.method === 'GET') {

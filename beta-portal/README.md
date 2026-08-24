@@ -109,9 +109,13 @@ lokal im Browser gespeichert. Bei bestehender Verbindung gleicht die
 Arbeitsfläche ihre Operationen mit dem persönlichen Serverbestand ab.
 
 Veröffentlichte Wissensinhalte und persönliche Arbeitsdaten bleiben voneinander
-getrennt. Die vorbereitete
-AI-Schnittstelle hat noch keinen aktiven lokalen oder Cloud-Provider. Details,
-Grenzen und die spätere PostgreSQL-Migration stehen in
+getrennt. Der Workspace ordnet Arbeitsfällen auf dem Gerät bis zu drei passende
+ChOS-Inhalte zu. Kurzvorschauen bleiben im Arbeitsfluss, vollständige Dokumente
+öffnen in einem neuen Tab. Der veröffentlichte Wissensindex wird lokal
+gespeichert; Arbeitskontext und Notizen werden für die Zuordnung nicht an den
+Server übertragen. Die vorbereitete AI-Schnittstelle hat noch keinen aktiven
+lokalen oder Cloud-Provider. Details, Grenzen und die spätere
+PostgreSQL-Migration stehen in
 `../docs/CHOS_LOCAL_FIRST_ARCHITECTURE.md`.
 
 ## Aktueller Produktumfang
