@@ -134,7 +134,7 @@ function redirect(response, location, setCookie) {
 function page({ title, eyebrow = 'ChOS Beta', body }) {
   return `<!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHtml(title)} · ChOS Beta</title><link rel="stylesheet" href="/beta/assets/portal.css?v=20260824-2"></head>
+<title>${escapeHtml(title)} · ChOS Beta</title><link rel="stylesheet" href="/beta/assets/portal.css?v=20260824-3"></head>
 <body><header class="site-header"><a class="brand" href="/beta/" aria-label="ChOS Beta Startseite">ChOS<span>Beta</span></a></header>
 <main><div class="shell"><p class="eyebrow">${escapeHtml(eyebrow)}</p>${body}</div></main>
 <footer><span>© Christian Leonhardt</span><a href="https://cleonhardt.de/impressum">Impressum</a><a href="https://cleonhardt.de/datenschutz">Datenschutz</a></footer></body></html>`;
@@ -360,7 +360,7 @@ function accountStatus(value) {
 function accountDeletedPage(userId) {
   return `<!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Konto gelöscht · ChOS</title><link rel="stylesheet" href="/beta/assets/portal.css?v=20260824-2"></head>
+<title>Konto gelöscht · ChOS</title><link rel="stylesheet" href="/beta/assets/portal.css?v=20260824-3"></head>
 <body><header class="site-header"><a class="brand" href="/chos" aria-label="Zurück zu ChOS">ChOS</a></header>
 <main><div class="shell"><p class="eyebrow">Konto gelöscht</p><section class="auth-card" data-deleted-user="${escapeHtml(userId)}"><h1>Dein Konto wurde gelöscht.</h1>
 <p class="lede">Deine serverseitigen Kontodaten und dein Workspace wurden entfernt.</p><p id="local-delete-status" class="notice" role="status">Die lokale Arbeitskopie wird aus diesem Browser entfernt …</p>

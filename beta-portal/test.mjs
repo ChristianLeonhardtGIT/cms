@@ -136,7 +136,8 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.match(workspaceCss, /prefers-reduced-motion/);
   assert.match(portalCss, /\.brand\s*\{[^}]*min-height:\s*44px/s);
   assert.match(portalCss, /footer a\s*\{[^}]*min-height:\s*44px/s);
-  assert.match(serverSource, /portal\.css\?v=20260824-2/);
+  assert.match(portalCss, /\.portal-nav a\s*\{[^}]*min-height:\s*44px/s);
+  assert.match(serverSource, /portal\.css\?v=20260824-3/);
   assert.match(pageTemplate, /class="chos-workspace-entry"/);
   assert.match(pageTemplate, /href="\/beta\/workspace"/);
   assert.match(pageTemplate, /site\.css\?v=20260824-4/);
