@@ -116,6 +116,7 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
 
   assert.match(workspaceHtml, /class="workspace-brand__mark"/);
   assert.match(workspaceHtml, /id="workspace-main"/);
+  assert.match(workspaceHtml, /workspace\.css\?v=20260824-2/);
   assert.match(workspaceHtml, /Lokale Speicherung zuerst/);
   assert.doesNotMatch(workspaceHtml, /\bMVP\b|Magnolia/i);
   assert.match(workspaceCss, /--brand-dark:\s*#0d3f29/);
@@ -123,7 +124,7 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.match(workspaceCss, /prefers-reduced-motion/);
   assert.match(pageTemplate, /class="chos-workspace-entry"/);
   assert.match(pageTemplate, /href="\/beta\/workspace"/);
-  assert.match(pageTemplate, /site\.css\?v=20260824-1/);
+  assert.match(pageTemplate, /site\.css\?v=20260824-2/);
   assert.match(siteCss, /\.chos-workspace-entry/);
   assert.match(siteCss, /\.chos-workspace-entry__copy \.eyebrow\s*\{\s*color:\s*var\(--brand\)/);
   assert.match(siteCss, /\.site-workspace-link/);
