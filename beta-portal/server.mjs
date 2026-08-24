@@ -12,6 +12,12 @@ import {
   verifyPassword
 } from './lib/security.mjs';
 import { ensureStore, findUserByEmail, findUserById, loadStore, updateStore } from './lib/store.mjs';
+import { DomainValidationError } from './lib/chos-domain.mjs';
+import {
+  FileWorkspaceRepository,
+  WorkspaceReadOnlyError,
+  WorkspaceRequestError
+} from './lib/workspace-repository.mjs';
 
 const port = Number(process.env.BETA_PORT || 3000);
 const host = process.env.BETA_HOST || '0.0.0.0';
@@ -29,6 +35,18 @@ const applicationDirectory = path.dirname(fileURLToPath(import.meta.url));
 const cssPath = path.join(applicationDirectory, 'public', 'portal.css');
 const ownerBridgeCssPath = path.join(applicationDirectory, 'public', 'owner-bridge.css');
 const chosDirectory = path.resolve(process.env.BETA_CHOS_DIR || path.join(applicationDirectory, 'chos-reader'));
+const dataDirectory = process.env.BETA_DATA_DIR || '/app/data';
+const workspaceRepository = new FileWorkspaceRepository(dataDirectory);
+const workspaceDirectory = path.join(applicationDirectory, 'public', 'workspace');
+const workspaceIndex = await readFile(path.join(workspaceDirectory, 'index.html'), 'utf8');
+const workspaceAssets = new Map([
+  ['workspace.css', { file: path.join(workspaceDirectory, 'workspace.css'), type: 'text/css; charset=utf-8' }],
+  ['app.mjs', { file: path.join(workspaceDirectory, 'app.mjs'), type: 'text/javascript; charset=utf-8' }],
+  ['indexed-db.mjs', { file: path.join(workspaceDirectory, 'indexed-db.mjs'), type: 'text/javascript; charset=utf-8' }],
+  ['chos-domain.mjs', { file: path.join(applicationDirectory, 'lib', 'chos-domain.mjs'), type: 'text/javascript; charset=utf-8' }],
+  ['local-first-workspace.mjs', { file: path.join(applicationDirectory, 'lib', 'local-first-workspace.mjs'), type: 'text/javascript; charset=utf-8' }],
+  ['ai-runtime.mjs', { file: path.join(applicationDirectory, 'lib', 'ai-runtime.mjs'), type: 'text/javascript; charset=utf-8' }]
+]);
 const css = await readFile(cssPath, 'utf8');
 const ownerBridgeCss = await readFile(ownerBridgeCssPath, 'utf8');
 
@@ -43,6 +61,7 @@ async function purgeExpiredAccounts() {
     return expired;
   });
   if (deletedIds.length) {
+    await Promise.all(deletedIds.map((userId) => workspaceRepository.delete(userId)));
     for (const [token, session] of sessions) {
       if (deletedIds.includes(session.userId)) sessions.delete(token);
     }
@@ -95,6 +114,10 @@ function send(response, status, body, headers = {}) {
   response.end(body);
 }
 
+function sendJson(response, status, body) {
+  send(response, status, JSON.stringify(body), workspaceHeaders('application/json; charset=utf-8'));
+}
+
 function redirect(response, location, setCookie) {
   const headers = { Location: location, ...commonHeaders('text/plain; charset=utf-8') };
   if (setCookie) headers['Set-Cookie'] = setCookie;
@@ -136,6 +159,27 @@ async function requestBody(request) {
     chunks.push(chunk);
   }
   return new URLSearchParams(Buffer.concat(chunks).toString('utf8'));
+}
+
+async function requestJson(request) {
+  if (!String(request.headers['content-type'] || '').toLowerCase().startsWith('application/json')) {
+    throw new WorkspaceRequestError('Content-Type muss application/json sein.');
+  }
+  if (request.headers['x-chos-client'] !== 'workspace-v1') {
+    throw new WorkspaceRequestError('Workspace-Clientkennung fehlt.');
+  }
+  const chunks = [];
+  let size = 0;
+  for await (const chunk of request) {
+    size += chunk.length;
+    if (size > 512 * 1024) throw new WorkspaceRequestError('Sync-Anfrage ist zu groß.');
+    chunks.push(chunk);
+  }
+  try {
+    return JSON.parse(Buffer.concat(chunks).toString('utf8'));
+  } catch {
+    throw new WorkspaceRequestError('Sync-Anfrage enthält kein gültiges JSON.');
+  }
 }
 
 function formatDate(value) {
@@ -233,7 +277,7 @@ function dashboardPage(request, user, phase) {
       <article><p class="card-label">Persönliche Begleitung</p><h2>${Number(user.supportHoursTotal) - Number(user.supportHoursUsed)} Stunden verfügbar</h2><p>${user.supportHoursUsed} von ${user.supportHoursTotal} Stunden genutzt.</p></article>
     </section>
     <section class="content-card"><div><p class="card-label">Nächster Schritt</p><h2>Onboarding und Arbeitsrahmen</h2><p>Prüfe den Ablauf, die Arbeitsregeln und was du vor dem ersten Termin vorbereiten solltest.</p></div><a class="button${readOnly ? ' muted' : ''}" href="/beta/onboarding">Onboarding öffnen</a></section>
-    <section class="content-card subdued"><div><p class="card-label">Arbeitsmaterialien</p><h2>Wird als Nächstes ergänzt</h2><p>Das Login- und Zugriffsmodell steht. Die eigentlichen ChOS-Arbeitsflächen werden im nächsten Schritt strukturiert integriert.</p></div></section>`
+    <section class="content-card"><div><p class="card-label">Local-first Arbeitsfläche</p><h2>ChOS Workspace</h2><p>Arbeitsfälle, Beobachtungen und Annahmen werden zuerst auf deinem Gerät gespeichert und anschließend geschützt synchronisiert.</p></div><a class="button" href="/beta/workspace/">Workspace öffnen</a></section>`
   });
 }
 
@@ -259,8 +303,40 @@ function ownerAccountPage(request, user) {
       <p class="status">Persönlicher Zugriff</p><h1>${escapeHtml(user.name)}</h1>
       <p class="lede">Dein Zugang ist dauerhaft angelegt und ausschließlich für dich bestimmt.</p>
       <section class="content-card"><div><p class="card-label">Aktueller Lesestand</p><h2>ChOS 0.6 Beta.1</h2><p>Vollständige Dokumentation, Playbooks, Anwendungsunterlagen und Systemcheck.</p></div><a class="button" href="/beta/chos/">ChOS öffnen</a></section>
+      <section class="content-card"><div><p class="card-label">Local-first Arbeitsfläche</p><h2>ChOS Workspace</h2><p>Arbeitsfälle lokal erfassen und über das persönliche Konto synchronisieren.</p></div><a class="button" href="/beta/workspace/">Workspace öffnen</a></section>
       <form method="post" action="/beta/logout"><input type="hidden" name="nonce" value="${logoutNonce}"><button class="secondary" type="submit">Sicher abmelden</button></form>`
   });
+}
+
+function workspaceHeaders(contentType = 'text/html; charset=utf-8', cache = false) {
+  return {
+    ...commonHeaders(contentType),
+    'Cache-Control': cache ? 'private, max-age=3600' : 'no-store, max-age=0',
+    'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; form-action 'self'; base-uri 'self'; frame-ancestors 'none'"
+  };
+}
+
+async function serveWorkspaceAsset(request, response, assetName) {
+  const auth = await authenticatedUser(request);
+  if (!auth) return send(response, 401, 'Anmeldung erforderlich.', workspaceHeaders('text/plain; charset=utf-8'));
+  const asset = workspaceAssets.get(assetName);
+  if (!asset) return send(response, 404, 'Nicht gefunden.', workspaceHeaders('text/plain; charset=utf-8'));
+  send(response, 200, await readFile(asset.file), workspaceHeaders(asset.type, true));
+}
+
+function workspaceBootstrap(auth) {
+  return {
+    version: 1,
+    user: { id: auth.user.id, name: auth.user.name },
+    phase: auth.phase,
+    canWrite: auth.phase === 'active' || auth.phase === 'owner',
+    boundaries: {
+      knowledge: 'magnolia-and-chos-repository',
+      domain: 'chos-domain',
+      userData: 'local-first-workspace'
+    },
+    ai: { localProvider: false, cloudProvider: false }
+  };
 }
 
 const mimeTypes = new Map([
@@ -424,6 +500,40 @@ export const server = createServer(async (request, response) => {
       if (!auth || !consumeNonce(form.get('nonce'), requestIp(request), 'logout')) return send(response, 400, page({ title: 'Abmeldung fehlgeschlagen', body: '<h1>Die Abmeldung konnte nicht bestätigt werden.</h1>' }));
       sessions.delete(auth.token);
       redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      return;
+    }
+    if (url.pathname === '/beta/workspace' && request.method === 'GET') return redirect(response, '/beta/workspace/');
+    if (url.pathname === '/beta/workspace/' && request.method === 'GET') {
+      const auth = await authenticatedUser(request);
+      if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      send(response, 200, workspaceIndex, workspaceHeaders());
+      return;
+    }
+    if (url.pathname.startsWith('/beta/workspace/assets/') && request.method === 'GET') {
+      await serveWorkspaceAsset(request, response, url.pathname.slice('/beta/workspace/assets/'.length));
+      return;
+    }
+    if (url.pathname === '/beta/api/workspace/bootstrap' && request.method === 'GET') {
+      const auth = await authenticatedUser(request);
+      if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
+      sendJson(response, 200, workspaceBootstrap(auth));
+      return;
+    }
+    if (url.pathname === '/beta/api/workspace/sync' && request.method === 'POST') {
+      const auth = await authenticatedUser(request);
+      if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
+      try {
+        const result = await workspaceRepository.sync(auth.user.id, await requestJson(request), {
+          canWrite: auth.phase === 'active' || auth.phase === 'owner'
+        });
+        sendJson(response, 200, result);
+      } catch (error) {
+        if (error instanceof WorkspaceReadOnlyError) return sendJson(response, 403, { error: error.message });
+        if (error instanceof WorkspaceRequestError || error instanceof DomainValidationError) {
+          return sendJson(response, 400, { error: error.message });
+        }
+        throw error;
+      }
       return;
     }
     if (url.pathname === '/beta/chos' && request.method === 'GET') return redirect(response, '/beta/chos/');

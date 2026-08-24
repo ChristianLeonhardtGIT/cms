@@ -13,6 +13,8 @@ Geschützter MVP-Arbeitsbereich für maximal fünf persönlich freigeschaltete B
 - automatische Löschung des Portal-Kontos nach Ende der 90-Tage-Gesamtlaufzeit
 - maximal fünf Konten und acht Stunden Begleitung pro Konto
 - getrennte Datenspeicherung außerhalb der Magnolia-Inhalte
+- Local-first ChOS Workspace mit lokaler IndexedDB-Arbeitskopie
+- idempotenter Geräteabgleich über die geschützte Sync-API
 - dauerhaftes, separates Owner-Konto für den persönlichen ChOS-Lesebereich
 
 ## Lokal starten
@@ -70,10 +72,23 @@ docker compose exec beta-portal node admin.mjs reinvite --email=name@firma.de
 docker compose exec beta-portal node admin.mjs disable --email=name@firma.de
 ```
 
+## ChOS Workspace
+
+Angemeldete Teilnehmende und das Owner-Konto erreichen die neue Arbeitsfläche
+unter `/beta/workspace/`. Neue Arbeitsfälle und Diagnoseelemente werden zuerst
+lokal im Browser gespeichert. Bei bestehender Verbindung gleicht die
+Arbeitsfläche ihre Operationen mit dem persönlichen Serverbestand ab.
+
+Magnolia- und ChOS-Fachinhalte bleiben davon getrennt. Die vorbereitete
+AI-Schnittstelle hat noch keinen aktiven lokalen oder Cloud-Provider. Details,
+Grenzen und die spätere PostgreSQL-Migration stehen in
+`../docs/CHOS_LOCAL_FIRST_ARCHITECTURE.md`.
+
 ## MVP-Grenze
 
-Dieser Stand liefert Anmeldung, Zugriffsphasen, Dashboard, Onboarding und den
-persönlichen, durchsuchbaren ChOS-Lesebereich. Fallnotizen, Uploads,
-Diagnoseflächen und Exporte werden bewusst erst im nächsten Ausbauschritt
-ergänzt. Sobald fachliche Arbeitsdaten ergänzt werden, müssen sie an denselben
-automatischen Löschlauf angebunden werden.
+Dieser Stand liefert Anmeldung, Zugriffsphasen, Dashboard, Onboarding, den
+persönlichen ChOS-Lesebereich sowie einen schlanken Local-first Workspace für
+Arbeitsfälle und Diagnoseelemente. Uploads, Exporte, Team-Kollaboration und
+aktive AI-Verarbeitung bleiben spätere Ausbauschritte. Serverseitige
+Workspace-Daten sind an denselben automatischen Löschlauf wie das Konto
+angebunden.

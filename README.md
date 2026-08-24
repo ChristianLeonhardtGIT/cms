@@ -9,6 +9,7 @@ Enthalten sind insbesondere:
 - Magnolia Light Module, Content Types, Apps, Dialoge und Templates,
 - Produktions- und Containerkonfiguration ohne Zugangsdaten,
 - Beta-Portal und geschützter ChOS-Reader,
+- Local-first ChOS Workspace und geschützte Sync-Schnittstelle,
 - Betriebs-, Backup- und Sync-Skripte,
 - freigegebene Groovy-Migrations- und Wartungsskripte,
 - das Werkzeug für versionierte, redaktionell freigegebene JCR-Exporte.
