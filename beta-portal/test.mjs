@@ -151,7 +151,10 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.match(offlineReader, /await cache\.put/);
   assert.match(offlineWorker, /response\.redirected \|\| response\.status === 401 \|\| response\.status === 403/);
   assert.match(offlineWorker, /CACHE_PREFIX = 'chos-reader-v1-'/);
+  assert.match(serverSource, /fingerprint\.update\(`portal:\$\{portalVersion\}/);
+  assert.match(serverSource, /fingerprint\.update\(ownerBridgeCss\)/);
   assert.match(ownerBridgeCss, /min-height:\s*44px/);
+  assert.match(ownerBridgeCss, /flex-wrap:\s*wrap/);
   assert.match(ownerBridgeCss, /chos-offline-panel\[hidden\]/);
 });
 
@@ -215,7 +218,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   await waitForServer(origin);
 
   let response = await fetch(`${origin}/beta/health`);
-  assert.deepEqual(await response.json(), { status: 'ok', version: '0.5.0' });
+  assert.deepEqual(await response.json(), { status: 'ok', version: '0.5.1' });
 
   response = await fetch(`${origin}/beta/`, { redirect: 'manual' });
   assert.equal(response.status, 303);
@@ -460,6 +463,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   const chosHome = await response.text();
   assert.equal(response.status, 200);
   assert.match(chosHome, /ChOS 0.6 Beta.1/);
+  assert.match(chosHome, /href="\/beta\/workspace\/">Workspace<\/a>/);
   assert.match(chosHome, /href="\/beta\/konto"/);
   assert.match(chosHome, /data-offline-reader/);
   assert.match(chosHome, /Aktuellen Stand speichern/);
