@@ -4,29 +4,50 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#0d3f29">
   <title>ChOS Workspace</title>
   <link rel="stylesheet" href="/beta/workspace/assets/workspace.css">
 </head>
 <body>
+  <a class="skip-link" href="#workspace-main">Zum Workspace springen</a>
   <header class="workspace-header">
-    <a class="brand" href="/beta/">ChOS<span>Workspace</span></a>
-    <div class="sync-indicator" aria-live="polite">
-      <span id="network-dot" class="network-dot"></span>
-      <span id="sync-status">Lokale Arbeitskopie wird geladen …</span>
+    <div class="workspace-header__inner">
+      <a class="workspace-brand" href="/beta/" aria-label="ChOS Workspace – zur Kontoübersicht">
+        <svg class="workspace-brand__mark" viewBox="0 0 128 128" width="44" height="44" aria-hidden="true" focusable="false">
+          <path d="M101 27 C88 16 71 12 55 16 C33 21 18 41 18 63 C18 86 34 106 56 111 C73 115 91 111 104 99" fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+          <path d="M75 40 V86 Q75 94 83 94 H112" fill="none" stroke="#28714e" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="75" cy="40" r="9" fill="#d8ef77"/>
+          <circle cx="75" cy="40" r="3.5" fill="#0d3f29"/>
+        </svg>
+        <span class="workspace-brand__name">ChOS <span>Workspace</span></span>
+      </a>
+      <div class="workspace-header__actions">
+        <div class="sync-indicator" aria-live="polite">
+          <span id="network-dot" class="network-dot"></span>
+          <span id="sync-status">Lokale Arbeitskopie wird geladen …</span>
+        </div>
+        <nav class="workspace-nav" aria-label="Workspace-Navigation">
+          <a href="/beta/onboarding">Onboarding</a>
+          <a href="/beta/">Konto</a>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <main class="workspace-shell">
-    <section class="workspace-intro">
-      <div>
-        <p class="eyebrow">Local-first MVP</p>
-        <h1>Diagnose beginnt mit dem, was du wirklich beobachtest.</h1>
-        <p id="workspace-lede" class="lede">Deine Eingaben werden zuerst auf diesem Gerät gespeichert und bei Verbindung mit deinem geschützten Konto synchronisiert.</p>
+  <main id="workspace-main" class="workspace-shell">
+    <section class="workspace-intro" aria-labelledby="workspace-title">
+      <div class="workspace-intro__copy">
+        <p class="eyebrow eyebrow--light">ChOS Arbeitsraum</p>
+        <h1 id="workspace-title">Erst beobachten.<br>Dann einordnen.</h1>
+        <p id="workspace-lede" class="lede">Halte Signale, Annahmen und offene Fragen fest, bevor du eine Lösung formulierst. Deine Eingaben werden zuerst auf diesem Gerät gespeichert.</p>
       </div>
-      <nav class="workspace-nav" aria-label="Workspace-Navigation">
-        <a href="/beta/onboarding">Onboarding</a>
-        <a href="/beta/">Konto</a>
-      </nav>
+      <div class="workspace-intro__promise" aria-label="Arbeitsweise">
+        <span class="promise-icon" aria-hidden="true">✓</span>
+        <div>
+          <strong>Deine Arbeitskopie bleibt nah bei dir.</strong>
+          <span>Lokale Speicherung zuerst, geschützte Synchronisation danach.</span>
+        </div>
+      </div>
     </section>
 
     <section id="readonly-notice" class="notice" hidden>
@@ -36,18 +57,20 @@
     <section class="workspace-grid">
       <aside class="case-panel" aria-labelledby="cases-heading">
         <div class="panel-heading">
+          <span class="step-index" aria-hidden="true">01</span>
           <div>
-            <p class="eyebrow">Arbeitsfälle</p>
-            <h2 id="cases-heading">Deine Diagnosen</h2>
+            <p class="eyebrow">Situation wählen</p>
+            <h2 id="cases-heading">Deine Arbeitsfälle</h2>
           </div>
         </div>
 
-        <form id="case-form" class="compact-form">
+        <form id="case-form" class="compact-form" aria-describedby="case-form-guidance">
           <label for="case-title">Neuer Arbeitsfall</label>
           <input id="case-title" name="title" maxlength="160" placeholder="z. B. Neuer Verantwortungsbereich" required>
           <label for="case-context">Kontext <span>optional</span></label>
           <textarea id="case-context" name="context" maxlength="4000" rows="3" placeholder="Worum geht es – noch ohne vorschnelle Lösung?"></textarea>
           <button type="submit">Arbeitsfall anlegen</button>
+          <p id="case-form-guidance" class="form-guidance">Beginne mit einer konkreten Situation, nicht mit einer fertigen Lösung.</p>
         </form>
 
         <div id="case-list" class="case-list"></div>
@@ -55,15 +78,16 @@
 
       <section class="detail-panel" aria-live="polite">
         <div id="empty-state" class="empty-state">
-          <p class="eyebrow">Arbeitsfläche</p>
+          <span class="empty-state__mark" aria-hidden="true">02</span>
+          <p class="eyebrow">Diagnose aufbauen</p>
           <h2>Lege deinen ersten Arbeitsfall an.</h2>
-          <p>Die lokale Arbeitskopie funktioniert auch bei einer unterbrochenen Verbindung weiter. Synchronisiert wird, sobald der Server wieder erreichbar ist.</p>
+          <p>Danach kannst du Beobachtungen von Annahmen trennen, offene Fragen sichtbar machen und Interventionen bewusst prüfen.</p>
         </div>
 
         <div id="case-detail" hidden>
           <div class="detail-heading">
             <div>
-              <p class="eyebrow">Aktive Diagnose</p>
+              <p class="eyebrow">02 · Aktive Diagnose</p>
               <h2 id="detail-title"></h2>
               <p id="detail-context" class="muted"></p>
             </div>
@@ -71,7 +95,7 @@
           </div>
 
           <form id="item-form" class="item-form">
-            <label for="item-kind">Einordnung</label>
+            <label class="visually-hidden" for="item-kind">Einordnung</label>
             <select id="item-kind" name="kind">
               <option value="observation">Beobachtung</option>
               <option value="assumption">Annahme</option>
@@ -79,7 +103,7 @@
               <option value="intervention">Intervention</option>
               <option value="review">Review</option>
             </select>
-            <label for="item-text">Notiz</label>
+            <label class="visually-hidden" for="item-text">Diagnoseelement</label>
             <textarea id="item-text" name="text" maxlength="10000" rows="4" placeholder="Beobachtung und Deutung bewusst trennen …" required></textarea>
             <button type="submit">Zur Diagnose hinzufügen</button>
           </form>
@@ -90,10 +114,11 @@
     </section>
 
     <section class="architecture-note">
-      <div>
-        <p class="eyebrow">Verarbeitung</p>
-        <h2>Local-first, AI-ready</h2>
-        <p>Arbeitsdaten bleiben getrennt von Magnolia-Inhalten. Die vorbereitete AI-Schicht verarbeitet private Inhalte ausschließlich lokal; Cloud-Verarbeitung benötigt später eine ausdrückliche Freigabe.</p>
+      <div class="architecture-note__icon" aria-hidden="true">↙</div>
+      <div class="architecture-note__copy">
+        <p class="eyebrow">Privater Arbeitsmodus</p>
+        <h2>Lokal beginnen. Kontrolliert synchronisieren.</h2>
+        <p>Deine Arbeitsdaten bleiben von den öffentlichen Magnolia-Inhalten getrennt. Private Inhalte werden bei späterer AI-Unterstützung standardmäßig nur lokal verarbeitet.</p>
       </div>
       <div class="runtime-status">
         <span id="ai-status">AI-Provider werden geprüft …</span>
@@ -101,6 +126,11 @@
       </div>
     </section>
   </main>
+
+  <footer class="workspace-footer">
+    <span>ChOS · Erst verstehen. Dann wirksam verändern.</span>
+    <a href="/chos">ChOS auf der Website</a>
+  </footer>
 
   <script type="module" src="/beta/workspace/assets/app.mjs"></script>
 </body>

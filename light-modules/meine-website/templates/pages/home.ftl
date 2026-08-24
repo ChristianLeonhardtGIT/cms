@@ -576,6 +576,10 @@
           [/#if]
           [#if navigationContactPage?has_content]
             <div class="site-nav__footer">
+              <a class="site-nav__workspace-link" href="/beta/workspace">
+                <span>ChOS Workspace</span>
+                <span aria-hidden="true">→</span>
+              </a>
               <a class="site-nav__footer-cta" href="${cmsfn.link(navigationContactPage)!'#'}"[#if navigationContactPage.@id == content.@id] aria-current="page"[/#if]>
                 <span>${navigationContactLabel}</span>
                 <span class="site-nav__footer-arrow" aria-hidden="true">→</span>
@@ -587,6 +591,10 @@
             </div>
           [/#if]
         </nav>
+        <a class="site-workspace-link" href="/beta/workspace">
+          <span>Workspace</span>
+          <span class="site-workspace-link__arrow" aria-hidden="true">→</span>
+        </a>
       </div>
     </header>
 
@@ -619,6 +627,40 @@
         </nav>
       [/#if]
       [@cms.area name="main" /]
+
+      [#if canonicalPath == '/chos']
+        <section class="chos-workspace-entry" aria-labelledby="chos-workspace-entry-title">
+          <div class="site-shell chos-workspace-entry__inner">
+            <div class="chos-workspace-entry__mark" aria-hidden="true">
+              <svg viewBox="0 0 128 128" width="76" height="76" focusable="false">
+                <path d="M101 27 C88 16 71 12 55 16 C33 21 18 41 18 63 C18 86 34 106 56 111 C73 115 91 111 104 99"
+                      fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
+                <path d="M75 40 V86 Q75 94 83 94 H112"
+                      fill="none" stroke="#28714e" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="75" cy="40" r="9" fill="#d8ef77"/>
+                <circle cx="75" cy="40" r="3.5" fill="#0d3f29"/>
+              </svg>
+            </div>
+            <div class="chos-workspace-entry__copy">
+              <p class="eyebrow">ChOS Workspace</p>
+              <h2 id="chos-workspace-entry-title">Aus einer ersten Einordnung wird ein belastbarer Arbeitsstand.</h2>
+              <p>Im geschützten Workspace hältst du Beobachtungen, Annahmen und offene Fragen getrennt fest. Deine Arbeitskopie entsteht zuerst lokal und wird anschließend mit deinem Konto synchronisiert.</p>
+              <ul class="chos-workspace-entry__facts" aria-label="Vorteile des ChOS Workspace">
+                <li>Local-first</li>
+                <li>Geschützter Zugang</li>
+                <li>Diagnose vor Eingriff</li>
+              </ul>
+            </div>
+            <div class="chos-workspace-entry__action">
+              <a class="button button--light" href="/beta/workspace">
+                Workspace öffnen
+                <span aria-hidden="true">→</span>
+              </a>
+              <small>Für eingeladene Nutzer</small>
+            </div>
+          </div>
+        </section>
+      [/#if]
 
       [#if relatedInsights?has_content]
         <section class="related-insights" aria-labelledby="related-insights-title">

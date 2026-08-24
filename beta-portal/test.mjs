@@ -106,6 +106,26 @@ test('Hybrid-AI bevorzugt lokal und schützt private Daten vor Cloud-Fallback', 
   assert.equal(cloudCalls, 1);
 });
 
+test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskontrakte', async () => {
+  const [workspaceHtml, workspaceCss, pageTemplate, siteCss] = await Promise.all([
+    readFile(new URL('./public/workspace/index.html', import.meta.url), 'utf8'),
+    readFile(new URL('./public/workspace/workspace.css', import.meta.url), 'utf8'),
+    readFile(new URL('../light-modules/meine-website/templates/pages/home.ftl', import.meta.url), 'utf8'),
+    readFile(new URL('../light-modules/meine-website/webresources/css/site.css', import.meta.url), 'utf8')
+  ]);
+
+  assert.match(workspaceHtml, /class="workspace-brand__mark"/);
+  assert.match(workspaceHtml, /id="workspace-main"/);
+  assert.match(workspaceHtml, /Lokale Speicherung zuerst/);
+  assert.match(workspaceCss, /--brand-dark:\s*#0d3f29/);
+  assert.match(workspaceCss, /--accent:\s*#d8ef77/);
+  assert.match(workspaceCss, /prefers-reduced-motion/);
+  assert.match(pageTemplate, /class="chos-workspace-entry"/);
+  assert.match(pageTemplate, /href="\/beta\/workspace"/);
+  assert.match(siteCss, /\.chos-workspace-entry/);
+  assert.match(siteCss, /\.site-workspace-link/);
+});
+
 test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (context) => {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'chos-beta-test-'));
   const testPort = 31991;
@@ -166,7 +186,7 @@ test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (contex
   await waitForServer(origin);
 
   let response = await fetch(`${origin}/beta/health`);
-  assert.deepEqual(await response.json(), { status: 'ok', version: '0.2.0' });
+  assert.deepEqual(await response.json(), { status: 'ok', version: '0.3.0' });
 
   response = await fetch(`${origin}/beta/`, { redirect: 'manual' });
   assert.equal(response.status, 303);
@@ -228,7 +248,7 @@ test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (contex
 
   response = await fetch(`${origin}/beta/workspace/`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 200);
-  assert.match(await response.text(), /Local-first MVP/);
+  assert.match(await response.text(), /ChOS Arbeitsraum/);
 
   response = await fetch(`${origin}/beta/workspace/assets/app.mjs`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 200);
