@@ -8,6 +8,14 @@ export function normalizeEmail(value) {
   return String(value ?? '').trim().toLowerCase();
 }
 
+export function validateEmail(value) {
+  const email = normalizeEmail(value);
+  if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return 'Bitte gib eine gültige E-Mail-Adresse ein.';
+  }
+  return null;
+}
+
 export function randomToken(bytes = 32) {
   return randomBytes(bytes).toString('base64url');
 }

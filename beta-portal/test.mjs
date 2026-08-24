@@ -1,13 +1,10 @@
 import assert from 'node:assert/strict';
-import { execFile as execFileCallback } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { fileURLToPath } from 'node:url';
-import { promisify } from 'node:util';
-import { accessPhase, addDays, randomToken, tokenDigest } from './lib/security.mjs';
+import { accessPhase, addDays, randomToken, tokenDigest, validateEmail } from './lib/security.mjs';
 import { addWorkItemOperation, createCaseOperation } from './lib/chos-domain.mjs';
 import {
   createLocalRuntime,
@@ -24,12 +21,17 @@ import {
   createHybridAiService
 } from './lib/ai-runtime.mjs';
 
-const execFile = promisify(execFileCallback);
-
 function hidden(html, name) {
   const match = html.match(new RegExp(`name="${name}" value="([^"]+)"`));
   assert.ok(match, `Feld ${name} fehlt`);
   return match[1];
+}
+
+function formNonce(html, action) {
+  const escaped = action.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = html.match(new RegExp(`<form[^>]+action="${escaped}"[\\s\\S]*?</form>`));
+  assert.ok(match, `Formular ${action} fehlt`);
+  return hidden(match[0], 'nonce');
 }
 
 function firstCookie(response, name) {
@@ -56,6 +58,12 @@ test('Zugriffsphasen werden zeitbasiert ermittelt', () => {
   assert.equal(accessPhase(base, new Date('2026-02-01T00:00:00Z')), 'active');
   assert.equal(accessPhase(base, new Date('2026-03-15T00:00:00Z')), 'readonly');
   assert.equal(accessPhase(base, new Date('2026-04-02T00:00:00Z')), 'expired');
+});
+
+test('E-Mail-Adressen werden für die Kontopflege streng geprüft', () => {
+  assert.equal(validateEmail('person@beispiel.de'), null);
+  assert.match(validateEmail('keine-adresse'), /gültige E-Mail-Adresse/);
+  assert.match(validateEmail(`x@${'a'.repeat(250)}.de`), /gültige E-Mail-Adresse/);
 });
 
 test('Local-first Runtime hält Änderungen lokal und bestätigt sie nach dem Sync', () => {
@@ -120,22 +128,24 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.match(workspaceHtml, /id="workspace-main"/);
   assert.match(workspaceHtml, /workspace\.css\?v=20260824-3/);
   assert.match(workspaceHtml, /Lokale Speicherung zuerst/);
+  assert.match(workspaceHtml, /href="\/beta\/konto">Konto/);
+  assert.match(workspaceHtml, />Zurück zu ChOS</);
   assert.doesNotMatch(workspaceHtml, /\bMVP\b|Magnolia/i);
   assert.match(workspaceCss, /--brand-dark:\s*#0d3f29/);
   assert.match(workspaceCss, /--accent:\s*#d8ef77/);
   assert.match(workspaceCss, /prefers-reduced-motion/);
   assert.match(portalCss, /\.brand\s*\{[^}]*min-height:\s*44px/s);
   assert.match(portalCss, /footer a\s*\{[^}]*min-height:\s*44px/s);
-  assert.match(serverSource, /portal\.css\?v=20260824-1/);
+  assert.match(serverSource, /portal\.css\?v=20260824-2/);
   assert.match(pageTemplate, /class="chos-workspace-entry"/);
   assert.match(pageTemplate, /href="\/beta\/workspace"/);
-  assert.match(pageTemplate, /site\.css\?v=20260824-3/);
+  assert.match(pageTemplate, /site\.css\?v=20260824-4/);
   assert.match(siteCss, /\.chos-workspace-entry/);
   assert.match(siteCss, /\.chos-workspace-entry__copy \.eyebrow\s*\{\s*color:\s*var\(--brand\)/);
-  assert.match(siteCss, /\.site-workspace-link/);
+  assert.doesNotMatch(pageTemplate, /class="site-workspace-link"/);
 });
 
-test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (context) => {
+test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren', async (context) => {
   const directory = await mkdtemp(path.join(os.tmpdir(), 'chos-beta-test-'));
   const testPort = 31991;
   const origin = `http://127.0.0.1:${testPort}`;
@@ -195,7 +205,7 @@ test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (contex
   await waitForServer(origin);
 
   let response = await fetch(`${origin}/beta/health`);
-  assert.deepEqual(await response.json(), { status: 'ok', version: '0.3.0' });
+  assert.deepEqual(await response.json(), { status: 'ok', version: '0.4.0' });
 
   response = await fetch(`${origin}/beta/`, { redirect: 'manual' });
   assert.equal(response.status, 303);
@@ -250,7 +260,87 @@ test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (contex
     body: new URLSearchParams({ nonce: loginNonce, email: 'beta@beispiel.de', password: 'Eine-sehr-lange-Test-Passphrase!' })
   });
   assert.equal(response.status, 303);
-  const participantLoginCookie = firstCookie(response, 'chos_beta_session');
+  let participantLoginCookie = firstCookie(response, 'chos_beta_session');
+
+  response = await fetch(`${origin}/beta/konto`, { headers: { cookie: participantLoginCookie } });
+  let accountHtml = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(accountHtml, /Konto verwalten/);
+  assert.match(accountHtml, /beta@beispiel\.de/);
+
+  response = await fetch(`${origin}/beta/konto/email`, {
+    method: 'POST',
+    redirect: 'manual',
+    headers: { cookie: participantLoginCookie, 'content-type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ nonce: formNonce(accountHtml, '/beta/konto/email'), email: 'beta-neu@beispiel.de', 'current-password': 'Falsches-Testpasswort-2026!' })
+  });
+  accountHtml = await response.text();
+  assert.equal(response.status, 403);
+  assert.match(accountHtml, /aktuelle Passwort ist nicht korrekt/);
+
+  response = await fetch(`${origin}/beta/konto/email`, {
+    method: 'POST',
+    redirect: 'manual',
+    headers: { cookie: participantLoginCookie, 'content-type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ nonce: formNonce(accountHtml, '/beta/konto/email'), email: 'owner@beispiel.de', 'current-password': 'Eine-sehr-lange-Test-Passphrase!' })
+  });
+  accountHtml = await response.text();
+  assert.equal(response.status, 409);
+  assert.match(accountHtml, /bereits verwendet/);
+
+  response = await fetch(`${origin}/beta/konto/email`, {
+    method: 'POST',
+    redirect: 'manual',
+    headers: { cookie: participantLoginCookie, 'content-type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ nonce: formNonce(accountHtml, '/beta/konto/email'), email: 'beta-neu@beispiel.de', 'current-password': 'Eine-sehr-lange-Test-Passphrase!' })
+  });
+  assert.equal(response.status, 303);
+  assert.equal(response.headers.get('location'), '/beta/konto?status=email');
+
+  response = await fetch(`${origin}/beta/konto?status=email`, { headers: { cookie: participantLoginCookie } });
+  accountHtml = await response.text();
+  assert.match(accountHtml, /E-Mail-Adresse wurde geändert/);
+  assert.match(accountHtml, /beta-neu@beispiel\.de/);
+
+  response = await fetch(`${origin}/beta/konto/passwort`, {
+    method: 'POST',
+    redirect: 'manual',
+    headers: { cookie: participantLoginCookie, 'content-type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      nonce: formNonce(accountHtml, '/beta/konto/passwort'),
+      'current-password': 'Eine-sehr-lange-Test-Passphrase!',
+      password: 'Neue-sehr-lange-Test-Passphrase!',
+      confirm: 'Neue-sehr-lange-Test-Passphrase!'
+    })
+  });
+  assert.equal(response.status, 303);
+  assert.equal(response.headers.get('location'), '/beta/konto?status=password');
+  participantLoginCookie = firstCookie(response, 'chos_beta_session');
+
+  response = await fetch(`${origin}/beta/konto?status=password`, { headers: { cookie: participantLoginCookie } });
+  assert.equal(response.status, 200);
+  assert.match(await response.text(), /Passwort wurde geändert/);
+
+  response = await fetch(`${origin}/beta/login`);
+  let changedLoginHtml = await response.text();
+  response = await fetch(`${origin}/beta/login`, {
+    method: 'POST',
+    redirect: 'manual',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ nonce: hidden(changedLoginHtml, 'nonce'), email: 'beta@beispiel.de', password: 'Eine-sehr-lange-Test-Passphrase!' })
+  });
+  assert.equal(response.status, 401);
+
+  response = await fetch(`${origin}/beta/login`);
+  changedLoginHtml = await response.text();
+  response = await fetch(`${origin}/beta/login`, {
+    method: 'POST',
+    redirect: 'manual',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({ nonce: hidden(changedLoginHtml, 'nonce'), email: 'beta-neu@beispiel.de', password: 'Neue-sehr-lange-Test-Passphrase!' })
+  });
+  assert.equal(response.status, 303);
+  participantLoginCookie = firstCookie(response, 'chos_beta_session');
 
   response = await fetch(`${origin}/beta/chos/`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 403);
@@ -324,7 +414,7 @@ test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (contex
   assert.equal(response.status, 400);
 
   await updateStore((store) => {
-    const participant = store.users.find((user) => user.email === 'beta@beispiel.de');
+    const participant = store.users.find((user) => user.email === 'beta-neu@beispiel.de');
     participant.activeUntil = new Date(Date.now() - 60_000).toISOString();
     participant.readUntil = addDays(new Date(), 1);
   });
@@ -382,13 +472,32 @@ test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (contex
   assert.equal(stored.users[1].role, 'owner');
   assert.equal(stored.users[1].inviteTokenHash, null);
 
-  const removal = await execFile(process.execPath, [
-    fileURLToPath(new URL('./admin.mjs', import.meta.url)),
-    'remove',
-    '--email=beta@beispiel.de',
-    '--confirm=beta@beispiel.de'
-  ], { env: { ...process.env, BETA_DATA_DIR: directory } });
-  assert.match(removal.stdout, /Konto und serverseitiger Workspace/);
+  response = await fetch(`${origin}/beta/konto`, { headers: { cookie: participantLoginCookie } });
+  accountHtml = await response.text();
+  response = await fetch(`${origin}/beta/konto/loeschen`, {
+    method: 'POST',
+    redirect: 'manual',
+    headers: { cookie: participantLoginCookie, 'content-type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      nonce: formNonce(accountHtml, '/beta/konto/loeschen'),
+      'current-password': 'Neue-sehr-lange-Test-Passphrase!',
+      'confirm-email': 'beta-neu@beispiel.de'
+    })
+  });
+  assert.equal(response.status, 303);
+  assert.equal(response.headers.get('location'), '/beta/konto-geloescht');
+  const deletedWorkspaceCookie = firstCookie(response, 'chos_beta_deleted_workspace');
+
+  response = await fetch(`${origin}/beta/konto-geloescht`, { headers: { cookie: deletedWorkspaceCookie } });
+  const deletedHtml = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(deletedHtml, /Dein Konto wurde gelöscht/);
+  assert.match(deletedHtml, /account-delete\.mjs/);
+
+  response = await fetch(`${origin}/beta/assets/account-delete.mjs`);
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get('content-type'), /text\/javascript/);
+
   const afterRemoval = JSON.parse(await readFile(path.join(directory, 'accounts.json'), 'utf8'));
   assert.equal(afterRemoval.users.length, 1);
   assert.equal((await readdir(path.join(directory, 'workspaces'))).filter((name) => name.endsWith('.json')).length, 0);
