@@ -37,6 +37,7 @@ const ownerBridgeCssPath = path.join(applicationDirectory, 'public', 'owner-brid
 const chosDirectory = path.resolve(process.env.BETA_CHOS_DIR || path.join(applicationDirectory, 'chos-reader'));
 const dataDirectory = process.env.BETA_DATA_DIR || '/app/data';
 const workspaceRepository = new FileWorkspaceRepository(dataDirectory);
+const portalVersion = JSON.parse(await readFile(path.join(applicationDirectory, 'package.json'), 'utf8')).version;
 const workspaceDirectory = path.join(applicationDirectory, 'public', 'workspace');
 const workspaceIndex = await readFile(path.join(workspaceDirectory, 'index.html'), 'utf8');
 const workspaceAssets = new Map([
@@ -417,7 +418,7 @@ export const server = createServer(async (request, response) => {
   try {
     const url = new URL(request.url, 'http://beta.local');
     if (url.pathname === '/beta/health' && request.method === 'GET') {
-      send(response, 200, JSON.stringify({ status: 'ok' }), { ...commonHeaders('application/json; charset=utf-8') });
+      send(response, 200, JSON.stringify({ status: 'ok', version: portalVersion }), { ...commonHeaders('application/json; charset=utf-8') });
       return;
     }
     if (url.pathname === '/beta/assets/portal.css' && request.method === 'GET') {

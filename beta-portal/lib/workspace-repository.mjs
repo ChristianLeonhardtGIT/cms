@@ -4,6 +4,9 @@ import path from 'node:path';
 import { validateClientOperation, validateOperation } from './chos-domain.mjs';
 import { SYNC_PROTOCOL_VERSION } from './local-first-workspace.mjs';
 
+const MAX_WORKSPACE_OPERATIONS = 5000;
+const MAX_WORKSPACE_BYTES = 10 * 1024 * 1024;
+
 function freshStore() {
   return { version: 1, nextCursor: 1, operations: [] };
 }
@@ -104,6 +107,7 @@ export class FileWorkspaceRepository {
     const lock = await this.lock(userId);
     try {
       const store = await this.load(userId);
+      const originalOperationCount = store.operations.length;
       const existingById = new Map(store.operations.map((operation) => [operation.id, operation]));
       const acceptedOperationIds = [];
 
@@ -125,7 +129,16 @@ export class FileWorkspaceRepository {
         existingById.set(operation.id, operation);
       }
 
-      if (request.operations.length) await this.write(userId, store);
+      const storeChanged = store.operations.length !== originalOperationCount;
+      if (storeChanged) {
+        if (store.operations.length > MAX_WORKSPACE_OPERATIONS) {
+          throw new WorkspaceRequestError('Die maximale Anzahl an Workspace-Änderungen ist erreicht. Bitte wende dich an den Support.');
+        }
+        if (Buffer.byteLength(`${JSON.stringify(store, null, 2)}\n`, 'utf8') > MAX_WORKSPACE_BYTES) {
+          throw new WorkspaceRequestError('Der maximale Workspace-Speicher ist erreicht. Bitte wende dich an den Support.');
+        }
+        await this.write(userId, store);
+      }
       const cursor = store.nextCursor - 1;
       const reset = request.after > cursor;
       return {

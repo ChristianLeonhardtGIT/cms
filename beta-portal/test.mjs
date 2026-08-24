@@ -1,9 +1,12 @@
 import assert from 'node:assert/strict';
+import { execFile as execFileCallback } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 import { accessPhase, addDays, randomToken, tokenDigest } from './lib/security.mjs';
 import { addWorkItemOperation, createCaseOperation } from './lib/chos-domain.mjs';
 import {
@@ -21,6 +24,7 @@ import {
   createHybridAiService
 } from './lib/ai-runtime.mjs';
 
+const execFile = promisify(execFileCallback);
 
 function hidden(html, name) {
   const match = html.match(new RegExp(`name="${name}" value="([^"]+)"`));
@@ -161,7 +165,10 @@ test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (contex
   });
   await waitForServer(origin);
 
-  let response = await fetch(`${origin}/beta/`, { redirect: 'manual' });
+  let response = await fetch(`${origin}/beta/health`);
+  assert.deepEqual(await response.json(), { status: 'ok', version: '0.2.0' });
+
+  response = await fetch(`${origin}/beta/`, { redirect: 'manual' });
   assert.equal(response.status, 303);
   assert.equal(response.headers.get('location'), '/beta/login');
 
@@ -345,4 +352,18 @@ test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (contex
   assert.equal(stored.users[0].inviteTokenHash, null);
   assert.equal(stored.users[1].role, 'owner');
   assert.equal(stored.users[1].inviteTokenHash, null);
+
+  const removal = await execFile(process.execPath, [
+    fileURLToPath(new URL('./admin.mjs', import.meta.url)),
+    'remove',
+    '--email=beta@beispiel.de',
+    '--confirm=beta@beispiel.de'
+  ], { env: { ...process.env, BETA_DATA_DIR: directory } });
+  assert.match(removal.stdout, /Konto und serverseitiger Workspace/);
+  const afterRemoval = JSON.parse(await readFile(path.join(directory, 'accounts.json'), 'utf8'));
+  assert.equal(afterRemoval.users.length, 1);
+  assert.equal((await readdir(path.join(directory, 'workspaces'))).filter((name) => name.endsWith('.json')).length, 0);
+
+  response = await fetch(`${origin}/beta/api/workspace/bootstrap`, { headers: { cookie: participantLoginCookie } });
+  assert.equal(response.status, 401);
 });

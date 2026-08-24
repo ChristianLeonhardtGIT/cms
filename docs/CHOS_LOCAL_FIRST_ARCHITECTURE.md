@@ -94,6 +94,11 @@ Volumen wird ausschließlich `FileWorkspaceRepository` gegen einen
 PostgreSQL-Adapter ausgetauscht. Browser, Domain-Logik und Sync-Vertrag bleiben
 gleich.
 
+Der Produktionsadapter begrenzt ein Konto auf 5.000 Operationen und 10 MiB
+Journalgröße. Ein unkontrolliertes Anwachsen des Volumes oder einzelner
+Sync-Antworten wird damit verhindert; vor Erreichen der Grenze kann der Adapter
+später durch PostgreSQL oder eine Snapshot-Kompaktion ersetzt werden.
+
 Local-first spart vor allem synchrone Serverzugriffe und verbessert Latenz und
 Ausfallsicherheit. Es ersetzt keine serverseitige Sicherung und ist kein
 Versprechen, dass Rechenkosten auf null fallen.
@@ -130,6 +135,8 @@ Datenübertragung statt.
   keine neuen Operationen schreiben.
 - Beim bestehenden automatischen Löschen eines abgelaufenen Beta-Kontos wird
   nun auch sein serverseitiger Workspace gelöscht.
+- Der bestätigungspflichtige Admin-Befehl `remove` löscht temporäre oder manuell
+  beendete Konten zusammen mit ihrem serverseitigen Workspace.
 - Lokale IndexedDB-Daten bleiben auf dem Endgerät, bis die Person sie über
   „Lokale Kopie löschen“ entfernt oder die Browserdaten löscht. Diese Grenze
   muss im späteren Datenschutz-/Offboarding-Text ausdrücklich genannt werden.

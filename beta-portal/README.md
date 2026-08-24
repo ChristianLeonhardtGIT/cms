@@ -70,7 +70,13 @@ Git-Metadaten und Zugangsdaten werden nicht über den Webserver ausgeliefert.
 docker compose exec beta-portal node admin.mjs list
 docker compose exec beta-portal node admin.mjs reinvite --email=name@firma.de
 docker compose exec beta-portal node admin.mjs disable --email=name@firma.de
+docker compose exec beta-portal node admin.mjs remove --email=name@firma.de --confirm=name@firma.de
 ```
+
+`remove` ist für bestätigte Löschungen und temporäre E2E-Konten vorgesehen. Der
+Befehl deaktiviert das Konto zuerst und löscht anschließend Konto und
+serverseitigen Workspace. Die Bestätigung muss exakt der normalisierten
+E-Mail-Adresse entsprechen.
 
 ## ChOS Workspace
 
