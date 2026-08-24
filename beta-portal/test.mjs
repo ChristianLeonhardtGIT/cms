@@ -1,11 +1,30 @@
 import assert from 'node:assert/strict';
+import { execFile as execFileCallback } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
+import { promisify } from 'node:util';
 import { accessPhase, addDays, randomToken, tokenDigest } from './lib/security.mjs';
+import { addWorkItemOperation, createCaseOperation } from './lib/chos-domain.mjs';
+import {
+  createLocalRuntime,
+  createSyncRequest,
+  enqueueLocalOperation,
+  mergeSyncResponse,
+  workspaceView
+} from './lib/local-first-workspace.mjs';
+import {
+  AI_DATA_CLASSES,
+  AiUnavailableError,
+  createAiProvider,
+  createDisabledAiProvider,
+  createHybridAiService
+} from './lib/ai-runtime.mjs';
 
+const execFile = promisify(execFileCallback);
 
 function hidden(html, name) {
   const match = html.match(new RegExp(`name="${name}" value="([^"]+)"`));
@@ -37,6 +56,54 @@ test('Zugriffsphasen werden zeitbasiert ermittelt', () => {
   assert.equal(accessPhase(base, new Date('2026-02-01T00:00:00Z')), 'active');
   assert.equal(accessPhase(base, new Date('2026-03-15T00:00:00Z')), 'readonly');
   assert.equal(accessPhase(base, new Date('2026-04-02T00:00:00Z')), 'expired');
+});
+
+test('Local-first Runtime hält Änderungen lokal und bestätigt sie nach dem Sync', () => {
+  const actorId = 'device_test_0001';
+  let runtime = createLocalRuntime(actorId);
+  const createCase = createCaseOperation({ actorId, title: 'Team Alpha', context: 'Neue Verantwortung' });
+  const addObservation = addWorkItemOperation({
+    actorId,
+    caseId: createCase.entityId,
+    kind: 'observation',
+    text: 'Entscheidungen werden vertagt.'
+  });
+  runtime = enqueueLocalOperation(runtime, createCase);
+  runtime = enqueueLocalOperation(runtime, addObservation);
+  assert.equal(createSyncRequest(runtime).operations.length, 2);
+  assert.equal(workspaceView(runtime).cases[createCase.entityId].title, 'Team Alpha');
+
+  runtime = mergeSyncResponse(runtime, {
+    protocolVersion: 1,
+    cursor: 2,
+    reset: false,
+    operations: [{ ...createCase, cursor: 1 }, { ...addObservation, cursor: 2 }],
+    acceptedOperationIds: [createCase.id, addObservation.id],
+    serverTime: new Date().toISOString()
+  });
+  assert.equal(runtime.outbox.length, 0);
+  assert.equal(runtime.cursor, 2);
+  assert.equal(Object.keys(workspaceView(runtime).workItems).length, 1);
+});
+
+test('Hybrid-AI bevorzugt lokal und schützt private Daten vor Cloud-Fallback', async () => {
+  let cloudCalls = 0;
+  const local = createAiProvider({ id: 'local-test', available: async () => true, run: async () => 'lokal' });
+  const cloud = createAiProvider({ id: 'cloud-test', available: async () => true, run: async () => { cloudCalls += 1; return 'cloud'; } });
+  let service = createHybridAiService({ local, cloud });
+  const localResult = await service.run({ task: 'zusammenfassen', dataClass: AI_DATA_CLASSES.PRIVATE, input: {} });
+  assert.equal(localResult.provider, 'local-test');
+  assert.equal(cloudCalls, 0);
+
+  service = createHybridAiService({ local: createDisabledAiProvider('local-test'), cloud });
+  await assert.rejects(
+    service.run({ task: 'zusammenfassen', dataClass: AI_DATA_CLASSES.PRIVATE, input: {}, allowCloud: true }),
+    (error) => error instanceof AiUnavailableError && error.reason === 'local-required'
+  );
+  assert.equal(cloudCalls, 0);
+  const cloudResult = await service.run({ task: 'öffentlichen Text glätten', dataClass: AI_DATA_CLASSES.SHAREABLE, input: {}, allowCloud: true });
+  assert.equal(cloudResult.provider, 'cloud-test');
+  assert.equal(cloudCalls, 1);
 });
 
 test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (context) => {
@@ -98,7 +165,10 @@ test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (contex
   });
   await waitForServer(origin);
 
-  let response = await fetch(`${origin}/beta/`, { redirect: 'manual' });
+  let response = await fetch(`${origin}/beta/health`);
+  assert.deepEqual(await response.json(), { status: 'ok', version: '0.2.0' });
+
+  response = await fetch(`${origin}/beta/`, { redirect: 'manual' });
   assert.equal(response.status, 303);
   assert.equal(response.headers.get('location'), '/beta/login');
 
@@ -156,6 +226,90 @@ test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (contex
   response = await fetch(`${origin}/beta/chos/`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 403);
 
+  response = await fetch(`${origin}/beta/workspace/`, { headers: { cookie: participantLoginCookie } });
+  assert.equal(response.status, 200);
+  assert.match(await response.text(), /Local-first MVP/);
+
+  response = await fetch(`${origin}/beta/workspace/assets/app.mjs`, { headers: { cookie: participantLoginCookie } });
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get('content-type'), /text\/javascript/);
+
+  response = await fetch(`${origin}/beta/api/workspace/bootstrap`, { headers: { cookie: participantLoginCookie } });
+  const bootstrap = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(bootstrap.canWrite, true);
+  assert.equal(bootstrap.boundaries.userData, 'local-first-workspace');
+
+  const actorId = 'browser_test_0001';
+  const caseOperation = createCaseOperation({ actorId, title: 'Neuer Verantwortungsbereich', context: 'Produktteam' });
+  const itemOperation = addWorkItemOperation({
+    actorId,
+    caseId: caseOperation.entityId,
+    kind: 'assumption',
+    text: 'Entscheidungswege sind unklar.'
+  });
+  const syncHeaders = {
+    cookie: participantLoginCookie,
+    'content-type': 'application/json',
+    'x-chos-client': 'workspace-v1'
+  };
+  response = await fetch(`${origin}/beta/api/workspace/sync`, {
+    method: 'POST',
+    headers: syncHeaders,
+    body: JSON.stringify({ protocolVersion: 1, after: 0, operations: [caseOperation, itemOperation] })
+  });
+  const firstSync = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(firstSync.cursor, 2);
+  assert.equal(firstSync.operations.length, 2);
+  assert.deepEqual(firstSync.acceptedOperationIds, [caseOperation.id, itemOperation.id]);
+
+  response = await fetch(`${origin}/beta/api/workspace/sync`, {
+    method: 'POST',
+    headers: syncHeaders,
+    body: JSON.stringify({ protocolVersion: 1, after: 2, operations: [caseOperation, itemOperation] })
+  });
+  const repeatedSync = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(repeatedSync.cursor, 2);
+  assert.equal(repeatedSync.operations.length, 0);
+
+  response = await fetch(`${origin}/beta/api/workspace/sync`, {
+    method: 'POST',
+    headers: syncHeaders,
+    body: JSON.stringify({ protocolVersion: 1, after: 99, operations: [] })
+  });
+  const resetSync = await response.json();
+  assert.equal(resetSync.reset, true);
+  assert.equal(resetSync.operations.length, 2);
+
+  response = await fetch(`${origin}/beta/api/workspace/sync`, {
+    method: 'POST',
+    headers: syncHeaders,
+    body: JSON.stringify({
+      protocolVersion: 1,
+      after: 2,
+      operations: [{ ...caseOperation, payload: { ...caseOperation.payload, title: 'Abweichender Inhalt' } }]
+    })
+  });
+  assert.equal(response.status, 400);
+
+  await updateStore((store) => {
+    const participant = store.users.find((user) => user.email === 'beta@beispiel.de');
+    participant.activeUntil = new Date(Date.now() - 60_000).toISOString();
+    participant.readUntil = addDays(new Date(), 1);
+  });
+  response = await fetch(`${origin}/beta/api/workspace/sync`, {
+    method: 'POST',
+    headers: syncHeaders,
+    body: JSON.stringify({
+      protocolVersion: 1,
+      after: 2,
+      operations: [createCaseOperation({ actorId, title: 'Nicht mehr schreibbar' })]
+    })
+  });
+  assert.equal(response.status, 403);
+
   response = await fetch(`${origin}/beta/einladung?token=${ownerToken}`, { redirect: 'manual' });
   assert.equal(response.status, 303);
   const ownerInviteCookie = firstCookie(response, 'chos_beta_invite');
@@ -198,4 +352,18 @@ test('Einladung, Passwortvergabe, Login und Logout funktionieren', async (contex
   assert.equal(stored.users[0].inviteTokenHash, null);
   assert.equal(stored.users[1].role, 'owner');
   assert.equal(stored.users[1].inviteTokenHash, null);
+
+  const removal = await execFile(process.execPath, [
+    fileURLToPath(new URL('./admin.mjs', import.meta.url)),
+    'remove',
+    '--email=beta@beispiel.de',
+    '--confirm=beta@beispiel.de'
+  ], { env: { ...process.env, BETA_DATA_DIR: directory } });
+  assert.match(removal.stdout, /Konto und serverseitiger Workspace/);
+  const afterRemoval = JSON.parse(await readFile(path.join(directory, 'accounts.json'), 'utf8'));
+  assert.equal(afterRemoval.users.length, 1);
+  assert.equal((await readdir(path.join(directory, 'workspaces'))).filter((name) => name.endsWith('.json')).length, 0);
+
+  response = await fetch(`${origin}/beta/api/workspace/bootstrap`, { headers: { cookie: participantLoginCookie } });
+  assert.equal(response.status, 401);
 });

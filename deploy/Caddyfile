@@ -31,7 +31,7 @@
 			-Server
 			Cache-Control "no-store"
 			Strict-Transport-Security "max-age=31536000; includeSubDomains"
-			Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'"
+			Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'"
 			Referrer-Policy "no-referrer"
 			Permissions-Policy "camera=(), geolocation=(), microphone=()"
 			X-Content-Type-Options "nosniff"

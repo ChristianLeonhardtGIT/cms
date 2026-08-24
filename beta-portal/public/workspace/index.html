@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>ChOS Workspace</title>
+  <link rel="stylesheet" href="/beta/workspace/assets/workspace.css">
+</head>
+<body>
+  <header class="workspace-header">
+    <a class="brand" href="/beta/">ChOS<span>Workspace</span></a>
+    <div class="sync-indicator" aria-live="polite">
+      <span id="network-dot" class="network-dot"></span>
+      <span id="sync-status">Lokale Arbeitskopie wird geladen …</span>
+    </div>
+  </header>
+
+  <main class="workspace-shell">
+    <section class="workspace-intro">
+      <div>
+        <p class="eyebrow">Local-first MVP</p>
+        <h1>Diagnose beginnt mit dem, was du wirklich beobachtest.</h1>
+        <p id="workspace-lede" class="lede">Deine Eingaben werden zuerst auf diesem Gerät gespeichert und bei Verbindung mit deinem geschützten Konto synchronisiert.</p>
+      </div>
+      <nav class="workspace-nav" aria-label="Workspace-Navigation">
+        <a href="/beta/onboarding">Onboarding</a>
+        <a href="/beta/">Konto</a>
+      </nav>
+    </section>
+
+    <section id="readonly-notice" class="notice" hidden>
+      Dieser Arbeitsbereich ist in deiner aktuellen Zugriffsphase schreibgeschützt. Vorhandene Daten bleiben lokal und serverseitig lesbar.
+    </section>
+
+    <section class="workspace-grid">
+      <aside class="case-panel" aria-labelledby="cases-heading">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Arbeitsfälle</p>
+            <h2 id="cases-heading">Deine Diagnosen</h2>
+          </div>
+        </div>
+
+        <form id="case-form" class="compact-form">
+          <label for="case-title">Neuer Arbeitsfall</label>
+          <input id="case-title" name="title" maxlength="160" placeholder="z. B. Neuer Verantwortungsbereich" required>
+          <label for="case-context">Kontext <span>optional</span></label>
+          <textarea id="case-context" name="context" maxlength="4000" rows="3" placeholder="Worum geht es – noch ohne vorschnelle Lösung?"></textarea>
+          <button type="submit">Arbeitsfall anlegen</button>
+        </form>
+
+        <div id="case-list" class="case-list"></div>
+      </aside>
+
+      <section class="detail-panel" aria-live="polite">
+        <div id="empty-state" class="empty-state">
+          <p class="eyebrow">Arbeitsfläche</p>
+          <h2>Lege deinen ersten Arbeitsfall an.</h2>
+          <p>Die lokale Arbeitskopie funktioniert auch bei einer unterbrochenen Verbindung weiter. Synchronisiert wird, sobald der Server wieder erreichbar ist.</p>
+        </div>
+
+        <div id="case-detail" hidden>
+          <div class="detail-heading">
+            <div>
+              <p class="eyebrow">Aktive Diagnose</p>
+              <h2 id="detail-title"></h2>
+              <p id="detail-context" class="muted"></p>
+            </div>
+            <button id="delete-case" class="danger-link" type="button">Arbeitsfall löschen</button>
+          </div>
+
+          <form id="item-form" class="item-form">
+            <label for="item-kind">Einordnung</label>
+            <select id="item-kind" name="kind">
+              <option value="observation">Beobachtung</option>
+              <option value="assumption">Annahme</option>
+              <option value="open-question">Offene Frage</option>
+              <option value="intervention">Intervention</option>
+              <option value="review">Review</option>
+            </select>
+            <label for="item-text">Notiz</label>
+            <textarea id="item-text" name="text" maxlength="10000" rows="4" placeholder="Beobachtung und Deutung bewusst trennen …" required></textarea>
+            <button type="submit">Zur Diagnose hinzufügen</button>
+          </form>
+
+          <div id="item-list" class="item-list"></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="architecture-note">
+      <div>
+        <p class="eyebrow">Verarbeitung</p>
+        <h2>Local-first, AI-ready</h2>
+        <p>Arbeitsdaten bleiben getrennt von Magnolia-Inhalten. Die vorbereitete AI-Schicht verarbeitet private Inhalte ausschließlich lokal; Cloud-Verarbeitung benötigt später eine ausdrückliche Freigabe.</p>
+      </div>
+      <div class="runtime-status">
+        <span id="ai-status">AI-Provider werden geprüft …</span>
+        <button id="clear-local" class="secondary" type="button">Lokale Kopie löschen</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/beta/workspace/assets/app.mjs"></script>
+</body>
+</html>
