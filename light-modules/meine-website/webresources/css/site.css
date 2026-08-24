@@ -270,8 +270,35 @@ a { color: inherit; }
   color: #fff;
   background: var(--brand-dark);
 }
+.site-workspace-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.55rem;
+  margin-left: 0.55rem;
+  border: 1px solid var(--interactive-border);
+  border-radius: 999px;
+  padding: 0.55rem 0.95rem;
+  color: var(--brand-dark);
+  background: var(--accent-soft);
+  font-size: 0.88rem;
+  font-weight: 760;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color var(--interactive-transition), background var(--interactive-transition), transform var(--interactive-transition);
+}
+.site-workspace-link:hover,
+.site-workspace-link:focus-visible {
+  border-color: var(--brand);
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+.site-workspace-link__arrow { transition: transform var(--interactive-transition); }
+.site-workspace-link:hover .site-workspace-link__arrow,
+.site-workspace-link:focus-visible .site-workspace-link__arrow { transform: translateX(0.15rem); }
 .site-nav__link-arrow { display: none; }
 .site-nav__footer { display: none; }
+.site-nav__workspace-link { display: none; }
 .site-nav__legal { display: none; }
 .site-nav__back-item { display: none; }
 .site-nav__mobile-title { display: none; }
@@ -1348,7 +1375,73 @@ body:has(form#angebot-anfragen) .hero h1 {
   .hero h1 { font-size: clamp(1.85rem, 9.25vw, 3.25rem); letter-spacing: -0.055em; }
 }
 
+.chos-workspace-entry {
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+  background: var(--surface-soft);
+}
+.chos-workspace-entry__inner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.6rem, 4vw, 3rem);
+  background:
+    radial-gradient(circle at 92% 10%, rgba(216, 239, 119, 0.2), transparent 16rem),
+    var(--surface);
+  box-shadow: var(--shadow);
+}
+.chos-workspace-entry__mark {
+  display: grid;
+  width: 6rem;
+  height: 6rem;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--brand-dark);
+  background: var(--accent-soft);
+}
+.chos-workspace-entry__mark svg { width: 4.75rem; height: 4.75rem; }
+.chos-workspace-entry__copy h2 {
+  max-width: 43rem;
+  margin: 0 0 0.85rem;
+  font-size: clamp(1.75rem, 3.5vw, 3rem);
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+.chos-workspace-entry__copy > p:last-of-type {
+  max-width: 46rem;
+  margin: 0;
+  color: var(--muted);
+}
+.chos-workspace-entry__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.15rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.chos-workspace-entry__facts li {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  color: var(--brand-dark);
+  background: var(--surface-soft);
+  font-size: 0.78rem;
+  font-weight: 720;
+}
+.chos-workspace-entry__action { min-width: 12rem; text-align: center; }
+.chos-workspace-entry__action .button { width: 100%; justify-content: space-between; }
+.chos-workspace-entry__action small {
+  display: block;
+  margin-top: 0.65rem;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
 @media (max-width: 77.5rem) {
+  .site-workspace-link { display: none; }
   html.is-menu-overlay-open { overflow: hidden; }
   html.is-menu-overlay-open body {
     position: fixed;
@@ -1757,6 +1850,27 @@ body:has(form#angebot-anfragen) .hero h1 {
     background: rgba(255, 255, 255, 0.97);
     box-shadow: 0 -0.75rem 2rem rgba(16, 39, 28, 0.08);
   }
+  .site-nav a.site-nav__workspace-link,
+  .site-nav a.site-nav__workspace-link[aria-current="page"] {
+    display: flex;
+    max-width: 30rem;
+    min-height: 3.15rem;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto 0.65rem;
+    border: 1px solid var(--interactive-border);
+    border-radius: 0.9rem;
+    padding: 0.65rem 1rem;
+    color: var(--brand-dark);
+    background: var(--accent-soft);
+    font-size: 1rem;
+    font-weight: 760;
+  }
+  .site-nav a.site-nav__workspace-link:hover,
+  .site-nav a.site-nav__workspace-link:focus-visible {
+    color: var(--brand-dark);
+    background: var(--accent);
+  }
   .has-js .site-nav__footer {
     opacity: 0;
     transform: translateY(0.75rem);
@@ -1838,6 +1952,21 @@ body:has(form#angebot-anfragen) .hero h1 {
   html:not(.has-js) .site-nav__mobile-title { display: none; }
   html:not(.has-js) .site-nav__mobile-overview { display: none; }
   html:not(.has-js) .site-nav__mobile-guidance { display: none; }
+}
+
+@media (max-width: 52rem) {
+  .chos-workspace-entry__inner { grid-template-columns: auto minmax(0, 1fr); }
+  .chos-workspace-entry__action {
+    grid-column: 1 / -1;
+    width: min(100%, 24rem);
+    justify-self: start;
+  }
+}
+
+@media (max-width: 38rem) {
+  .chos-workspace-entry__inner { grid-template-columns: 1fr; }
+  .chos-workspace-entry__mark { width: 4.5rem; height: 4.5rem; }
+  .chos-workspace-entry__mark svg { width: 3.6rem; height: 3.6rem; }
 }
 .problem-detail .content-section { padding-block: clamp(3.75rem, 6vw, 5.5rem); }
 .problem-detail .content-section .eyebrow { color: var(--brand); }

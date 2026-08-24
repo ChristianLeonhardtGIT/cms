@@ -110,7 +110,8 @@ function render() {
     const title = document.createElement('strong');
     title.textContent = entry.title;
     const count = document.createElement('small');
-    count.textContent = `${visibleWorkItems(view, entry.id).length} Diagnoseelement(e)`;
+    const itemCount = visibleWorkItems(view, entry.id).length;
+    count.textContent = `${itemCount} ${itemCount === 1 ? 'Diagnoseelement' : 'Diagnoseelemente'}`;
     caseButton.append(title, count);
     elements.caseList.append(caseButton);
   }
@@ -133,7 +134,7 @@ function render() {
       const article = document.createElement('article');
       article.className = 'work-item';
       const kind = document.createElement('span');
-      kind.className = 'kind';
+      kind.className = `kind kind--${item.kind}`;
       kind.textContent = kindLabels[item.kind];
       const itemText = document.createElement('p');
       itemText.textContent = item.text;
