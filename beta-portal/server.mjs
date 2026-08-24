@@ -447,6 +447,9 @@ async function offlineReaderSnapshot() {
   const files = (await listOfflineReaderFiles(rootDirectory)).sort((left, right) => left.path.localeCompare(right.path));
   const fingerprint = createHash('sha256');
   for (const file of files) fingerprint.update(`${file.path}:${file.size}:${file.modified}\n`);
+  fingerprint.update(`portal:${portalVersion}\n`);
+  fingerprint.update(offlineReaderScript);
+  fingerprint.update(ownerBridgeCss);
   const version = fingerprint.digest('hex').slice(0, 16);
   const readerUrls = files
     .filter((file) => file.path !== 'index.html')
@@ -469,7 +472,7 @@ function decorateChosHtml(content) {
   return content.toString('utf8')
     .replace('</head>', '<link rel="stylesheet" href="/beta/assets/owner-bridge.css"></head>')
     .replace('</body>', `<div class="chos-owner-tools" data-offline-reader>
-      <div class="chos-owner-actions"><button class="chos-owner-offline" type="button" data-offline-toggle aria-expanded="false" aria-controls="chos-offline-panel">Offline lesen</button><a class="chos-owner-access" href="/beta/konto" aria-label="Persönlichen Zugang verwalten">Zugang</a></div>
+      <div class="chos-owner-actions"><a class="chos-owner-access chos-owner-workspace" href="/beta/workspace/">Workspace</a><button class="chos-owner-offline" type="button" data-offline-toggle aria-expanded="false" aria-controls="chos-offline-panel">Offline lesen</button><a class="chos-owner-access" href="/beta/konto" aria-label="Persönlichen Zugang verwalten">Zugang</a></div>
       <section class="chos-offline-panel" id="chos-offline-panel" data-offline-panel hidden aria-labelledby="chos-offline-heading">
         <button class="chos-offline-close" type="button" data-offline-close aria-label="Offline-Einstellungen schließen">×</button>
         <p class="chos-offline-label">Auf diesem Gerät</p><h2 id="chos-offline-heading">ChOS offline lesen</h2>

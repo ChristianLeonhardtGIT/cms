@@ -160,6 +160,10 @@
     left: .75rem;
   }
 
+  .chos-owner-actions {
+    flex-wrap: wrap;
+  }
+
   .chos-offline-panel {
     right: 0;
     left: 0;
