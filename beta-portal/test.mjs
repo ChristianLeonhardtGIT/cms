@@ -123,6 +123,7 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.match(workspaceCss, /prefers-reduced-motion/);
   assert.match(pageTemplate, /class="chos-workspace-entry"/);
   assert.match(pageTemplate, /href="\/beta\/workspace"/);
+  assert.match(pageTemplate, /site\.css\?v=20260824-1/);
   assert.match(siteCss, /\.chos-workspace-entry/);
   assert.match(siteCss, /\.site-workspace-link/);
 });
