@@ -1,6 +1,6 @@
 # ChOS Beta Portal
 
-Geschützter MVP-Arbeitsbereich für maximal fünf persönlich freigeschaltete B2B-Beta-Teilnehmende.
+Geschützter ChOS-Arbeitsbereich für maximal fünf persönlich freigeschaltete B2B-Beta-Teilnehmende.
 
 ## Sicherheits- und Zugriffsmodell
 
@@ -12,7 +12,7 @@ Geschützter MVP-Arbeitsbereich für maximal fünf persönlich freigeschaltete B
 - automatische Zugriffssperre nach Ende der Lesephase
 - automatische Löschung des Portal-Kontos nach Ende der 90-Tage-Gesamtlaufzeit
 - maximal fünf Konten und acht Stunden Begleitung pro Konto
-- getrennte Datenspeicherung außerhalb der Magnolia-Inhalte
+- getrennte Datenspeicherung außerhalb der veröffentlichten Wissensinhalte
 - Local-first ChOS Workspace mit lokaler IndexedDB-Arbeitskopie
 - idempotenter Geräteabgleich über die geschützte Sync-API
 - dauerhaftes, separates Owner-Konto für den persönlichen ChOS-Lesebereich
@@ -85,12 +85,13 @@ unter `/beta/workspace/`. Neue Arbeitsfälle und Diagnoseelemente werden zuerst
 lokal im Browser gespeichert. Bei bestehender Verbindung gleicht die
 Arbeitsfläche ihre Operationen mit dem persönlichen Serverbestand ab.
 
-Magnolia- und ChOS-Fachinhalte bleiben davon getrennt. Die vorbereitete
+Veröffentlichte Wissensinhalte und persönliche Arbeitsdaten bleiben voneinander
+getrennt. Die vorbereitete
 AI-Schnittstelle hat noch keinen aktiven lokalen oder Cloud-Provider. Details,
 Grenzen und die spätere PostgreSQL-Migration stehen in
 `../docs/CHOS_LOCAL_FIRST_ARCHITECTURE.md`.
 
-## MVP-Grenze
+## Aktueller Produktumfang
 
 Dieser Stand liefert Anmeldung, Zugriffsphasen, Dashboard, Onboarding, den
 persönlichen ChOS-Lesebereich sowie einen schlanken Local-first Workspace für

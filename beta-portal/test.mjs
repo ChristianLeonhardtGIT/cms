@@ -117,6 +117,7 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.match(workspaceHtml, /class="workspace-brand__mark"/);
   assert.match(workspaceHtml, /id="workspace-main"/);
   assert.match(workspaceHtml, /Lokale Speicherung zuerst/);
+  assert.doesNotMatch(workspaceHtml, /\bMVP\b|Magnolia/i);
   assert.match(workspaceCss, /--brand-dark:\s*#0d3f29/);
   assert.match(workspaceCss, /--accent:\s*#d8ef77/);
   assert.match(workspaceCss, /prefers-reduced-motion/);
