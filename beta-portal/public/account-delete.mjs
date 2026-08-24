@@ -13,10 +13,7 @@ function openWorkspaceDatabase() {
 }
 
 async function deleteLocalWorkspace() {
-  if (!userId || !globalThis.indexedDB) {
-    if (status) status.textContent = 'Es war keine lokale Arbeitskopie in diesem Browser vorhanden.';
-    return;
-  }
+  if (!userId || !globalThis.indexedDB) return;
   const database = await openWorkspaceDatabase();
   try {
     await new Promise((resolve, reject) => {
@@ -26,12 +23,19 @@ async function deleteLocalWorkspace() {
       transaction.onerror = () => reject(transaction.error);
       transaction.onabort = () => reject(transaction.error || new Error('Lokale Löschung wurde abgebrochen.'));
     });
-    if (status) status.textContent = 'Die lokale Arbeitskopie wurde aus diesem Browser entfernt.';
   } finally {
     database.close();
   }
 }
 
-deleteLocalWorkspace().catch(() => {
-  if (status) status.textContent = 'Die lokale Arbeitskopie konnte nicht automatisch entfernt werden. Lösche bitte die Websitedaten dieses Browsers.';
+async function deleteOfflineReader() {
+  if (!globalThis.caches) return;
+  const names = (await caches.keys()).filter((name) => name.startsWith('chos-reader-v1-'));
+  await Promise.all(names.map((name) => caches.delete(name)));
+}
+
+Promise.all([deleteLocalWorkspace(), deleteOfflineReader()]).then(() => {
+  if (status) status.textContent = 'Die lokale Arbeitskopie und offline gespeicherte ChOS-Inhalte wurden aus diesem Browser entfernt.';
+}).catch(() => {
+  if (status) status.textContent = 'Die lokalen Daten konnten nicht vollständig automatisch entfernt werden. Lösche bitte die Websitedaten dieses Browsers.';
 });

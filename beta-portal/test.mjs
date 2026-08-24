@@ -115,13 +115,16 @@ test('Hybrid-AI bevorzugt lokal und schützt private Daten vor Cloud-Fallback', 
 });
 
 test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskontrakte', async () => {
-  const [workspaceHtml, workspaceCss, portalCss, serverSource, pageTemplate, siteCss] = await Promise.all([
+  const [workspaceHtml, workspaceCss, portalCss, serverSource, pageTemplate, siteCss, offlineReader, offlineWorker, ownerBridgeCss] = await Promise.all([
     readFile(new URL('./public/workspace/index.html', import.meta.url), 'utf8'),
     readFile(new URL('./public/workspace/workspace.css', import.meta.url), 'utf8'),
     readFile(new URL('./public/portal.css', import.meta.url), 'utf8'),
     readFile(new URL('./server.mjs', import.meta.url), 'utf8'),
     readFile(new URL('../light-modules/meine-website/templates/pages/home.ftl', import.meta.url), 'utf8'),
-    readFile(new URL('../light-modules/meine-website/webresources/css/site.css', import.meta.url), 'utf8')
+    readFile(new URL('../light-modules/meine-website/webresources/css/site.css', import.meta.url), 'utf8'),
+    readFile(new URL('./public/offline-reader.mjs', import.meta.url), 'utf8'),
+    readFile(new URL('./public/offline-sw.mjs', import.meta.url), 'utf8'),
+    readFile(new URL('./public/owner-bridge.css', import.meta.url), 'utf8')
   ]);
 
   assert.match(workspaceHtml, /class="workspace-brand__mark"/);
@@ -144,6 +147,12 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.match(siteCss, /\.chos-workspace-entry/);
   assert.match(siteCss, /\.chos-workspace-entry__copy \.eyebrow\s*\{\s*color:\s*var\(--brand\)/);
   assert.doesNotMatch(pageTemplate, /class="site-workspace-link"/);
+  assert.match(offlineReader, /\/beta\/api\/chos\/offline-bundle/);
+  assert.match(offlineReader, /await cache\.put/);
+  assert.match(offlineWorker, /response\.redirected \|\| response\.status === 401 \|\| response\.status === 403/);
+  assert.match(offlineWorker, /CACHE_PREFIX = 'chos-reader-v1-'/);
+  assert.match(ownerBridgeCss, /min-height:\s*44px/);
+  assert.match(ownerBridgeCss, /chos-offline-panel\[hidden\]/);
 });
 
 test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren', async (context) => {
@@ -206,7 +215,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   await waitForServer(origin);
 
   let response = await fetch(`${origin}/beta/health`);
-  assert.deepEqual(await response.json(), { status: 'ok', version: '0.4.0' });
+  assert.deepEqual(await response.json(), { status: 'ok', version: '0.5.0' });
 
   response = await fetch(`${origin}/beta/`, { redirect: 'manual' });
   assert.equal(response.status, 303);
@@ -452,7 +461,44 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(response.status, 200);
   assert.match(chosHome, /ChOS 0.6 Beta.1/);
   assert.match(chosHome, /href="\/beta\/konto"/);
+  assert.match(chosHome, /data-offline-reader/);
+  assert.match(chosHome, /Aktuellen Stand speichern/);
+  assert.match(chosHome, /offline-reader\.mjs/);
   assert.match(response.headers.get('content-security-policy'), /script-src 'self'/);
+  assert.match(response.headers.get('content-security-policy'), /worker-src 'self'/);
+
+  response = await fetch(`${origin}/beta/api/chos/offline-manifest`, { headers: { cookie: ownerSessionCookie } });
+  const offlineManifest = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(offlineManifest.schemaVersion, 1);
+  assert.match(offlineManifest.version, /^[a-f0-9]{16}$/);
+  assert.ok(offlineManifest.fileCount > 80);
+  assert.ok(offlineManifest.sizeBytes > 2 * 1024 * 1024);
+  assert.ok(offlineManifest.urls.includes('/beta/chos/'));
+  assert.ok(offlineManifest.urls.includes('/beta/assets/offline-reader.mjs'));
+
+  response = await fetch(`${origin}/beta/api/chos/offline-bundle`, { headers: { cookie: ownerSessionCookie } });
+  const offlineBundle = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(offlineBundle.schemaVersion, 1);
+  assert.equal(offlineBundle.manifest.version, offlineManifest.version);
+  assert.equal(offlineBundle.files.length, offlineManifest.fileCount);
+  assert.match(Buffer.from(offlineBundle.files.find((file) => file.url === '/beta/chos/').body, 'base64').toString('utf8'), /data-offline-reader/);
+
+  response = await fetch(`${origin}/beta/api/chos/offline-manifest`, { headers: { cookie: participantLoginCookie } });
+  assert.equal(response.status, 403);
+
+  response = await fetch(`${origin}/beta/api/chos/offline-bundle`, { headers: { cookie: participantLoginCookie } });
+  assert.equal(response.status, 403);
+
+  response = await fetch(`${origin}/beta/offline-sw.mjs`);
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get('service-worker-allowed'), /\/beta\//);
+  assert.match(response.headers.get('cache-control'), /no-cache/);
+
+  response = await fetch(`${origin}/beta/assets/offline-reader.mjs`);
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get('content-type'), /text\/javascript/);
 
   response = await fetch(`${origin}/beta/chos/docs/05-entscheidungsmodell.html`, { headers: { cookie: ownerSessionCookie } });
   assert.equal(response.status, 200);
@@ -494,10 +540,12 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(response.status, 200);
   assert.match(deletedHtml, /Dein Konto wurde gelöscht/);
   assert.match(deletedHtml, /account-delete\.mjs/);
+  assert.match(deletedHtml, /offline gespeicherte ChOS-Inhalte/);
 
   response = await fetch(`${origin}/beta/assets/account-delete.mjs`);
   assert.equal(response.status, 200);
   assert.match(response.headers.get('content-type'), /text\/javascript/);
+  assert.match(await response.text(), /chos-reader-v1-/);
 
   const afterRemoval = JSON.parse(await readFile(path.join(directory, 'accounts.json'), 'utf8'));
   assert.equal(afterRemoval.users.length, 1);

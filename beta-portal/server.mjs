@@ -1,5 +1,6 @@
 import { createServer } from 'node:http';
-import { readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { readFile, readdir, realpath, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import {
@@ -37,6 +38,8 @@ const applicationDirectory = path.dirname(fileURLToPath(import.meta.url));
 const cssPath = path.join(applicationDirectory, 'public', 'portal.css');
 const accountDeleteScriptPath = path.join(applicationDirectory, 'public', 'account-delete.mjs');
 const ownerBridgeCssPath = path.join(applicationDirectory, 'public', 'owner-bridge.css');
+const offlineReaderScriptPath = path.join(applicationDirectory, 'public', 'offline-reader.mjs');
+const offlineWorkerPath = path.join(applicationDirectory, 'public', 'offline-sw.mjs');
 const chosDirectory = path.resolve(process.env.BETA_CHOS_DIR || path.join(applicationDirectory, 'chos-reader'));
 const dataDirectory = process.env.BETA_DATA_DIR || '/app/data';
 const workspaceRepository = new FileWorkspaceRepository(dataDirectory);
@@ -54,6 +57,8 @@ const workspaceAssets = new Map([
 const css = await readFile(cssPath, 'utf8');
 const accountDeleteScript = await readFile(accountDeleteScriptPath, 'utf8');
 const ownerBridgeCss = await readFile(ownerBridgeCssPath, 'utf8');
+const offlineReaderScript = await readFile(offlineReaderScriptPath, 'utf8');
+const offlineWorker = await readFile(offlineWorkerPath, 'utf8');
 
 await ensureStore();
 
@@ -341,7 +346,7 @@ function accountPage(request, user, { message = '', error = '' } = {}) {
         </section>
       </div>
       <section class="account-card account-danger" aria-labelledby="account-delete-heading"><p class="card-label">Gefahrenbereich</p><h2 id="account-delete-heading">Konto löschen</h2>
-        <p>Damit werden dein Konto und dein serverseitiger Workspace dauerhaft gelöscht. Die lokale Arbeitskopie dieses Kontos wird anschließend in diesem Browser entfernt.</p>
+        <p>Damit werden dein Konto und dein serverseitiger Workspace dauerhaft gelöscht. Die lokale Arbeitskopie und ein offline gespeicherter ChOS-Lesestand werden anschließend in diesem Browser entfernt.</p>
         <form method="post" action="/beta/konto/loeschen"><input type="hidden" name="nonce" value="${deleteNonce}">
           <label>Aktuelles Passwort<input type="password" name="current-password" autocomplete="current-password" maxlength="128" required></label>
           <label>Zur Bestätigung deine E-Mail-Adresse eingeben<input type="email" name="confirm-email" autocomplete="off" maxlength="254" required></label>
@@ -363,7 +368,7 @@ function accountDeletedPage(userId) {
 <title>Konto gelöscht · ChOS</title><link rel="stylesheet" href="/beta/assets/portal.css?v=20260824-3"></head>
 <body><header class="site-header"><a class="brand" href="/chos" aria-label="Zurück zu ChOS">ChOS</a></header>
 <main><div class="shell"><p class="eyebrow">Konto gelöscht</p><section class="auth-card" data-deleted-user="${escapeHtml(userId)}"><h1>Dein Konto wurde gelöscht.</h1>
-<p class="lede">Deine serverseitigen Kontodaten und dein Workspace wurden entfernt.</p><p id="local-delete-status" class="notice" role="status">Die lokale Arbeitskopie wird aus diesem Browser entfernt …</p>
+<p class="lede">Deine serverseitigen Kontodaten und dein Workspace wurden entfernt.</p><p id="local-delete-status" class="notice" role="status">Lokale Arbeitsdaten und offline gespeicherte ChOS-Inhalte werden aus diesem Browser entfernt …</p>
 <a class="button" href="/chos">Zurück zu ChOS</a></section></div></main>
 <footer><span>© Christian Leonhardt</span><a href="https://cleonhardt.de/impressum">Impressum</a><a href="https://cleonhardt.de/datenschutz">Datenschutz</a></footer>
 <script type="module" src="/beta/assets/account-delete.mjs?v=20260824-1"></script></body></html>`;
@@ -413,11 +418,93 @@ const mimeTypes = new Map([
   ['.txt', 'text/plain; charset=utf-8']
 ]);
 
+const offlineReaderExtensions = new Set(mimeTypes.keys());
+const offlineSupportUrls = [
+  '/beta/assets/owner-bridge.css',
+  '/beta/assets/offline-reader.mjs'
+];
+
+async function listOfflineReaderFiles(directory, relativeDirectory = '') {
+  const files = [];
+  const entries = await readdir(directory, { withFileTypes: true });
+  for (const entry of entries) {
+    if (entry.name.startsWith('.') || entry.isSymbolicLink()) continue;
+    const relativePath = path.posix.join(relativeDirectory, entry.name);
+    const absolutePath = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...await listOfflineReaderFiles(absolutePath, relativePath));
+      continue;
+    }
+    if (!entry.isFile() || !offlineReaderExtensions.has(path.extname(entry.name).toLowerCase())) continue;
+    const fileStat = await stat(absolutePath);
+    files.push({ path: relativePath, size: fileStat.size, modified: Math.floor(fileStat.mtimeMs) });
+  }
+  return files;
+}
+
+async function offlineReaderSnapshot() {
+  const rootDirectory = await realpath(chosDirectory);
+  const files = (await listOfflineReaderFiles(rootDirectory)).sort((left, right) => left.path.localeCompare(right.path));
+  const fingerprint = createHash('sha256');
+  for (const file of files) fingerprint.update(`${file.path}:${file.size}:${file.modified}\n`);
+  const version = fingerprint.digest('hex').slice(0, 16);
+  const readerUrls = files
+    .filter((file) => file.path !== 'index.html')
+    .map((file) => `/beta/chos/${file.path.split('/').map(encodeURIComponent).join('/')}`);
+  return { rootDirectory, files, manifest: {
+    schemaVersion: 1,
+    version,
+    generatedAt: new Date().toISOString(),
+    fileCount: 1 + readerUrls.length + offlineSupportUrls.length,
+    sizeBytes: files.reduce((sum, file) => sum + file.size, 0) + offlineReaderScript.length + ownerBridgeCss.length,
+    urls: ['/beta/chos/', ...readerUrls, ...offlineSupportUrls]
+  } };
+}
+
+async function offlineReaderManifest() {
+  return (await offlineReaderSnapshot()).manifest;
+}
+
+function decorateChosHtml(content) {
+  return content.toString('utf8')
+    .replace('</head>', '<link rel="stylesheet" href="/beta/assets/owner-bridge.css"></head>')
+    .replace('</body>', `<div class="chos-owner-tools" data-offline-reader>
+      <div class="chos-owner-actions"><button class="chos-owner-offline" type="button" data-offline-toggle aria-expanded="false" aria-controls="chos-offline-panel">Offline lesen</button><a class="chos-owner-access" href="/beta/konto" aria-label="Persönlichen Zugang verwalten">Zugang</a></div>
+      <section class="chos-offline-panel" id="chos-offline-panel" data-offline-panel hidden aria-labelledby="chos-offline-heading">
+        <button class="chos-offline-close" type="button" data-offline-close aria-label="Offline-Einstellungen schließen">×</button>
+        <p class="chos-offline-label">Auf diesem Gerät</p><h2 id="chos-offline-heading">ChOS offline lesen</h2>
+        <p>Speichere den freigegebenen ChOS-Lesestand auf diesem Gerät. Auf gemeinsam genutzten Geräten solltest du die lokale Kopie anschließend wieder löschen.</p>
+        <p class="chos-offline-status" data-offline-status role="status">Offline-Status wird geprüft …</p>
+        <div class="chos-offline-buttons"><button type="button" data-offline-save>Aktuellen Stand speichern</button><button type="button" data-offline-remove>Vom Gerät löschen</button></div>
+      </section>
+    </div><script type="module" src="/beta/assets/offline-reader.mjs"></script></body>`);
+}
+
+async function offlineReaderBundle() {
+  const snapshot = await offlineReaderSnapshot();
+  const bundledFiles = [];
+  for (const file of snapshot.files) {
+    const contentType = mimeTypes.get(path.extname(file.path).toLowerCase());
+    let content = await readFile(path.join(snapshot.rootDirectory, file.path));
+    if (contentType.startsWith('text/html')) content = Buffer.from(decorateChosHtml(content));
+    bundledFiles.push({
+      url: file.path === 'index.html' ? '/beta/chos/' : `/beta/chos/${file.path.split('/').map(encodeURIComponent).join('/')}`,
+      contentType,
+      body: content.toString('base64')
+    });
+  }
+  bundledFiles.push(
+    { url: '/beta/assets/owner-bridge.css', contentType: 'text/css; charset=utf-8', body: Buffer.from(ownerBridgeCss).toString('base64') },
+    { url: '/beta/assets/offline-reader.mjs', contentType: 'text/javascript; charset=utf-8', body: Buffer.from(offlineReaderScript).toString('base64') }
+  );
+  return { schemaVersion: 1, manifest: snapshot.manifest, files: bundledFiles };
+}
+
 function chosHeaders(contentType, cache = false) {
   return {
     ...commonHeaders(contentType),
     'Cache-Control': cache ? 'private, max-age=3600' : 'no-store, max-age=0',
-    'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; form-action 'self'; base-uri 'self'; frame-ancestors 'none'"
+    'Content-Security-Policy': "default-src 'none'; script-src 'self'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; form-action 'self'; base-uri 'self'; frame-ancestors 'none'"
   };
 }
 
@@ -446,11 +533,7 @@ async function serveChosDocument(request, response, pathname) {
   if (!contentType) return send(response, 404, 'Nicht gefunden', commonHeaders('text/plain; charset=utf-8'));
   try {
     let content = await readFile(filePath);
-    if (extension === '.html') {
-      content = content.toString('utf8')
-        .replace('</head>', '<link rel="stylesheet" href="/beta/assets/owner-bridge.css"></head>')
-        .replace('</body>', '<a class="chos-owner-access" href="/beta/konto" aria-label="Persönlichen Zugang verwalten">Zugang</a></body>');
-    }
+    if (extension === '.html') content = decorateChosHtml(content);
     send(response, 200, content, chosHeaders(contentType, extension !== '.html'));
   } catch (error) {
     if (error.code === 'ENOENT' || error.code === 'EISDIR') return send(response, 404, 'Nicht gefunden', commonHeaders('text/plain; charset=utf-8'));
@@ -491,6 +574,18 @@ export const server = createServer(async (request, response) => {
     }
     if (url.pathname === '/beta/assets/owner-bridge.css' && request.method === 'GET') {
       send(response, 200, ownerBridgeCss, { ...commonHeaders('text/css; charset=utf-8'), 'Cache-Control': 'private, max-age=3600' });
+      return;
+    }
+    if (url.pathname === '/beta/assets/offline-reader.mjs' && request.method === 'GET') {
+      send(response, 200, offlineReaderScript, { ...commonHeaders('text/javascript; charset=utf-8'), 'Cache-Control': 'private, max-age=3600' });
+      return;
+    }
+    if (url.pathname === '/beta/offline-sw.mjs' && request.method === 'GET') {
+      send(response, 200, offlineWorker, {
+        ...commonHeaders('text/javascript; charset=utf-8'),
+        'Cache-Control': 'no-cache, max-age=0',
+        'Service-Worker-Allowed': '/beta/'
+      });
       return;
     }
     if (url.pathname === '/beta/login' && request.method === 'GET') {
@@ -705,6 +800,20 @@ export const server = createServer(async (request, response) => {
         }
         throw error;
       }
+      return;
+    }
+    if (url.pathname === '/beta/api/chos/offline-manifest' && request.method === 'GET') {
+      const auth = await authenticatedUser(request);
+      if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
+      if (auth.user.role !== 'owner') return sendJson(response, 403, { error: 'Dieser Lesestand ist für dein Konto nicht freigeschaltet.' });
+      sendJson(response, 200, await offlineReaderManifest());
+      return;
+    }
+    if (url.pathname === '/beta/api/chos/offline-bundle' && request.method === 'GET') {
+      const auth = await authenticatedUser(request);
+      if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
+      if (auth.user.role !== 'owner') return sendJson(response, 403, { error: 'Dieser Lesestand ist für dein Konto nicht freigeschaltet.' });
+      sendJson(response, 200, await offlineReaderBundle());
       return;
     }
     if (url.pathname === '/beta/chos' && request.method === 'GET') return redirect(response, '/beta/chos/');

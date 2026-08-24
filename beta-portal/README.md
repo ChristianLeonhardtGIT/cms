@@ -14,6 +14,7 @@ Geschützter ChOS-Arbeitsbereich für maximal fünf persönlich freigeschaltete 
 - maximal fünf Konten und acht Stunden Begleitung pro Konto
 - getrennte Datenspeicherung außerhalb der veröffentlichten Wissensinhalte
 - Local-first ChOS Workspace mit lokaler IndexedDB-Arbeitskopie
+- bewusst ladbarer, versionierter ChOS-Lesestand für die Offline-Nutzung
 - idempotenter Geräteabgleich über die geschützte Sync-API
 - dauerhaftes, separates Owner-Konto für den persönlichen ChOS-Lesebereich
 - persönliche Kontoverwaltung mit bestätigter E-Mail-Änderung, Passwortwechsel und vollständiger Selbstlöschung
@@ -85,6 +86,20 @@ Selbstlöschung verlangt zusätzlich die exakte E-Mail-Adresse, löscht Konto un
 serverseitigen Workspace und entfernt anschließend die zugehörige Local-first-
 Arbeitskopie aus dem aktuellen Browser. Passwortänderungen beenden alle anderen
 aktiven Sitzungen.
+
+## ChOS offline lesen
+
+Im persönlichen ChOS-Lesebereich öffnet „Offline lesen“ die Geräteverwaltung.
+„Aktuellen Stand speichern“ legt den vollständigen freigegebenen Reader
+einschließlich Navigation und Suche in der Browser-Cache-Storage ab. Ein neuer
+Stand ersetzt die vorherige Kopie erst, wenn alle Dateien erfolgreich geladen
+wurden. Online haben Anmeldung und Sperren immer Vorrang; nur bei einem echten
+Netzfehler wird die lokale Kopie verwendet.
+
+Die Kopie ist ausdrücklich gerätebezogen und kann dort über „Vom Gerät löschen“
+wieder entfernt werden. Auf gemeinsam genutzten Geräten sollte sie nicht
+dauerhaft verbleiben. Die Selbstlöschung eines Kontos entfernt zusätzlich alle
+ChOS-Offline-Caches dieses Browserprofils.
 
 ## ChOS Workspace
 
