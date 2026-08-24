@@ -234,7 +234,9 @@ a { color: inherit; }
 .site-nav__item { position: relative; }
 .site-nav__entry { display: flex; align-items: center; }
 .site-nav a {
-  display: block;
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
   border-radius: 999px;
   padding: 0.55rem 0.85rem;
   color: var(--muted);
@@ -244,8 +246,8 @@ a { color: inherit; }
 }
 .site-nav__toggle {
   display: inline-grid;
-  width: 2rem;
-  height: 2rem;
+  width: 2.75rem;
+  height: 2.75rem;
   place-items: center;
   border: 0;
   border-radius: 999px;
@@ -1409,6 +1411,7 @@ body:has(form#angebot-anfragen) .hero h1 {
   letter-spacing: -0.045em;
   line-height: 1.05;
 }
+.chos-workspace-entry__copy .eyebrow { color: var(--brand); }
 .chos-workspace-entry__copy > p:last-of-type {
   max-width: 46rem;
   margin: 0;

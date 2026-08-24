@@ -139,6 +139,9 @@ select:focus-visible {
 }
 .workspace-nav { display: flex; align-items: center; gap: 0.25rem; }
 .workspace-nav a {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
   border-radius: 999px;
   padding: 0.55rem 0.75rem;
   color: var(--muted);
@@ -394,7 +397,7 @@ button:disabled { cursor: not-allowed; opacity: 0.52; transform: none; }
 }
 .danger-link,
 .icon-button {
-  min-height: 0;
+  min-height: 2.75rem;
   border: 0;
   border-radius: 0;
   padding: 0.3rem 0;
@@ -519,7 +522,14 @@ button:disabled { cursor: not-allowed; opacity: 0.52; transform: none; }
   background: var(--surface);
   font-size: 0.8rem;
 }
-.workspace-footer a { color: var(--brand); font-weight: 750; text-decoration: none; }
+.workspace-footer a {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  color: var(--brand);
+  font-weight: 750;
+  text-decoration: none;
+}
 .workspace-footer a:hover { text-decoration: underline; text-underline-offset: 0.2rem; }
 
 @media (max-width: 64rem) {
