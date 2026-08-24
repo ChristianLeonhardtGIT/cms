@@ -54,7 +54,7 @@ dd { margin: 0; font-weight: 700; text-align: right; }
 .content-card.subdued { background: transparent; }
 .button.muted { background: var(--brand-dark); }
 .portal-nav { margin-bottom: 4rem; }
-.portal-nav a { font-weight: 700; text-decoration: none; }
+.portal-nav a { display: inline-flex; min-height: 44px; align-items: center; font-weight: 700; text-decoration: none; }
 .link-button { min-height: 44px; padding: .4rem .55rem; border: 0; color: var(--brand); background: transparent; }
 .link-button:hover { color: var(--brand-dark); background: transparent; }
 .account-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }
