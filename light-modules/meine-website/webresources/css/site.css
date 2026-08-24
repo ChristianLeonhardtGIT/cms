@@ -874,6 +874,9 @@ body:has(form#angebot-anfragen) .hero h1 {
   line-height: 1.05;
 }
 .related-insights__overview {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
   flex: 0 0 auto;
   color: var(--brand);
   font-weight: 780;
@@ -1104,7 +1107,7 @@ body:has(form#angebot-anfragen) .hero h1 {
 .site-footer strong { color: #fff; }
 .site-footer__copyright { margin-top: 0.35rem; color: rgba(255, 255, 255, 0.68); font-size: 0.82rem; }
 .site-footer__nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.5rem 1.25rem; }
-.site-footer__nav a { color: #fff; font-weight: 650; text-decoration-color: rgba(255, 255, 255, 0.35); text-underline-offset: 0.25em; }
+.site-footer__nav a { display: inline-flex; min-height: 2.75rem; align-items: center; color: #fff; font-weight: 650; text-decoration-color: rgba(255, 255, 255, 0.35); text-underline-offset: 0.25em; }
 .site-footer__nav a:hover, .site-footer__nav a:focus-visible { text-decoration-color: currentColor; }
 :focus-visible { outline: 3px solid var(--brand-dark); outline-offset: 3px; }
 .hero :focus-visible,
