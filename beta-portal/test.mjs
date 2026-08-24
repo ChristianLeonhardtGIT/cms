@@ -107,9 +107,11 @@ test('Hybrid-AI bevorzugt lokal und schützt private Daten vor Cloud-Fallback', 
 });
 
 test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskontrakte', async () => {
-  const [workspaceHtml, workspaceCss, pageTemplate, siteCss] = await Promise.all([
+  const [workspaceHtml, workspaceCss, portalCss, serverSource, pageTemplate, siteCss] = await Promise.all([
     readFile(new URL('./public/workspace/index.html', import.meta.url), 'utf8'),
     readFile(new URL('./public/workspace/workspace.css', import.meta.url), 'utf8'),
+    readFile(new URL('./public/portal.css', import.meta.url), 'utf8'),
+    readFile(new URL('./server.mjs', import.meta.url), 'utf8'),
     readFile(new URL('../light-modules/meine-website/templates/pages/home.ftl', import.meta.url), 'utf8'),
     readFile(new URL('../light-modules/meine-website/webresources/css/site.css', import.meta.url), 'utf8')
   ]);
@@ -122,6 +124,9 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.match(workspaceCss, /--brand-dark:\s*#0d3f29/);
   assert.match(workspaceCss, /--accent:\s*#d8ef77/);
   assert.match(workspaceCss, /prefers-reduced-motion/);
+  assert.match(portalCss, /\.brand\s*\{[^}]*min-height:\s*44px/s);
+  assert.match(portalCss, /footer a\s*\{[^}]*min-height:\s*44px/s);
+  assert.match(serverSource, /portal\.css\?v=20260824-1/);
   assert.match(pageTemplate, /class="chos-workspace-entry"/);
   assert.match(pageTemplate, /href="\/beta\/workspace"/);
   assert.match(pageTemplate, /site\.css\?v=20260824-3/);
