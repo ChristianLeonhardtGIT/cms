@@ -332,7 +332,7 @@ function workspaceBootstrap(auth) {
     phase: auth.phase,
     canWrite: auth.phase === 'active' || auth.phase === 'owner',
     boundaries: {
-      knowledge: 'magnolia-and-chos-repository',
+      knowledge: 'published-knowledge-content',
       domain: 'chos-domain',
       userData: 'local-first-workspace'
     },
