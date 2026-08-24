@@ -1,13 +1,13 @@
-# ChOS Workspace: Local-first- und AI-Hybrid-Grundbau
+# ChOS Workspace: Local-first- und AI-Hybrid-Architektur
 
-Status: implementierter MVP-Grundbau, 24. August 2026
+Status: produktiver Grundstand, 24. August 2026
 
 ## Entscheidung
 
-Das bestehende Magnolia-Setup und `cleonhardt.de` bleiben erhalten. Der neue
-ChOS Workspace wird im bereits getrennten, geschützten Node-Beta-Portal
-aufgebaut. Seine Arbeitsdaten werden local-first behandelt: Eine Änderung wird
-zuerst im Browser gespeichert und erst danach mit dem Server abgeglichen.
+Die bestehende öffentliche Website bleibt erhalten. Der ChOS Workspace wird im
+bereits getrennten, geschützten Anwendungsbereich aufgebaut. Seine Arbeitsdaten
+werden local-first behandelt: Eine Änderung wird zuerst im Browser gespeichert
+und erst danach mit dem Server abgeglichen.
 
 Die AI-Integration besteht zunächst nur aus einem providerneutralen Vertrag und
 einer Datenschutzregel. Es ist weder ein lokales Modell noch ein Cloud-Modell
@@ -17,21 +17,21 @@ aktiviert. WebMCP, IWA und WASM sind ausdrücklich nicht Teil dieses Schritts.
 
 Der vorhandene Aufbau besitzt bereits drei sinnvolle Grenzen:
 
-1. Magnolia Author/Public verwaltet und rendert die öffentliche Website.
+1. Das Content-System verwaltet und rendert die öffentliche Website.
 2. Das Node-Beta-Portal übernimmt Konten, Einladungen und geschützte Bereiche.
 3. Das private ChOS-Repository liefert den geschützten ChOS-Reader als
    freigegebenen, schreibgeschützten Laufzeitstand.
 
-Der Workspace erweitert deshalb das Beta-Portal und verändert Magnolia nicht.
-Es werden keine Nutzerantworten, Diagnosen oder AI-Eingaben in JCR/Magnolia
-geschrieben. ChOS-Fachinhalte werden weiterhin nicht in diesem CMS-Repository
-bearbeitet.
+Der Workspace erweitert deshalb den geschützten Anwendungsbereich und verändert
+die öffentliche Website nicht. Nutzerantworten, Diagnosen und AI-Eingaben werden
+nicht im Content-System gespeichert. ChOS-Fachinhalte werden weiterhin nicht in
+diesem Repository bearbeitet.
 
 ## Verantwortungsgrenzen
 
 | Bereich | Verantwortung | Persistenz |
 |---|---|---|
-| Magnolia / ChOS-Reader | Wissen, öffentliche Inhalte, redaktionelle Texte | Magnolia JCR bzw. freigegebener ChOS-Lesestand |
+| Content-System / ChOS-Reader | Wissen, öffentliche Inhalte, redaktionelle Texte | redaktioneller Bestand bzw. freigegebener ChOS-Lesestand |
 | ChOS Domain | Arbeitsfälle, Beobachtung, Annahme, offene Frage, Intervention, Review | reine, frameworkfreie Operationen und Reducer |
 | Browser Runtime | primäre Arbeitskopie, Outbox, letzter Sync-Cursor | IndexedDB je angemeldetem Konto |
 | Sync API | Authentisierung, Idempotenz, Reihenfolge, Geräteabgleich | eigener Workspace-Speicher im geschützten Beta-Volume |
@@ -60,7 +60,7 @@ Eingabe
   -> bestätigte Einträge verlassen atomar die Outbox
 ```
 
-Der MVP verwendet ein kleines, operationsbasiertes Sync-Protokoll in Version 1.
+Der Grundstand verwendet ein kleines, operationsbasiertes Sync-Protokoll in Version 1.
 Jede Operation besitzt eine global eindeutige ID und wird vom Server höchstens
 einmal aufgenommen. Wiederholte Requests nach einem Verbindungsabbruch sind
 dadurch sicher. Änderungen unterschiedlicher Geräte werden in der Reihenfolge
@@ -76,12 +76,12 @@ die Outbox aber noch nicht bereinigt ist.
 
 Der aktuelle Anwendungsfall ist ein persönlicher Workspace mit wenigen
 Geräten, keine gleichzeitige Mehrpersonenbearbeitung. Ein CRDT würde jetzt
-zusätzliche Bibliotheken, Metadaten und Konfliktlogik einführen, ohne den MVP
+zusätzliche Bibliotheken, Metadaten und Konfliktlogik einführen, ohne den aktuellen Stand
 messbar zu verbessern. Der Operationenvertrag lässt später einen CRDT- oder
 feldweisen Merge-Adapter zu, falls Team-Kollaboration tatsächlich benötigt
 wird.
 
-### Server-Speicher im MVP
+### Serverseitiger Speicher
 
 Der Server legt pro Konto ein atomar geschriebenes JSON-Operationsjournal im
 bereits gesicherten `beta-portal-data`-Volume ab. Der Dateiname ist aus der
@@ -102,6 +102,32 @@ später durch PostgreSQL oder eine Snapshot-Kompaktion ersetzt werden.
 Local-first spart vor allem synchrone Serverzugriffe und verbessert Latenz und
 Ausfallsicherheit. Es ersetzt keine serverseitige Sicherung und ist kein
 Versprechen, dass Rechenkosten auf null fallen.
+
+## Offline verfügbare ChOS-Inhalte
+
+Der freigegebene ChOS-Lesestand ist vom persönlichen Workspace getrennt, wird
+aber ebenfalls local-first nutzbar. Ein Service Worker speichert nach einer
+bewussten Nutzeraktion eine vollständige, versionierte und schreibgeschützte
+Kopie in der Cache Storage des Browsers.
+
+- Die Offline-Kopie umfasst die Startseite, alle Dokumente, Suche, Gestaltung
+  und die kleine Offline-Bedienoberfläche.
+- Eine serverseitig erzeugte Dateiliste bildet immer den atomar freigegebenen
+  ChOS-Laufzeitstand ab; Inhaltsupdates erfordern keinen Portal-Neubau.
+- Ein neuer Stand wird zunächst vollständig in einen separaten Cache geladen.
+  Erst nach erfolgreichem Abschluss ersetzt er die vorherige Kopie.
+- Bei bestehender Verbindung gilt weiterhin die serverseitige Anmeldung. Eine
+  Weiterleitung zur Anmeldung oder ein 401/403 darf nie durch Cache-Inhalte
+  ersetzt werden. Nur ein Netzfehler oder ein Serverausfall nutzt die lokale
+  Kopie.
+- Der Lesestand kann in der ChOS-Oberfläche sichtbar aktualisiert und vom Gerät
+  gelöscht werden. Bei der Kontolöschung werden Workspace-Kopie und ChOS-Cache
+  gemeinsam entfernt.
+
+Offline-Lesen vertraut dem verwendeten Endgerät. Auf gemeinsam genutzten Geräten
+muss die lokale Kopie nach der Nutzung gelöscht werden. Cache Storage ist keine
+zusätzliche Verschlüsselung und ersetzt weder Geräteschutz noch Browserprofil-
+Trennung.
 
 ## Lokale und Cloud-AI
 
@@ -141,7 +167,7 @@ Datenübertragung statt.
   „Lokale Kopie löschen“ entfernt oder die Browserdaten löscht. Diese Grenze
   muss im späteren Datenschutz-/Offboarding-Text ausdrücklich genannt werden.
 
-Die lokale Kopie ist in diesem MVP nicht zusätzlich anwendungsseitig
+Die lokale Kopie ist in diesem Grundstand nicht zusätzlich anwendungsseitig
 verschlüsselt. Der Workspace gehört deshalb auf persönliche, gesicherte Geräte;
 besonders sensible Klarnamen oder Geheimnisse sollten nicht erfasst werden. Vor
 einer breiteren Einführung ist gerätegebundene Verschlüsselung gesondert zu
@@ -149,10 +175,10 @@ entscheiden.
 
 ## Bewusst nicht umgesetzt
 
-- keine Änderung an Magnolia-Templates oder bestehenden `cleonhardt.de`-Seiten
-- keine vollständige Headless-Magnolia-Delivery-API für den Workspace
-- kein Service-Worker/App-Shell-Offline-Start; eine bereits geladene Oberfläche
-  arbeitet offline weiter
+- keine Änderung an Templates oder bestehenden `cleonhardt.de`-Seiten
+- keine vollständige Headless-Delivery-API für den Workspace
+- noch kein App-Shell-Offline-Start des Workspace; der Service Worker deckt in
+  diesem Schritt ausschließlich den ChOS-Lesestand und seine Reader-Assets ab
 - keine Hintergrund-Synchronisation bei geschlossenem Browser
 - keine Team-Echtzeitkollaboration und kein CRDT
 - kein aktiver lokaler oder Cloud-AI-Anbieter

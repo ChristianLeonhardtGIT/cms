@@ -1,23 +1,179 @@
-.chos-owner-access {
+.chos-owner-tools {
   position: fixed;
   right: 1rem;
   bottom: 1rem;
   z-index: 1000;
+  color: #132019;
+  font: 500 .92rem/1.5 system-ui, sans-serif;
+}
+
+.chos-owner-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .5rem;
+}
+
+.chos-owner-access,
+.chos-owner-offline {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
-  min-height: 2.65rem;
-  padding: .55rem .85rem;
-  border: 1px solid rgba(255, 255, 255, .25);
+  justify-content: center;
+  min-height: 44px;
+  margin: 0;
+  padding: .65rem 1rem;
+  border: 1px solid rgba(255, 255, 255, .28);
   border-radius: 999px;
   color: #fff;
   background: #0d3f29;
   box-shadow: 0 8px 28px rgba(13, 63, 41, .28);
-  font: 700 .8rem/1 system-ui, sans-serif;
+  font: 700 .82rem/1 system-ui, sans-serif;
   text-decoration: none;
+  cursor: pointer;
+}
+
+.chos-owner-offline {
+  color: #132019;
+  border-color: #b8d45b;
+  background: #d8ef77;
 }
 
 .chos-owner-access:hover,
-.chos-owner-access:focus-visible {
+.chos-owner-access:focus-visible,
+.chos-owner-offline:hover,
+.chos-owner-offline:focus-visible {
+  color: #132019;
+  border-color: #d8ef77;
+  background: #f1f8d2;
+}
+
+.chos-owner-access:focus-visible,
+.chos-owner-offline:focus-visible,
+.chos-offline-panel button:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px #0d3f29;
+}
+
+.chos-offline-panel[hidden] {
+  display: none;
+}
+
+.chos-offline-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + .75rem);
+  box-sizing: border-box;
+  width: min(25rem, calc(100vw - 2rem));
+  padding: 1.4rem;
+  border: 1px solid #cad5cd;
+  border-radius: 1.15rem;
+  color: #132019;
+  background: #fff;
+  box-shadow: 0 18px 60px rgba(13, 63, 41, .25);
+}
+
+.chos-offline-panel h2 {
+  margin: .15rem 2.25rem .65rem 0;
+  color: #0d3f29;
+  font: 750 1.45rem/1.15 system-ui, sans-serif;
+}
+
+.chos-offline-panel p {
+  margin: .6rem 0;
+}
+
+.chos-offline-label {
+  color: #365d4c;
+  font-size: .76rem;
+  font-weight: 750;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.chos-offline-status {
+  padding: .75rem .85rem;
+  border-radius: .65rem;
+  color: #17382b;
+  background: #edf4ef;
+  font-weight: 650;
+}
+
+.chos-offline-status[data-state="ready"] {
+  background: #e8f6b9;
+}
+
+.chos-offline-status[data-state="error"] {
+  color: #7a1f1a;
+  background: #fce9e7;
+}
+
+.chos-offline-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-top: 1rem;
+}
+
+.chos-offline-panel button {
+  min-height: 44px;
+  padding: .65rem .85rem;
+  border: 1px solid #0d3f29;
+  border-radius: .55rem;
+  color: #fff;
+  background: #0d3f29;
+  font: 700 .82rem/1.2 system-ui, sans-serif;
+  cursor: pointer;
+}
+
+.chos-offline-panel [data-offline-remove] {
+  color: #0d3f29;
+  background: #fff;
+}
+
+.chos-offline-panel button:hover {
   color: #132019;
   background: #d8ef77;
+}
+
+.chos-offline-panel button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.chos-offline-close {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+  width: 44px;
+  padding: 0 !important;
+  color: #0d3f29 !important;
+  border-color: transparent !important;
+  background: transparent !important;
+  font-size: 1.6rem !important;
+}
+
+@media (max-width: 520px) {
+  .chos-owner-tools {
+    right: .75rem;
+    bottom: .75rem;
+    left: .75rem;
+  }
+
+  .chos-offline-panel {
+    right: 0;
+    left: 0;
+    width: auto;
+    max-height: calc(100vh - 6rem);
+    overflow: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chos-owner-tools *,
+  .chos-owner-tools *::before,
+  .chos-owner-tools *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
 }
