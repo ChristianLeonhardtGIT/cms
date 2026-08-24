@@ -38,6 +38,7 @@ button:hover, .button:hover { background: var(--brand-dark); }
 .check input { margin-top: .3rem; }
 .notice { margin: 1.3rem 0; padding: 1rem 1.1rem; border-left: 4px solid var(--accent); background: var(--soft); }
 .notice.error { border-color: #a33a32; color: #70241f; background: #fff4f3; }
+.notice.success { border-color: var(--brand); color: var(--brand-dark); background: #edf7f0; }
 .microcopy { margin-top: 1.35rem; color: var(--muted); font-size: .86rem; }
 .dashboard-head, .portal-nav { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; }
 .dashboard-head form, .portal-nav form { margin: 0; }
@@ -54,8 +55,17 @@ dd { margin: 0; font-weight: 700; text-align: right; }
 .button.muted { background: var(--brand-dark); }
 .portal-nav { margin-bottom: 4rem; }
 .portal-nav a { font-weight: 700; text-decoration: none; }
-.link-button { min-height: 0; padding: 0; border: 0; color: var(--brand); background: transparent; }
+.link-button { min-height: 44px; padding: .4rem .55rem; border: 0; color: var(--brand); background: transparent; }
 .link-button:hover { color: var(--brand-dark); background: transparent; }
+.account-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+.account-card { padding: clamp(1.4rem, 3vw, 2rem); border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
+.account-card h2 { font-size: clamp(1.45rem, 3vw, 2rem); }
+.account-card > p:not(.card-label) { color: var(--muted); }
+.account-card form { margin-top: 1.5rem; }
+.account-danger { margin-top: 1rem; border-color: #d9b0ad; }
+.account-danger .card-label, .account-danger h2 { color: #70241f; }
+.danger-button { border-color: #8d2f2a; background: #8d2f2a; }
+.danger-button:hover { border-color: #661d19; background: #661d19; }
 .steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 2.5rem; }
 .steps span { display: block; margin-bottom: 1.25rem; color: var(--brand); font-weight: 850; }
 .steps p { color: var(--muted); }
@@ -66,7 +76,7 @@ footer a { display: inline-flex; min-height: 44px; align-items: center; }
   main { padding-top: 2.5rem; }
   .dashboard-head, .content-card { display: block; }
   .dashboard-head form { margin-top: 1.5rem; }
-  .grid, .steps { grid-template-columns: 1fr; }
+  .grid, .steps, .account-grid { grid-template-columns: 1fr; }
   .content-card .button { margin-top: .75rem; }
   footer { flex-wrap: wrap; }
   footer span { width: 100%; }

@@ -401,7 +401,7 @@
     }
     </script>
     <link rel="icon" type="image/svg+xml" sizes="any" href="${ctx.contextPath}/.resources/meine-website/webresources/images/christian-leonhardt-chos-signet.svg?v=20260728-1">
-    <link rel="stylesheet" href="${ctx.contextPath}/.resources/meine-website/webresources/css/site.css?v=20260824-3">
+    <link rel="stylesheet" href="${ctx.contextPath}/.resources/meine-website/webresources/css/site.css?v=20260824-4">
     <script src="${ctx.contextPath}/.resources/meine-website/webresources/js/navigation.js?v=20260814-1" defer></script>
     <script src="${ctx.contextPath}/.resources/meine-website/webresources/js/page-transitions.js?v=20260729-2" defer></script>
     <script src="${ctx.contextPath}/.resources/meine-website/webresources/js/attribution.js?v=20260731-1" defer></script>
@@ -591,10 +591,6 @@
             </div>
           [/#if]
         </nav>
-        <a class="site-workspace-link" href="/beta/workspace">
-          <span>Workspace</span>
-          <span class="site-workspace-link__arrow" aria-hidden="true">→</span>
-        </a>
       </div>
     </header>
 

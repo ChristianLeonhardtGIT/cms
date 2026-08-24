@@ -8,6 +8,7 @@ import {
   normalizeEmail,
   randomToken,
   tokenDigest,
+  validateEmail,
   validatePassword,
   verifyPassword
 } from './lib/security.mjs';
@@ -24,6 +25,7 @@ const host = process.env.BETA_HOST || '0.0.0.0';
 const secureCookies = process.env.BETA_COOKIE_SECURE !== 'false';
 const sessionCookie = secureCookies ? '__Host-chos_beta_session' : 'chos_beta_session';
 const inviteCookie = secureCookies ? '__Host-chos_beta_invite' : 'chos_beta_invite';
+const deletedWorkspaceCookie = 'chos_beta_deleted_workspace';
 const sessions = new Map();
 const nonces = new Map();
 const loginAttempts = new Map();
@@ -33,6 +35,7 @@ const LOGIN_WINDOW_MS = 15 * 60 * 1000;
 const CLEANUP_INTERVAL_MS = 6 * 60 * 60 * 1000;
 const applicationDirectory = path.dirname(fileURLToPath(import.meta.url));
 const cssPath = path.join(applicationDirectory, 'public', 'portal.css');
+const accountDeleteScriptPath = path.join(applicationDirectory, 'public', 'account-delete.mjs');
 const ownerBridgeCssPath = path.join(applicationDirectory, 'public', 'owner-bridge.css');
 const chosDirectory = path.resolve(process.env.BETA_CHOS_DIR || path.join(applicationDirectory, 'chos-reader'));
 const dataDirectory = process.env.BETA_DATA_DIR || '/app/data';
@@ -49,6 +52,7 @@ const workspaceAssets = new Map([
   ['ai-runtime.mjs', { file: path.join(applicationDirectory, 'lib', 'ai-runtime.mjs'), type: 'text/javascript; charset=utf-8' }]
 ]);
 const css = await readFile(cssPath, 'utf8');
+const accountDeleteScript = await readFile(accountDeleteScriptPath, 'utf8');
 const ownerBridgeCss = await readFile(ownerBridgeCssPath, 'utf8');
 
 await ensureStore();
@@ -90,7 +94,8 @@ function cookies(request) {
 }
 
 function cookie(name, value, options = {}) {
-  const items = [`${encodeURIComponent(name)}=${encodeURIComponent(value)}`, `Path=${options.path || '/'}`, 'HttpOnly', 'SameSite=Strict'];
+  const items = [`${encodeURIComponent(name)}=${encodeURIComponent(value)}`, `Path=${options.path || '/'}`, 'SameSite=Strict'];
+  if (options.httpOnly !== false) items.push('HttpOnly');
   if (secureCookies) items.push('Secure');
   if (options.maxAge !== undefined) items.push(`Max-Age=${options.maxAge}`);
   return items.join('; ');
@@ -129,13 +134,16 @@ function redirect(response, location, setCookie) {
 function page({ title, eyebrow = 'ChOS Beta', body }) {
   return `<!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHtml(title)} · ChOS Beta</title><link rel="stylesheet" href="/beta/assets/portal.css?v=20260824-1"></head>
+<title>${escapeHtml(title)} · ChOS Beta</title><link rel="stylesheet" href="/beta/assets/portal.css?v=20260824-2"></head>
 <body><header class="site-header"><a class="brand" href="/beta/" aria-label="ChOS Beta Startseite">ChOS<span>Beta</span></a></header>
 <main><div class="shell"><p class="eyebrow">${escapeHtml(eyebrow)}</p>${body}</div></main>
 <footer><span>© Christian Leonhardt</span><a href="https://cleonhardt.de/impressum">Impressum</a><a href="https://cleonhardt.de/datenschutz">Datenschutz</a></footer></body></html>`;
 }
 
 function issueNonce(ip, purpose) {
+  for (const [token, nonce] of nonces) {
+    if (nonce.expiresAt <= Date.now()) nonces.delete(token);
+  }
   const value = randomToken(24);
   nonces.set(value, { ip, purpose, expiresAt: Date.now() + NONCE_MS });
   return value;
@@ -208,6 +216,12 @@ function createSession(user) {
   const hardEnd = user.role === 'owner' ? Number.POSITIVE_INFINITY : new Date(user.readUntil).getTime();
   sessions.set(token, { userId: user.id, expiresAt: Math.min(Date.now() + SESSION_MS, hardEnd) });
   return token;
+}
+
+function invalidateUserSessions(userId, keepToken = null) {
+  for (const [token, session] of sessions) {
+    if (session.userId === userId && token !== keepToken) sessions.delete(token);
+  }
 }
 
 function destinationFor(user) {
@@ -295,18 +309,64 @@ function onboardingPage(request, user, phase) {
   });
 }
 
-function ownerAccountPage(request, user) {
+function accountPage(request, user, { message = '', error = '' } = {}) {
   const logoutNonce = issueNonce(requestIp(request), 'logout');
+  const emailNonce = issueNonce(requestIp(request), 'account-email');
+  const passwordNonce = issueNonce(requestIp(request), 'account-password');
+  const deleteNonce = issueNonce(requestIp(request), 'account-delete');
+  const owner = user.role === 'owner';
   return page({
-    title: 'Persönlicher Zugang',
-    eyebrow: 'ChOS Wissensbereich',
-    body: `<nav class="portal-nav"><a href="/beta/chos/">← ChOS lesen</a></nav>
-      <p class="status">Persönlicher Zugriff</p><h1>${escapeHtml(user.name)}</h1>
-      <p class="lede">Dein Zugang ist dauerhaft angelegt und ausschließlich für dich bestimmt.</p>
-      <section class="content-card"><div><p class="card-label">Aktueller Lesestand</p><h2>ChOS 0.6 Beta.1</h2><p>Vollständige Dokumentation, Playbooks, Anwendungsunterlagen und Systemcheck.</p></div><a class="button" href="/beta/chos/">ChOS öffnen</a></section>
-      <section class="content-card"><div><p class="card-label">Local-first Arbeitsfläche</p><h2>ChOS Workspace</h2><p>Arbeitsfälle lokal erfassen und über das persönliche Konto synchronisieren.</p></div><a class="button" href="/beta/workspace/">Workspace öffnen</a></section>
-      <form method="post" action="/beta/logout"><input type="hidden" name="nonce" value="${logoutNonce}"><button class="secondary" type="submit">Sicher abmelden</button></form>`
+    title: 'Konto verwalten',
+    eyebrow: 'Persönlicher Zugang',
+    body: `<nav class="portal-nav"><a href="${owner ? '/beta/chos/' : '/beta/workspace/'}">← ${owner ? 'Zurück zu ChOS' : 'Zurück zum Workspace'}</a><form method="post" action="/beta/logout"><input type="hidden" name="nonce" value="${logoutNonce}"><button class="link-button" type="submit">Abmelden</button></form></nav>
+      <p class="status">${owner ? 'Persönlicher Zugriff' : 'Persönliches Konto'}</p><h1>Konto verwalten</h1>
+      <p class="lede">Hier verwaltest du die Zugangsdaten für ${escapeHtml(user.name)}.</p>
+      ${message ? `<p class="notice success" role="status">${escapeHtml(message)}</p>` : ''}
+      ${error ? `<p class="notice error" role="alert">${escapeHtml(error)}</p>` : ''}
+      <div class="account-grid">
+        <section class="account-card" aria-labelledby="account-email-heading"><p class="card-label">Zugang</p><h2 id="account-email-heading">E-Mail-Adresse ändern</h2><p>Aktuell: <strong>${escapeHtml(user.email)}</strong></p>
+          <form method="post" action="/beta/konto/email"><input type="hidden" name="nonce" value="${emailNonce}">
+            <label>Neue E-Mail-Adresse<input type="email" name="email" value="${escapeHtml(user.email)}" autocomplete="email" maxlength="254" required></label>
+            <label>Aktuelles Passwort<input type="password" name="current-password" autocomplete="current-password" maxlength="128" required></label>
+            <button type="submit">E-Mail-Adresse speichern</button>
+          </form>
+        </section>
+        <section class="account-card" aria-labelledby="account-password-heading"><p class="card-label">Sicherheit</p><h2 id="account-password-heading">Passwort ändern</h2><p>Das neue Passwort muss mindestens 14 Zeichen lang sein.</p>
+          <form method="post" action="/beta/konto/passwort"><input type="hidden" name="nonce" value="${passwordNonce}">
+            <label>Aktuelles Passwort<input type="password" name="current-password" autocomplete="current-password" maxlength="128" required></label>
+            <label>Neues Passwort<input type="password" name="password" autocomplete="new-password" minlength="14" maxlength="128" required></label>
+            <label>Neues Passwort wiederholen<input type="password" name="confirm" autocomplete="new-password" minlength="14" maxlength="128" required></label>
+            <button type="submit">Passwort ändern</button>
+          </form>
+        </section>
+      </div>
+      <section class="account-card account-danger" aria-labelledby="account-delete-heading"><p class="card-label">Gefahrenbereich</p><h2 id="account-delete-heading">Konto löschen</h2>
+        <p>Damit werden dein Konto und dein serverseitiger Workspace dauerhaft gelöscht. Die lokale Arbeitskopie dieses Kontos wird anschließend in diesem Browser entfernt.</p>
+        <form method="post" action="/beta/konto/loeschen"><input type="hidden" name="nonce" value="${deleteNonce}">
+          <label>Aktuelles Passwort<input type="password" name="current-password" autocomplete="current-password" maxlength="128" required></label>
+          <label>Zur Bestätigung deine E-Mail-Adresse eingeben<input type="email" name="confirm-email" autocomplete="off" maxlength="254" required></label>
+          <button class="danger-button" type="submit">Konto und Workspace dauerhaft löschen</button>
+        </form>
+      </section>`
   });
+}
+
+function accountStatus(value) {
+  if (value === 'email') return 'Deine E-Mail-Adresse wurde geändert.';
+  if (value === 'password') return 'Dein Passwort wurde geändert. Andere Sitzungen wurden beendet.';
+  return '';
+}
+
+function accountDeletedPage(userId) {
+  return `<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Konto gelöscht · ChOS</title><link rel="stylesheet" href="/beta/assets/portal.css?v=20260824-2"></head>
+<body><header class="site-header"><a class="brand" href="/chos" aria-label="Zurück zu ChOS">ChOS</a></header>
+<main><div class="shell"><p class="eyebrow">Konto gelöscht</p><section class="auth-card" data-deleted-user="${escapeHtml(userId)}"><h1>Dein Konto wurde gelöscht.</h1>
+<p class="lede">Deine serverseitigen Kontodaten und dein Workspace wurden entfernt.</p><p id="local-delete-status" class="notice" role="status">Die lokale Arbeitskopie wird aus diesem Browser entfernt …</p>
+<a class="button" href="/chos">Zurück zu ChOS</a></section></div></main>
+<footer><span>© Christian Leonhardt</span><a href="https://cleonhardt.de/impressum">Impressum</a><a href="https://cleonhardt.de/datenschutz">Datenschutz</a></footer>
+<script type="module" src="/beta/assets/account-delete.mjs?v=20260824-1"></script></body></html>`;
 }
 
 function workspaceHeaders(contentType = 'text/html; charset=utf-8', cache = false) {
@@ -425,6 +485,10 @@ export const server = createServer(async (request, response) => {
       send(response, 200, css, { ...commonHeaders('text/css; charset=utf-8'), 'Cache-Control': 'public, max-age=3600' });
       return;
     }
+    if (url.pathname === '/beta/assets/account-delete.mjs' && request.method === 'GET') {
+      send(response, 200, accountDeleteScript, { ...commonHeaders('text/javascript; charset=utf-8'), 'Cache-Control': 'public, max-age=3600' });
+      return;
+    }
     if (url.pathname === '/beta/assets/owner-bridge.css' && request.method === 'GET') {
       send(response, 200, ownerBridgeCss, { ...commonHeaders('text/css; charset=utf-8'), 'Cache-Control': 'private, max-age=3600' });
       return;
@@ -503,6 +567,112 @@ export const server = createServer(async (request, response) => {
       redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
       return;
     }
+    if (url.pathname === '/beta/konto-geloescht' && request.method === 'GET') {
+      const deletedUserId = cookies(request)[deletedWorkspaceCookie];
+      const userId = /^[0-9a-f-]{36}$/i.test(String(deletedUserId || '')) ? deletedUserId : '';
+      send(response, 200, accountDeletedPage(userId), {
+        ...workspaceHeaders(),
+        'Set-Cookie': cookie(deletedWorkspaceCookie, '', { path: '/beta/konto-geloescht', maxAge: 0, httpOnly: false })
+      });
+      return;
+    }
+    if (url.pathname === '/beta/konto/email' && request.method === 'POST') {
+      const auth = await authenticatedUser(request);
+      if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      const form = await requestBody(request);
+      if (!consumeNonce(form.get('nonce'), requestIp(request), 'account-email')) {
+        return send(response, 400, accountPage(request, auth.user, { error: 'Das Formular ist abgelaufen. Bitte versuche es erneut.' }));
+      }
+      const key = attemptKey(request, `${auth.user.id}:account-email`);
+      if (isRateLimited(key)) return send(response, 429, accountPage(request, auth.user, { error: 'Zu viele Versuche. Bitte warte 15 Minuten.' }));
+      if (!await verifyPassword(form.get('current-password'), auth.user.passwordHash)) {
+        failedLogin(key);
+        return send(response, 403, accountPage(request, auth.user, { error: 'Das aktuelle Passwort ist nicht korrekt.' }));
+      }
+      const email = normalizeEmail(form.get('email'));
+      const emailValidation = validateEmail(email);
+      if (emailValidation) return send(response, 400, accountPage(request, auth.user, { error: emailValidation }));
+      const result = await updateStore((store) => {
+        if (store.users.some((entry) => entry.id !== auth.user.id && entry.email === email)) return { duplicate: true };
+        const current = findUserById(store, auth.user.id);
+        if (!current) throw new Error('Konto wurde nicht gefunden.');
+        current.email = email;
+        current.updatedAt = new Date().toISOString();
+        return { user: current };
+      });
+      if (result.duplicate) return send(response, 409, accountPage(request, auth.user, { error: 'Diese E-Mail-Adresse wird bereits verwendet.' }));
+      loginAttempts.delete(key);
+      invalidateUserSessions(auth.user.id, auth.token);
+      redirect(response, '/beta/konto?status=email');
+      return;
+    }
+    if (url.pathname === '/beta/konto/passwort' && request.method === 'POST') {
+      const auth = await authenticatedUser(request);
+      if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      const form = await requestBody(request);
+      if (!consumeNonce(form.get('nonce'), requestIp(request), 'account-password')) {
+        return send(response, 400, accountPage(request, auth.user, { error: 'Das Formular ist abgelaufen. Bitte versuche es erneut.' }));
+      }
+      const key = attemptKey(request, `${auth.user.id}:account-password`);
+      if (isRateLimited(key)) return send(response, 429, accountPage(request, auth.user, { error: 'Zu viele Versuche. Bitte warte 15 Minuten.' }));
+      if (!await verifyPassword(form.get('current-password'), auth.user.passwordHash)) {
+        failedLogin(key);
+        return send(response, 403, accountPage(request, auth.user, { error: 'Das aktuelle Passwort ist nicht korrekt.' }));
+      }
+      const password = form.get('password');
+      const passwordValidation = validatePassword(password);
+      if (passwordValidation || password !== form.get('confirm')) {
+        return send(response, 400, accountPage(request, auth.user, { error: passwordValidation || 'Die neuen Passwörter stimmen nicht überein.' }));
+      }
+      if (await verifyPassword(password, auth.user.passwordHash)) {
+        return send(response, 400, accountPage(request, auth.user, { error: 'Das neue Passwort muss sich vom aktuellen Passwort unterscheiden.' }));
+      }
+      const passwordHash = await hashPassword(password);
+      const user = await updateStore((store) => {
+        const current = findUserById(store, auth.user.id);
+        if (!current) throw new Error('Konto wurde nicht gefunden.');
+        current.passwordHash = passwordHash;
+        current.updatedAt = new Date().toISOString();
+        return current;
+      });
+      loginAttempts.delete(key);
+      invalidateUserSessions(auth.user.id);
+      const token = createSession(user);
+      redirect(response, '/beta/konto?status=password', cookie(sessionCookie, token, { maxAge: SESSION_MS / 1000 }));
+      return;
+    }
+    if (url.pathname === '/beta/konto/loeschen' && request.method === 'POST') {
+      const auth = await authenticatedUser(request);
+      if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      const form = await requestBody(request);
+      if (!consumeNonce(form.get('nonce'), requestIp(request), 'account-delete')) {
+        return send(response, 400, accountPage(request, auth.user, { error: 'Das Formular ist abgelaufen. Bitte versuche es erneut.' }));
+      }
+      const key = attemptKey(request, `${auth.user.id}:account-delete`);
+      if (isRateLimited(key)) return send(response, 429, accountPage(request, auth.user, { error: 'Zu viele Versuche. Bitte warte 15 Minuten.' }));
+      const passwordValid = await verifyPassword(form.get('current-password'), auth.user.passwordHash);
+      const emailValid = normalizeEmail(form.get('confirm-email')) === auth.user.email;
+      if (!passwordValid || !emailValid) {
+        failedLogin(key);
+        return send(response, 403, accountPage(request, auth.user, { error: 'Passwort oder bestätigte E-Mail-Adresse ist nicht korrekt.' }));
+      }
+      await updateStore((store) => {
+        const current = findUserById(store, auth.user.id);
+        if (!current) throw new Error('Konto wurde nicht gefunden.');
+        current.disabledAt = new Date().toISOString();
+        current.updatedAt = new Date().toISOString();
+      });
+      await workspaceRepository.delete(auth.user.id);
+      await updateStore((store) => {
+        store.users = store.users.filter((entry) => entry.id !== auth.user.id);
+      });
+      invalidateUserSessions(auth.user.id);
+      redirect(response, '/beta/konto-geloescht', [
+        cookie(sessionCookie, '', { maxAge: 0 }),
+        cookie(deletedWorkspaceCookie, auth.user.id, { path: '/beta/konto-geloescht', maxAge: 300, httpOnly: false })
+      ]);
+      return;
+    }
     if (url.pathname === '/beta/workspace' && request.method === 'GET') return redirect(response, '/beta/workspace/');
     if (url.pathname === '/beta/workspace/' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
@@ -545,8 +715,7 @@ export const server = createServer(async (request, response) => {
     if (url.pathname === '/beta/konto' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
       if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
-      if (auth.user.role !== 'owner') return redirect(response, '/beta/');
-      send(response, 200, ownerAccountPage(request, auth.user));
+      send(response, 200, accountPage(request, auth.user, { message: accountStatus(url.searchParams.get('status')) }));
       return;
     }
     if (url.pathname === '/beta/' && request.method === 'GET') {

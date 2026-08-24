@@ -16,6 +16,7 @@ Geschützter ChOS-Arbeitsbereich für maximal fünf persönlich freigeschaltete 
 - Local-first ChOS Workspace mit lokaler IndexedDB-Arbeitskopie
 - idempotenter Geräteabgleich über die geschützte Sync-API
 - dauerhaftes, separates Owner-Konto für den persönlichen ChOS-Lesebereich
+- persönliche Kontoverwaltung mit bestätigter E-Mail-Änderung, Passwortwechsel und vollständiger Selbstlöschung
 
 ## Lokal starten
 
@@ -77,6 +78,13 @@ docker compose exec beta-portal node admin.mjs remove --email=name@firma.de --co
 Befehl deaktiviert das Konto zuerst und löscht anschließend Konto und
 serverseitigen Workspace. Die Bestätigung muss exakt der normalisierten
 E-Mail-Adresse entsprechen.
+
+Angemeldete Nutzer verwalten ihre eigene E-Mail-Adresse und ihr Passwort unter
+`/beta/konto`. Beide Änderungen verlangen das aktuelle Passwort. Eine
+Selbstlöschung verlangt zusätzlich die exakte E-Mail-Adresse, löscht Konto und
+serverseitigen Workspace und entfernt anschließend die zugehörige Local-first-
+Arbeitskopie aus dem aktuellen Browser. Passwortänderungen beenden alle anderen
+aktiven Sitzungen.
 
 ## ChOS Workspace
 
