@@ -19,7 +19,7 @@
 		}
 	}
 
-	@site_metadata path /robots.txt /sitemap.xml /4eba2fbccd4fbe055b49e6d9d41c4e00.txt
+	@site_metadata path /robots.txt /sitemap.xml /llms.txt /4eba2fbccd4fbe055b49e6d9d41c4e00.txt
 	handle @site_metadata {
 		root * /srv/cleonhardt-static
 		file_server

@@ -29,3 +29,9 @@ model:
       label: Alternativtext für das Social-Media-Bild
       type: String
       i18n: true
+    - name: linkedInUrl
+      label: Verifiziertes LinkedIn-Profil
+      type: String
+    - name: professionalProfileUrl
+      label: Weiteres verifiziertes Fachprofil
+      type: String

@@ -16,6 +16,10 @@ const formalPatterns = [
   /\b(?:für|bei|mit|von|zu) (?:Sie|Ihnen)\b/g,
   /\b(?:Was|Woran|Warum|Wie|Wo|Welche|Welcher|Welches|wenn|dass|die|bevor) Sie\b/g,
   /\bSie sind (?:beim|noch|unsicher)\b/g,
+  /\b(?:beschreiben|geben|wünschen|vergleichen|prüfen|schildern|übermitteln|trennen) Sie\b/gi,
+  /\bDu\b[^.!?]{0,120}\b(?:geben|beschreiben|wünschen|vergleichen|prüfen|schildern|übermitteln|trennen) Sie\b/gi,
+  /\bDu nennst\b[^.!?]{0,80}\bund geben\b/g,
+  /\bDu wirst weder (?:übertragen|gespeichert)\b/g,
 ];
 const findings = [];
 

@@ -21,12 +21,12 @@ Node addTrust(Node area, String html, boolean detailed, String beforeName = null
 }
 
 String compactTrust = '''
-<p class="lead">Ihre Situation, Unterlagen und Gespräche behandle ich strikt vertraulich. Auf Wunsch vereinbaren wir bereits vor dem ersten Austausch eine gegenseitige Vertraulichkeitsvereinbarung (NDA). Personenbezogene und unternehmensinterne Informationen werden nur verarbeitet, soweit es für die Zusammenarbeit erforderlich ist.</p>'''
+<p class="lead">Deine Situation, Unterlagen und Gespräche behandle ich strikt vertraulich. Auf Wunsch vereinbaren wir bereits vor dem ersten Austausch eine gegenseitige Vertraulichkeitsvereinbarung (NDA). Personenbezogene und unternehmensinterne Informationen werden nur verarbeitet, soweit es für die Zusammenarbeit erforderlich ist.</p>'''
 
 String detailedTrust = '''
 <p class="lead">Komplexe Führungs- und Organisationsfragen brauchen einen geschützten Rahmen. Deshalb ist Vertraulichkeit von Beginn an Teil der Zusammenarbeit.</p>
 <div class="mvp-grid mvp-grid--3">
-  <article class="mvp-panel"><h3>Diskreter Rahmen</h3><p>Ihre Situation, Unterlagen und Gespräche behandle ich strikt vertraulich. Inhalte bleiben im vereinbarten Kreis und werden nicht ohne Ihre Zustimmung als Referenz oder Praxisfall verwendet.</p></article>
+  <article class="mvp-panel"><h3>Diskreter Rahmen</h3><p>Deine Situation, Unterlagen und Gespräche behandle ich strikt vertraulich. Inhalte bleiben im vereinbarten Kreis und werden nicht ohne deine Zustimmung als Referenz oder Praxisfall verwendet.</p></article>
   <article class="mvp-panel mvp-panel--accent"><h3>NDA vorab möglich</h3><p>Auf Wunsch vereinbaren wir bereits vor dem Austausch sensibler Details eine gegenseitige Vertraulichkeitsvereinbarung. Eine vorbereitete NDA kann dafür kurzfristig bereitgestellt werden.</p></article>
   <article class="mvp-panel"><h3>So wenig Daten wie nötig</h3><p>Für den Einstieg genügt der notwendige Kontext. Personenbezogene und unternehmensinterne Informationen werden nur verarbeitet, soweit sie für die Zusammenarbeit tatsächlich erforderlich sind.</p></article>
 </div>'''
@@ -74,7 +74,7 @@ void addOrUpdateFaq(Node area) {
     }
     if (entry == null) entry = items.addNode(String.format('%02d', items.nodes.size), 'mgnl:contentNode')
     entry.setProperty('question', 'Wie vertraulich ist die Zusammenarbeit?')
-    entry.setProperty('answer', 'Ihre Situation, Unterlagen und Gespräche werden strikt vertraulich behandelt. Auf Wunsch kann bereits vor dem Austausch sensibler Details eine gegenseitige Vertraulichkeitsvereinbarung (NDA) geschlossen werden. Für den Einstieg werden nur die Informationen benötigt, die zur Einordnung der Situation erforderlich sind.')
+    entry.setProperty('answer', 'Deine Situation, Unterlagen und Gespräche werden strikt vertraulich behandelt. Auf Wunsch kann bereits vor dem Austausch sensibler Details eine gegenseitige Vertraulichkeitsvereinbarung (NDA) geschlossen werden. Für den Einstieg werden nur die Informationen benötigt, die zur Einordnung der Situation erforderlich sind.')
 }
 
 ['/start', '/clarity-session', '/executive-sparring'].each { String path ->
@@ -85,7 +85,7 @@ Node contactArea = website.getNode('/kontakt/main')
 for (Node component : contactArea.nodes) {
     if (!component.hasProperty('heading') || component.getProperty('heading').string != 'So geht es weiter') continue
     String html = component.getProperty('text').string
-    html = html.replaceAll(/<p><strong>Hinweis:<\/strong>.*?<\/p>/, '<p><strong>Vertraulich &amp; datensparsam:</strong> Bitte schildern Sie zunächst nur den notwendigen Kontext. Sensible Details gehören erst in einen geschützten Austausch; auf Wunsch vereinbaren wir vorher eine gegenseitige Vertraulichkeitsvereinbarung (NDA).</p>')
+    html = html.replaceAll(/<p><strong>Hinweis:<\/strong>.*?<\/p>/, '<p><strong>Vertraulich &amp; datensparsam:</strong> Bitte schildere zunächst nur den notwendigen Kontext. Sensible Details gehören erst in einen geschützten Austausch; auf Wunsch vereinbaren wir vorher eine gegenseitige Vertraulichkeitsvereinbarung (NDA).</p>')
     component.setProperty('text', html)
 }
 

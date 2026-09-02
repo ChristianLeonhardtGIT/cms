@@ -25,17 +25,17 @@ Map<String, List<Map<String, String>>> pageFaqs = [
     '/chos-selbstcheck': [
         [question: 'Was leistet der ChOS-Selbstcheck?', answer: 'Der Selbstcheck macht erste Spannungsfelder in einer Produktorganisation sichtbar. Er dient der strukturierten Reflexion und liefert Hinweise darauf, welche Dimensionen genauer untersucht werden sollten.'],
         [question: 'Ist das Ergebnis bereits eine Organisationsdiagnose?', answer: 'Nein. Das Ergebnis ist eine erste Orientierung und keine belastbare Diagnose. Dafür müssten konkrete Situationen, Entscheidungen, Daten und unterschiedliche Perspektiven aus der Organisation einbezogen werden.'],
-        [question: 'Wie sollte das Ergebnis verwendet werden?', answer: 'Nutzen Sie es als Gesprächsgrundlage: Vergleichen Sie Wahrnehmungen, suchen Sie konkrete Beispiele und prüfen Sie, ob sich die erkannten Muster in mehreren Situationen wiederholen.']
+        [question: 'Wie sollte das Ergebnis verwendet werden?', answer: 'Nutze es als Gesprächsgrundlage: Vergleiche Wahrnehmungen, suche konkrete Beispiele und prüfe, ob sich die erkannten Muster in mehreren Situationen wiederholen.']
     ],
     '/praxisfaelle': [
         [question: 'Warum sind die Praxisfälle anonymisiert?', answer: 'Organisations- und Führungssituationen enthalten häufig vertrauliche Informationen. Die Fälle sind deshalb so verdichtet und anonymisiert, dass die zugrunde liegenden Muster verständlich bleiben, ohne Beteiligte oder Unternehmen identifizierbar zu machen.'],
         [question: 'Lassen sich die Lösungen direkt übertragen?', answer: 'Nicht unverändert. Praxisfälle zeigen Denkwege und mögliche Interventionen. Ob eine Maßnahme passt, hängt von Strategie, Struktur, Entscheidungsrechten, Menschen und dem konkreten Entstehungsmechanismus des Problems ab.'],
-        [question: 'Was ist bei einem Praxisfall besonders relevant?', answer: 'Achten Sie weniger auf die Branche als auf das Muster: Welche Entscheidungen stocken, welche Ziele konkurrieren, wo fehlen Informationen und wodurch wird das beobachtete Verhalten im System plausibel?']
+        [question: 'Was ist bei einem Praxisfall besonders relevant?', answer: 'Achte weniger auf die Branche als auf das Muster: Welche Entscheidungen stocken, welche Ziele konkurrieren, wo fehlen Informationen und wodurch wird das beobachtete Verhalten im System plausibel?']
     ],
     '/ueber-mich': [
         [question: 'Welche Themen prägen die Arbeit von Christian Leonhardt?', answer: 'Die Arbeit verbindet Product Leadership, Produktorganisation, Organisationsdiagnose, Operating Models, Transformation und Entscheidungsarchitektur. Der gemeinsame Kern ist die Frage, wie Organisationen unter Komplexität klarer und wirksamer entscheiden.'],
         [question: 'Wie ist die Arbeitsweise?', answer: 'Die Arbeitsweise ist analytisch, systemisch und praxisnah. Beobachtungen werden von Bewertungen getrennt, Annahmen werden explizit gemacht und Empfehlungen werden auf konkrete Entscheidungen und überprüfbare nächste Schritte ausgerichtet.'],
-        [question: 'Wo finden sich fachliche Beispiele?', answer: 'Unter Insights finden Sie Fachbeiträge mit Kurzantworten, Diagnosefragen und praktischen Modellen. Die Praxisfälle zeigen zusätzlich anonymisierte Situationen und mögliche Vorgehensweisen.']
+        [question: 'Wo finden sich fachliche Beispiele?', answer: 'Unter Insights findest du Fachbeiträge mit Kurzantworten, Diagnosefragen und praktischen Modellen. Die Praxisfälle zeigen zusätzlich anonymisierte Situationen und mögliche Vorgehensweisen.']
     ],
     '/insights': [
         [question: 'Welche Themen behandeln die Insights?', answer: 'Die Insights behandeln Product Leadership, Organisationsdiagnose, Rollen und Verantwortung, Operating Models, Entscheidungen und Transformation in Produktorganisationen.'],
@@ -44,17 +44,17 @@ Map<String, List<Map<String, String>>> pageFaqs = [
     ],
     '/leistungen': [
         [question: 'Welches Angebot ist der richtige Einstieg?', answer: 'Das hängt von der Fragestellung ab. Für eine konkrete Situation eignet sich meist die Clarity Session. Eine wichtige Entscheidung passt zum Decision Review. Bei wiederkehrenden organisatorischen Mustern ist eine Diagnose sinnvoll.'],
-        [question: 'Muss der Umfang vor der Anfrage feststehen?', answer: 'Nein. Beschreiben Sie die Situation und das gewünschte Ergebnis. Danach wird der kleinste sinnvolle Einstieg empfohlen.'],
+        [question: 'Muss der Umfang vor der Anfrage feststehen?', answer: 'Nein. Beschreibe die Situation und das gewünschte Ergebnis. Danach wird der kleinste sinnvolle Einstieg empfohlen.'],
         [question: 'Kann aus einem kleinen Auftrag eine größere Begleitung entstehen?', answer: 'Ja, aber nur wenn die Diagnose dies rechtfertigt. Ein größerer Auftrag ist kein Selbstzweck, sondern folgt einem erkennbaren Bedarf.']
     ],
     '/clarity-session': [
         [question: 'Wann ist eine Clarity Session sinnvoll?', answer: 'Wenn eine konkrete Produkt-, Führungs- oder Organisationssituation feststeckt und der nächste sinnvolle Schritt unklar ist.'],
-        [question: 'Was ist das Ergebnis?', answer: 'Sie erhalten ein klares Bild der Situation, erste prüfbare Erklärungen und einen begrenzten nächsten Schritt.'],
-        [question: 'Ist die Session bereits eine vollständige Diagnose?', answer: 'Nein. Sie ist ein fokussierter Einstieg. Für eine belastbare Organisationsdiagnose sind meist weitere Perspektiven und konkrete Daten notwendig.']
+        [question: 'Was ist das Ergebnis?', answer: 'Du erhältst ein klares Bild der Situation, erste prüfbare Erklärungen und einen begrenzten nächsten Schritt.'],
+        [question: 'Ist die Session bereits eine vollständige Diagnose?', answer: 'Nein. Die Session ist ein fokussierter Einstieg. Für eine belastbare Organisationsdiagnose sind meist weitere Perspektiven und konkrete Daten notwendig.']
     ],
     '/decision-review': [
         [question: 'Welche Entscheidungen können geprüft werden?', answer: 'Zum Beispiel Produkt-, Technologie-, Investitions- oder Organisationsentscheidungen mit relevanten Folgen.'],
-        [question: 'Wird die Entscheidung für mich getroffen?', answer: 'Nein. Das Review prüft Annahmen, Risiken und Alternativen. Die Verantwortung für die Entscheidung bleibt bei Ihnen.'],
+        [question: 'Wird die Entscheidung für mich getroffen?', answer: 'Nein. Das Review prüft Annahmen, Risiken und Alternativen. Die Verantwortung für die Entscheidung bleibt bei dir.'],
         [question: 'Welche Unterlagen werden benötigt?', answer: 'So wenig wie möglich und so viel wie nötig: die Entscheidungsfrage, vorhandene Optionen, wichtige Annahmen und relevante Hintergründe.']
     ],
     '/product-organisation-diagnostic': [
@@ -65,7 +65,7 @@ Map<String, List<Map<String, String>>> pageFaqs = [
     '/ai-operating-model-assessment': [
         [question: 'Wann ist dieses Assessment sinnvoll?', answer: 'Wenn neue technische Möglichkeiten Arbeit oder Entscheidungen verändern und Rollen, Kontrolle oder Verantwortung noch nicht klar sind.'],
         [question: 'Ist das eine technische Prüfung?', answer: 'Nein. Untersucht werden die organisatorischen Folgen: Ziele, Entscheidungen, Verantwortung, Zusammenarbeit und Lernmechanismen.'],
-        [question: 'Was ist das Ergebnis?', answer: 'Sie erhalten ein klares Bild der offenen organisatorischen Fragen und eine priorisierte Reihenfolge für die nächsten Schritte.']
+        [question: 'Was ist das Ergebnis?', answer: 'Du erhältst ein klares Bild der offenen organisatorischen Fragen und eine priorisierte Reihenfolge für die nächsten Schritte.']
     ],
     '/ai-enabled-workflow-sprint': [
         [question: 'Was wird im Workflow Sprint betrachtet?', answer: 'Ein konkreter Ablauf wird von Anfang bis Ende untersucht: Arbeitsschritte, Übergaben, Entscheidungen, Verantwortung und Messgrößen.'],
@@ -80,13 +80,13 @@ Map<String, List<Map<String, String>>> pageFaqs = [
     '/executive-sparring': [
         [question: 'Für wen ist das Sparring gedacht?', answer: 'Für Führungskräfte und Product Leader, die wichtige Entscheidungen in einem vertraulichen und unabhängigen Rahmen prüfen möchten.'],
         [question: 'Welche Themen können besprochen werden?', answer: 'Zum Beispiel Prioritäten, Verantwortung, Stakeholder, Führung, Organisationsfragen und schwer umkehrbare Entscheidungen.'],
-        [question: 'Wie unterscheidet sich Sparring von Beratung?', answer: 'Im Sparring bleiben Sie klar in der Verantwortung. Der Wert liegt im strukturierten Gegenüber, in guten Fragen und im unabhängigen Blick auf Muster und Annahmen.']
+        [question: 'Wie unterscheidet sich Sparring von Beratung?', answer: 'Im Sparring bleibst du klar in der Verantwortung. Der Wert liegt im strukturierten Gegenüber, in guten Fragen und im unabhängigen Blick auf Muster und Annahmen.']
     ]
 ]
 
 List<Map<String, String>> insightFaq = [
-    [question: 'Was ist die wichtigste praktische Konsequenz?', answer: 'Beginnen Sie mit einer konkreten, wiederkehrenden Situation. Trennen Sie Beobachtung, Erklärung und gewünschte Wirkung, bevor Sie eine Rolle, einen Prozess oder eine Struktur verändern.'],
-    [question: 'Wie lässt sich die Aussage im eigenen Kontext prüfen?', answer: 'Suchen Sie mehrere konkrete Beispiele, vergleichen Sie unterschiedliche Perspektiven und prüfen Sie bewusst auch Gegenbelege. Ein einzelner Vorfall reicht selten aus, um einen organisatorischen Mechanismus belastbar zu erklären.'],
+    [question: 'Was ist die wichtigste praktische Konsequenz?', answer: 'Beginne mit einer konkreten, wiederkehrenden Situation. Trenne Beobachtung, Erklärung und gewünschte Wirkung, bevor du eine Rolle, einen Prozess oder eine Struktur veränderst.'],
+    [question: 'Wie lässt sich die Aussage im eigenen Kontext prüfen?', answer: 'Suche mehrere konkrete Beispiele, vergleiche unterschiedliche Perspektiven und prüfe bewusst auch Gegenbelege. Ein einzelner Vorfall reicht selten aus, um einen organisatorischen Mechanismus belastbar zu erklären.'],
     [question: 'Wann ist eine vertiefte Organisationsdiagnose sinnvoll?', answer: 'Wenn das Muster trotz früherer Maßnahmen wiederkehrt, mehrere plausible Ursachen bestehen oder eine Veränderung viele Teams und Entscheidungen betrifft, ist eine systematische Diagnose sinnvoller als ein weiterer Standardansatz.']
 ]
 
@@ -119,6 +119,7 @@ pageFaqs.each { String path, List<Map<String, String>> items ->
         entry.setProperty('question', item.question)
         entry.setProperty('answer', item.answer)
     }
+    page.setProperty('dateModified', '2026-09-02')
     println "${path}: ${items.size()} FAQ-Einträge ergänzt"
 }
 

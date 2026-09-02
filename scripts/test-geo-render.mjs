@@ -8,7 +8,6 @@ const paths = [
   '/decision-review',
   '/executive-sparring',
   '/product-organisation-diagnostic',
-  '/workshops',
   '/insights',
   '/insights/rollen-und-verantwortlichkeiten-in-produktorganisationen-klaeren',
   '/insights/wann-braucht-eine-produktorganisation-ein-operating-model',

@@ -14,6 +14,7 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from collections import deque
+from datetime import date
 from html import escape
 from html.parser import HTMLParser
 from pathlib import Path
@@ -106,13 +107,26 @@ def fetch_page(url: str) -> tuple[int, str, str, str, str]:
     return 0, url, "", "", ""
 
 
-def build_sitemap(base_url: str, output: Path) -> list[str]:
+def extract_last_modified(html: str) -> str | None:
+    candidates = re.findall(r'"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})"', html)
+    valid: list[str] = []
+    for candidate in candidates:
+        try:
+            date.fromisoformat(candidate)
+        except ValueError:
+            continue
+        valid.append(candidate)
+    return max(valid) if valid else None
+
+
+def build_sitemap(base_url: str, output: Path) -> list[tuple[str, str | None]]:
     start_url = normalize_public_url("/", base_url)
     assert start_url
     queue = deque([start_url, *existing_urls(output, base_url)])
     queued = set(queue)
     visited: set[str] = set()
     indexable: set[str] = set()
+    last_modified: dict[str, str] = {}
 
     while queue and len(visited) < MAX_PAGES:
         url = queue.popleft()
@@ -152,6 +166,9 @@ def build_sitemap(base_url: str, output: Path) -> list[str]:
             continue
 
         indexable.add(canonical)
+        modified = extract_last_modified(canonical_html)
+        if modified:
+            last_modified[canonical] = max(modified, last_modified.get(canonical, modified))
         for href in parser.links:
             linked = normalize_public_url(href, base_url)
             if linked and linked not in visited and linked not in queued:
@@ -163,13 +180,16 @@ def build_sitemap(base_url: str, output: Path) -> list[str]:
             f"Safety stop: only {len(indexable)} indexable pages found; existing sitemap was not replaced"
         )
 
-    return sorted(indexable, key=lambda url: (url != start_url, urllib.parse.urlsplit(url).path))
+    urls = sorted(indexable, key=lambda url: (url != start_url, urllib.parse.urlsplit(url).path))
+    return [(url, last_modified.get(url)) for url in urls]
 
 
-def write_atomically(urls: list[str], output: Path) -> None:
+def write_atomically(urls: list[tuple[str, str | None]], output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     lines = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    lines.extend(f"  <url><loc>{escape(url)}</loc></url>" for url in urls)
+    for url, modified in urls:
+        lastmod = f"<lastmod>{modified}</lastmod>" if modified else ""
+        lines.append(f"  <url><loc>{escape(url)}</loc>{lastmod}</url>")
     lines.append("</urlset>")
     payload = "\n".join(lines) + "\n"
     descriptor, temporary_name = tempfile.mkstemp(prefix="sitemap.", suffix=".xml", dir=output.parent)

@@ -4,7 +4,6 @@ const services = new Map([
   ['/decision-review', 'Decision Review'],
   ['/executive-sparring', 'Executive Sparring'],
   ['/product-organisation-diagnostic', 'Product Organisation Diagnostic'],
-  ['/workshops', 'Workshops'],
 ]);
 
 const articles = new Map([
@@ -36,8 +35,8 @@ for (const [path, title] of [...services, ...articles]) {
   if (!types.includes(expectedType) || !types.includes('Person') || !types.includes('Organization')) {
     throw new Error(`${path}: Erwartete strukturierte Typen fehlen (${types.join(', ')}).`);
   }
-  if (articles.has(path) && (!html.includes('Kurzantwort') || !html.includes('datePublished'))) {
-    throw new Error(`${path}: Zitierfähige Kurzantwort oder Veröffentlichungsdatum fehlt.`);
+  if (articles.has(path) && (!html.includes('Kurzantwort') || !html.includes('datePublished') || !html.includes('class="article-meta"') || !html.includes('rel="author"'))) {
+    throw new Error(`${path}: Zitierfähige Kurzantwort, sichtbare Autorenschaft oder Veröffentlichungsdatum fehlt.`);
   }
   results.push({ path, type: expectedType, status: response.status });
 }
@@ -47,11 +46,25 @@ for (const crawler of ['OAI-SearchBot', 'ChatGPT-User', 'GPTBot']) {
   if (!robots.includes(`User-agent: ${crawler}`)) throw new Error(`robots.txt: ${crawler} fehlt.`);
 }
 
+const llmsResponse = await fetch(`${baseUrl}/llms.txt`);
+const llms = await llmsResponse.text();
+if (llmsResponse.status !== 200 || !llms.includes('https://cleonhardt.de/insights')) {
+  throw new Error('llms.txt fehlt oder enthält keine Insights-Quelle.');
+}
+
 const sitemap = await (await fetch(`${baseUrl}/sitemap.xml`)).text();
 for (const path of [...services.keys(), ...articles.keys()]) {
   if (!sitemap.includes(`<loc>${baseUrl}${path}</loc><lastmod>`)) {
     throw new Error(`Sitemap: ${path} oder lastmod fehlt.`);
   }
+}
+if (sitemap.includes(`<loc>${baseUrl}/workshops</loc>`)) {
+  throw new Error('Sitemap: Die pausierte Workshop-Seite darf nicht enthalten sein.');
+}
+
+const pausedWorkshop = await fetch(`${baseUrl}/workshops`, { redirect: 'manual' });
+if (pausedWorkshop.status !== 404) {
+  throw new Error(`/workshops: erwarteter Pausenstatus 404, erhalten ${pausedWorkshop.status}.`);
 }
 
 const indexNowKey = '4eba2fbccd4fbe055b49e6d9d41c4e00';

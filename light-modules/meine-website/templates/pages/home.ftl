@@ -109,6 +109,15 @@
     [#if !globalSiteSettingsConfig?has_content]
       [#assign globalSiteSettingsConfig = cmsfn.contentByPath('/website', 'siteSettings')!]
     [/#if]
+    [#assign personSameAs = []]
+    [#if globalSiteSettingsConfig?has_content]
+      [#assign linkedInUrl = (globalSiteSettingsConfig.linkedInUrl!'')?trim]
+      [#assign professionalProfileUrl = (globalSiteSettingsConfig.professionalProfileUrl!'')?trim]
+      [#if linkedInUrl?starts_with('https://')][#assign personSameAs = personSameAs + [linkedInUrl]][/#if]
+      [#if professionalProfileUrl?starts_with('https://') && professionalProfileUrl != linkedInUrl]
+        [#assign personSameAs = personSameAs + [professionalProfileUrl]]
+      [/#if]
+    [/#if]
     [#assign canonicalPath = cmsfn.link(content)!'/start']
     [#if !ctx.contextPath?has_content && canonicalPath == '/start']
       [#assign canonicalPath = '/']
@@ -212,6 +221,8 @@
       [#assign servicePriceLow = pageOffer.priceFrom!servicePriceLow]
       [#assign servicePriceHigh = pageOffer.priceTo!servicePriceHigh]
     [/#if]
+    [#assign hasPublishedDate = content.datePublished?has_content]
+    [#assign hasModifiedDate = content.dateModified?has_content]
     [#assign publishedDate = content.datePublished!'2026-07-31']
     [#assign modifiedDate = content.dateModified!publishedDate]
     <meta charset="UTF-8">
@@ -294,7 +305,10 @@
             "Operating Models",
             "Transformation",
             "Entscheidungsarchitektur"
-          ]
+          ][#if personSameAs?has_content],
+          "sameAs": [
+            [#list personSameAs as profileUrl]"${profileUrl?string?json_string}"[#sep],[/#sep][/#list]
+          ][/#if]
         },
         {
           "@type": "Organization",
@@ -330,7 +344,9 @@
           "inLanguage": "de-DE",
           "isPartOf": { "@id": "https://cleonhardt.de/#website" },
           "about": { "@id": "https://cleonhardt.de/ueber-mich#person" },
-          "primaryImageOfPage": { "@id": "${canonicalUrl?json_string}#primaryimage" }[#if isProfilePage],
+          "primaryImageOfPage": { "@id": "${canonicalUrl?json_string}#primaryimage" }[#if hasPublishedDate],
+          "datePublished": "${publishedDate?string?json_string}"[/#if][#if hasModifiedDate],
+          "dateModified": "${modifiedDate?string?json_string}"[/#if][#if isProfilePage],
           "mainEntity": { "@id": "https://cleonhardt.de/ueber-mich#person" }[/#if]
         }[#if isInsightArticle || isServicePage],[/#if]
         [#if isInsightArticle]
@@ -621,6 +637,27 @@
             </ol>
           </div>
         </nav>
+      [/#if]
+      [#if isInsightArticle]
+        [#assign publishedDateLabel = publishedDate]
+        [#assign modifiedDateLabel = modifiedDate]
+        [#if publishedDate?length == 10]
+          [#assign publishedDateLabel = publishedDate?substring(8, 10) + '.' + publishedDate?substring(5, 7) + '.' + publishedDate?substring(0, 4)]
+        [/#if]
+        [#if modifiedDate?length == 10]
+          [#assign modifiedDateLabel = modifiedDate?substring(8, 10) + '.' + modifiedDate?substring(5, 7) + '.' + modifiedDate?substring(0, 4)]
+        [/#if]
+        <div class="article-meta">
+          <div class="site-shell article-meta__inner">
+            <span>Von <a rel="author" href="${ctx.contextPath}/ueber-mich">Christian Leonhardt</a></span>
+            <span aria-hidden="true">·</span>
+            <span>Veröffentlicht am <time datetime="${publishedDate}">${publishedDateLabel}</time></span>
+            [#if modifiedDate != publishedDate]
+              <span aria-hidden="true">·</span>
+              <span>Aktualisiert am <time datetime="${modifiedDate}">${modifiedDateLabel}</time></span>
+            [/#if]
+          </div>
+        </div>
       [/#if]
       [@cms.area name="main" /]
 
