@@ -1,6 +1,6 @@
 import { chromium } from 'file:///home/cd/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
 
-const targetUrl = 'https://cleonhardt.de/angebot-anfragen?leistung=workshop';
+const targetUrl = 'https://cleonhardt.de/angebot-anfragen?leistung=decision-review';
 const viewports = [
   { name: 'desktop', width: 1440, height: 900 },
   { name: 'mobile', width: 390, height: 844 },
@@ -108,9 +108,9 @@ for (const result of results) {
   if (!result.formFound || !result.submitFound) {
     throw new Error(`${result.viewport}: Angebotsformular ist unvollständig.`);
   }
-  if (result.selectedService !== 'workshop') {
+  if (result.selectedService !== 'decision-review') {
     throw new Error(
-      `${result.viewport}: Workshop wurde nicht vorausgewählt (${result.selectedService}).`,
+      `${result.viewport}: Decision Review wurde nicht vorausgewählt (${result.selectedService}).`,
     );
   }
   if (result.horizontalOverflow) {

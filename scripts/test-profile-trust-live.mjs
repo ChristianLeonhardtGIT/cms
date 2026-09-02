@@ -7,11 +7,10 @@ for (const snippet of [
   'class="profile-trust"',
   'christian-leonhardt-portrait-v1.webp',
   'alt="Portrait von Christian Leonhardt"',
-  'Product Leadership, Organisation und Transformation',
-  'Loyalty &amp; CRM',
+  'Erfahrung aus Produktverantwortung und Führung',
+  'Loyalty, CRM und E-Commerce',
   'Organisationsdiagnose',
   'href="/clarity-session"',
-  '>Clarity Session ansehen<',
   'href="/chos-selbstcheck"',
   'href="/praxisfaelle"',
 ]) {
@@ -24,7 +23,8 @@ if (aboutResponse.status !== 200) throw new Error(`Über mich: HTTP ${aboutRespo
 for (const snippet of [
   'profile-trust profile-trust--about',
   'christian-leonhardt-portrait-v1.jpg',
-  'Product Leadership, Organisationsdiagnose und Transformation',
+  'Product Leadership · Operating Models · Transformation',
+  'Organisationen für wirksame Entscheidungen gestalten',
   'Diagnose vor Eingriff. Klarheit vor Aktion.',
 ]) {
   if (!about.includes(snippet)) throw new Error(`Über mich: Inhalt fehlt: ${snippet}`);

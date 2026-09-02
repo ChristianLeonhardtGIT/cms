@@ -62,8 +62,8 @@ String replaceConfirmedPhrases(String source, Map<String, String> replacements) 
 
 String containingPagePath(Node node) {
     Node current = node
-    while (current.depth > 0 && !current.isNodeType('mgnl:page')) current = current.parent
-    current.isNodeType('mgnl:page') ? current.path : '/'
+    while (current.getDepth() > 0 && !current.isNodeType('mgnl:page')) current = current.getParent()
+    current.isNodeType('mgnl:page') ? current.getPath() : '/'
 }
 
 void repairNode(Node node, Map<String, String> replacements, Set<String> changedPages) {

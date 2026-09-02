@@ -7,6 +7,7 @@
 		"test": "node scripts/check-setup.mjs",
 		"test:content-model": "node scripts/check-content-model.mjs",
 		"test:lead-funnel": "node scripts/test-lead-funnel-live.mjs",
+		"test:contact-form-live": "node scripts/test-contact-form-live.mjs",
 		"test:mobile-ctas": "node scripts/test-mobile-cta-contract.mjs",
 		"test:problem-pages": "node scripts/test-problem-pages-e2e.mjs",
 		"test:editorial-source": "node scripts/test-editorial-source.mjs",
