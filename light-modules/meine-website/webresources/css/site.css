@@ -180,6 +180,23 @@ a { color: inherit; }
 .content-breadcrumb__list a { color: var(--brand); font-weight: 750; text-decoration: none; }
 .content-breadcrumb__list a:hover { text-decoration: underline; text-decoration-thickness: .1em; text-underline-offset: .2em; }
 .content-breadcrumb__list [aria-current="page"] { overflow-wrap: anywhere; }
+.article-meta {
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  background: var(--surface);
+  font-size: 0.88rem;
+}
+.article-meta__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.55rem;
+  padding-block: 0.8rem;
+}
+.article-meta a {
+  color: var(--brand);
+  font-weight: 750;
+  text-underline-offset: 0.18em;
+}
 .site-nav-trigger {
   display: none;
   min-height: 3rem;

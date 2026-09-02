@@ -11,7 +11,8 @@ import javax.jcr.Session
 
 @Field final String PAGE_TEMPLATE = 'meine-website:pages/home'
 @Field final String COMPONENT_PREFIX = 'meine-website:components/'
-@Field final String TODAY = '2026-07-31'
+@Field final String GEO_PUBLISHED_DATE = '2026-07-31'
+@Field final String GEO_MODIFIED_DATE = '2026-09-02'
 
 Session website = MgnlContext.getJCRSession('website')
 website.refresh(false)
@@ -94,7 +95,7 @@ Map<String, Map<String, String>> offers = [
         low: '490', high: '750', offerKey: 'decision-review',
         situations: '<div class="mvp-grid mvp-grid--3"><article class="mvp-panel"><h3>Strategische Weichenstellung</h3><p>Eine Produkt-, Technologie- oder Organisationsentscheidung bindet Ressourcen und lässt sich später nur schwer korrigieren.</p></article><article class="mvp-panel"><h3>Vorliegendes Konzept</h3><p>Ein Konzept ist weit entwickelt, wurde aber bisher vor allem von Beteiligten mit ähnlicher Perspektive geprüft.</p></article><article class="mvp-panel"><h3>Festgefahrene Diskussion</h3><p>Mehrere plausible Optionen stehen nebeneinander und die Debatte wiederholt sich ohne neuen Erkenntnisgewinn.</p></article></div>',
         included: '<ul class="mvp-checks"><li>Sichtung der relevanten Unterlagen</li><li>Trennung von Fakten, Annahmen und Schlussfolgerungen</li><li>Gegenprüfung der wichtigsten Annahmen</li><li>Red-Team-Betrachtung und plausible Gegenpositionen</li><li>Persönliches Review-Gespräch</li><li>Schriftliche Empfehlung mit offenen Risiken und nächsten Schritten</li></ul>',
-        process: '<div class="mvp-grid mvp-grid--3"><div class="mvp-panel"><span class="mvp-number">1</span><h3>Material</h3><p>Sie senden das vorhandene Konzept und benennen die konkrete Entscheidung.</p></div><div class="mvp-panel"><span class="mvp-number">2</span><h3>Prüfung</h3><p>Ich rekonstruiere Logik, Annahmen, Risiken und nicht betrachtete Alternativen.</p></div><div class="mvp-panel mvp-panel--accent"><span class="mvp-number">3</span><h3>Empfehlung</h3><p>Im Review besprechen wir Befund, Konsequenzen und einen belastbaren nächsten Schritt.</p></div></div>',
+        process: '<div class="mvp-grid mvp-grid--3"><div class="mvp-panel"><span class="mvp-number">1</span><h3>Material</h3><p>Du sendest das vorhandene Konzept und benennst die konkrete Entscheidung.</p></div><div class="mvp-panel"><span class="mvp-number">2</span><h3>Prüfung</h3><p>Ich rekonstruiere Logik, Annahmen, Risiken und nicht betrachtete Alternativen.</p></div><div class="mvp-panel mvp-panel--accent"><span class="mvp-number">3</span><h3>Empfehlung</h3><p>Im Review besprechen wir Befund, Konsequenzen und einen belastbaren nächsten Schritt.</p></div></div>',
         boundary: 'Das Decision Review ersetzt keine Rechts-, Steuer-, Sicherheits- oder technische Spezialprüfung. Bei umfangreichen Unterlagen, mehreren Interviews oder einer organisationsweiten Fragestellung klären wir ein Diagnostic.'
     ],
     'executive-sparring': [
@@ -107,10 +108,10 @@ Map<String, Map<String, String>> offers = [
         lead: 'Executive Sparring ist eine persönliche, vertrauliche Begleitung für Führungskräfte, die regelmäßig komplexe Produkt-, Führungs- oder Organisationsentscheidungen treffen. Im Mittelpunkt stehen konkrete Situationen, nicht ein vorgegebenes Coachingprogramm.',
         audience: 'Führungskräfte und leitende Produktverantwortliche',
         low: '1250', high: '1750', offerKey: 'executive-sparring',
-        situations: '<div class="mvp-grid mvp-grid--3"><article class="mvp-panel"><h3>Hohe Entscheidungsdichte</h3><p>Mehrere wichtige Themen laufen parallel und benötigen einen unabhängigen Blick auf Prioritäten und Konsequenzen.</p></article><article class="mvp-panel"><h3>Neue Verantwortung</h3><p>Rolle, Mandat und Erwartungen verändern sich schneller als die formalen Strukturen.</p></article><article class="mvp-panel"><h3>Transformation</h3><p>Sie müssen Wirkung erzeugen, obwohl Interessen, Abhängigkeiten und Unsicherheit gleichzeitig zunehmen.</p></article></div>',
+        situations: '<div class="mvp-grid mvp-grid--3"><article class="mvp-panel"><h3>Hohe Entscheidungsdichte</h3><p>Mehrere wichtige Themen laufen parallel und benötigen einen unabhängigen Blick auf Prioritäten und Konsequenzen.</p></article><article class="mvp-panel"><h3>Neue Verantwortung</h3><p>Rolle, Mandat und Erwartungen verändern sich schneller als die formalen Strukturen.</p></article><article class="mvp-panel"><h3>Transformation</h3><p>Du musst Wirkung erzeugen, obwohl Interessen, Abhängigkeiten und Unsicherheit gleichzeitig zunehmen.</p></article></div>',
         included: '<ul class="mvp-checks"><li>Vier persönliche Gespräche pro Monat</li><li>Asynchrone Rückfragen im vereinbarten Kanal</li><li>Entscheidungs- und Situationsanalysen</li><li>Monatliche Reflexion wiederkehrender Muster</li><li>Priorisierte Handlungsempfehlungen</li><li>Zu Beginn monatlich kündbar</li></ul>',
         process: '<div class="mvp-grid mvp-grid--3"><div class="mvp-panel"><span class="mvp-number">1</span><h3>Fokus</h3><p>Wir klären Rolle, aktuelle Spannungen und den Arbeitsmodus für vertrauliche Themen.</p></div><div class="mvp-panel"><span class="mvp-number">2</span><h3>Sparring</h3><p>Konkrete Entscheidungen werden vorbereitet, gegengeprüft und im Kontext betrachtet.</p></div><div class="mvp-panel mvp-panel--accent"><span class="mvp-number">3</span><h3>Lernschleife</h3><p>Wir verdichten wiederkehrende Muster zu bewussten Führungs- und Handlungsprinzipien.</p></div></div>',
-        boundary: 'Sparring ist keine Psychotherapie, Rechtsberatung oder operative Linienfunktion. Entscheidungen und Verantwortung bleiben bei Ihnen; ich schaffe Klarheit, stelle Gegenfragen und mache Alternativen sichtbar.'
+        boundary: 'Sparring ist keine Psychotherapie, Rechtsberatung oder operative Linienfunktion. Entscheidungen und Verantwortung bleiben bei dir; ich schaffe Klarheit, stelle Gegenfragen und mache Alternativen sichtbar.'
     ],
     'product-organisation-diagnostic': [
         title: 'Product Organisation Diagnostic',
@@ -118,14 +119,14 @@ Map<String, Map<String, String>> offers = [
         browser: 'Product Organisation Diagnostic – Produktorganisation systemisch analysieren',
         description: 'Systemische Analyse einer Produktorganisation: Rollen, Entscheidungswege, Priorisierung, Abhängigkeiten, Führung und Zusammenarbeit.',
         eyebrow: 'Unternehmensangebot · 7.500–15.000 € netto',
-        hero: 'Die Organisation verstehen, bevor Sie sie neu zeichnen.',
+        hero: 'Die Organisation verstehen, bevor du sie neu zeichnest.',
         lead: 'Ein Product Organisation Diagnostic untersucht nicht nur Rollen und Prozesse, sondern die Mechanismen, die tägliche Entscheidungen tatsächlich prägen. Das Ergebnis ist ein belastbares Lagebild mit priorisierten Handlungsfeldern – kein Organigramm aus der Schublade.',
         audience: 'Geschäftsführungen, Produktleitungen und Transformationsverantwortliche',
         low: '7500', high: '15000', offerKey: 'product-organisation-diagnostic',
         situations: '<div class="mvp-grid mvp-grid--3"><article class="mvp-panel"><h3>Wiederkehrende Reibung</h3><p>Priorisierung, Abhängigkeiten oder Eskalationen bleiben trotz neuer Prozesse bestehen.</p></article><article class="mvp-panel"><h3>Geplante Neuordnung</h3><p>Vor einer Reorganisation soll klar werden, welche Mechanismen wirklich verändert werden müssen.</p></article><article class="mvp-panel"><h3>Unklare Wirksamkeit</h3><p>Teams arbeiten engagiert, aber Strategie, Entscheidungen und Ergebnisse greifen nicht zuverlässig ineinander.</p></article></div>',
         included: '<ul class="mvp-checks"><li>Interviews mit Führungskräften und ausgewählten Teams</li><li>Analyse von Rollen, Mandaten und Verantwortlichkeiten</li><li>Entscheidungswege und Priorisierungsmechanismen</li><li>Zusammenarbeit, Abhängigkeiten und Schnittstellen</li><li>Führungs- und Kommunikationsstrukturen</li><li>ChOS-Auswertung, Zielbild und priorisierter Maßnahmenplan</li></ul>',
-        process: '<div class="mvp-grid mvp-grid--3"><div class="mvp-panel"><span class="mvp-number">1</span><h3>Auftrag klären</h3><p>Fragestellung, Systemgrenze, Beteiligte und vorhandene Daten werden verbindlich festgelegt.</p></div><div class="mvp-panel"><span class="mvp-number">2</span><h3>Diagnose</h3><p>Dokumente, Interviews und beobachtbare Muster werden zu überprüfbaren Hypothesen verdichtet.</p></div><div class="mvp-panel mvp-panel--accent"><span class="mvp-number">3</span><h3>Handlungsbild</h3><p>Sie erhalten Befund, Risiken, Zielbild und eine priorisierte Folge von Interventionen.</p></div></div>',
-        boundary: 'Der konkrete Umfang hängt von Größe, Fragestellung und Zahl der Beteiligten ab. Vor dem Start erhalten Sie ein verbindliches Angebot mit Untersuchungsrahmen, Ergebnissen und Zeitplan.'
+        process: '<div class="mvp-grid mvp-grid--3"><div class="mvp-panel"><span class="mvp-number">1</span><h3>Auftrag klären</h3><p>Fragestellung, Systemgrenze, Beteiligte und vorhandene Daten werden verbindlich festgelegt.</p></div><div class="mvp-panel"><span class="mvp-number">2</span><h3>Diagnose</h3><p>Dokumente, Interviews und beobachtbare Muster werden zu überprüfbaren Hypothesen verdichtet.</p></div><div class="mvp-panel mvp-panel--accent"><span class="mvp-number">3</span><h3>Handlungsbild</h3><p>Du erhältst Befund, Risiken, Zielbild und eine priorisierte Folge von Interventionen.</p></div></div>',
+        boundary: 'Der konkrete Umfang hängt von Größe, Fragestellung und Zahl der Beteiligten ab. Vor dem Start erhältst du ein verbindliches Angebot mit Untersuchungsrahmen, Ergebnissen und Zeitplan.'
     ],
     'workshops': [
         title: 'Workshops',
@@ -155,16 +156,16 @@ offers.each { String slug, Map<String, String> offer ->
         serviceAudience: offer.audience,
         priceLow: offer.low,
         priceHigh: offer.high,
-        dateModified: TODAY
+        dateModified: GEO_MODIFIED_DATE
     ])
     Node area = addArea(page)
     addHero(area, offer.eyebrow, offer.hero, offer.description)
     addText(area, 'Kurz erklärt', "<p class=\"lead\">${offer.lead}</p><p class=\"clarity-actions\"><a class=\"button\" href=\"/angebot-anfragen?leistung=${offer.offerKey}\">Unverbindliches Angebot anfragen</a><a href=\"/leistungen\">Alle Leistungen vergleichen</a></p>", true)
     addText(area, 'Wann dieses Format sinnvoll ist', offer.situations)
-    addText(area, 'Was Sie bekommen', offer.included, true)
+    addText(area, 'Was du bekommst', offer.included, true)
     addText(area, 'So läuft die Zusammenarbeit ab', offer.process)
     addText(area, 'Klare Grenzen', "<p>${offer.boundary}</p>", true)
-    addCta(area, 'Passt das zu Ihrer Situation?', '<p>Beschreiben Sie kurz den Kontext. Ich prüfe persönlich, ob dieses Format passt oder ein kleinerer Einstieg sinnvoller ist.</p>', '/angebot-anfragen', 'Angebot anfragen')
+    addCta(area, 'Passt das zu deiner Situation?', '<p>Beschreibe kurz den Kontext. Ich prüfe persönlich, ob dieses Format passt oder ein kleinerer Einstieg sinnvoller ist.</p>', '/angebot-anfragen', 'Angebot anfragen')
 }
 
 Map<String, Map<String, String>> articles = [
@@ -173,7 +174,7 @@ Map<String, Map<String, String>> articles = [
         description: 'Wie Produktorganisationen Rollen, Mandate, Schnittstellen und Entscheidungsrechte wirksam klären – ohne nur ein neues Rollendokument zu erzeugen.',
         category: 'Product Operating Model',
         answer: 'Rollen werden nicht durch genauere Stellenbeschreibungen klar, sondern durch konkrete Entscheidungsrechte, erwartete Ergebnisse und sichtbare Schnittstellen. Eine wirksame Rollenklärung beginnt deshalb bei wiederkehrenden Entscheidungen: Wer entscheidet, wer liefert Informationen, wer wird beteiligt und woran wird das Ergebnis gemessen?',
-        body: '<h3>Mit Entscheidungen statt Titeln beginnen</h3><p>Sammeln Sie zunächst fünf bis zehn Situationen, in denen Verantwortung heute unklar wird: Prioritäten ändern, technische Risiken akzeptieren, Budgets verschieben oder ein Ergebnis stoppen. Erst an diesen Situationen wird sichtbar, ob ein Rollenproblem, ein Mandatsproblem oder ein Zielkonflikt vorliegt.</p><h3>Vier Ebenen der Klärung</h3><ol><li><strong>Ergebnis:</strong> Wofür steht die Rolle erkennbar ein?</li><li><strong>Entscheidung:</strong> Welche Entscheidungen darf sie selbst treffen?</li><li><strong>Information:</strong> Welche Daten und Perspektiven braucht sie?</li><li><strong>Schnittstelle:</strong> Wo beginnt die Verantwortung einer anderen Rolle?</li></ol><blockquote class="mvp-quote">Ein Rollenbild ist erst belastbar, wenn es in einer strittigen Entscheidung Orientierung gibt.</blockquote>',
+        body: '<h3>Mit Entscheidungen statt Titeln beginnen</h3><p>Sammle zunächst fünf bis zehn Situationen, in denen Verantwortung heute unklar wird: Prioritäten ändern, technische Risiken akzeptieren, Budgets verschieben oder ein Ergebnis stoppen. Erst an diesen Situationen wird sichtbar, ob ein Rollenproblem, ein Mandatsproblem oder ein Zielkonflikt vorliegt.</p><h3>Vier Ebenen der Klärung</h3><ol><li><strong>Ergebnis:</strong> Wofür steht die Rolle erkennbar ein?</li><li><strong>Entscheidung:</strong> Welche Entscheidungen darf sie selbst treffen?</li><li><strong>Information:</strong> Welche Daten und Perspektiven braucht sie?</li><li><strong>Schnittstelle:</strong> Wo beginnt die Verantwortung einer anderen Rolle?</li></ol><blockquote class="mvp-quote">Ein Rollenbild ist erst belastbar, wenn es in einer strittigen Entscheidung Orientierung gibt.</blockquote>',
         questions: '<ul class="mvp-checks"><li>Welche Entscheidungen werden regelmäßig erneut geöffnet?</li><li>Wo trägt jemand Verantwortung ohne ausreichendes Mandat?</li><li>Welche Ziele machen Kooperation unvernünftig?</li><li>Welche Informationen erreichen den Entscheidungsort zu spät?</li><li>Woran erkennen Beteiligte, dass die neue Klärung funktioniert?</li></ul>'
     ],
     'wann-braucht-eine-produktorganisation-ein-operating-model': [
@@ -189,7 +190,7 @@ Map<String, Map<String, String>> articles = [
         description: 'Ein praktischer Red-Team-Ansatz, um Fakten, Annahmen, Risiken und Alternativen vor wichtigen Produktentscheidungen zu trennen.',
         category: 'Decision Review',
         answer: 'Vor einer wichtigen Produktentscheidung sollten Fakten, Annahmen und Schlussfolgerungen getrennt werden. Entscheidend ist nicht, jede Unsicherheit zu beseitigen, sondern die Annahmen zu identifizieren, deren Irrtum die Entscheidung wesentlich verändern würde, und dafür einen passenden Test oder eine bewusste Risikoentscheidung zu formulieren.',
-        body: '<h3>Die Entscheidungslogik sichtbar machen</h3><p>Schreiben Sie die Entscheidung als Satz: „Wir wählen Option A, weil …“. Markieren Sie anschließend jede Begründung als Beobachtung, Annahme oder Bewertung. Häufig zeigt sich, dass eine scheinbar faktenbasierte Entscheidung auf wenigen, kaum geprüften Annahmen ruht.</p><h3>Red-Team-Fragen</h3><ol><li>Welche Information würde unsere Präferenz verändern?</li><li>Welche plausible Alternative erklären wir zu schnell für ungeeignet?</li><li>Was müsste stimmen, damit die Gegenposition richtig ist?</li><li>Welche Folge ist schwer umkehrbar?</li><li>Welche kleine Prüfung reduziert die wichtigste Unsicherheit?</li></ol>',
+        body: '<h3>Die Entscheidungslogik sichtbar machen</h3><p>Schreibe die Entscheidung als Satz: „Wir wählen Option A, weil …“. Markiere anschließend jede Begründung als Beobachtung, Annahme oder Bewertung. Häufig zeigt sich, dass eine scheinbar faktenbasierte Entscheidung auf wenigen, kaum geprüften Annahmen ruht.</p><h3>Red-Team-Fragen</h3><ol><li>Welche Information würde unsere Präferenz verändern?</li><li>Welche plausible Alternative erklären wir zu schnell für ungeeignet?</li><li>Was müsste stimmen, damit die Gegenposition richtig ist?</li><li>Welche Folge ist schwer umkehrbar?</li><li>Welche kleine Prüfung reduziert die wichtigste Unsicherheit?</li></ol>',
         questions: '<ul class="mvp-checks"><li>Die Entscheidung bindet viel Zeit, Budget oder Reputation.</li><li>Im Team herrscht auffällig schnelle Einigkeit.</li><li>Ein Konzept wurde überwiegend von seinen Urhebern geprüft.</li><li>Diskussionen vermischen Ziel, Lösung und Umsetzung.</li><li>Ein Scheitern würde erst spät sichtbar werden.</li></ul>'
     ],
     'organisationsdiagnose-statt-standardberatung': [
@@ -214,7 +215,7 @@ Map<String, Map<String, String>> articles = [
         category: 'Leadership',
         answer: 'Executive Sparring ist sinnvoll, wenn Führungskräfte regelmäßig komplexe Entscheidungen unter Unsicherheit treffen und dafür einen unabhängigen, vertraulichen Gegenpart benötigen. Es verbindet Reflexion mit konkreter Situations- und Entscheidungsanalyse, ohne Verantwortung zu übernehmen oder ein starres Programm vorzugeben.',
         body: '<h3>Nicht jede Herausforderung braucht ein Programm</h3><p>In verantwortungsvollen Rollen wechseln strategische, organisatorische und zwischenmenschliche Fragen schnell. Sparring schafft einen konstanten Denkraum, in dem diese Situationen vorbereitet, gegengeprüft und später ausgewertet werden können.</p><h3>Abgrenzung</h3><p><strong>Beratung</strong> liefert häufig Expertise oder ein konkretes Lösungskonzept. <strong>Coaching</strong> arbeitet primär über Fragen an individuellen Zielen und Entwicklung. <strong>Sparring</strong> darf beides berühren, fokussiert aber auf die gemeinsame Gegenprüfung realer Entscheidungen und Handlungsoptionen.</p><h3>Woran gute Zusammenarbeit erkennbar wird</h3><p>Die Gespräche erzeugen keine Abhängigkeit. Sie verbessern die Qualität eigener Entscheidungen, machen Muster schneller sichtbar und führen zu klareren nächsten Schritten.</p>',
-        questions: '<ul class="mvp-checks"><li>Sie tragen Verantwortung, können aber nicht jedes Thema intern offen prüfen.</li><li>Entscheidungen betreffen gleichzeitig Strategie, Organisation und Menschen.</li><li>Sie wollen Widerspruch statt vorschneller Bestätigung.</li><li>Ähnliche Situationen wiederholen sich in neuer Form.</li><li>Sie benötigen Kontinuität zwischen einzelnen Entscheidungen.</li></ul>'
+        questions: '<ul class="mvp-checks"><li>Du trägst Verantwortung, kannst aber nicht jedes Thema intern offen prüfen.</li><li>Entscheidungen betreffen gleichzeitig Strategie, Organisation und Menschen.</li><li>Du willst Widerspruch statt vorschneller Bestätigung.</li><li>Ähnliche Situationen wiederholen sich in neuer Form.</li><li>Du benötigst Kontinuität zwischen einzelnen Entscheidungen.</li></ul>'
     ]
 ]
 
@@ -222,7 +223,7 @@ Node insightsPage = website.getNode('/insights')
 for (Node child : insightsPage.nodes) {
     if (child.isNodeType('mgnl:page')) {
         if (!child.hasProperty('datePublished')) child.setProperty('datePublished', '2026-07-29')
-        child.setProperty('dateModified', TODAY)
+        child.setProperty('dateModified', GEO_MODIFIED_DATE)
     }
 }
 
@@ -233,15 +234,15 @@ articles.each { String slug, Map<String, String> article ->
         windowTitle: article.title,
         metaDescription: article.description,
         hideInNavigation: true,
-        datePublished: TODAY,
-        dateModified: TODAY
+        datePublished: GEO_PUBLISHED_DATE,
+        dateModified: GEO_MODIFIED_DATE
     ])
     Node area = addArea(page)
     addHero(area, "Insight · ${article.category}", article.title, article.description)
     addText(area, 'Kurzantwort', "<p class=\"lead\">${article.answer}</p>", true)
     addText(area, 'Worauf es praktisch ankommt', article.body)
-    addText(area, 'Fragen für Ihre Situation', article.questions, true)
-    addCta(area, 'Möchten Sie das auf Ihre Situation übertragen?', '<p>In der Clarity Session trennen wir Beobachtung, Hypothese und nächsten sinnvollen Schritt.</p>', '/clarity-session', 'Clarity Session ansehen')
+    addText(area, 'Fragen für deine Situation', article.questions, true)
+    addCta(area, 'Möchtest du das auf deine Situation übertragen?', '<p>In der Clarity Session trennen wir Beobachtung, Hypothese und nächsten sinnvollen Schritt.</p>', '/clarity-session', 'Clarity Session ansehen')
 }
 
 resetMain(insightsPage)
@@ -260,13 +261,13 @@ articles.each { String slug, Map<String, String> article ->
 allCards.each { Map<String, String> card ->
     addCard(insightsArea, card.title, "<p>${card.description}</p>", card.path)
 }
-addCta(insightsArea, 'Ein Thema kommt Ihnen bekannt vor?', '<p>Bringen Sie eine konkrete Situation in die Clarity Session mit.</p>', '/clarity-session', 'Clarity Session ansehen')
+addCta(insightsArea, 'Ein Thema kommt dir bekannt vor?', '<p>Bring eine konkrete Situation in die Clarity Session mit.</p>', '/clarity-session', 'Clarity Session ansehen')
 
 Node servicesArea = website.getNode('/leistungen/main')
 Node paid = findByHeading(servicesArea, 'Bezahlter Einstieg')
 if (paid != null) {
     paid.setProperty('text', '''
-<p class="lead">Ein klar abgegrenzter Auftrag für ein konkretes Problem oder eine wichtige Entscheidung. Sie kaufen nicht nur Gesprächszeit, sondern Vorbereitung, Analyse und ein verwertbares Ergebnis.</p>
+<p class="lead">Ein klar abgegrenzter Auftrag für ein konkretes Problem oder eine wichtige Entscheidung. Du kaufst nicht nur Gesprächszeit, sondern Vorbereitung, Analyse und ein verwertbares Ergebnis.</p>
 <div class="mvp-grid mvp-grid--2">
   <a class="mvp-panel mvp-panel--accent mvp-panel--link" href="/clarity-session" aria-label="ChOS Clarity Session ansehen"><p class="mvp-meta">90 Minuten · 295 € netto</p><h3>ChOS Clarity Session</h3><p>Eine festgefahrene Produkt-, Führungs- oder Organisationssituation strukturiert verstehen.</p><ul class="mvp-checks"><li>Vorbereitung und 90 Minuten Gespräch</li><li>Erste Hypothesen und nächste Schritte</li><li>Schriftlicher Clarity Brief</li></ul><span class="mvp-panel__link">Clarity Session ansehen <span aria-hidden="true">→</span></span></a>
   <article class="mvp-panel"><p class="mvp-meta">490–750 € netto</p><h3>Decision Review</h3><p>Eine wichtige Entscheidung oder ein Konzept vor der Umsetzung belastbar gegenprüfen.</p><ul class="mvp-checks"><li>Annahmenprüfung</li><li>Red-Team-Betrachtung</li><li>Schriftliche Empfehlung</li></ul><p class="mvp-panel__action"><a class="mvp-offer-cta" href="/decision-review">Details ansehen <span aria-hidden="true">→</span></a></p></article>

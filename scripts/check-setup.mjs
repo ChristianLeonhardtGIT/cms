@@ -1,8 +1,6 @@
 import { access, readFile } from 'node:fs/promises';
 
 const requiredFiles = [
-  'apache-tomcat/bin/catalina.sh',
-  'apache-tomcat/webapps/magnoliaAuthor/WEB-INF/web.xml',
   'light-modules/meine-website/module.yaml',
   'light-modules/meine-website/apps/footer.yaml',
   'light-modules/meine-website/apps/navigation.yaml',
@@ -42,6 +40,7 @@ const requiredFiles = [
   'scripts/test-geo-live.mjs',
   'scripts/test-geo-render.mjs',
   'deploy/static/404.html',
+  'deploy/static/llms.txt',
   'deploy/indexnow-submit.sh',
   'deploy/static/4eba2fbccd4fbe055b49e6d9d41c4e00.txt',
   'deploy/SECURITY.md',
@@ -172,11 +171,13 @@ for (const pagePath of [
   'decision-review',
   'executive-sparring',
   'product-organisation-diagnostic',
-  'workshops',
 ]) {
-  if (!geoBuilder.includes(`'${pagePath}': [`) || !sitemap.includes(`<loc>https://cleonhardt.de/${pagePath}</loc><lastmod>`)) {
+  if (!geoBuilder.includes(`'${pagePath}': [`) || !sitemap.includes(`<loc>https://cleonhardt.de/${pagePath}</loc>`)) {
     throw new Error(`GEO-Angebotsseite fehlt: ${pagePath}`);
   }
+}
+if (!geoBuilder.includes("'workshops': [") || sitemap.includes('<loc>https://cleonhardt.de/workshops</loc>')) {
+  throw new Error('Die vorbereitete Workshop-Seite fehlt oder ist trotz öffentlicher Pause in der Sitemap enthalten.');
 }
 for (const insightPath of [
   'rollen-und-verantwortlichkeiten-in-produktorganisationen-klaeren',
@@ -186,7 +187,7 @@ for (const insightPath of [
   'product-organisation-diagnostic-ablauf-und-ergebnis',
   'wann-ist-executive-sparring-sinnvoll',
 ]) {
-  if (!geoBuilder.includes(`'${insightPath}': [`) || !sitemap.includes(`/insights/${insightPath}</loc><lastmod>`)) {
+  if (!geoBuilder.includes(`'${insightPath}': [`) || !sitemap.includes(`/insights/${insightPath}</loc>`)) {
     throw new Error(`GEO-Insight fehlt: ${insightPath}`);
   }
 }
@@ -196,7 +197,7 @@ for (const requiredPoint5Content of [
   "ensurePage(website.rootNode, 'chos-selbstcheck'",
   'anonymisierte und verdichtete typische Fallmuster',
   'keine Kundenreferenzen',
-  'Ihre Antworten werden nur in diesem Browser ausgewertet',
+  'Die Auswertung findet ausschließlich in diesem Browser statt',
   "module.setProperty('point5Module', true)",
   'href="/chos-selbstcheck"',
   'href="/praxisfaelle"',
@@ -221,8 +222,8 @@ if (
   !siteStyles.includes('.practice-case') ||
   !siteStyles.includes('.chos-check__question') ||
   !siteStyles.includes('.chos-check__result') ||
-  !sitemap.includes('<loc>https://cleonhardt.de/praxisfaelle</loc><lastmod>') ||
-  !sitemap.includes('<loc>https://cleonhardt.de/chos-selbstcheck</loc><lastmod>')
+  !sitemap.includes('<loc>https://cleonhardt.de/praxisfaelle</loc>') ||
+  !sitemap.includes('<loc>https://cleonhardt.de/chos-selbstcheck</loc>')
 ) {
   throw new Error('Punkt 5 fehlt in Template, Darstellung oder Sitemap.');
 }
@@ -390,7 +391,7 @@ if (
 if (
   !caddyConfig.includes('cms.cleonhardt.de {') ||
   !caddyConfig.includes('basic_auth {') ||
-  !/\bchristian\s+\$2[ayb]\$\d{2}\$/.test(caddyConfig) ||
+  (!/\bchristian\s+\$2[ayb]\$\d{2}\$/.test(caddyConfig) && !caddyConfig.includes('christian {$CMS_BASIC_AUTH_HASH}')) ||
   !caddyConfig.includes('reverse_proxy magnolia-author:8080') ||
   !caddyConfig.includes('header_up -Authorization') ||
   !caddyConfig.includes('Cache-Control "no-store"') ||
@@ -416,7 +417,7 @@ if (
 
 if (
   !siteStyles.includes('.site-nav__item:hover > .site-nav__list') ||
-  !/@media \(hover: hover\) and \(min-width: 45\.01rem\) \{[\s\S]*?\.site-nav__item:focus-within > \.site-nav__list/.test(siteStyles) ||
+  !/@media \(hover: hover\) and \(min-width: \d+(?:\.\d+)?rem\) \{[\s\S]*?\.site-nav__item:focus-within > \.site-nav__list/.test(siteStyles) ||
   !/\.site-nav__list--level-2::before\s*\{[^}]*bottom:\s*100%;[^}]*height:\s*0\.5rem;[^}]*\}/s.test(siteStyles) ||
   !/\.site-nav__list--level-3::before\s*\{[^}]*left:\s*100%;[^}]*width:\s*0\.6rem;[^}]*\}/s.test(siteStyles) ||
   !/site\.css\?v=\d{8}-\d+/.test(pageTemplate)

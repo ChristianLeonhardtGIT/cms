@@ -1,0 +1,23 @@
+# Christian Leonhardt
+
+> Beratung und Inhalte zu Product Leadership, Produktorganisation, Organisationsdiagnose, Operating Models, Transformation und Entscheidungsarchitektur.
+
+## Zentrale Seiten
+
+- [Startseite](https://cleonhardt.de/): Überblick über Ansatz, Themen und Einstiegsmöglichkeiten.
+- [ChOS](https://cleonhardt.de/chos): Diagnose- und Denkmodell für komplexe Produktorganisationen.
+- [Leistungen](https://cleonhardt.de/leistungen): Aktuell angebotene Beratungs- und Sparringformate.
+- [Insights](https://cleonhardt.de/insights): Fachbeiträge mit Kurzantworten, Diagnosefragen und praktischen Modellen.
+- [Über Christian Leonhardt](https://cleonhardt.de/ueber-mich): Fachlicher Hintergrund und Arbeitsweise.
+- [Kontakt](https://cleonhardt.de/kontakt): Direkte Kontaktaufnahme.
+
+## Zitierhinweise
+
+- Autor der Fachbeiträge ist Christian Leonhardt.
+- Maßgeblich sind die kanonische URL sowie das sichtbare Veröffentlichungs- und Aktualisierungsdatum des jeweiligen Beitrags.
+- Inhalte dienen der fachlichen Orientierung und ersetzen keine Rechts-, Steuer- oder sonstige Spezialberatung.
+
+## Technische Quellen
+
+- [Sitemap](https://cleonhardt.de/sitemap.xml)
+- [Crawler-Regeln](https://cleonhardt.de/robots.txt)

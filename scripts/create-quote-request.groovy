@@ -115,13 +115,13 @@ String addOfferCta(String html, String title, String offerKey) {
 Node createQuoteForm(Node area) {
     Node form = addComponent(area, 'contactForm', [
         formName: 'angebot-anfragen',
-        formTitle: 'Ihr unverbindliches Angebot',
-        formText: 'Beschreiben Sie kurz, was Sie klären oder verändern möchten. Ich prüfe Ihre Angaben persönlich und melde mich innerhalb von zwei Werktagen. Durch die Anfrage entsteht noch kein Vertrag.',
+        formTitle: 'Dein unverbindliches Angebot',
+        formText: 'Beschreibe kurz, was du klären oder verändern möchtest. Ich prüfe deine Angaben persönlich und melde mich innerhalb von zwei Werktagen. Durch die Anfrage entsteht noch kein Vertrag.',
         requiredSymbol: '*',
         rightText: 'Pflichtfeld',
-        errorTitle: 'Bitte prüfen Sie Ihre Angaben',
-        successTitle: 'Danke für Ihre Angebotsanfrage',
-        successMessage: 'Ihre Angaben wurden übermittelt. Ich prüfe Ihre Anfrage persönlich und melde mich innerhalb von zwei Werktagen.',
+        errorTitle: 'Bitte prüfe deine Angaben',
+        successTitle: 'Danke für deine Angebotsanfrage',
+        successMessage: 'Deine Angaben wurden übermittelt. Ich prüfe deine Anfrage persönlich und melde mich innerhalb von zwei Werktagen.',
         trackMail: true,
         contactMailFrom: 'kontakt@cleonhardt.de',
         contactMailTo: 'kontakt@cleonhardt.de',
@@ -146,7 +146,7 @@ Datenschutz: ${datenschutz}
     ])
 
     Node fieldsets = form.addNode('fieldsets', 'mgnl:area')
-    Node group = addComponent(fieldsets, 'form:components/formGroupFields', [title: 'Angaben für Ihr Angebot'])
+    Node group = addComponent(fieldsets, 'form:components/formGroupFields', [title: 'Angaben für dein Angebot'])
     Node fields = group.addNode('fields', 'mgnl:area')
 
     addComponent(fields, 'form:components/formSelection', [
@@ -175,11 +175,11 @@ Noch unsicher:noch-unsicher'''
     addFormEdit(
         fields,
         'situation',
-        'Welche Situation möchten Sie klären und welches Ergebnis wünschen Sie?',
+        'Welche Situation möchtest du klären und welches Ergebnis wünschst du?',
         true,
         6,
         'text',
-        'Bitte noch keine vertraulichen oder besonders sensiblen Informationen übermitteln. Einige Sätze reichen für die erste Einordnung.'
+        'Bitte übermittle noch keine vertraulichen oder besonders sensiblen Informationen. Einige Sätze reichen für die erste Einordnung.'
     )
 
     addComponent(fields, 'form:components/formSelection', [
@@ -235,7 +235,8 @@ setProperties(page, [
     title: 'Angebot anfragen',
     navigationTitle: 'Angebot anfragen',
     windowTitle: 'Unverbindliches Angebot anfragen – Christian Leonhardt',
-    metaDescription: 'Fragen Sie ein unverbindliches Angebot für Clarity Session, Sparring, Diagnostik oder Workshop an. Persönlich geprüft und passend zu Ihrer Situation.',
+    metaDescription: 'Frag ein unverbindliches Angebot für Clarity Session, Sparring, Diagnostik oder Workshop an. Persönlich geprüft und passend zu deiner Situation.',
+    dateModified: '2026-09-02',
     hideInNavigation: true,
     brandName: 'Christian Leonhardt',
     footerText: 'Product Leadership · Organisation · Transformation'
@@ -245,27 +246,28 @@ Node main = page.addNode('main', 'mgnl:area')
 addComponent(main, 'hero', [
     eyebrow: 'Angebot anfragen',
     title: 'Ein passender Rahmen beginnt mit einer klaren Anfrage.',
-    description: 'Wählen Sie das gewünschte Format und beschreiben Sie kurz Ihre Situation. Sie erhalten kein automatisches Standardangebot, sondern eine persönliche Rückmeldung und einen nachvollziehbaren Vorschlag für Umfang und nächsten Schritt.'
+    description: 'Wähle das gewünschte Format und beschreibe kurz deine Situation. Du erhältst kein automatisches Standardangebot, sondern eine persönliche Rückmeldung und einen nachvollziehbaren Vorschlag für Umfang und nächsten Schritt.'
 ])
 
 addText(main, 'So geht es weiter', '''
 <div class="quote-process">
-  <article class="mvp-panel"><span class="mvp-number">1</span><h3>Anfrage</h3><p>Sie nennen das gewünschte Format und geben uns den notwendigen Kontext für eine erste Einordnung.</p></article>
+  <article class="mvp-panel"><span class="mvp-number">1</span><h3>Anfrage</h3><p>Du nennst das gewünschte Format und gibst mir den notwendigen Kontext für eine erste Einordnung.</p></article>
   <article class="mvp-panel"><span class="mvp-number">2</span><h3>Rückfragen</h3><p>Falls Umfang, Beteiligte oder Zielbild noch offen sind, klären wir diese Punkte in einem kurzen persönlichen Gespräch.</p></article>
-  <article class="mvp-panel mvp-panel--accent"><span class="mvp-number">3</span><h3>Angebot</h3><p>Sie erhalten einen konkreten Vorschlag mit Leistungsumfang, Ergebnis, Zeitrahmen und transparentem Nettopreis.</p></article>
+  <article class="mvp-panel mvp-panel--accent"><span class="mvp-number">3</span><h3>Angebot</h3><p>Du erhältst einen konkreten Vorschlag mit Leistungsumfang, Ergebnis, Zeitrahmen und transparentem Nettopreis.</p></article>
 </div>
 <div class="quote-note">
   <strong>Unverbindlich und persönlich geprüft</strong>
-  <p>Die Anfrage löst keine Bestellung aus. Ein Vertrag entsteht erst, wenn Sie ein anschließend übermitteltes Angebot ausdrücklich annehmen.</p>
+  <p>Die Anfrage löst keine Bestellung aus. Ein Vertrag entsteht erst, wenn du ein anschließend übermitteltes Angebot ausdrücklich annimmst.</p>
 </div>''', true)
 
 createQuoteForm(main)
 
-addText(main, 'Sie sind beim Format noch unsicher?', '''
-<p>Wählen Sie im Formular „Noch unsicher“. Entscheidend ist nicht, dass Sie das passende Produkt bereits kennen, sondern dass die Situation und das gewünschte Ergebnis nachvollziehbar werden.</p>
-<p>Alternativ erreichen Sie mich direkt unter <a href="mailto:kontakt@cleonhardt.de">kontakt@cleonhardt.de</a>.</p>''')
+addText(main, 'Du bist beim Format noch unsicher?', '''
+<p>Wähle im Formular „Noch unsicher“. Entscheidend ist nicht, dass du das passende Produkt bereits kennst, sondern dass die Situation und das gewünschte Ergebnis nachvollziehbar werden.</p>
+<p>Alternativ erreichst du mich direkt unter <a href="mailto:kontakt@cleonhardt.de">kontakt@cleonhardt.de</a>.</p>''')
 
 Node servicesPage = website.getNode('/leistungen')
+servicesPage.setProperty('dateModified', '2026-09-02')
 for (Node component : servicesPage.getNode('main').nodes) {
     if (!component.hasProperty('text')) {
         continue
@@ -280,7 +282,7 @@ for (Node component : servicesPage.getNode('main').nodes) {
     component.setProperty('text', html)
 }
 
-Node finalCta = findByProperty(servicesPage, 'title', 'Sie müssen das Format nicht vorab kennen.')
+Node finalCta = findByProperty(servicesPage, 'title', 'Du musst das Format nicht vorab kennen.')
 if (finalCta != null) {
     finalCta.setProperty('buttonText', 'Angebot anfragen')
     Node chooser = finalCta.hasNode('pageLinkChooser')

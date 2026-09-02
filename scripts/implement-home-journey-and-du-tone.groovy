@@ -133,7 +133,7 @@ replacements.put('zu Ihnen', 'zu dir')
     'Sie wählen':'du wählst', 'Sie beschreiben':'du beschreibst', 'Sie prüfen':'du prüfst',
     'Sie starten':'du startest', 'Sie nutzen':'du nutzt', 'Sie vergleichen':'du vergleichst',
     'Sie suchen':'du suchst', 'Sie übermitteln':'du übermittelst', 'Sie kontaktieren':'du kontaktierst',
-    'Sie haben':'du hast', 'Sie werden':'du wirst', 'Sie entscheiden':'du entscheidest',
+    'Sie haben':'du hast', 'Sie entscheiden':'du entscheidest',
     'Sie sehen':'du siehst', 'Sie brauchen':'du brauchst', 'Sie benötigen':'du benötigst'
 ].each { source, target -> replacements.put(source, target) }
 
