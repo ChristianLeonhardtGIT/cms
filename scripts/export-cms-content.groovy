@@ -4,6 +4,8 @@ import javax.jcr.Session
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 
 // Deliberately excludes users, userroles, config, scripts and password-manager
 // workspaces. Those may contain credentials or personal data and belong only in
@@ -43,7 +45,7 @@ workspaces.each { String workspace ->
 }
 
 Files.writeString(target.resolve('EXPORT-METADATA.txt'), """\
-createdAt=${new Date().format("yyyy-MM-dd'T'HH:mm:ssXXX")}
+createdAt=${OffsetDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)}
 exported=${exported.join(',')}
 excluded=users,userroles,config,scripts,passwordManager
 unavailable=${unavailable.join(' | ')}

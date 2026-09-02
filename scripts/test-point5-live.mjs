@@ -2,8 +2,8 @@ const baseUrl = process.env.SITE_URL ?? 'https://cleonhardt.de';
 
 const pages = new Map([
   ['/praxisfaelle', ['ChOS in der Praxis', 'keine Kundenreferenzen', 'Fallmuster 03']],
-  ['/chos-selbstcheck', ['ChOS Selbstcheck', '20 Fragen', 'weder übertragen noch gespeichert']],
-  ['/chos', ['ChOS selbst anwenden', '/chos-selbstcheck', '/praxisfaelle']],
+  ['/chos-selbstcheck', ['ChOS Selbstcheck', '20 Fragen', 'keine Antworten übertragen oder gespeichert']],
+  ['/chos', ['ChOS auf deine Organisation anwenden.', '/chos-selbstcheck', '/praxisfaelle']],
 ]);
 
 for (const [path, expected] of pages) {

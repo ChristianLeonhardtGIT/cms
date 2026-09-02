@@ -32,4 +32,12 @@ assert.deepEqual(findings, [], `Inkonsistente Ansprache in Content-Quellen: ${JS
 const migration = await readFile('scripts/implement-home-journey-and-du-tone.groovy', 'utf8');
 assert.doesNotMatch(migration, /'Sie werden'\s*:\s*'du wirst'/, 'Anaphorisches "Sie werden" darf nicht pauschal ersetzt werden.');
 
+const repairMigration = await readFile('scripts/fix-editorial-du-tone.groovy', 'utf8');
+assert.match(repairMigration, /current\.getDepth\(\)/, 'Die JCR-Tiefe muss Groovy-4-kompatibel explizit gelesen werden.');
+assert.doesNotMatch(repairMigration, /current\.depth\b/, 'JCR node.depth wird in Groovy 4 als unbekannte Property aufgelöst.');
+
+const exportScript = await readFile('scripts/export-cms-content.groovy', 'utf8');
+assert.match(exportScript, /OffsetDateTime\.now\(\)/, 'Export-Metadaten müssen die Java-Time-API verwenden.');
+assert.doesNotMatch(exportScript, /new Date\(\)\.format\(/, 'Date.format ist unter Groovy 4 nicht verfügbar.');
+
 console.log(`Redaktioneller Quellencheck bestanden: ${sources.length} Content-Skripte.`);
