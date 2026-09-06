@@ -16,7 +16,7 @@
 		"test:visibility-source": "node scripts/test-visibility-source.mjs",
 		"test:editorial-geo-visibility": "npm run test:editorial-source && npm run test:geo-source && npm run test:sitemap-source && npm run test:visibility-source",
 		"test:tone": "node scripts/audit-site-tone.mjs",
-		"test:beta-portal": "node --test beta-portal/test.mjs",
+		"test:beta-portal": "node --test beta-portal/test.mjs beta-portal/sparring.test.mjs",
 		"mgnl": "node node_modules/@magnolia/cli",
 		"start": "npm run mgnl -- start"
 	},

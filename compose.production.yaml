@@ -60,6 +60,7 @@ services:
     build:
       context: ./beta-portal
     environment:
+      WORKSPACE_SPARRING_ENABLED: ${WORKSPACE_SPARRING_ENABLED:-false}
       BETA_PORT: "3000"
       BETA_DATA_DIR: /app/data
       BETA_PUBLIC_ORIGIN: https://cleonhardt.de

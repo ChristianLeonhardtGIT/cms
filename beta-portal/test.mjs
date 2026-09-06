@@ -201,6 +201,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   process.env.BETA_HOST = '127.0.0.1';
   process.env.BETA_COOKIE_SECURE = 'false';
   process.env.BETA_PUBLIC_ORIGIN = origin;
+  process.env.WORKSPACE_SPARRING_ENABLED = 'true';
   const token = randomToken();
   const ownerToken = randomToken();
   const startAt = `${start}T00:00:00.000Z`;
@@ -581,6 +582,65 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(response.status, 200);
   assert.match(await response.text(), /Persönlicher Zugriff/);
 
+  // Full authenticated HTTP flow, including forged IDs, CSRF and content handling.
+  const { SparringRepository, POLICY_VERSION, INTAKE_FIELDS } = await import('./lib/sparring.mjs');
+  const sparringRepo = new SparringRepository(directory);
+  await updateStore(store => {
+    const client = store.users.find(u => u.role !== 'owner');
+    client.activeUntil = addDays(new Date(), 60);
+    client.readUntil = addDays(new Date(), 90);
+  });
+  const accounts = JSON.parse(await readFile(path.join(directory, 'accounts.json'), 'utf8'));
+  const clientAccount = accounts.users.find(u => u.role !== 'owner');
+  const ownerAccount = accounts.users.find(u => u.role === 'owner');
+  const getPage = async (route, cookie) => fetch(`${origin}${route}`, { headers: { cookie }, redirect: 'manual' });
+  const submit = async (route, cookie, values) => fetch(`${origin}${route}`, { method: 'POST', redirect: 'manual', headers: { cookie, 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(values) });
+  const overview = await getPage('/workspace/sparring', ownerSessionCookie);
+  response = await submit('/workspace/sparring', ownerSessionCookie, { nonce: hidden(await overview.text(), 'nonce'), clientId: clientAccount.id });
+  assert.equal(response.status, 303);
+  const sparringRoute = response.headers.get('location');
+  const sparringId = sparringRoute.split('/').at(-1);
+  let sparringHtml = await (await getPage(sparringRoute, participantLoginCookie)).text();
+  response = await submit(sparringRoute, participantLoginCookie, { action: 'intake', nonce: hidden(sparringHtml, 'nonce'), accepted: POLICY_VERSION, business: 'yes', ...Object.fromEntries(Object.keys(INTAKE_FIELDS).map(k => [k, 'Abstrahiertes Anliegen'])) });
+  assert.equal(response.status, 303);
+  sparringHtml = await (await getPage(sparringRoute, ownerSessionCookie)).text();
+  response = await submit(sparringRoute, participantLoginCookie, { action: 'start', nonce: hidden(sparringHtml, 'nonce') });
+  assert.equal(response.status, 403); // A nonce from another session cannot authorize.
+  sparringHtml = await (await getPage(sparringRoute, ownerSessionCookie)).text();
+  response = await submit(sparringRoute, ownerSessionCookie, { action: 'start', nonce: hidden(sparringHtml, 'nonce') });
+  assert.equal(response.status, 303);
+  sparringHtml = await (await getPage(sparringRoute, participantLoginCookie)).text();
+  response = await submit(sparringRoute, participantLoginCookie, { action: 'message', nonce: hidden(sparringHtml, 'nonce'), requestId: 'http-test-request-123', body: '<script>private-http-marker</script>' });
+  assert.equal(response.status, 303);
+  assert.equal(response.headers.get('location'), sparringRoute);
+  response = await getPage(sparringRoute, ownerSessionCookie);
+  assert.match(response.headers.get('cache-control'), /no-store/);
+  const chatHtml = await response.text();
+  assert.match(chatHtml, /&lt;script&gt;private-http-marker/);
+  assert.doesNotMatch(chatHtml, /<script>private-http-marker/);
+  const foreign = await sparringRepo.create(ownerAccount, { id: randomUUID() });
+  response = await getPage(`/workspace/api/sparring/${foreign.id}`, participantLoginCookie);
+  assert.equal(response.status, 404);
+  assert.equal((await fetch(`${origin}/workspace/api/sparring/${sparringId}`)).status, 401);
+  sparringHtml = await (await getPage(sparringRoute, participantLoginCookie)).text();
+  response = await submit(`/workspace/sparring/${foreign.id}`, participantLoginCookie, { action: 'message', nonce: hidden(sparringHtml, 'nonce'), requestId: 'forged-id-request-123', body: 'forbidden' });
+  assert.equal(response.status, 403);
+  const capturedErrors = [];
+  const originalError = console.error;
+  console.error = (...parts) => capturedErrors.push(parts.join(' '));
+  try {
+    const invalidCookie = await fetch(`${origin}/workspace/api/sparring/${sparringId}`, { headers: { cookie: 'invalid%=private-http-marker' } });
+    assert.equal(invalidCookie.status, 500);
+  } finally { console.error = originalError; }
+  assert.deepEqual(capturedErrors, ['[workspace] request failed']);
+  const apiResult = await getPage(`/workspace/api/sparring/${sparringId}`, ownerSessionCookie);
+  assert.match(apiResult.headers.get('cache-control'), /no-store/);
+  assert.equal((await apiResult.json()).messages.length, 1);
+  const ownerChat = await (await getPage(sparringRoute, ownerSessionCookie)).text();
+  assert.equal((await submit(sparringRoute, ownerSessionCookie, { action: 'complete', nonce: hidden(ownerChat, 'nonce') })).status, 303);
+  assert.equal((await sparringRepo.get(sparringId, ownerAccount)).status, 'completed');
+  await sparringRepo.deleteUser(foreign.clientId);
+
   const stored = JSON.parse(await readFile(path.join(directory, 'accounts.json'), 'utf8'));
   assert.equal(stored.users.length, 2);
   assert.equal(stored.users[0].passwordHash.includes('Eine-sehr-lange'), false);
@@ -624,4 +684,6 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
 
   response = await fetch(`${origin}/workspace/api/workspace/bootstrap`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 401);
+  assert.deepEqual(await sparringRepo.list(clientAccount), []);
+
 });

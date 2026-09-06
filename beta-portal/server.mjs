@@ -1,3 +1,5 @@
+import { SparringRepository, SparringError, engagementEnd } from './lib/sparring.mjs';
+import { sparringList, sparringDetail } from './lib/sparring-ui.mjs';
 import { createServer } from 'node:http';
 import { createHash } from 'node:crypto';
 import { readFile, readdir, realpath, stat } from 'node:fs/promises';
@@ -44,6 +46,8 @@ const offlineWorkerPath = path.join(applicationDirectory, 'public', 'offline-sw.
 const chosDirectory = path.resolve(process.env.BETA_CHOS_DIR || path.join(applicationDirectory, 'chos-reader'));
 const dataDirectory = process.env.BETA_DATA_DIR || '/app/data';
 const workspaceRepository = new FileWorkspaceRepository(dataDirectory);
+const sparringRepository = new SparringRepository(dataDirectory);
+const sparringEnabled = process.env.WORKSPACE_SPARRING_ENABLED === 'true';
 const portalVersion = JSON.parse(await readFile(path.join(applicationDirectory, 'package.json'), 'utf8')).version;
 const workspaceDirectory = path.join(applicationDirectory, 'public', 'workspace');
 const workspaceIndex = await readFile(path.join(workspaceDirectory, 'index.html'), 'utf8');
@@ -73,6 +77,7 @@ async function purgeExpiredAccounts() {
     if (expired.length) store.users = store.users.filter((user) => !expired.includes(user.id));
     return expired;
   });
+  await sparringRepository.purge((await loadStore()).users.map(user => user.id));
   if (deletedIds.length) {
     await Promise.all(deletedIds.map((userId) => workspaceRepository.delete(userId)));
     for (const [token, session] of sessions) {
@@ -139,11 +144,11 @@ function redirect(response, location, setCookie) {
   response.end('Weiterleitung');
 }
 
-function page({ title, eyebrow = 'ChOS Beta', body }) {
+function page({ title, eyebrow = 'Workspace', body }) {
   return `<!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHtml(title)} · ChOS Beta</title><link rel="stylesheet" href="/workspace/assets/portal.css?v=20260824-3"><script type="module" src="/workspace/assets/workspace-migration.mjs"></script></head>
-<body><header class="site-header"><a class="brand" href="/workspace/" aria-label="ChOS Beta Startseite">ChOS<span>Beta</span></a></header>
+<title>${escapeHtml(title)} · Workspace</title><link rel="stylesheet" href="/workspace/assets/portal.css?v=20260824-3"><script type="module" src="/workspace/assets/workspace-migration.mjs"></script></head>
+<body><header class="site-header"><a class="brand" href="/workspace/" aria-label="Workspace Startseite">ChOS<span>Workspace</span></a></header>
 <main><div class="shell"><p class="eyebrow">${escapeHtml(eyebrow)}</p>${body}</div></main>
 <footer><span>© Christian Leonhardt</span><a href="https://cleonhardt.de/impressum">Impressum</a><a href="https://cleonhardt.de/datenschutz">Datenschutz</a></footer></body></html>`;
 }
@@ -299,7 +304,7 @@ function dashboardPage(request, user, phase) {
       <article><p class="card-label">Zugriffsphase</p><h2>${phaseText(phase)}</h2><dl><div><dt>Aktiv bis</dt><dd>${formatDate(user.activeUntil)}</dd></div><div><dt>Lesbar bis</dt><dd>${formatDate(user.readUntil)}</dd></div></dl></article>
       <article><p class="card-label">Persönliche Begleitung</p><h2>${Number(user.supportHoursTotal) - Number(user.supportHoursUsed)} Stunden verfügbar</h2><p>${user.supportHoursUsed} von ${user.supportHoursTotal} Stunden genutzt.</p></article>
     </section>
-    <section class="content-card"><div><p class="card-label">Nächster Schritt</p><h2>Onboarding und Arbeitsrahmen</h2><p>Prüfe den Ablauf, die Arbeitsregeln und was du vor dem ersten Termin vorbereiten solltest.</p></div><a class="button${readOnly ? ' muted' : ''}" href="/workspace/onboarding">Onboarding öffnen</a></section>
+    ${sparringEnabled ? '<section class="content-card"><h2>Async Clarity Sparring</h2><a class="button" href="/workspace/sparring">Meine Sparrings</a></section>' : ''}<section class="content-card"><div><p class="card-label">Nächster Schritt</p><h2>Onboarding und Arbeitsrahmen</h2><p>Prüfe den Ablauf, die Arbeitsregeln und was du vor dem ersten Termin vorbereiten solltest.</p></div><a class="button${readOnly ? ' muted' : ''}" href="/workspace/onboarding">Onboarding öffnen</a></section>
     <section class="content-card"><div><p class="card-label">Local-first Arbeitsfläche</p><h2>ChOS Workspace</h2><p>Arbeitsfälle, Beobachtungen und Annahmen werden zuerst auf deinem Gerät gespeichert und anschließend geschützt synchronisiert.</p></div><a class="button" href="/workspace/workspace/">Workspace öffnen</a></section>`
   });
 }
@@ -498,9 +503,9 @@ async function offlineReaderManifest() {
 
 function decorateChosHtml(content) {
   return content.toString('utf8')
-    .replace('<script type="module" src="/workspace/assets/workspace-migration.mjs"></script></head>', '<link rel="stylesheet" href="/workspace/assets/owner-bridge.css"><script type="module" src="/workspace/assets/workspace-migration.mjs"></script></head>')
+    .replace('</head>', '<link rel="stylesheet" href="/workspace/assets/owner-bridge.css"><script type="module" src="/workspace/assets/workspace-migration.mjs"></script></head>')
     .replace('</body>', `<div class="chos-owner-tools" data-offline-reader>
-      <div class="chos-owner-actions"><a class="chos-owner-access chos-owner-workspace" href="/workspace/workspace/">Workspace</a><button class="chos-owner-offline" type="button" data-offline-toggle aria-expanded="false" aria-controls="chos-offline-panel">Offline lesen</button><a class="chos-owner-access" href="/workspace/konto" aria-label="Persönlichen Zugang verwalten">Zugang</a></div>
+      <div class="chos-owner-actions">${sparringEnabled ? '<a class="chos-owner-access" href="/workspace/sparring">Sparring</a>' : ''}<a class="chos-owner-access chos-owner-workspace" href="/workspace/workspace/">Workspace</a><button class="chos-owner-offline" type="button" data-offline-toggle aria-expanded="false" aria-controls="chos-offline-panel">Offline lesen</button><a class="chos-owner-access" href="/workspace/konto" aria-label="Persönlichen Zugang verwalten">Zugang</a></div>
       <section class="chos-offline-panel" id="chos-offline-panel" data-offline-panel hidden aria-labelledby="chos-offline-heading">
         <button class="chos-offline-close" type="button" data-offline-close aria-label="Offline-Einstellungen schließen">×</button>
         <p class="chos-offline-label">Auf diesem Gerät</p><h2 id="chos-offline-heading">ChOS offline lesen</h2>
@@ -589,6 +594,68 @@ function failedLogin(key) {
   loginAttempts.set(key, attempts);
 }
 
+
+async function handleSparring(request, response, url) {
+  if (!url.pathname.startsWith('/workspace/sparring') && !url.pathname.startsWith('/workspace/api/sparring') && url.pathname !== '/workspace/assets/sparring.mjs') return false;
+  if (!sparringEnabled) { sendJson(response, 404, { error: 'Nicht freigeschaltet.' }); return true; }
+  const auth = await authenticatedUser(request);
+  if (!auth) { sendJson(response, 401, { error: 'Anmeldung erforderlich.' }); return true; }
+  try {
+    if (url.pathname === '/workspace/assets/sparring.mjs' && request.method === 'GET') {
+      send(response, 200, await readFile(path.join(applicationDirectory, 'public', 'sparring.mjs'), 'utf8'), workspaceHeaders('text/javascript; charset=utf-8')); return true;
+    }
+    const match = url.pathname.match(/^\/workspace\/(api\/)?sparring(?:\/([a-f0-9-]{36}))?$/);
+    if (!match) throw new SparringError(404, 'Nicht gefunden.');
+    const [, api, id] = match;
+    const purpose = `sparring:${auth.token}:${id || 'new'}`;
+    if (request.method === 'GET') {
+      if (id) {
+        const e = await sparringRepository.get(id, auth.user);
+        sparringRepository.expire(e, new Date());
+        if (api) {
+          const other = auth.user.id === e.clientId ? e.coachId : e.clientId;
+          sendJson(response, 200, { status: e.status, messages: e.messages, otherReadIndex: e.messages.findIndex(m => m.id === e.read[other]) });
+        } else send(response, 200, page({ title: e.product.name, body: sparringDetail(e, auth.user, { escapeHtml, nonce: issueNonce(requestIp(request), purpose), requestId: randomToken() }) }), workspaceHeaders());
+      } else {
+        const clients = auth.user.role === 'owner' ? (await loadStore()).users.filter(user => user.role !== 'owner' && accessPhase(user) === 'active') : null;
+        send(response, 200, page({ title: 'Meine Sparrings', body: sparringList(await sparringRepository.list(auth.user), clients, { escapeHtml, nonce: issueNonce(requestIp(request), purpose) }) }));
+      }
+      return true;
+    }
+    if (request.method !== 'POST' || api) throw new SparringError(405, 'Methode nicht erlaubt.');
+    if (auth.phase !== 'active' && auth.phase !== 'owner') throw new SparringError(403, 'Das Konto hat derzeit nur Lesezugriff.');
+    if (!String(request.headers['content-type']).startsWith('application/x-www-form-urlencoded')) throw new SparringError(415, 'Nur Textformulare sind erlaubt.');
+    if (request.headers['sec-fetch-site'] === 'cross-site') throw new SparringError(403, 'Anfrage nicht erlaubt.');
+    let body = ''; let length = 0;
+    for await (const chunk of request) {
+      length += chunk.length;
+      if (length > 160 * 1024) throw new SparringError(413, 'Anfrage zu groß.');
+      body += chunk.toString('utf8');
+    }
+    const form = new URLSearchParams(body);
+    if (!consumeNonce(form.get('nonce'), requestIp(request), purpose)) throw new SparringError(403, 'Formular abgelaufen. Bitte die Seite neu öffnen.');
+    if (!id) {
+      const client = findUserById(await loadStore(), form.get('clientId'));
+      if (!client || accessPhase(client) !== 'active') throw new SparringError(403, 'Kundenkonto nicht verfügbar.');
+      const e = await sparringRepository.create(auth.user, client);
+      redirect(response, `/workspace/sparring/${e.id}`);
+    } else {
+      if (form.get('action') === 'start') {
+        const engagement = await sparringRepository.get(id, auth.user);
+        const client = findUserById(await loadStore(), engagement.clientId);
+        const end = new Date(engagementEnd(new Date()));
+        if (!client || new Date(client.activeUntil) < end || new Date(client.readUntil) < new Date(end.getTime() + 30 * 86400000)) throw new SparringError(409, 'Der Kontozugang muss die Laufzeit und 30 Tage Nachlauf abdecken.');
+      }
+      await sparringRepository.act(id, auth.user, form.get('action'), Object.fromEntries(form));
+      redirect(response, `/workspace/sparring/${id}`);
+    }
+  } catch (error) {
+    if (!(error instanceof SparringError)) throw error;
+    send(response, error.status, page({ title: 'Sparring', body: `<h1>Aktion nicht möglich</h1><p>${escapeHtml(error.message)}</p><a href="/workspace/sparring">Zurück zu meinen Sparrings</a>` }));
+  }
+  return true;
+}
+
 export const server = createServer(async (request, response) => {
   try {
     const url = new URL(request.url, 'http://workspace.local');
@@ -601,6 +668,7 @@ export const server = createServer(async (request, response) => {
       response.writeHead(308, { ...commonHeaders(), Location: '/workspace' + url.pathname.slice(5) + url.search });
       return response.end();
     }
+    if (await handleSparring(request, response, url)) return;
     if (url.pathname === '/workspace/health'  && request.method === 'GET') {
       send(response, 200, JSON.stringify({ status: 'ok', version: portalVersion }), { ...commonHeaders('application/json; charset=utf-8') });
       return;
@@ -801,6 +869,7 @@ export const server = createServer(async (request, response) => {
         current.disabledAt = new Date().toISOString();
         current.updatedAt = new Date().toISOString();
       });
+      await sparringRepository.deleteUser(auth.user.id);
       await workspaceRepository.delete(auth.user.id);
       await updateStore((store) => {
         store.users = store.users.filter((entry) => entry.id !== auth.user.id);

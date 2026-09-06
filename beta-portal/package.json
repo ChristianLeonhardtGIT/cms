@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.mjs",
     "admin": "node admin.mjs",
-    "test": "node --test test.mjs"
+    "test": "node --test test.mjs sparring.test.mjs"
   },
   "engines": {
     "node": ">=24"
