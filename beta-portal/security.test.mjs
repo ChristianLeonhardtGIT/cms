@@ -1,0 +1,66 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
+import { randomBytes } from 'node:crypto';
+import { TOTP, Secret } from 'otpauth';
+import { seal, unseal } from './lib/private-data.mjs';
+import { newMfa, verifyMfa } from './lib/mfa.mjs';
+import { deliverNotifications } from './lib/notifications.mjs';
+import { SparringRepository } from './lib/sparring.mjs';
+import { recordDeletion } from './lib/privacy-ledger.mjs';
+
+test('Verschlüsselung authentisiert Inhalt, Zweck und Schlüsselversion; Rotation erhält Lesbarkeit', async t => {
+  const dir = await mkdtemp('/tmp/cms-encryption-');
+  t.after(async () => { delete process.env.WORKSPACE_KEYRING_FILE; await rm(dir,{recursive:true,force:true}); });
+  process.env.WORKSPACE_KEYRING_FILE = `${dir}/keys.json`;
+  const old = randomBytes(32).toString('hex');
+  await writeFile(process.env.WORKSPACE_KEYRING_FILE,JSON.stringify({active:'a',keys:{a:old}}));
+  const value = seal({text:'sensitive-marker'},'test');
+  assert.doesNotMatch(JSON.stringify(value),/sensitive-marker/);
+  assert.deepEqual(unseal(value,'test'),{text:'sensitive-marker'});
+  assert.throws(() => unseal(value,'other'));
+  assert.throws(() => unseal({...value,data:Buffer.from('tampered').toString('base64')},'test'));
+  await writeFile(process.env.WORKSPACE_KEYRING_FILE,JSON.stringify({active:'b',keys:{a:old,b:randomBytes(32).toString('hex')}}));
+  assert.deepEqual(unseal(value,'test'),{text:'sensitive-marker'});
+  assert.equal(seal('next','test').keyId,'b');
+});
+test('Authenticator-Code verlangt gültigen Code und verhindert Wiederverwendung', () => {
+  const user = {id:'test-owner',email:'test@example.test'};
+  const setup = newMfa(user);user.mfa={secret:setup.secret};
+  const timestamp=1800000000000;
+  const totp = new TOTP({secret:Secret.fromBase32(setup.display)});
+  const code=totp.generate({timestamp});
+  const counter=verifyMfa(user,code,timestamp);
+  assert.equal(typeof counter,'number');
+  user.mfa.lastCounter=counter;
+  assert.equal(verifyMfa(user,code,timestamp),null);
+  assert.equal(verifyMfa(user,'invalid',timestamp),null);
+});
+test('Mail bleibt inhaltsfrei, Fehler behalten Vormerkung, Erfolg quittiert genau diese Nachrichtengruppe', async () => {
+  const e={id:'case',notification:{user:{pendingSince:'2026-01-01T00:00:00Z'}},messages:[{body:'secret-marker'}]};
+  const repo={load:async()=>({engagements:[e]}),update:async fn=>fn({engagements:[e]})};
+  const users=[{id:'user',email:'mail@example.test',role:'owner'}];
+  await assert.rejects(deliverNotifications(repo,users,{from:'service@example.test',transport:{sendMail:async()=>{throw new Error('fail');}}}));
+  assert.equal(e.notification.user.sentAt,undefined);
+  let payload;
+  await deliverNotifications(repo,users,{from:'service@example.test',transport:{sendMail:async p=>{payload=p;return {accepted:['mail@example.test']};}}});
+  assert.doesNotMatch(JSON.stringify(payload),/secret-marker|case/);
+  assert.ok(e.notification.user.sentAt);
+});
+test('Separates Löschjournal verhindert Wiederherstellung gelöschter Nachrichten aus einem alten Snapshot', async t => {
+  const dir=await mkdtemp('/tmp/cms-ledger-');
+  t.after(async()=>{delete process.env.WORKSPACE_DELETION_LEDGER;await rm(dir,{recursive:true,force:true});});
+  process.env.WORKSPACE_DELETION_LEDGER=`${dir}/separate/deletions.jsonl`;
+  const repo=new SparringRepository(dir);
+  const coach={id:'owner',role:'owner'},user={id:'client'};
+  const e=await repo.create(coach,user);
+  await repo.update(data=>{data.engagements[0].messages.push({id:'message',body:'deleted-marker'});});
+  const snapshot=await readFile(repo.file);
+  await recordDeletion('erase-message',user.id,e.id,'message');
+  await writeFile(repo.file,snapshot);
+  assert.deepEqual((await repo.get(e.id,user)).messages,[]);
+  await repo.update(()=>{});
+  assert.doesNotMatch(await readFile(repo.file,'utf8'),/deleted-marker/);
+  await recordDeletion('delete-user',user.id);
+  assert.deepEqual(await repo.list(user),[]);
+});

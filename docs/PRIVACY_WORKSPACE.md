@@ -1,5 +1,7 @@
 # Sparring: technischer Datenschutzstand und Pilotfreigabe
 
+Aktualisierung: Die Sicherheits-/Betriebsergänzungen vom 6. September stehen in [WORKSPACE_OPERATIONS.md](WORKSPACE_OPERATIONS.md); die folgende Bestandsaufnahme dokumentiert den ersten Implementierungsschritt.
+
 Stand: 6. September 2026. Technische Bestandsaufnahme, keine abschließende
 rechtliche Bewertung. Pilot standardmäßig deaktiviert.
 

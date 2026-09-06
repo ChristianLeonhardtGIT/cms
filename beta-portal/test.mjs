@@ -684,6 +684,16 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
 
   response = await fetch(`${origin}/workspace/api/workspace/bootstrap`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 401);
+  const { TOTP, Secret } = await import('otpauth');
+  response = await getPage('/workspace/mfa', ownerSessionCookie);
+  const setupHtml = await response.text();
+  const setupSecret = setupHtml.match(/<code>([A-Z2-7]+)<\/code>/)[1];
+  const ownerTotp = new TOTP({ secret: Secret.fromBase32(setupSecret) });
+  response = await submit('/workspace/mfa', ownerSessionCookie, { nonce: hidden(setupHtml, 'nonce'), password: 'Owner-Testpasswort-2026!', otp: ownerTotp.generate() });
+  assert.equal(response.status, 303);
+  const loginWithoutOtp = await fetch(`${origin}/workspace/login`);
+  response = await submit('/workspace/login', '', { nonce: hidden(await loginWithoutOtp.text(), 'nonce'), email: 'owner@beispiel.de', password: 'Owner-Testpasswort-2026!' });
+  assert.equal(response.status, 401);
   assert.deepEqual(await sparringRepo.list(clientAccount), []);
 
 });

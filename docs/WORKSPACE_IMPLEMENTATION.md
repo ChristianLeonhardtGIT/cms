@@ -1,5 +1,7 @@
 # Workspace und Async Clarity Sparring
 
+Aktualisierung: Die Sicherheits-/Betriebsergänzungen vom 6. September stehen in [WORKSPACE_OPERATIONS.md](WORKSPACE_OPERATIONS.md); die folgende Bestandsaufnahme dokumentiert den ersten Implementierungsschritt.
+
 Bestandsaufnahme: 6. September 2026, Basis `origin/main` = `cf937f1` (GitHub abgerufen).
 
 ## Vorhandene Architektur

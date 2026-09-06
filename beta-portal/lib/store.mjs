@@ -1,3 +1,4 @@
+import { deletionEvents } from './privacy-ledger.mjs';
 import { chmod, mkdir, open, readFile, rename, unlink } from 'node:fs/promises';
 import path from 'node:path';
 
@@ -29,7 +30,10 @@ export async function ensureStore() {
 
 export async function loadStore() {
   const raw = await readFile(dataFile, 'utf8');
-  return validateStore(JSON.parse(raw));
+  const store = validateStore(JSON.parse(raw));
+  const removed = new Set((await deletionEvents()).filter(e => e.action === 'delete-user').map(e => e.userId));
+  store.users = store.users.filter(user => !removed.has(user.id));
+  return store;
 }
 
 async function writeStore(store) {

@@ -1,3 +1,8 @@
+import { recordDeletion } from './lib/privacy-ledger.mjs';
+import { AuditLog } from './lib/audit.mjs';
+import { newMfa, verifyMfa } from './lib/mfa.mjs';
+import { mailTransport, deliverNotifications } from './lib/notifications.mjs';
+import { hasEncryption } from './lib/private-data.mjs';
 import { SparringRepository, SparringError, engagementEnd } from './lib/sparring.mjs';
 import { sparringList, sparringDetail } from './lib/sparring-ui.mjs';
 import { createServer } from 'node:http';
@@ -33,6 +38,7 @@ const deletedWorkspaceCookie = 'chos_beta_deleted_workspace';
 const sessions = new Map();
 const nonces = new Map();
 const loginAttempts = new Map();
+const IDLE_MS = 30 * 60 * 1000;
 const SESSION_MS = 12 * 60 * 60 * 1000;
 const NONCE_MS = 15 * 60 * 1000;
 const LOGIN_WINDOW_MS = 15 * 60 * 1000;
@@ -47,6 +53,7 @@ const chosDirectory = path.resolve(process.env.BETA_CHOS_DIR || path.join(applic
 const dataDirectory = process.env.BETA_DATA_DIR || '/app/data';
 const workspaceRepository = new FileWorkspaceRepository(dataDirectory);
 const sparringRepository = new SparringRepository(dataDirectory);
+const audit = new AuditLog(dataDirectory);
 const sparringEnabled = process.env.WORKSPACE_SPARRING_ENABLED === 'true';
 const portalVersion = JSON.parse(await readFile(path.join(applicationDirectory, 'package.json'), 'utf8')).version;
 const workspaceDirectory = path.join(applicationDirectory, 'public', 'workspace');
@@ -78,6 +85,7 @@ async function purgeExpiredAccounts() {
     return expired;
   });
   await sparringRepository.purge((await loadStore()).users.map(user => user.id));
+  await audit.purge();
   if (deletedIds.length) {
     await Promise.all(deletedIds.map((userId) => workspaceRepository.delete(userId)));
     for (const [token, session] of sessions) {
@@ -88,6 +96,15 @@ async function purgeExpiredAccounts() {
 }
 
 await purgeExpiredAccounts();
+const mail = await mailTransport();
+let deliveringMail = false;
+setInterval(async () => {
+  if (!sparringEnabled || !mail || deliveringMail) return;
+  deliveringMail = true;
+  try { await deliverNotifications(sparringRepository, (await loadStore()).users, mail); }
+  catch { console.error('[workspace] notification failed'); }
+  finally { deliveringMail = false; }
+}, 60000).unref();
 setInterval(() => purgeExpiredAccounts().catch((error) => console.error('[workspace] cleanup failed')), CLEANUP_INTERVAL_MS).unref();
 
 function escapeHtml(value) {
@@ -211,7 +228,7 @@ function formatDate(value) {
 async function authenticatedUser(request) {
   const token = cookies(request)[sessionCookie];
   const session = token && sessions.get(token);
-  if (!session || session.expiresAt <= Date.now()) {
+  if (!session || session.expiresAt <= Date.now() || session && Date.now() - session.lastActiveAt > IDLE_MS) {
     if (token) sessions.delete(token);
     return null;
   }
@@ -221,13 +238,14 @@ async function authenticatedUser(request) {
     sessions.delete(token);
     return null;
   }
+  if (!request.url.startsWith('/workspace/api/')) session.lastActiveAt = Date.now();
   return { user, token, phase: accessPhase(user) };
 }
 
 function createSession(user) {
   const token = randomToken();
   const hardEnd = user.role === 'owner' ? Number.POSITIVE_INFINITY : new Date(user.readUntil).getTime();
-  sessions.set(token, { userId: user.id, expiresAt: Math.min(Date.now() + SESSION_MS, hardEnd) });
+  sessions.set(token, { userId: user.id, lastActiveAt: Date.now(), expiresAt: Math.min(Date.now() + SESSION_MS, hardEnd) });
   return token;
 }
 
@@ -251,7 +269,7 @@ function loginPage(request, message = '') {
       <form method="post" action="/workspace/login"><input type="hidden" name="nonce" value="${nonce}">
       <label>E-Mail-Adresse<input type="email" name="email" autocomplete="username" required></label>
       <label>Passwort<input type="password" name="password" autocomplete="current-password" required></label>
-      <button type="submit">Anmelden</button></form>
+      <label>Authenticator-Code (wenn eingerichtet)<input name="otp" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6"></label><button type="submit">Anmelden</button></form>
       <p class="microcopy">Noch keine Einladung? Die Beta ist auf fünf Teilnehmende begrenzt und wird persönlich freigeschaltet.</p></section>`
   });
 }
@@ -600,6 +618,7 @@ async function handleSparring(request, response, url) {
   if (!sparringEnabled) { sendJson(response, 404, { error: 'Nicht freigeschaltet.' }); return true; }
   const auth = await authenticatedUser(request);
   if (!auth) { sendJson(response, 401, { error: 'Anmeldung erforderlich.' }); return true; }
+  if (process.env.NODE_ENV === 'production' && auth.user.role === 'owner' && !auth.user.mfa) { redirect(response, '/workspace/mfa'); return true; }
   try {
     if (url.pathname === '/workspace/assets/sparring.mjs' && request.method === 'GET') {
       send(response, 200, await readFile(path.join(applicationDirectory, 'public', 'sparring.mjs'), 'utf8'), workspaceHeaders('text/javascript; charset=utf-8')); return true;
@@ -611,6 +630,7 @@ async function handleSparring(request, response, url) {
     if (request.method === 'GET') {
       if (id) {
         const e = await sparringRepository.get(id, auth.user);
+        if (!api) await audit.record(auth.user.id, 'access', id);
         sparringRepository.expire(e, new Date());
         if (api) {
           const other = auth.user.id === e.clientId ? e.coachId : e.clientId;
@@ -634,10 +654,12 @@ async function handleSparring(request, response, url) {
     }
     const form = new URLSearchParams(body);
     if (!consumeNonce(form.get('nonce'), requestIp(request), purpose)) throw new SparringError(403, 'Formular abgelaufen. Bitte die Seite neu öffnen.');
+    if (id && !['intake','start','complete','cancel','message','read'].includes(form.get('action'))) throw new SparringError(400, 'Unbekannte Aktion.');
     if (!id) {
       const client = findUserById(await loadStore(), form.get('clientId'));
       if (!client || accessPhase(client) !== 'active') throw new SparringError(403, 'Kundenkonto nicht verfügbar.');
       const e = await sparringRepository.create(auth.user, client);
+      await audit.record(auth.user.id, 'create', e.id);
       redirect(response, `/workspace/sparring/${e.id}`);
     } else {
       if (form.get('action') === 'start') {
@@ -647,6 +669,7 @@ async function handleSparring(request, response, url) {
         if (!client || new Date(client.activeUntil) < end || new Date(client.readUntil) < new Date(end.getTime() + 30 * 86400000)) throw new SparringError(409, 'Der Kontozugang muss die Laufzeit und 30 Tage Nachlauf abdecken.');
       }
       await sparringRepository.act(id, auth.user, form.get('action'), Object.fromEntries(form));
+      await audit.record(auth.user.id, form.get('action'), id);
       redirect(response, `/workspace/sparring/${id}`);
     }
   } catch (error) {
@@ -667,6 +690,30 @@ export const server = createServer(async (request, response) => {
       if (!['GET', 'HEAD'].includes(request.method)) return sendJson(response, 409, { error: 'Bitte die Seite unter /workspace neu öffnen.' });
       response.writeHead(308, { ...commonHeaders(), Location: '/workspace' + url.pathname.slice(5) + url.search });
       return response.end();
+    }
+    if (url.pathname === '/workspace/mfa') {
+      const auth = await authenticatedUser(request);
+      if (!auth) return redirect(response, '/workspace/login');
+      if (auth.user.role !== 'owner') return send(response, 403, 'Kein Zugriff');
+      if (auth.user.mfa) return send(response, 200, page({ title: 'Zweitfaktor', body: '<h1>Authenticator ist eingerichtet</h1><p>Bei der nächsten Anmeldung ist zusätzlich dein Code erforderlich.</p><a href="/workspace/sparring">Zu meinen Sparrings</a>' }));
+      if (process.env.NODE_ENV === 'production' && !hasEncryption()) return send(response, 503, 'Verschlüsselung ist noch nicht eingerichtet.');
+      const session = sessions.get(auth.token);
+      if (!session.pendingMfa) session.pendingMfa = newMfa(auth.user);
+      const purpose = `mfa:${auth.token}`;
+      if (request.method === 'POST') {
+        const form = await requestBody(request);
+        const key = attemptKey(request, `mfa:${auth.user.id}`);
+        if (!consumeNonce(form.get('nonce'), requestIp(request), purpose) || isRateLimited(key)) return send(response, 403, 'Bitte erneut öffnen oder später versuchen.');
+        const counter = verifyMfa({ ...auth.user, mfa: { secret: session.pendingMfa.secret } }, form.get('otp'));
+        if (counter === null || !await verifyPassword(form.get('password'), auth.user.passwordHash)) { failedLogin(key); return send(response, 403, 'Passwort oder Authenticator-Code ist ungültig.'); }
+        await updateStore(store => { const user = findUserById(store, auth.user.id); user.mfa = { secret: session.pendingMfa.secret, lastCounter: counter }; });
+        await audit.record(auth.user.id, 'mfa-enrolled', auth.user.id);
+        delete session.pendingMfa;
+        invalidateUserSessions(auth.user.id, auth.token);
+        return redirect(response, '/workspace/mfa');
+      }
+      if (request.method !== 'GET') return send(response, 405, 'Methode nicht erlaubt');
+      return send(response, 200, page({ title: 'Authenticator einrichten', body: `<h1>Authenticator einrichten</h1><p>Lege in deiner Authenticator-App einen zeitbasierten Code für cleonhardt.de an. Trage dort diesen Einrichtungsschlüssel ein und bewahre ihn sicher auf.</p><p><code>${escapeHtml(session.pendingMfa.display)}</code></p><form method="post" action="/workspace/mfa" autocomplete="off"><input type="hidden" name="nonce" value="${issueNonce(requestIp(request), purpose)}"><label>Aktuelles Passwort<input name="password" type="password" required autocomplete="current-password"></label><label>Authenticator-Code<input name="otp" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required autocomplete="one-time-code"></label><button>Einrichtung bestätigen</button></form>` }));
     }
     if (await handleSparring(request, response, url)) return;
     if (url.pathname === '/workspace/health'  && request.method === 'GET') {
@@ -719,6 +766,16 @@ export const server = createServer(async (request, response) => {
       if (!valid || ['invited', 'disabled', 'expired'].includes(phase)) {
         failedLogin(key);
         return send(response, 401, loginPage(request, 'E-Mail-Adresse oder Passwort sind nicht korrekt.'));
+      }
+      if (user.mfa) {
+        const verified = await updateStore(store => {
+          const current = findUserById(store, user.id);
+          const counter = verifyMfa(current, form.get('otp'));
+          if (counter === null) return false;
+          current.mfa.lastCounter = counter;
+          return true;
+        });
+        if (!verified) { failedLogin(key); return send(response, 401, loginPage(request, 'Anmeldung nicht bestätigt. Bitte Zugangsdaten und Authenticator-Code prüfen.')); }
       }
       loginAttempts.delete(key);
       const token = createSession(user);
@@ -869,6 +926,8 @@ export const server = createServer(async (request, response) => {
         current.disabledAt = new Date().toISOString();
         current.updatedAt = new Date().toISOString();
       });
+      await recordDeletion('delete-user', auth.user.id);
+      await audit.record(auth.user.id, 'delete-user', auth.user.id);
       await sparringRepository.deleteUser(auth.user.id);
       await workspaceRepository.delete(auth.user.id);
       await updateStore((store) => {

@@ -1,3 +1,5 @@
+import { deletionEvents, applyDeletions } from './privacy-ledger.mjs';
+import { seal, unseal } from './private-data.mjs';
 import { randomUUID } from 'node:crypto';
 import { mkdir, open, readFile, rename, unlink } from 'node:fs/promises';
 import path from 'node:path';
@@ -41,9 +43,9 @@ export class SparringRepository {
   }
   async load() {
     try {
-      const data = JSON.parse(await readFile(this.file, 'utf8'));
+      const data = unseal(JSON.parse(await readFile(this.file, 'utf8')), 'sparring-store');
       if (data.version !== 1 || !Array.isArray(data.engagements)) throw new Error('Invalid sparring schema');
-      return data;
+      return applyDeletions(data, await deletionEvents());
     } catch (error) {
       if (error.code === 'ENOENT') return { version: 1, engagements: [] };
       throw error;
@@ -62,7 +64,7 @@ export class SparringRepository {
     try {
       const data = await this.load();
       const result = await mutator(data);
-      const serialized = JSON.stringify(data);
+      const serialized = JSON.stringify(seal(data, 'sparring-store'));
       if (Buffer.byteLength(serialized) > 16 * 1024 * 1024) fail(409, 'Speichergrenze erreicht. Bitte Christian kontaktieren.');
       const file = await open(temporary, 'wx', 0o600);
       try { await file.writeFile(serialized); await file.sync(); } finally { await file.close(); }
@@ -98,7 +100,17 @@ export class SparringRepository {
       const e = this.find(data, id, user);
       this.expire(e, now);
       const coach = user.role === 'owner' && e.coachId === user.id;
-      if (action === 'intake') {
+      if (e.restricted && !['read', 'unrestrict', 'erase-message', 'erase-intake', 'restrict'].includes(action)) fail(403, 'Verarbeitung ist eingeschränkt.');
+      if (['restrict', 'unrestrict', 'erase-message', 'erase-intake'].includes(action)) {
+        if (!coach) fail(403, 'Aktion nicht erlaubt.');
+        if (action === 'restrict') e.restricted = true;
+        if (action === 'unrestrict') e.restricted = false;
+        if (action === 'erase-message') {
+          if (!e.messages.some(m => m.id === input.messageId)) fail(404, 'Nachricht nicht gefunden.');
+          e.messages = e.messages.filter(m => m.id !== input.messageId);
+        }
+        if (action === 'erase-intake') e.intake = null;
+      } else if (action === 'intake') {
         if (coach || e.status !== 'intake') fail(403, 'Intake ist nicht bearbeitbar.');
         if (input.accepted !== POLICY_VERSION || input.business !== 'yes') fail(400, 'Bitte B2B-Beauftragung und Datenregeln bestätigen.');
         e.intake = Object.fromEntries(Object.keys(INTAKE_FIELDS).map(key => [key, text(input[key])]));

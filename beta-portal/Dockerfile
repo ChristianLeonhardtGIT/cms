@@ -1,11 +1,12 @@
 FROM node:24-alpine
 
 WORKDIR /app
-COPY package.json ./
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --ignore-scripts
 COPY lib ./lib
 COPY public ./public
 COPY chos-reader ./chos-reader
-COPY server.mjs admin.mjs ./
+COPY server.mjs admin.mjs privacy-admin.mjs ./
 
 ENV NODE_ENV=production \
     BETA_PORT=3000 \

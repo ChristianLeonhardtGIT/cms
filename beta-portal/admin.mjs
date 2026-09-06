@@ -1,5 +1,6 @@
-import { SparringRepository } from './lib/sparring.mjs';
 #!/usr/bin/env node
+import { recordDeletion } from './lib/privacy-ledger.mjs';
+import { SparringRepository } from './lib/sparring.mjs';
 import { randomUUID } from 'node:crypto';
 import { accessPhase, addDays, normalizeEmail, parseStartDate, randomToken, tokenDigest } from './lib/security.mjs';
 import { ensureStore, findUserByEmail, loadStore, updateStore } from './lib/store.mjs';
@@ -145,6 +146,7 @@ async function remove(options) {
     user.updatedAt = new Date().toISOString();
     return user.id;
   });
+  await recordDeletion('delete-user', userId);
   await new SparringRepository(process.env.BETA_DATA_DIR || '/app/data').deleteUser(userId);
   await workspaceRepository.delete(userId);
   await updateStore((store) => {
