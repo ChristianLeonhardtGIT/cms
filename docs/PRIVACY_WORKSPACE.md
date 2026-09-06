@@ -60,10 +60,9 @@ Datensatz einschließlich Freitext, nicht nur ein Flag.
 2. Die Workspace-Datenschutzinformation mit Zwecken, Datenkategorien,
    Rechtsgrundlagen, Empfängern, Aufbewahrung, Löschung und Betroffenenrechten ist
    veröffentlicht. Die juristische Ergänzung zu Pflichtangaben, Datenquelle,
-   automatisierten Entscheidungen und vertragsabhängiger Hostinger-Zuordnung ist
-   in `scripts/update-privacy-policy.groovy` vorbereitet und muss noch über
-   Magnolia Author veröffentlicht werden. Hinweise und Regelbestätigung bleiben
-   davon getrennt.
+   automatisierten Entscheidungen und vertragsabhängiger Hostinger-Zuordnung
+   wurde ebenfalls veröffentlicht und als bereinigter JCR-Folgeexport
+   versioniert. Hinweise und Regelbestätigung bleiben davon getrennt.
 3. Hostinger/VPS-Standort, Vertrag/AVV, Unterauftragnehmer, mögliche Transfers,
    Zugriffsbefugnisse und Retention des bestätigten wöchentlichen VPS-Backups
    anhand aktueller Unterlagen prüfen.

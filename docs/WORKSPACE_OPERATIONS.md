@@ -82,8 +82,10 @@ Seite und das Kontaktformular. Der bereinigte JCR-Export für `legalDocuments` u
 `website` ist unter `content-snapshots/2026-09-06-workspace-privacy` versioniert.
 Nach der juristischen Vorprüfung wurde die Quelle um Pflichtangaben, Datenquelle,
 fehlende automatisierte Entscheidungen und eine vertragsabhängige
-Hostinger-Zuordnung ergänzt. Diese Folgefassung benötigt erneut Ausführung auf
-Magnolia Author, Sichtprüfung und einen bereinigten JCR-Folgeexport.
+Hostinger-Zuordnung ergänzt. Diese Folgefassung wurde auf Magnolia Author
+ausgeführt, öffentlich geprüft und unter
+`content-snapshots/2026-09-06-workspace-legal-review` als bereinigter
+JCR-Folgeexport versioniert.
 
 Zum Abschluss Health, Anmeldung, fremde Objekt-ID, `/beta`-Weiterleitung,
 Datenschutzseite, SMTP-Testzustellung und den Status des abgeschalteten Timers
