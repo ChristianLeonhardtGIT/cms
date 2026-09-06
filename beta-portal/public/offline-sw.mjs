@@ -1,6 +1,6 @@
 const CACHE_PREFIX = 'chos-reader-v1-';
-const READY_URL = new URL('/beta/__offline__/ready', self.location.origin).href;
-const SUPPORT_PATHS = new Set(['/beta/assets/owner-bridge.css', '/beta/assets/offline-reader.mjs', '/beta/api/chos/knowledge-index']);
+const READY_URL = new URL('/workspace/__offline__/ready', self.location.origin).href;
+const SUPPORT_PATHS = new Set(['/workspace/assets/owner-bridge.css', '/workspace/assets/offline-reader.mjs', '/workspace/api/chos/knowledge-index']);
 
 self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (event) => event.waitUntil(self.clients.claim()));
@@ -31,7 +31,7 @@ async function cachedResponse(request) {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
-  const eligible = url.origin === self.location.origin && (url.pathname.startsWith('/beta/chos/') || SUPPORT_PATHS.has(url.pathname));
+  const eligible = url.origin === self.location.origin && (url.pathname.startsWith('/workspace/chos/') || SUPPORT_PATHS.has(url.pathname));
   if (!eligible) return;
   event.respondWith((async () => {
     const cached = await cachedResponse(event.request);

@@ -25,7 +25,7 @@ dieses Repository zurückgeführt werden.
 Das eigenständige ChOS-Fachrepository bleibt
 `ChristianLeonhardtGIT/ChOS`. Der CMS-Ownerbereich synchronisiert dessen
 freigegebenen Branch `main` automatisch und stellt ihn geschützt unter
-`/beta/chos/` dar. ChOS-Fachinhalte werden nicht im CMS-Repository bearbeitet.
+`/workspace/chos/` dar. ChOS-Fachinhalte werden nicht im CMS-Repository bearbeitet.
 
 ## Nicht versionierte Daten
 

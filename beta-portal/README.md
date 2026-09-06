@@ -25,7 +25,7 @@ Geschützter ChOS-Arbeitsbereich für maximal fünf persönlich freigeschaltete 
 docker compose up -d --build beta-portal
 ```
 
-Der lokale Direktzugriff ist standardmäßig `http://127.0.0.1:3090/beta/`.
+Der lokale Direktzugriff ist standardmäßig `http://127.0.0.1:3090/workspace/`.
 
 ## Konto einladen
 
@@ -48,7 +48,7 @@ docker compose exec beta-portal node admin.mjs owner \
 
 Der einmalige Link führt zur eigenen Passwortvergabe. Das Owner-Konto zählt
 nicht zum Limit der fünf Beta-Teilnehmenden und besitzt als einziges Konto
-Zugriff auf `/beta/chos/`. Der eingebundene Lesestand wird aus dem privaten
+Zugriff auf `/workspace/chos/`. Der eingebundene Lesestand wird aus dem privaten
 ChOS-Repository übernommen:
 
 ```bash
@@ -81,7 +81,7 @@ serverseitigen Workspace. Die Bestätigung muss exakt der normalisierten
 E-Mail-Adresse entsprechen.
 
 Angemeldete Nutzer verwalten ihre eigene E-Mail-Adresse und ihr Passwort unter
-`/beta/konto`. Beide Änderungen verlangen das aktuelle Passwort. Eine
+`/workspace/konto`. Beide Änderungen verlangen das aktuelle Passwort. Eine
 Selbstlöschung verlangt zusätzlich die exakte E-Mail-Adresse, löscht Konto und
 serverseitigen Workspace und entfernt anschließend die zugehörige Local-first-
 Arbeitskopie aus dem aktuellen Browser. Passwortänderungen beenden alle anderen
@@ -104,7 +104,7 @@ ChOS-Offline-Caches dieses Browserprofils.
 ## ChOS Workspace
 
 Angemeldete Teilnehmende und das Owner-Konto erreichen die neue Arbeitsfläche
-unter `/beta/workspace/`. Neue Arbeitsfälle und Diagnoseelemente werden zuerst
+unter `/workspace/workspace/`. Neue Arbeitsfälle und Diagnoseelemente werden zuerst
 lokal im Browser gespeichert. Bei bestehender Verbindung gleicht die
 Arbeitsfläche ihre Operationen mit dem persönlichen Serverbestand ab.
 

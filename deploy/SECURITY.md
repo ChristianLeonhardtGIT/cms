@@ -6,7 +6,7 @@ Stand: 30. Juli 2026
 
 - Website: `https://cleonhardt.de`
 - Magnolia Author: `https://cms.cleonhardt.de`
-- ChOS Beta: `https://cleonhardt.de/beta/` (nur nach persönlicher Einladung)
+- ChOS Beta: `https://cleonhardt.de/workspace/` (nur nach persönlicher Einladung)
 - Öffentlich freigegebene Ports: SSH `22/tcp`, HTTP `80/tcp`, HTTPS `443/tcp` und HTTP/3 `443/udp`
 - Magnolia Author ist am Host ausschließlich an `127.0.0.1:8080` gebunden und wird nur über Caddy veröffentlicht.
 

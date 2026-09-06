@@ -8,7 +8,7 @@ Der Login-Bereich schafft einen geschützten Einstieg für maximal fünf B2B-Bet
 
 Zusätzlich existiert ein getrenntes, dauerhaftes Owner-Konto für Christian
 Leonhardt. Nur dieses Konto darf die vollständige ChOS-Lesekopie unter
-`/beta/chos/` aufrufen. Owner-Zugriff und Teilnehmerzugriff werden serverseitig
+`/workspace/chos/` aufrufen. Owner-Zugriff und Teilnehmerzugriff werden serverseitig
 bei jeder Datei geprüft.
 
 ## Nutzerweg
@@ -50,7 +50,7 @@ bei jeder Datei geprüft.
 
 ## Technische Abgrenzung
 
-Der Dienst läuft unter `cleonhardt.de/beta/`, wird aber als eigenständige Anwendung betrieben. Caddy leitet ausschließlich diesen URL-Bereich an das Beta-Portal weiter; alle übrigen Website-Inhalte bleiben bei Magnolia.
+Der Dienst läuft unter `cleonhardt.de/workspace/`, wird aber als eigenständige Anwendung betrieben. Caddy leitet ausschließlich diesen URL-Bereich an das Beta-Portal weiter; alle übrigen Website-Inhalte bleiben bei Magnolia.
 
 Der Owner-Bereich liefert den geprüften statischen ChOS-Stand aus dem privaten
 Repository als durchsuchbare, mobile Lesekopie aus. Eine Aktualisierung erfolgt

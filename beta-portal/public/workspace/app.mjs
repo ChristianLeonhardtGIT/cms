@@ -67,7 +67,7 @@ async function jsonRequest(url, options = {}) {
     headers: { Accept: 'application/json', ...(options.headers || {}) }
   });
   if (response.status === 401) {
-    window.location.assign('/beta/login');
+    window.location.assign('/workspace/login');
     throw new Error('Anmeldung abgelaufen.');
   }
   const body = await response.json().catch(() => ({}));
@@ -142,7 +142,7 @@ function relatedCard(entry, index) {
 
   const fullLink = document.createElement('a');
   fullLink.className = 'related-card__link';
-  fullLink.href = `/beta/chos/${entry.path}`;
+  fullLink.href = `/workspace/chos/${entry.path}`;
   fullLink.target = '_blank';
   fullLink.rel = 'noopener';
   fullLink.textContent = 'Vollständig lesen ↗';
@@ -265,7 +265,7 @@ async function syncNow() {
   try {
     const request = createSyncRequest(runtime);
     if (!bootstrap.canWrite) request.operations = [];
-    const response = await jsonRequest('/beta/api/workspace/sync', {
+    const response = await jsonRequest('/workspace/api/workspace/sync', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-ChOS-Client': 'workspace-v1' },
       body: JSON.stringify(request)
@@ -366,7 +366,7 @@ window.addEventListener('online', () => {
 window.addEventListener('offline', () => updateNetworkStatus());
 
 async function start() {
-  bootstrap = await jsonRequest('/beta/api/workspace/bootstrap');
+  bootstrap = await jsonRequest('/workspace/api/workspace/bootstrap');
   runtimeStore = createIndexedDbRuntimeStore(`user:${bootstrap.user.id}`);
   runtime = await runtimeStore.load();
   if (bootstrap.knowledge?.available) {
@@ -377,7 +377,7 @@ async function start() {
 
   if (bootstrap.knowledge?.available) {
     try {
-      knowledgeIndex = validateKnowledgeIndex(await jsonRequest('/beta/api/workspace/knowledge-index'));
+      knowledgeIndex = validateKnowledgeIndex(await jsonRequest('/workspace/api/workspace/knowledge-index'));
       knowledgeState = 'current';
       cacheKnowledgeIndex(knowledgeIndex);
     } catch {

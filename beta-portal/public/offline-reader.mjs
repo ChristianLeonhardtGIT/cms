@@ -1,6 +1,6 @@
 const root = document.querySelector('[data-offline-reader]');
 const CACHE_PREFIX = 'chos-reader-v1-';
-const READY_URL = new URL('/beta/__offline__/ready', location.origin).href;
+const READY_URL = new URL('/workspace/__offline__/ready', location.origin).href;
 const KNOWLEDGE_CACHE_KEY = 'chos:published-knowledge-index:v1';
 
 if (root) {
@@ -24,7 +24,7 @@ if (root) {
 
   async function registerWorker() {
     if (!registration) {
-      registration = await navigator.serviceWorker.register('/beta/offline-sw.mjs?v=20260824-2', { scope: '/beta/' });
+      registration = await navigator.serviceWorker.register('/workspace/offline-sw.mjs?v=20260824-2', { scope: '/workspace/' });
       await navigator.serviceWorker.ready;
     }
     return registration;
@@ -84,7 +84,7 @@ if (root) {
           headers: { 'Content-Type': file.contentType }
         }));
       }
-      const knowledgeFile = bundle.files.find((file) => file.url === '/beta/api/chos/knowledge-index');
+      const knowledgeFile = bundle.files.find((file) => file.url === '/workspace/api/chos/knowledge-index');
       if (knowledgeFile) localStorage.setItem(KNOWLEDGE_CACHE_KEY, new TextDecoder().decode(decodeBase64(knowledgeFile.body)));
       const readyManifest = { ...bundle.manifest, savedAt: new Date().toISOString() };
       await cache.put(READY_URL, new Response(JSON.stringify(readyManifest), {
@@ -135,7 +135,7 @@ if (root) {
       showStatus('Der aktuelle ChOS-Stand wird vollständig gespeichert …');
       try {
         navigator.storage?.persist?.().catch(() => false);
-        const response = await fetch('/beta/api/chos/offline-bundle', { cache: 'no-store', credentials: 'same-origin' });
+        const response = await fetch('/workspace/api/chos/offline-bundle', { cache: 'no-store', credentials: 'same-origin' });
         if (!response.ok || response.redirected) throw new Error('Der aktuelle Lesestand konnte nicht abgerufen werden.');
         const readyManifest = await storeBundle(await response.json());
         await registerWorker();

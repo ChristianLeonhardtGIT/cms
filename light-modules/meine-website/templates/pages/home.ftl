@@ -592,7 +592,7 @@
           [/#if]
           [#if navigationContactPage?has_content]
             <div class="site-nav__footer">
-              <a class="site-nav__workspace-link" href="/beta/workspace">
+              <a class="site-nav__workspace-link" href="/workspace/workspace">
                 <span>ChOS Workspace</span>
                 <span aria-hidden="true">→</span>
               </a>
@@ -685,7 +685,7 @@
               </ul>
             </div>
             <div class="chos-workspace-entry__action">
-              <a class="button button--light" href="/beta/workspace">
+              <a class="button button--light" href="/workspace/workspace">
                 Workspace öffnen
                 <span aria-hidden="true">→</span>
               </a>

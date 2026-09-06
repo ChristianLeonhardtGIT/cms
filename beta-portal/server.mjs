@@ -61,6 +61,7 @@ const accountDeleteScript = await readFile(accountDeleteScriptPath, 'utf8');
 const ownerBridgeCss = await readFile(ownerBridgeCssPath, 'utf8');
 const offlineReaderScript = await readFile(offlineReaderScriptPath, 'utf8');
 const offlineWorker = await readFile(offlineWorkerPath, 'utf8');
+const legacyWorker = await readFile(path.join(applicationDirectory, 'public', 'legacy-worker.mjs'), 'utf8');
 
 await ensureStore();
 
@@ -82,7 +83,7 @@ async function purgeExpiredAccounts() {
 }
 
 await purgeExpiredAccounts();
-setInterval(() => purgeExpiredAccounts().catch((error) => console.error(`[beta-portal] cleanup: ${error.message}`)), CLEANUP_INTERVAL_MS).unref();
+setInterval(() => purgeExpiredAccounts().catch((error) => console.error('[workspace] cleanup failed')), CLEANUP_INTERVAL_MS).unref();
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -113,7 +114,7 @@ function commonHeaders(contentType = 'text/html; charset=utf-8') {
     'Content-Type': contentType,
     'Cache-Control': 'no-store, max-age=0',
     Pragma: 'no-cache',
-    'Content-Security-Policy': "default-src 'none'; style-src 'self'; img-src 'self' data:; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
+    'Content-Security-Policy': "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
     'X-Content-Type-Options': 'nosniff',
     'X-Frame-Options': 'DENY',
     'X-Robots-Tag': 'noindex, nofollow, noarchive',
@@ -141,8 +142,8 @@ function redirect(response, location, setCookie) {
 function page({ title, eyebrow = 'ChOS Beta', body }) {
   return `<!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${escapeHtml(title)} · ChOS Beta</title><link rel="stylesheet" href="/beta/assets/portal.css?v=20260824-3"></head>
-<body><header class="site-header"><a class="brand" href="/beta/" aria-label="ChOS Beta Startseite">ChOS<span>Beta</span></a></header>
+<title>${escapeHtml(title)} · ChOS Beta</title><link rel="stylesheet" href="/workspace/assets/portal.css?v=20260824-3"><script type="module" src="/workspace/assets/workspace-migration.mjs"></script></head>
+<body><header class="site-header"><a class="brand" href="/workspace/" aria-label="ChOS Beta Startseite">ChOS<span>Beta</span></a></header>
 <main><div class="shell"><p class="eyebrow">${escapeHtml(eyebrow)}</p>${body}</div></main>
 <footer><span>© Christian Leonhardt</span><a href="https://cleonhardt.de/impressum">Impressum</a><a href="https://cleonhardt.de/datenschutz">Datenschutz</a></footer></body></html>`;
 }
@@ -232,7 +233,7 @@ function invalidateUserSessions(userId, keepToken = null) {
 }
 
 function destinationFor(user) {
-  return user.role === 'owner' ? '/beta/chos/' : '/beta/';
+  return user.role === 'owner' ? '/workspace/chos/' : '/workspace/';
 }
 
 function loginPage(request, message = '') {
@@ -242,7 +243,7 @@ function loginPage(request, message = '') {
     body: `<section class="auth-card"><h1>Im geschützten ChOS-Bereich anmelden</h1>
       <p class="lede">Der Zugang ist ausschließlich für persönlich freigeschaltete ChOS- und Beta-Konten vorgesehen.</p>
       ${message ? `<p class="notice error" role="alert">${escapeHtml(message)}</p>` : ''}
-      <form method="post" action="/beta/login"><input type="hidden" name="nonce" value="${nonce}">
+      <form method="post" action="/workspace/login"><input type="hidden" name="nonce" value="${nonce}">
       <label>E-Mail-Adresse<input type="email" name="email" autocomplete="username" required></label>
       <label>Passwort<input type="password" name="password" autocomplete="current-password" required></label>
       <button type="submit">Anmelden</button></form>
@@ -260,7 +261,7 @@ function invitationPage(request, invitation, message = '') {
       <p class="lede">Willkommen, ${escapeHtml(invitation.user.name)}. Lege jetzt dein persönliches Passwort fest.</p>
       <div class="notice"><strong>Vor der Nutzung:</strong> ${owner ? 'Dieser dauerhaft angelegte Zugang ist persönlich und darf nicht weitergegeben werden.' : 'Der Zugang setzt die vereinbarte Teilnahme, Vertraulichkeit und Zahlung voraus. ChOS darf nicht kopiert, vervielfältigt oder außerhalb der Beta angewandt werden.'}</div>
       ${message ? `<p class="notice error" role="alert">${escapeHtml(message)}</p>` : ''}
-      <form method="post" action="/beta/einladung"><input type="hidden" name="nonce" value="${nonce}">
+      <form method="post" action="/workspace/einladung"><input type="hidden" name="nonce" value="${nonce}">
       <label>Passwort <span>mindestens 14 Zeichen</span><input type="password" name="password" autocomplete="new-password" minlength="14" maxlength="128" required></label>
       <label>Passwort wiederholen<input type="password" name="confirm" autocomplete="new-password" minlength="14" maxlength="128" required></label>
       <label class="check"><input type="checkbox" name="accepted" value="yes" required><span>${owner ? 'Ich aktiviere meinen persönlichen ChOS-Zugang.' : 'Ich bestätige die vereinbarten Teilnahme- und Vertraulichkeitsbedingungen.'}</span></label>
@@ -293,13 +294,13 @@ function dashboardPage(request, user, phase) {
     title: 'Arbeitsbereich',
     body: `<div class="dashboard-head"><div><p class="status">${phaseText(phase)}</p><h1>Willkommen, ${escapeHtml(user.name)}</h1>
     <p class="lede">${readOnly ? 'Deine aktive Beta ist beendet. Inhalte bleiben bis zum Ende der Lesephase verfügbar.' : scheduled ? `Deine Arbeitsphase beginnt am ${formatDate(user.startAt)}.` : 'Hier entsteht dein geschützter ChOS-Arbeitsbereich.'}</p></div>
-    <form method="post" action="/beta/logout"><input type="hidden" name="nonce" value="${logoutNonce}"><button class="secondary" type="submit">Abmelden</button></form></div>
+    <form method="post" action="/workspace/logout"><input type="hidden" name="nonce" value="${logoutNonce}"><button class="secondary" type="submit">Abmelden</button></form></div>
     <section class="grid">
       <article><p class="card-label">Zugriffsphase</p><h2>${phaseText(phase)}</h2><dl><div><dt>Aktiv bis</dt><dd>${formatDate(user.activeUntil)}</dd></div><div><dt>Lesbar bis</dt><dd>${formatDate(user.readUntil)}</dd></div></dl></article>
       <article><p class="card-label">Persönliche Begleitung</p><h2>${Number(user.supportHoursTotal) - Number(user.supportHoursUsed)} Stunden verfügbar</h2><p>${user.supportHoursUsed} von ${user.supportHoursTotal} Stunden genutzt.</p></article>
     </section>
-    <section class="content-card"><div><p class="card-label">Nächster Schritt</p><h2>Onboarding und Arbeitsrahmen</h2><p>Prüfe den Ablauf, die Arbeitsregeln und was du vor dem ersten Termin vorbereiten solltest.</p></div><a class="button${readOnly ? ' muted' : ''}" href="/beta/onboarding">Onboarding öffnen</a></section>
-    <section class="content-card"><div><p class="card-label">Local-first Arbeitsfläche</p><h2>ChOS Workspace</h2><p>Arbeitsfälle, Beobachtungen und Annahmen werden zuerst auf deinem Gerät gespeichert und anschließend geschützt synchronisiert.</p></div><a class="button" href="/beta/workspace/">Workspace öffnen</a></section>`
+    <section class="content-card"><div><p class="card-label">Nächster Schritt</p><h2>Onboarding und Arbeitsrahmen</h2><p>Prüfe den Ablauf, die Arbeitsregeln und was du vor dem ersten Termin vorbereiten solltest.</p></div><a class="button${readOnly ? ' muted' : ''}" href="/workspace/onboarding">Onboarding öffnen</a></section>
+    <section class="content-card"><div><p class="card-label">Local-first Arbeitsfläche</p><h2>ChOS Workspace</h2><p>Arbeitsfälle, Beobachtungen und Annahmen werden zuerst auf deinem Gerät gespeichert und anschließend geschützt synchronisiert.</p></div><a class="button" href="/workspace/workspace/">Workspace öffnen</a></section>`
   });
 }
 
@@ -307,7 +308,7 @@ function onboardingPage(request, user, phase) {
   const logoutNonce = issueNonce(requestIp(request), 'logout');
   return page({
     title: 'Onboarding',
-    body: `<nav class="portal-nav"><a href="/beta/">← Arbeitsbereich</a><form method="post" action="/beta/logout"><input type="hidden" name="nonce" value="${logoutNonce}"><button class="link-button" type="submit">Abmelden</button></form></nav>
+    body: `<nav class="portal-nav"><a href="/workspace/">← Arbeitsbereich</a><form method="post" action="/workspace/logout"><input type="hidden" name="nonce" value="${logoutNonce}"><button class="link-button" type="submit">Abmelden</button></form></nav>
     <p class="status">${phaseText(phase)}</p><h1>Onboarding</h1><p class="lede">Der gemeinsame Rahmen für deine ChOS-Beta.</p>
     <section class="steps"><article><span>01</span><h2>Arbeitsfall abgrenzen</h2><p>Wir arbeiten an einem konkreten organisationalen Fall. Vertrauliche Daten werden nur soweit eingebracht, wie es für die Diagnose erforderlich ist.</p></article>
     <article><span>02</span><h2>Diagnose vor Eingriff</h2><p>Beobachtungen, Interpretationen und Hypothesen werden getrennt. Erst danach folgt ein begrenzter Test.</p></article>
@@ -325,21 +326,21 @@ function accountPage(request, user, { message = '', error = '' } = {}) {
   return page({
     title: 'Konto verwalten',
     eyebrow: 'Persönlicher Zugang',
-    body: `<nav class="portal-nav"><a href="${owner ? '/beta/chos/' : '/beta/workspace/'}">← ${owner ? 'Zurück zu ChOS' : 'Zurück zum Workspace'}</a><form method="post" action="/beta/logout"><input type="hidden" name="nonce" value="${logoutNonce}"><button class="link-button" type="submit">Abmelden</button></form></nav>
+    body: `<nav class="portal-nav"><a href="${owner ? '/workspace/chos/' : '/workspace/workspace/'}">← ${owner ? 'Zurück zu ChOS' : 'Zurück zum Workspace'}</a><form method="post" action="/workspace/logout"><input type="hidden" name="nonce" value="${logoutNonce}"><button class="link-button" type="submit">Abmelden</button></form></nav>
       <p class="status">${owner ? 'Persönlicher Zugriff' : 'Persönliches Konto'}</p><h1>Konto verwalten</h1>
       <p class="lede">Hier verwaltest du die Zugangsdaten für ${escapeHtml(user.name)}.</p>
       ${message ? `<p class="notice success" role="status">${escapeHtml(message)}</p>` : ''}
       ${error ? `<p class="notice error" role="alert">${escapeHtml(error)}</p>` : ''}
       <div class="account-grid">
         <section class="account-card" aria-labelledby="account-email-heading"><p class="card-label">Zugang</p><h2 id="account-email-heading">E-Mail-Adresse ändern</h2><p>Aktuell: <strong>${escapeHtml(user.email)}</strong></p>
-          <form method="post" action="/beta/konto/email"><input type="hidden" name="nonce" value="${emailNonce}">
+          <form method="post" action="/workspace/konto/email"><input type="hidden" name="nonce" value="${emailNonce}">
             <label>Neue E-Mail-Adresse<input type="email" name="email" value="${escapeHtml(user.email)}" autocomplete="email" maxlength="254" required></label>
             <label>Aktuelles Passwort<input type="password" name="current-password" autocomplete="current-password" maxlength="128" required></label>
             <button type="submit">E-Mail-Adresse speichern</button>
           </form>
         </section>
         <section class="account-card" aria-labelledby="account-password-heading"><p class="card-label">Sicherheit</p><h2 id="account-password-heading">Passwort ändern</h2><p>Das neue Passwort muss mindestens 14 Zeichen lang sein.</p>
-          <form method="post" action="/beta/konto/passwort"><input type="hidden" name="nonce" value="${passwordNonce}">
+          <form method="post" action="/workspace/konto/passwort"><input type="hidden" name="nonce" value="${passwordNonce}">
             <label>Aktuelles Passwort<input type="password" name="current-password" autocomplete="current-password" maxlength="128" required></label>
             <label>Neues Passwort<input type="password" name="password" autocomplete="new-password" minlength="14" maxlength="128" required></label>
             <label>Neues Passwort wiederholen<input type="password" name="confirm" autocomplete="new-password" minlength="14" maxlength="128" required></label>
@@ -349,7 +350,7 @@ function accountPage(request, user, { message = '', error = '' } = {}) {
       </div>
       <section class="account-card account-danger" aria-labelledby="account-delete-heading"><p class="card-label">Gefahrenbereich</p><h2 id="account-delete-heading">Konto löschen</h2>
         <p>Damit werden dein Konto und dein serverseitiger Workspace dauerhaft gelöscht. Die lokale Arbeitskopie und ein offline gespeicherter ChOS-Lesestand werden anschließend in diesem Browser entfernt.</p>
-        <form method="post" action="/beta/konto/loeschen"><input type="hidden" name="nonce" value="${deleteNonce}">
+        <form method="post" action="/workspace/konto/loeschen"><input type="hidden" name="nonce" value="${deleteNonce}">
           <label>Aktuelles Passwort<input type="password" name="current-password" autocomplete="current-password" maxlength="128" required></label>
           <label>Zur Bestätigung deine E-Mail-Adresse eingeben<input type="email" name="confirm-email" autocomplete="off" maxlength="254" required></label>
           <button class="danger-button" type="submit">Konto und Workspace dauerhaft löschen</button>
@@ -367,13 +368,13 @@ function accountStatus(value) {
 function accountDeletedPage(userId) {
   return `<!doctype html>
 <html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Konto gelöscht · ChOS</title><link rel="stylesheet" href="/beta/assets/portal.css?v=20260824-3"></head>
+<title>Konto gelöscht · ChOS</title><link rel="stylesheet" href="/workspace/assets/portal.css?v=20260824-3"><script type="module" src="/workspace/assets/workspace-migration.mjs"></script></head>
 <body><header class="site-header"><a class="brand" href="/chos" aria-label="Zurück zu ChOS">ChOS</a></header>
 <main><div class="shell"><p class="eyebrow">Konto gelöscht</p><section class="auth-card" data-deleted-user="${escapeHtml(userId)}"><h1>Dein Konto wurde gelöscht.</h1>
 <p class="lede">Deine serverseitigen Kontodaten und dein Workspace wurden entfernt.</p><p id="local-delete-status" class="notice" role="status">Lokale Arbeitsdaten und offline gespeicherte ChOS-Inhalte werden aus diesem Browser entfernt …</p>
 <a class="button" href="/chos">Zurück zu ChOS</a></section></div></main>
 <footer><span>© Christian Leonhardt</span><a href="https://cleonhardt.de/impressum">Impressum</a><a href="https://cleonhardt.de/datenschutz">Datenschutz</a></footer>
-<script type="module" src="/beta/assets/account-delete.mjs?v=20260824-1"></script></body></html>`;
+<script type="module" src="/workspace/assets/account-delete.mjs?v=20260824-1"></script></body></html>`;
 }
 
 function workspaceHeaders(contentType = 'text/html; charset=utf-8', cache = false) {
@@ -444,9 +445,9 @@ const mimeTypes = new Map([
 
 const offlineReaderExtensions = new Set(mimeTypes.keys());
 const offlineSupportUrls = [
-  '/beta/assets/owner-bridge.css',
-  '/beta/assets/offline-reader.mjs',
-  '/beta/api/chos/knowledge-index'
+  '/workspace/assets/owner-bridge.css',
+  '/workspace/assets/offline-reader.mjs',
+  '/workspace/api/chos/knowledge-index'
 ];
 
 async function listOfflineReaderFiles(directory, relativeDirectory = '') {
@@ -480,14 +481,14 @@ async function offlineReaderSnapshot() {
   const version = fingerprint.digest('hex').slice(0, 16);
   const readerUrls = files
     .filter((file) => file.path !== 'index.html')
-    .map((file) => `/beta/chos/${file.path.split('/').map(encodeURIComponent).join('/')}`);
+    .map((file) => `/workspace/chos/${file.path.split('/').map(encodeURIComponent).join('/')}`);
   return { rootDirectory, files, manifest: {
     schemaVersion: 1,
     version,
     generatedAt: new Date().toISOString(),
     fileCount: 1 + readerUrls.length + offlineSupportUrls.length,
     sizeBytes: files.reduce((sum, file) => sum + file.size, 0) + offlineReaderScript.length + ownerBridgeCss.length + Buffer.byteLength(knowledgeIndexJson),
-    urls: ['/beta/chos/', ...readerUrls, ...offlineSupportUrls]
+    urls: ['/workspace/chos/', ...readerUrls, ...offlineSupportUrls]
   }, knowledgeIndexJson };
 }
 
@@ -497,9 +498,9 @@ async function offlineReaderManifest() {
 
 function decorateChosHtml(content) {
   return content.toString('utf8')
-    .replace('</head>', '<link rel="stylesheet" href="/beta/assets/owner-bridge.css"></head>')
+    .replace('<script type="module" src="/workspace/assets/workspace-migration.mjs"></script></head>', '<link rel="stylesheet" href="/workspace/assets/owner-bridge.css"><script type="module" src="/workspace/assets/workspace-migration.mjs"></script></head>')
     .replace('</body>', `<div class="chos-owner-tools" data-offline-reader>
-      <div class="chos-owner-actions"><a class="chos-owner-access chos-owner-workspace" href="/beta/workspace/">Workspace</a><button class="chos-owner-offline" type="button" data-offline-toggle aria-expanded="false" aria-controls="chos-offline-panel">Offline lesen</button><a class="chos-owner-access" href="/beta/konto" aria-label="Persönlichen Zugang verwalten">Zugang</a></div>
+      <div class="chos-owner-actions"><a class="chos-owner-access chos-owner-workspace" href="/workspace/workspace/">Workspace</a><button class="chos-owner-offline" type="button" data-offline-toggle aria-expanded="false" aria-controls="chos-offline-panel">Offline lesen</button><a class="chos-owner-access" href="/workspace/konto" aria-label="Persönlichen Zugang verwalten">Zugang</a></div>
       <section class="chos-offline-panel" id="chos-offline-panel" data-offline-panel hidden aria-labelledby="chos-offline-heading">
         <button class="chos-offline-close" type="button" data-offline-close aria-label="Offline-Einstellungen schließen">×</button>
         <p class="chos-offline-label">Auf diesem Gerät</p><h2 id="chos-offline-heading">ChOS offline lesen</h2>
@@ -507,7 +508,7 @@ function decorateChosHtml(content) {
         <p class="chos-offline-status" data-offline-status role="status">Offline-Status wird geprüft …</p>
         <div class="chos-offline-buttons"><button type="button" data-offline-save>Aktuellen Stand speichern</button><button type="button" data-offline-remove>Vom Gerät löschen</button></div>
       </section>
-    </div><script type="module" src="/beta/assets/offline-reader.mjs"></script></body>`);
+    </div><script type="module" src="/workspace/assets/offline-reader.mjs"></script></body>`);
 }
 
 async function offlineReaderBundle() {
@@ -518,15 +519,15 @@ async function offlineReaderBundle() {
     let content = await readFile(path.join(snapshot.rootDirectory, file.path));
     if (contentType.startsWith('text/html')) content = Buffer.from(decorateChosHtml(content));
     bundledFiles.push({
-      url: file.path === 'index.html' ? '/beta/chos/' : `/beta/chos/${file.path.split('/').map(encodeURIComponent).join('/')}`,
+      url: file.path === 'index.html' ? '/workspace/chos/' : `/workspace/chos/${file.path.split('/').map(encodeURIComponent).join('/')}`,
       contentType,
       body: content.toString('base64')
     });
   }
   bundledFiles.push(
-    { url: '/beta/assets/owner-bridge.css', contentType: 'text/css; charset=utf-8', body: Buffer.from(ownerBridgeCss).toString('base64') },
-    { url: '/beta/assets/offline-reader.mjs', contentType: 'text/javascript; charset=utf-8', body: Buffer.from(offlineReaderScript).toString('base64') },
-    { url: '/beta/api/chos/knowledge-index', contentType: 'application/json; charset=utf-8', body: Buffer.from(snapshot.knowledgeIndexJson).toString('base64') }
+    { url: '/workspace/assets/owner-bridge.css', contentType: 'text/css; charset=utf-8', body: Buffer.from(ownerBridgeCss).toString('base64') },
+    { url: '/workspace/assets/offline-reader.mjs', contentType: 'text/javascript; charset=utf-8', body: Buffer.from(offlineReaderScript).toString('base64') },
+    { url: '/workspace/api/chos/knowledge-index', contentType: 'application/json; charset=utf-8', body: Buffer.from(snapshot.knowledgeIndexJson).toString('base64') }
   );
   return { schemaVersion: 1, manifest: snapshot.manifest, files: bundledFiles };
 }
@@ -541,13 +542,13 @@ function chosHeaders(contentType, cache = false) {
 
 async function serveChosDocument(request, response, pathname) {
   const auth = await authenticatedUser(request);
-  if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+  if (!auth) return redirect(response, '/workspace/login', cookie(sessionCookie, '', { maxAge: 0 }));
   if (auth.user.role !== 'owner') {
-    return send(response, 403, page({ title: 'Kein Zugriff', body: '<section class="auth-card"><h1>Dieser Bereich ist nicht für dein Konto freigeschaltet.</h1><p><a href="/beta/">Zum Beta-Arbeitsbereich</a></p></section>' }));
+    return send(response, 403, page({ title: 'Kein Zugriff', body: '<section class="auth-card"><h1>Dieser Bereich ist nicht für dein Konto freigeschaltet.</h1><p><a href="/workspace/">Zum Beta-Arbeitsbereich</a></p></section>' }));
   }
   let relativePath;
   try {
-    relativePath = decodeURIComponent(pathname.slice('/beta/chos/'.length));
+    relativePath = decodeURIComponent(pathname.slice('/workspace/chos/'.length));
   } catch {
     return send(response, 400, 'Ungültiger Pfad', commonHeaders('text/plain; charset=utf-8'));
   }
@@ -590,42 +591,54 @@ function failedLogin(key) {
 
 export const server = createServer(async (request, response) => {
   try {
-    const url = new URL(request.url, 'http://beta.local');
-    if (url.pathname === '/beta/health' && request.method === 'GET') {
+    const url = new URL(request.url, 'http://workspace.local');
+    // Keep the old worker URL executable so existing registrations retire safely.
+    if (url.pathname === '/beta/offline-sw.mjs' && request.method === 'GET') {
+      return send(response, 200, legacyWorker, { ...commonHeaders('text/javascript; charset=utf-8'), 'Service-Worker-Allowed': '/beta/' });
+    }
+    if (url.pathname === '/beta' || url.pathname.startsWith('/beta/')) {
+      if (!['GET', 'HEAD'].includes(request.method)) return sendJson(response, 409, { error: 'Bitte die Seite unter /workspace neu öffnen.' });
+      response.writeHead(308, { ...commonHeaders(), Location: '/workspace' + url.pathname.slice(5) + url.search });
+      return response.end();
+    }
+    if (url.pathname === '/workspace/health'  && request.method === 'GET') {
       send(response, 200, JSON.stringify({ status: 'ok', version: portalVersion }), { ...commonHeaders('application/json; charset=utf-8') });
       return;
     }
-    if (url.pathname === '/beta/assets/portal.css' && request.method === 'GET') {
+    if (url.pathname === '/workspace/assets/workspace-migration.mjs' && request.method === 'GET') {
+      return send(response, 200, await readFile(path.join(applicationDirectory, 'public', 'workspace-migration.mjs'), 'utf8'), commonHeaders('text/javascript; charset=utf-8'));
+    }
+    if (url.pathname === '/workspace/assets/portal.css' && request.method === 'GET') {
       send(response, 200, css, { ...commonHeaders('text/css; charset=utf-8'), 'Cache-Control': 'public, max-age=3600' });
       return;
     }
-    if (url.pathname === '/beta/assets/account-delete.mjs' && request.method === 'GET') {
+    if (url.pathname === '/workspace/assets/account-delete.mjs' && request.method === 'GET') {
       send(response, 200, accountDeleteScript, { ...commonHeaders('text/javascript; charset=utf-8'), 'Cache-Control': 'public, max-age=3600' });
       return;
     }
-    if (url.pathname === '/beta/assets/owner-bridge.css' && request.method === 'GET') {
+    if (url.pathname === '/workspace/assets/owner-bridge.css' && request.method === 'GET') {
       send(response, 200, ownerBridgeCss, { ...commonHeaders('text/css; charset=utf-8'), 'Cache-Control': 'private, max-age=3600' });
       return;
     }
-    if (url.pathname === '/beta/assets/offline-reader.mjs' && request.method === 'GET') {
+    if (url.pathname === '/workspace/assets/offline-reader.mjs' && request.method === 'GET') {
       send(response, 200, offlineReaderScript, { ...commonHeaders('text/javascript; charset=utf-8'), 'Cache-Control': 'private, max-age=3600' });
       return;
     }
-    if (url.pathname === '/beta/offline-sw.mjs' && request.method === 'GET') {
+    if (url.pathname === '/workspace/offline-sw.mjs' && request.method === 'GET') {
       send(response, 200, offlineWorker, {
         ...commonHeaders('text/javascript; charset=utf-8'),
         'Cache-Control': 'no-cache, max-age=0',
-        'Service-Worker-Allowed': '/beta/'
+        'Service-Worker-Allowed': '/workspace/'
       });
       return;
     }
-    if (url.pathname === '/beta/login' && request.method === 'GET') {
+    if (url.pathname === '/workspace/login' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
       if (auth) return redirect(response, destinationFor(auth.user));
       send(response, 200, loginPage(request));
       return;
     }
-    if (url.pathname === '/beta/login' && request.method === 'POST') {
+    if (url.pathname === '/workspace/login' && request.method === 'POST') {
       const form = await requestBody(request);
       if (!consumeNonce(form.get('nonce'), requestIp(request), 'login')) return send(response, 400, loginPage(request, 'Die Anmeldung ist abgelaufen. Bitte versuche es erneut.'));
       const email = normalizeEmail(form.get('email'));
@@ -644,22 +657,22 @@ export const server = createServer(async (request, response) => {
       redirect(response, destinationFor(user), cookie(sessionCookie, token, { maxAge: SESSION_MS / 1000 }));
       return;
     }
-    if (url.pathname === '/beta/einladung' && request.method === 'GET' && url.searchParams.has('token')) {
+    if (url.pathname === '/workspace/einladung' && request.method === 'GET' && url.searchParams.has('token')) {
       const token = url.searchParams.get('token');
       const digest = tokenDigest(token);
       const store = await loadStore();
       const user = store.users.find((entry) => entry.inviteTokenHash === digest && entry.status === 'invited' && new Date(entry.inviteExpiresAt).getTime() > Date.now());
       if (!user) return send(response, 410, page({ title: 'Einladung ungültig', body: '<section class="auth-card"><h1>Diese Einladung ist nicht mehr gültig.</h1><p>Bitte fordere eine neue persönliche Einladung an.</p></section>' }));
-      redirect(response, '/beta/einladung', cookie(inviteCookie, token, { maxAge: 3 * 24 * 60 * 60 }));
+      redirect(response, '/workspace/einladung', cookie(inviteCookie, token, { maxAge: 3 * 24 * 60 * 60 }));
       return;
     }
-    if (url.pathname === '/beta/einladung' && request.method === 'GET') {
+    if (url.pathname === '/workspace/einladung' && request.method === 'GET') {
       const invitation = await inviteFromCookie(request);
       if (!invitation) return send(response, 410, page({ title: 'Einladung ungültig', body: '<section class="auth-card"><h1>Diese Einladung ist nicht mehr gültig.</h1><p>Bitte fordere eine neue persönliche Einladung an.</p></section>' }));
       send(response, 200, invitationPage(request, invitation));
       return;
     }
-    if (url.pathname === '/beta/einladung' && request.method === 'POST') {
+    if (url.pathname === '/workspace/einladung' && request.method === 'POST') {
       const invitation = await inviteFromCookie(request);
       if (!invitation) return send(response, 410, page({ title: 'Einladung ungültig', body: '<section class="auth-card"><h1>Diese Einladung ist nicht mehr gültig.</h1></section>' }));
       const form = await requestBody(request);
@@ -685,26 +698,26 @@ export const server = createServer(async (request, response) => {
       redirect(response, destinationFor(user), [cookie(sessionCookie, session, { maxAge: SESSION_MS / 1000 }), cookie(inviteCookie, '', { maxAge: 0 })]);
       return;
     }
-    if (url.pathname === '/beta/logout' && request.method === 'POST') {
+    if (url.pathname === '/workspace/logout' && request.method === 'POST') {
       const auth = await authenticatedUser(request);
       const form = await requestBody(request);
       if (!auth || !consumeNonce(form.get('nonce'), requestIp(request), 'logout')) return send(response, 400, page({ title: 'Abmeldung fehlgeschlagen', body: '<h1>Die Abmeldung konnte nicht bestätigt werden.</h1>' }));
       sessions.delete(auth.token);
-      redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      redirect(response, '/workspace/login', cookie(sessionCookie, '', { maxAge: 0 }));
       return;
     }
-    if (url.pathname === '/beta/konto-geloescht' && request.method === 'GET') {
+    if (url.pathname === '/workspace/konto-geloescht' && request.method === 'GET') {
       const deletedUserId = cookies(request)[deletedWorkspaceCookie];
       const userId = /^[0-9a-f-]{36}$/i.test(String(deletedUserId || '')) ? deletedUserId : '';
       send(response, 200, accountDeletedPage(userId), {
         ...workspaceHeaders(),
-        'Set-Cookie': cookie(deletedWorkspaceCookie, '', { path: '/beta/konto-geloescht', maxAge: 0, httpOnly: false })
+        'Set-Cookie': cookie(deletedWorkspaceCookie, '', { path: '/workspace/konto-geloescht', maxAge: 0, httpOnly: false })
       });
       return;
     }
-    if (url.pathname === '/beta/konto/email' && request.method === 'POST') {
+    if (url.pathname === '/workspace/konto/email' && request.method === 'POST') {
       const auth = await authenticatedUser(request);
-      if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      if (!auth) return redirect(response, '/workspace/login', cookie(sessionCookie, '', { maxAge: 0 }));
       const form = await requestBody(request);
       if (!consumeNonce(form.get('nonce'), requestIp(request), 'account-email')) {
         return send(response, 400, accountPage(request, auth.user, { error: 'Das Formular ist abgelaufen. Bitte versuche es erneut.' }));
@@ -729,12 +742,12 @@ export const server = createServer(async (request, response) => {
       if (result.duplicate) return send(response, 409, accountPage(request, auth.user, { error: 'Diese E-Mail-Adresse wird bereits verwendet.' }));
       loginAttempts.delete(key);
       invalidateUserSessions(auth.user.id, auth.token);
-      redirect(response, '/beta/konto?status=email');
+      redirect(response, '/workspace/konto?status=email');
       return;
     }
-    if (url.pathname === '/beta/konto/passwort' && request.method === 'POST') {
+    if (url.pathname === '/workspace/konto/passwort' && request.method === 'POST') {
       const auth = await authenticatedUser(request);
-      if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      if (!auth) return redirect(response, '/workspace/login', cookie(sessionCookie, '', { maxAge: 0 }));
       const form = await requestBody(request);
       if (!consumeNonce(form.get('nonce'), requestIp(request), 'account-password')) {
         return send(response, 400, accountPage(request, auth.user, { error: 'Das Formular ist abgelaufen. Bitte versuche es erneut.' }));
@@ -764,12 +777,12 @@ export const server = createServer(async (request, response) => {
       loginAttempts.delete(key);
       invalidateUserSessions(auth.user.id);
       const token = createSession(user);
-      redirect(response, '/beta/konto?status=password', cookie(sessionCookie, token, { maxAge: SESSION_MS / 1000 }));
+      redirect(response, '/workspace/konto?status=password', cookie(sessionCookie, token, { maxAge: SESSION_MS / 1000 }));
       return;
     }
-    if (url.pathname === '/beta/konto/loeschen' && request.method === 'POST') {
+    if (url.pathname === '/workspace/konto/loeschen' && request.method === 'POST') {
       const auth = await authenticatedUser(request);
-      if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      if (!auth) return redirect(response, '/workspace/login', cookie(sessionCookie, '', { maxAge: 0 }));
       const form = await requestBody(request);
       if (!consumeNonce(form.get('nonce'), requestIp(request), 'account-delete')) {
         return send(response, 400, accountPage(request, auth.user, { error: 'Das Formular ist abgelaufen. Bitte versuche es erneut.' }));
@@ -793,30 +806,30 @@ export const server = createServer(async (request, response) => {
         store.users = store.users.filter((entry) => entry.id !== auth.user.id);
       });
       invalidateUserSessions(auth.user.id);
-      redirect(response, '/beta/konto-geloescht', [
+      redirect(response, '/workspace/konto-geloescht', [
         cookie(sessionCookie, '', { maxAge: 0 }),
-        cookie(deletedWorkspaceCookie, auth.user.id, { path: '/beta/konto-geloescht', maxAge: 300, httpOnly: false })
+        cookie(deletedWorkspaceCookie, auth.user.id, { path: '/workspace/konto-geloescht', maxAge: 300, httpOnly: false })
       ]);
       return;
     }
-    if (url.pathname === '/beta/workspace' && request.method === 'GET') return redirect(response, '/beta/workspace/');
-    if (url.pathname === '/beta/workspace/' && request.method === 'GET') {
+    if (url.pathname === '/workspace/workspace' && request.method === 'GET') return redirect(response, '/workspace/workspace/');
+    if (url.pathname === '/workspace/workspace/' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
-      if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      if (!auth) return redirect(response, '/workspace/login', cookie(sessionCookie, '', { maxAge: 0 }));
       send(response, 200, workspaceIndex, workspaceHeaders());
       return;
     }
-    if (url.pathname.startsWith('/beta/workspace/assets/') && request.method === 'GET') {
-      await serveWorkspaceAsset(request, response, url.pathname.slice('/beta/workspace/assets/'.length));
+    if (url.pathname.startsWith('/workspace/workspace/assets/') && request.method === 'GET') {
+      await serveWorkspaceAsset(request, response, url.pathname.slice('/workspace/workspace/assets/'.length));
       return;
     }
-    if (url.pathname === '/beta/api/workspace/bootstrap' && request.method === 'GET') {
+    if (url.pathname === '/workspace/api/workspace/bootstrap' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
       if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
       sendJson(response, 200, workspaceBootstrap(auth));
       return;
     }
-    if (url.pathname === '/beta/api/workspace/sync' && request.method === 'POST') {
+    if (url.pathname === '/workspace/api/workspace/sync' && request.method === 'POST') {
       const auth = await authenticatedUser(request);
       if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
       try {
@@ -833,63 +846,63 @@ export const server = createServer(async (request, response) => {
       }
       return;
     }
-    if (url.pathname === '/beta/api/workspace/knowledge-index' && request.method === 'GET') {
+    if (url.pathname === '/workspace/api/workspace/knowledge-index' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
       if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
       if (auth.user.role !== 'owner') return sendJson(response, 403, { error: 'Die ChOS-Inhalte sind für dein Konto nicht freigeschaltet.' });
       sendJson(response, 200, await publishedKnowledgeIndex());
       return;
     }
-    if (url.pathname === '/beta/api/chos/offline-manifest' && request.method === 'GET') {
+    if (url.pathname === '/workspace/api/chos/offline-manifest' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
       if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
       if (auth.user.role !== 'owner') return sendJson(response, 403, { error: 'Dieser Lesestand ist für dein Konto nicht freigeschaltet.' });
       sendJson(response, 200, await offlineReaderManifest());
       return;
     }
-    if (url.pathname === '/beta/api/chos/knowledge-index' && request.method === 'GET') {
+    if (url.pathname === '/workspace/api/chos/knowledge-index' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
       if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
       if (auth.user.role !== 'owner') return sendJson(response, 403, { error: 'Die ChOS-Inhalte sind für dein Konto nicht freigeschaltet.' });
       sendJson(response, 200, await publishedKnowledgeIndex());
       return;
     }
-    if (url.pathname === '/beta/api/chos/offline-bundle' && request.method === 'GET') {
+    if (url.pathname === '/workspace/api/chos/offline-bundle' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
       if (!auth) return sendJson(response, 401, { error: 'Anmeldung erforderlich.' });
       if (auth.user.role !== 'owner') return sendJson(response, 403, { error: 'Dieser Lesestand ist für dein Konto nicht freigeschaltet.' });
       sendJson(response, 200, await offlineReaderBundle());
       return;
     }
-    if (url.pathname === '/beta/chos' && request.method === 'GET') return redirect(response, '/beta/chos/');
-    if (url.pathname.startsWith('/beta/chos/') && request.method === 'GET') {
+    if (url.pathname === '/workspace/chos' && request.method === 'GET') return redirect(response, '/workspace/chos/');
+    if (url.pathname.startsWith('/workspace/chos/') && request.method === 'GET') {
       await serveChosDocument(request, response, url.pathname);
       return;
     }
-    if (url.pathname === '/beta/konto' && request.method === 'GET') {
+    if (url.pathname === '/workspace/konto' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
-      if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      if (!auth) return redirect(response, '/workspace/login', cookie(sessionCookie, '', { maxAge: 0 }));
       send(response, 200, accountPage(request, auth.user, { message: accountStatus(url.searchParams.get('status')) }));
       return;
     }
-    if (url.pathname === '/beta/' && request.method === 'GET') {
+    if (url.pathname === '/workspace/' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
-      if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
-      if (auth.user.role === 'owner') return redirect(response, '/beta/chos/');
+      if (!auth) return redirect(response, '/workspace/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      if (auth.user.role === 'owner') return redirect(response, '/workspace/chos/');
       send(response, 200, dashboardPage(request, auth.user, auth.phase));
       return;
     }
-    if (url.pathname === '/beta/onboarding' && request.method === 'GET') {
+    if (url.pathname === '/workspace/onboarding' && request.method === 'GET') {
       const auth = await authenticatedUser(request);
-      if (!auth) return redirect(response, '/beta/login', cookie(sessionCookie, '', { maxAge: 0 }));
-      if (auth.user.role === 'owner') return redirect(response, '/beta/chos/');
+      if (!auth) return redirect(response, '/workspace/login', cookie(sessionCookie, '', { maxAge: 0 }));
+      if (auth.user.role === 'owner') return redirect(response, '/workspace/chos/');
       send(response, 200, onboardingPage(request, auth.user, auth.phase));
       return;
     }
-    if (url.pathname === '/beta') return redirect(response, '/beta/');
-    send(response, 404, page({ title: 'Nicht gefunden', body: '<h1>Diese Seite wurde nicht gefunden.</h1><p><a href="/beta/">Zum Beta-Bereich</a></p>' }));
+    if (url.pathname === '/workspace') return redirect(response, '/workspace/');
+    send(response, 404, page({ title: 'Nicht gefunden', body: '<h1>Diese Seite wurde nicht gefunden.</h1><p><a href="/workspace/">Zum Beta-Bereich</a></p>' }));
   } catch (error) {
-    console.error(`[beta-portal] ${error.message}`);
+    console.error('[workspace] request failed');
     send(response, 500, page({ title: 'Technischer Fehler', body: '<section class="auth-card"><h1>Der Bereich ist gerade nicht erreichbar.</h1><p>Bitte versuche es später erneut oder melde dich direkt bei Christian.</p></section>' }));
   }
 });

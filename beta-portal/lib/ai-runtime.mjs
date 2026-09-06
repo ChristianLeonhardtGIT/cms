@@ -35,7 +35,7 @@ export function createLocalAiProvider({ available, run } = {}) {
   return createAiProvider({ id: 'local', available, run });
 }
 
-export function createCloudAiProvider({ enabled = false, endpoint = '/beta/api/ai/run', fetchImpl = globalThis.fetch } = {}) {
+export function createCloudAiProvider({ enabled = false, endpoint = '/workspace/api/ai/run', fetchImpl = globalThis.fetch } = {}) {
   if (!endpoint.startsWith('/')) throw new TypeError('Der Cloud-AI-Endpunkt muss Same-Origin verwenden.');
   return createAiProvider({
     id: 'cloud',

@@ -28,7 +28,7 @@ Einladungen sind 72 Stunden gültig. Passwörter werden nie über die Kommandoze
 
 function inviteUrl(token) {
   const origin = (process.env.BETA_PUBLIC_ORIGIN || 'https://cleonhardt.de').replace(/\/$/, '');
-  return `${origin}/beta/einladung?token=${encodeURIComponent(token)}`;
+  return `${origin}/workspace/einladung?token=${encodeURIComponent(token)}`;
 }
 
 async function invite(options) {
