@@ -71,11 +71,11 @@ Datensatz einschließlich Freitext, nicht nur ein Flag.
 5. Die Restore-Prozedur erhält das getrennte Löschjournal und führt vor
    Wiederfreigabe `privacy-admin.mjs reconcile` aus. Einen vollständigen
    Bare-Metal-Restore noch als Betriebsübung protokollieren.
-6. Privilegierte Anmeldung stärken (MFA), Idle-Timeout ergänzen und Auditierung
-   von Zugriffen/Export/Löschung ohne Inhalte einführen. Bestehende Sessions
-   haben 12 Stunden Maximaldauer, aber keinen separaten Idle-Timeout.
-7. Auskunft/Export/Berichtigung/Einschränkung und gezielte Entfernung versehentlich
-   eingegebener sensibler Daten als dokumentierten Adminprozess fertigstellen.
+6. MFA, 30-Minuten-Idle-Timeout und inhaltsfreies Zugriffsaudit sind technisch
+   umgesetzt. Christian muss die persönliche MFA-Einrichtung vor Pilotfreigabe
+   noch im Workspace abschließen.
+7. Auskunft/Export, Einschränkung und gezielte Entfernung versehentlich
+   eingegebener sensibler Daten sind als geschützter Adminprozess dokumentiert.
    Kontolöschung und zeitgesteuerte Löschung sind umgesetzt; eine komplette
    Betroffenenrechte-Oberfläche ist nicht vorhanden. Sicherheitsvorfälle
    getrennt bewerten; verbotene Eingaben sind nicht automatisch meldepflichtig.

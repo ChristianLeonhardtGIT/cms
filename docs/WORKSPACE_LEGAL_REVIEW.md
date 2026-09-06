@@ -37,9 +37,10 @@ Individuelle Einschränkungen und Rechtsansprüche gesondert bewerten.
 Rechnungen/Verträge getrennt behandeln.
 
 Empfänger: bestehender VPS-/Hostinganbieter, berechtigte Administration und
-Christian. SMTP-Anbieter empfängt nur Zustelladresse und konstante Benachrichtigung,
-keine Chatinhalte. Anbieter und tatsächliche Betriebsorte abschließend eintragen;
-keine pauschale Aussage treffen, alle Daten blieben ausschließlich in Deutschland.
+Christian. Hostinger Email ist als SMTP-Weg für `kontakt@cleonhardt.de`
+vorgesehen und empfängt nur Zustelladresse und konstante Benachrichtigung, keine
+Chatinhalte. Vertrag und tatsächliche Betriebsorte abschließend eintragen; keine
+pauschale Aussage treffen, alle Daten blieben ausschließlich in Deutschland.
 Die verschlüsselte externe Wiederherstellungskopie liegt auf Christians Rechner.
 
 Rechtsgrundlagen je Verarbeitung prüfen: vertragliche Verarbeitung bei der

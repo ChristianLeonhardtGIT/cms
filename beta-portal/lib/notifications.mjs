@@ -1,10 +1,17 @@
 import nodemailer from 'nodemailer';
 import { readFile } from 'node:fs/promises';
-export async function mailTransport() {
-  if (!process.env.WORKSPACE_SMTP_FILE) return null;
-  const c = JSON.parse(await readFile(process.env.WORKSPACE_SMTP_FILE, 'utf8'));
-  if (!c.host || ![465, 587].includes(c.port) || !c.user || !c.password || !c.from || /[\r\n]/.test(c.from)) throw new Error('Invalid SMTP configuration');
-  return { from: c.from, transport: nodemailer.createTransport({ host: c.host, port: c.port, secure: c.port === 465, requireTLS: true, auth: { user: c.user, pass: c.password }, tls: { minVersion: 'TLSv1.2', rejectUnauthorized: true }, logger: false, debug: false, disableFileAccess: true, disableUrlAccess: true, connectionTimeout: 10000, socketTimeout: 20000 }) };
+export async function mailTransport(file = process.env.WORKSPACE_SMTP_FILE) {
+  if (!file) return null;
+  let raw;
+  try {
+    raw = await readFile(file, 'utf8');
+  } catch (error) {
+    if (error.code === 'ENOENT') return null;
+    throw error;
+  }
+  const c = JSON.parse(raw);
+  if (!c || typeof c.host !== 'string' || ![465, 587].includes(c.port) || typeof c.user !== 'string' || typeof c.password !== 'string' || typeof c.from !== 'string' || !c.host || !c.user || !c.password || !c.from || /[\r\n]/.test(`${c.host}${c.user}${c.from}`)) throw new Error('Invalid SMTP configuration');
+  return { from: c.from, checkAddress: c.user, transport: nodemailer.createTransport({ host: c.host, port: c.port, secure: c.port === 465, requireTLS: true, auth: { user: c.user, pass: c.password }, tls: { minVersion: 'TLSv1.2', rejectUnauthorized: true }, logger: false, debug: false, disableFileAccess: true, disableUrlAccess: true, connectionTimeout: 10000, socketTimeout: 20000 }) };
 }
 export async function deliverNotifications(repository, users, mail, now = Date.now()) {
   if (!mail) return;

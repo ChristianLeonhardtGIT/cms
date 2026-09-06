@@ -32,11 +32,33 @@ Produktiv: `secrets/workspace/workspace-keyring.json` (0600, Owner Container-UID
 100) und `privacy-ledger/` (0700, UID 100). Das Löschjournal liegt außerhalb des
 Datenvolumes und darf beim Rückspielen eines alten Volumes nicht ersetzt werden.
 
-SMTP-Konfiguration als Datei mit `host`, `port` (465 oder 587), `user`,
-`password`, `from` nach `secrets/workspace/smtp.json`. Dann
-`WORKSPACE_SMTP_FILE=/app/private/smtp.json` in der Compose-Umgebung setzen.
-Keine Beispiel-Zugangsdaten in Git. Anbieter anhand bestehender Mailinfrastruktur
-festlegen; Verbindungsprüfung und Testzustellung erst nach verfügbarer Konfiguration.
+Für das bestehende Hostinger-Postfach sind Absender und Benutzername als
+`kontakt@cleonhardt.de`, Host `smtp.hostinger.com` und SSL-Port 465 festgelegt.
+Die offiziellen Einstellungen wurden am 6. September 2026 unter
+https://www.hostinger.com/support/1575756-how-to-get-email-account-configuration-details-for-hostinger-email/
+abgeglichen. Das Portal erwartet die geschützte Datei automatisch unter
+`secrets/workspace/smtp.json`; fehlt sie, bleibt der Versand deaktiviert.
+
+Das Kennwort niemals per Kommandozeilenargument, Environment oder Git ablegen.
+Auf dem VPS interaktiv einrichten:
+
+```bash
+systemctl start cleonhardt-backup.service
+test -f /var/backups/cleonhardt/latest/COMPLETE
+cd /var/backups/cleonhardt/latest && sha256sum -c SHA256SUMS
+cd /opt/cleonhardt
+/opt/cleonhardt/deploy/configure-workspace-smtp.sh
+docker compose -f /opt/cleonhardt/compose.production.yaml build beta-portal
+docker compose -f /opt/cleonhardt/compose.production.yaml run --rm --no-deps beta-portal node smtp-check.mjs --send-test
+docker compose -f /opt/cleonhardt/compose.production.yaml up -d --no-deps beta-portal
+```
+
+Die ersten vier Befehle setzen die verbindliche Vorab-Backup-Regel um. Das Setup
+fragt das Kennwort verdeckt zweimal ab, schreibt atomar mit Modus 0600 und gibt
+es weder im Prozessargument noch im Log aus. Der Check bestätigt zuerst
+SMTP-Anmeldung/TLS und lässt anschließend eine konstante, inhaltsfreie Testmail
+an `kontakt@cleonhardt.de` zustellen. Bei einem Kennwortwechsel den Setup-Befehl
+bewusst mit `--replace` ausführen.
 
 `WORKSPACE_SPARRING_ENABLED` bleibt false bis Mail, persönliche MFA-Einrichtung,
 Datenschutzinformationen und Vertragsprüfung abgeschlossen sind.
