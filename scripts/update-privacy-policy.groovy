@@ -149,4 +149,4 @@ Thread.sleep(1000)
 publish(commands, 'website', privacyPage.getPath())
 publish(commands, 'website', contactPage.getPath())
 
-println "Zentraler Rechtstext ${privacyDocument.path}, Datenschutzseite und Formularfeld ${privacyField.path} wurden aktualisiert und veröffentlicht."
+println "Zentraler Rechtstext ${privacyDocument.getPath()}, Datenschutzseite und Formularfeld ${privacyField.getPath()} wurden aktualisiert und veröffentlicht."
