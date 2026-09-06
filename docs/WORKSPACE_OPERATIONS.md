@@ -61,8 +61,10 @@ SMTP-Anmeldung/TLS und lässt anschließend eine konstante, inhaltsfreie Testmai
 an `kontakt@cleonhardt.de` zustellen. Bei einem Kennwortwechsel den Setup-Befehl
 bewusst mit `--replace` ausführen.
 
-`WORKSPACE_SPARRING_ENABLED` bleibt false bis Mail, persönliche MFA-Einrichtung,
-Datenschutzinformationen und Vertragsprüfung abgeschlossen sind.
+`WORKSPACE_SPARRING_ENABLED` wird ausschließlich nach bewusster Betriebsfreigabe
+gesetzt. Seit dem 6. September 2026 ist der Bereich intern für persönlich
+freigeschaltete Konten aktiv; öffentliche Registrierung und Checkout bleiben aus.
+Vor einem zahlenden Auftrag gilt zusätzlich der dokumentierte B2B-Angebotsprozess.
 
 ## Rollout-Reihenfolge
 
@@ -73,15 +75,16 @@ versionierte Service-Datei installieren, den früheren Timer deaktivieren und
 `systemctl daemon-reload` ausführen. Das Portalimage aus dem gemergten Stand
 bauen und neu starten.
 
-Die Datenschutzaktualisierung läuft anschließend auf Magnolia Author über
+Die Datenschutzaktualisierung lief am 6. September 2026 auf Magnolia Author über
 `scripts/update-privacy-policy.groovy`. Das Skript aktualisiert und veröffentlicht
 den zentralen Eintrag `legalDocuments:/cleonhardt/datenschutz`, die referenzierende
-Seite und das Kontaktformular. Nach der Sichtprüfung neue JCR-Exporte für
-`legalDocuments` und `website` erzeugen und in einem Folgecommit versionieren.
+Seite und das Kontaktformular. Der bereinigte JCR-Export für `legalDocuments` und
+`website` ist unter `content-snapshots/2026-09-06-workspace-privacy` versioniert.
 
 Zum Abschluss Health, Anmeldung, fremde Objekt-ID, `/beta`-Weiterleitung,
 Datenschutzseite, SMTP-Testzustellung und den Status des abgeschalteten Timers
-prüfen. Das Sparring-Flag bleibt dabei bis zur kommerziellen Freigabe `false`.
+prüfen. Eine Aktivierung oder Deaktivierung des Sparring-Flags ist als
+Produktionsänderung mit Vorab-Snapshot zu behandeln.
 
 ## Auskunft, Einschränkung und gezielte Löschung
 

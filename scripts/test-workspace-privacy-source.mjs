@@ -11,7 +11,11 @@ for (const expected of [
   'Benachrichtigungs-E-Mails enthalten weder Chatnachrichten',
   '30 Tage nach Abschluss oder Stornierung',
   'Die Bestätigung der Datenregeln dokumentiert deren Kenntnisnahme und ist keine datenschutzrechtliche Einwilligung',
-  'Auskunft, Datenexport, Berichtigung, Einschränkung'
+  'Auskunft, Datenexport, Berichtigung, Einschränkung',
+  'Ohne diese Angaben kann das Konto, der Intake oder das Sparring nicht eingerichtet beziehungsweise begonnen werden',
+  'unmittelbar von diesem Unternehmenskunden erhalten',
+  'keine automatisierten Entscheidungen im Sinne von Art. 22 DSGVO und kein Profiling',
+  'nach dem jeweiligen Kundenvertrag zuständige Hostinger-Unternehmen'
 ]) {
   assert.match(privacy, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 }

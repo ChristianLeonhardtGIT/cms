@@ -2,8 +2,9 @@
 
 Aktualisierung: Die Sicherheits-/Betriebsergänzungen vom 6. September stehen in [WORKSPACE_OPERATIONS.md](WORKSPACE_OPERATIONS.md); die folgende Bestandsaufnahme dokumentiert den ersten Implementierungsschritt.
 
-Stand: 6. September 2026. Technische Bestandsaufnahme, keine abschließende
-rechtliche Bewertung. Pilot standardmäßig deaktiviert.
+Stand: 6. September 2026. Technische Bestandsaufnahme; die juristische Vorprüfung
+steht in `WORKSPACE_LEGAL_REVIEW.md`. Der Bereich ist intern für persönlich
+freigeschaltete Konten aktiv. Öffentliche Registrierung und Checkout sind aus.
 
 ## Getrennte Datenwege
 
@@ -51,15 +52,14 @@ Datensatz einschließlich Freitext, nicht nur ein Flag.
   keine dauerhafte Offline-Kopie. Das verhindert keine Screenshots, Browser-
   Erweiterungen, Betriebssystem-Swap oder Übertragung durch fremde Tastaturhilfen.
 
-## Noch vor kommerzieller Aktivierung zu erledigen
+## Stand der Pilotfreigabe
 
-1. Qualifizierte Prüfung der Leistungsbedingungen, B2B-Abgrenzung,
-   Vertraulichkeit, Verantwortlichkeiten und tatsächlichen Datenflüsse.
-   Insbesondere Rechtsgrundlage für Ansprechpartner beim Unternehmenskunden
-   gesondert klären; Vertragserfüllung nicht pauschal auf jede Person übertragen.
-2. Workspace-Datenschutzinformation fertigstellen: Zwecke, Datenkategorien,
-   Rechtsgrundlagen, Empfänger, Aufbewahrung, Löschung und Betroffenenrechte.
-   Hinweise und Regelbestätigung ersetzen diese Information nicht.
+1. Leistungsbedingungen, B2B-Abgrenzung, Vertraulichkeit,
+   Verantwortlichkeiten und FernUSG-Risiko sind in der juristischen Vorprüfung
+   bewertet. Vor jedem Auftrag den individuellen Angebotsprozess anwenden.
+2. Die Workspace-Datenschutzinformation mit Zwecken, Datenkategorien,
+   Rechtsgrundlagen, Empfängern, Aufbewahrung, Löschung und Betroffenenrechten ist
+   veröffentlicht. Hinweise und Regelbestätigung bleiben davon getrennt.
 3. Hostinger/VPS-Standort, Vertrag/AVV, Unterauftragnehmer, mögliche Transfers,
    Zugriffsbefugnisse und Retention des bestätigten wöchentlichen VPS-Backups
    anhand aktueller Unterlagen prüfen.
@@ -72,20 +72,19 @@ Datensatz einschließlich Freitext, nicht nur ein Flag.
    Wiederfreigabe `privacy-admin.mjs reconcile` aus. Einen vollständigen
    Bare-Metal-Restore noch als Betriebsübung protokollieren.
 6. MFA, 30-Minuten-Idle-Timeout und inhaltsfreies Zugriffsaudit sind technisch
-   umgesetzt. Christian muss die persönliche MFA-Einrichtung vor Pilotfreigabe
-   noch im Workspace abschließen.
+   umgesetzt; die persönliche Owner-MFA ist produktiv eingerichtet.
 7. Auskunft/Export, Einschränkung und gezielte Entfernung versehentlich
    eingegebener sensibler Daten sind als geschützter Adminprozess dokumentiert.
    Kontolöschung und zeitgesteuerte Löschung sind umgesetzt; eine komplette
    Betroffenenrechte-Oberfläche ist nicht vorhanden. Sicherheitsvorfälle
    getrennt bewerten; verbotene Eingaben sind nicht automatisch meldepflichtig.
-8. Hostinger Email ist als SMTP-Weg vorgesehen; Absender und Benutzername sind
-   `kontakt@cleonhardt.de`. Noch kein Versand, solange das Kennwort nicht als
-   geschützte VPS-Datei eingerichtet und die Zustellung geprüft wurde.
-   Vorgemerkte Benachrichtigung erst nach erfolgreichem Versand quittieren;
-   konstante Betreff-/Textvorlage, nur Workspace-Link, keine Inhalte verwenden.
-9. Betreibertest nach Review/Merge: TLS, Proxy, Altlinks/Worker-Migration,
-   Backup/Restore, Zustellweg, Löschlauf und Autorisierung auf dem VPS prüfen.
+8. Hostinger Email ist als SMTP-Weg eingerichtet; Absender und Benutzername sind
+   `kontakt@cleonhardt.de`. TLS-Anmeldung und inhaltsfreie Testzustellung wurden
+   produktiv geprüft. Vormerkungen werden erst nach erfolgreichem Versand
+   quittiert; die Vorlage enthält nur den Workspace-Link und keine Inhalte.
+9. Produktiver Betreibertest für TLS, Proxy, Altlinks/Worker-Migration,
+   Zustellweg und Autorisierung ist erfolgt. Ein vollständiger Bare-Metal-Restore
+   bleibt eine spätere Betriebsübung.
 
 B2C, Checkout, Dateien und KI bleiben außerhalb dieses Ausbauschritts. Die
 B2B-Bestätigung ist eine fachliche Abfrage, keine automatische rechtliche
