@@ -1,3 +1,4 @@
+import info.magnolia.commands.CommandsManager
 import info.magnolia.context.MgnlContext
 import javax.jcr.Node
 import javax.jcr.Session
@@ -9,6 +10,8 @@ import javax.jcr.Session
  */
 
 Session website = MgnlContext.getJCRSession('website')
+Session legalDocuments = MgnlContext.getJCRSession('legalDocuments')
+def commands = CommandsManager.getInstance()
 Node privacyPage = website.getNode('/datenschutz')
 Node contactPage = website.getNode('/kontakt')
 
@@ -44,9 +47,13 @@ Node findByControlName(Node root, String controlName) {
     null
 }
 
-Node textComponent = findByTemplate(privacyPage, 'meine-website:components/text')
-if (textComponent == null) {
-    throw new IllegalStateException('Textkomponente unter /datenschutz wurde nicht gefunden.')
+Node legalComponent = findByTemplate(privacyPage, 'meine-website:components/legalDocument')
+if (legalComponent == null || !legalComponent.hasProperty('legalDocumentReference')) {
+    throw new IllegalStateException('Zentrale Rechtstext-Komponente unter /datenschutz wurde nicht gefunden.')
+}
+Node privacyDocument = legalDocuments.getNodeByIdentifier(legalComponent.getProperty('legalDocumentReference').string)
+if (privacyDocument.getPath() != '/cleonhardt/datenschutz') {
+    throw new IllegalStateException("Unerwartete Datenschutzquelle: ${privacyDocument.getPath()}")
 }
 
 Node privacyField = findByControlName(contactPage, 'datenschutz')
@@ -65,7 +72,8 @@ String privacyHtml = '''
 <h3>2. Bereitstellung und Hosting der Website</h3>
 <p>Die Website und die geschäftliche E-Mail-Infrastruktur werden bei <strong>HOSTINGER operations, UAB</strong>, Švitrigailos str. 34, LT-03230 Vilnius, Litauen („Hostinger“) betrieben. Hostinger verarbeitet Daten als Auftragsverarbeiter auf Grundlage der in den Vertrag einbezogenen Vereinbarung zur Auftragsverarbeitung.</p>
 <p>Beim Aufruf der Website werden technisch erforderliche Verbindungsdaten verarbeitet. Dazu können insbesondere IP-Adresse, Datum und Uhrzeit, angeforderte Seite oder Datei, übertragene Datenmenge, HTTP-Status, Browser- und Geräteinformationen sowie technische Fehlerdaten gehören. Diese Verarbeitung dient der sicheren, stabilen und fehlerfreien Bereitstellung der Website sowie der Erkennung und Abwehr von Angriffen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt im sicheren und zuverlässigen Betrieb der Website.</p>
-<p>Zugriffs- und Anwendungsprotokolle werden auf dem von uns betriebenen Server grundsätzlich für höchstens 30 Tage vorgehalten und anschließend automatisch gelöscht. Eine längere Speicherung erfolgt nur, wenn sie zur Aufklärung eines konkreten Sicherheitsvorfalls erforderlich ist. Sicherungskopien werden turnusmäßig überschrieben; im Wiederherstellungsfall können darin enthaltene Daten vorübergehend erneut verarbeitet werden.</p>
+<p>Allgemeine Server-, Zugriffs- und Fehlerprotokolle werden auf dem von uns betriebenen Server grundsätzlich für höchstens 30 Tage vorgehalten und anschließend automatisch gelöscht. Eine längere Speicherung erfolgt nur, wenn sie zur Aufklärung eines konkreten Sicherheitsvorfalls erforderlich ist. Das davon getrennte, inhaltsfreie Workspace-Sicherheitsaudit wird wie in Abschnitt 6 beschrieben grundsätzlich 90 Tage vorgehalten.</p>
+<p>Verschlüsselte lokale Vorab-Sicherungen werden unmittelbar vor Änderungen erstellt. Sicherungen, die älter als 30 Tage sind, werden technisch beim nächsten Vorab-Sicherungslauf entfernt; wenn längere Zeit keine Änderung erfolgt, kann die tatsächliche Löschung deshalb später stattfinden. Hostinger erstellt nach der gebuchten VPS-Konfiguration zusätzlich wöchentlich eine Sicherung und überschreibt sie nach der dort vereinbarten Aufbewahrung. Im Wiederherstellungsfall können darin enthaltene Daten vorübergehend erneut verarbeitet werden.</p>
 <p>Weitere Informationen: <a href="https://www.hostinger.com/de/legal/datenschutz-bestimmungen">Datenschutz bei Hostinger</a> und <a href="https://www.hostinger.com/de/legal/dpa">Vereinbarung zur Auftragsverarbeitung</a>.</p>
 
 <h3>3. Technisch erforderliche Cookies</h3>
@@ -89,11 +97,12 @@ String privacyHtml = '''
 <h3>6. Persönlich freigeschalteter Workspace</h3>
 <p>Der Workspace unter <code>/workspace</code> ist nicht öffentlich zugänglich. Konten werden ausschließlich persönlich freigeschaltet. Für Einrichtung, Anmeldung und Verwaltung verarbeiten wir insbesondere Name, E-Mail-Adresse, Rolle, Zugriffszeiträume, sicher gehashte Passwörter, Einladungs- und Sitzungsdaten sowie Zeitpunkte sicherheitsrelevanter Vorgänge. Für privilegierte Konten kann ein zeitbasierter Authenticator-Code als zusätzlicher Faktor eingerichtet werden; der zugehörige Schlüssel wird verschlüsselt gespeichert.</p>
 <p>Der ChOS-Arbeitsbereich speichert persönliche Arbeitsfälle zunächst im Browser des verwendeten Geräts und gleicht sie anschließend mit einem dem Konto zugeordneten, geschützten Serverbestand ab. Dabei können Titel, Kontext, Beobachtungen, Annahmen, offene Fragen, Interventionen und Reviews verarbeitet werden. Der veröffentlichte ChOS-Wissensindex wird lokal zugeordnet; persönliche Arbeitsinhalte werden für diese Zuordnung nicht an einen KI-Anbieter übermittelt. Eine KI-Verarbeitung ist derzeit nicht aktiviert.</p>
+<p>Die persönliche lokale Arbeitskopie bleibt im Browserprofil des jeweiligen Geräts, bis sie im Workspace über „Lokale Kopie löschen“ oder durch Löschen der Browserdaten entfernt wird. Die automatische Sperrung oder Löschung des serverseitigen Kontos kann Kopien auf früher verwendeten Geräten technisch nicht erreichen. Bei einer vollständigen Kontolöschung versucht der aktuell verwendete Browser, seine lokale Arbeitskopie ebenfalls zu entfernen; weitere Geräte müssen separat bereinigt werden.</p>
 <p>Der ChOS-Lesestand kann nach einer bewussten Nutzeraktion für die Offline-Nutzung im Browser-Cache gespeichert werden. Die lokale Kopie bleibt auf dem jeweiligen Gerät, bis sie über die angebotene Löschfunktion oder durch Löschen der Browserdaten entfernt wird. Auf gemeinsam genutzten Geräten sollte keine Offline-Kopie angelegt werden. Sparring-Nachrichten und Intake-Angaben werden ausdrücklich nicht für den Offlinezugriff oder im Service-Worker-Cache gespeichert.</p>
 <p>Soweit ein Async Clarity Sparring vereinbart und freigeschaltet wird, verarbeiten wir zusätzlich den gewählten Produktumfang, den strukturierten Intake, die bestätigte Version der Datenregeln, Nachrichten, Zeitstempel, Lesestatus und Statusangaben zum Sparring. Das Angebot ist zunächst ausschließlich für unternehmerische Zwecke vorgesehen. Bitte beschreiben Sie Rollen und Zusammenhänge abstrakt und übermitteln Sie insbesondere keine personenbezogenen Daten Dritter, besonderen Kategorien personenbezogener Daten, Zugangsdaten, Geschäftsgeheimnisse oder internen Dokumente. Dateiuploads und automatische KI-Verarbeitung sind im Sparring nicht vorgesehen.</p>
 <p>Die Sparring-Inhalte werden auf dem Server zusätzlich verschlüsselt gespeichert. Die Verschlüsselung schützt die ruhenden Daten, ist aber keine Ende-zu-Ende-Verschlüsselung: Das Portal muss die Inhalte zur Anzeige und persönlichen Bearbeitung entschlüsseln können. Benachrichtigungs-E-Mails enthalten weder Chatnachrichten noch Intake-Inhalte oder das konkrete Thema. Sicherheits- und Zugriffsprotokolle enthalten keine Freitextinhalte, sondern nur technische Kennungen, Aktion und Zeitpunkt.</p>
 <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, soweit die Verarbeitung zur Anbahnung oder Durchführung eines Vertrags mit der betroffenen Person erforderlich ist. Bei Ansprechpartnern eines Unternehmenskunden sowie für Zugriffsschutz, Missbrauchsabwehr und Nachvollziehbarkeit erfolgt die Verarbeitung auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Unsere berechtigten Interessen liegen in der Durchführung der beauftragten Leistung sowie im sicheren und nachvollziehbaren Betrieb des Workspace. Die Bestätigung der Datenregeln dokumentiert deren Kenntnisnahme und ist keine datenschutzrechtliche Einwilligung.</p>
-<p>Teilnehmerkonten und der serverseitige ChOS-Arbeitsbereich werden nach Ablauf der vereinbarten Zugangs- und Lesephase gelöscht. Sparring- und Intake-Inhalte werden grundsätzlich 30 Tage nach Abschluss oder Stornierung gelöscht; nicht begonnene Intake-Fälle spätestens nach 90 Tagen. Technische Zugriffsprotokolle werden grundsätzlich 90 Tage vorgehalten. Individuelle gesetzliche Aufbewahrungs-, Einschränkungs- oder Beweissicherungsgründe können im Einzelfall zu einer abweichenden Behandlung führen. Vertrags- und Rechnungsunterlagen werden getrennt von Chat-Inhalten aufbewahrt.</p>
+<p>Teilnehmerkonten und der serverseitige ChOS-Arbeitsbereich werden nach Ablauf der vereinbarten Zugangs- und Lesephase gelöscht. Sparring- und Intake-Inhalte werden grundsätzlich 30 Tage nach Abschluss oder Stornierung gelöscht; nicht begonnene Intake-Fälle spätestens nach 90 Tagen. Das inhaltsfreie Workspace-Sicherheitsaudit wird grundsätzlich 90 Tage vorgehalten. Individuelle gesetzliche Aufbewahrungs-, Einschränkungs- oder Beweissicherungsgründe können im Einzelfall zu einer abweichenden Behandlung führen. Vertrags- und Rechnungsunterlagen werden getrennt von Chat-Inhalten aufbewahrt.</p>
 <p>Im Workspace stehen Funktionen zur Änderung der E-Mail-Adresse und zur vollständigen Kontolöschung bereit. Auskunft, Datenexport, Berichtigung, Einschränkung sowie die gezielte Entfernung versehentlich übermittelter Inhalte können außerdem über <a href="mailto:kontakt@cleonhardt.de">kontakt@cleonhardt.de</a> angefordert werden. Vor Herausgabe oder Löschung prüfen wir die Identität und mögliche Rechte anderer Personen.</p>
 
 <h3>7. Empfänger und Übermittlungen in Drittländer</h3>
@@ -116,12 +125,28 @@ String privacyHtml = '''
 <p>Wir aktualisieren diese Datenschutzerklärung, wenn sich die Website, eingesetzte Dienste oder rechtliche Anforderungen ändern. Es gilt die jeweils auf dieser Seite veröffentlichte Fassung.</p>
 '''
 
+void publish(def commands, String repository, String path) {
+    def parameters = new LinkedHashMap<String, Object>()
+    parameters.put('repository', repository)
+    parameters.put('path', path)
+    parameters.put('recursive', true)
+    def result = commands.executeCommand('default', 'publish', parameters)
+    println "${repository}:${path} – ${result ? 'veröffentlicht' : 'Publishing-Befehl ohne Rückgabewert ausgeführt'}"
+}
+
 privacyPage.setProperty('windowTitle', 'Datenschutz – Christian Leonhardt')
 privacyPage.setProperty('metaDescription', 'Datenschutzerklärung für cleonhardt.de mit Informationen zu Hosting, Kontakt, Workspace und Async Sparring.')
-textComponent.setProperty('heading', 'Datenschutzerklärung')
-textComponent.setProperty('text', privacyHtml.trim())
+privacyDocument.setProperty('title', 'Datenschutzerklärung')
+privacyDocument.setProperty('slug', 'datenschutz')
+privacyDocument.setProperty('documentType', 'datenschutz')
+privacyDocument.setProperty('body', privacyHtml.trim())
 privacyField.setProperty('labels', 'Ich habe die Datenschutzerklärung zur Kenntnis genommen.:akzeptiert')
 
+legalDocuments.save()
 website.save()
+publish(commands, 'legalDocuments', privacyDocument.getPath())
+Thread.sleep(1000)
+publish(commands, 'website', privacyPage.getPath())
+publish(commands, 'website', contactPage.getPath())
 
-println "Datenschutzseite ${privacyPage.path} und Formularfeld ${privacyField.path} wurden aktualisiert."
+println "Zentraler Rechtstext ${privacyDocument.path}, Datenschutzseite und Formularfeld ${privacyField.path} wurden aktualisiert und veröffentlicht."

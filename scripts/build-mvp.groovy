@@ -9,6 +9,11 @@ import javax.jcr.Session
  * ersten Lauf unter /home/legacy-main gesichert.
  */
 
+throw new UnsupportedOperationException(
+    'Dieses historische Aufbau-Skript ist nach der Migration zentraler Rechtstexte gesperrt. ' +
+    'Verwende die gezielten, versionierten Migrations- und Aktualisierungsskripte.'
+)
+
 @Field final String PAGE_TEMPLATE = 'meine-website:pages/home'
 @Field final String COMPONENT_PREFIX = 'meine-website:components/'
 
