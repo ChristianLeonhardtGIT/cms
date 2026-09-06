@@ -59,7 +59,11 @@ Datensatz einschließlich Freitext, nicht nur ein Flag.
    bewertet. Vor jedem Auftrag den individuellen Angebotsprozess anwenden.
 2. Die Workspace-Datenschutzinformation mit Zwecken, Datenkategorien,
    Rechtsgrundlagen, Empfängern, Aufbewahrung, Löschung und Betroffenenrechten ist
-   veröffentlicht. Hinweise und Regelbestätigung bleiben davon getrennt.
+   veröffentlicht. Die juristische Ergänzung zu Pflichtangaben, Datenquelle,
+   automatisierten Entscheidungen und vertragsabhängiger Hostinger-Zuordnung ist
+   in `scripts/update-privacy-policy.groovy` vorbereitet und muss noch über
+   Magnolia Author veröffentlicht werden. Hinweise und Regelbestätigung bleiben
+   davon getrennt.
 3. Hostinger/VPS-Standort, Vertrag/AVV, Unterauftragnehmer, mögliche Transfers,
    Zugriffsbefugnisse und Retention des bestätigten wöchentlichen VPS-Backups
    anhand aktueller Unterlagen prüfen.

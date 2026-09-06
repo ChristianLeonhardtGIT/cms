@@ -80,6 +80,10 @@ Die Datenschutzaktualisierung lief am 6. September 2026 auf Magnolia Author übe
 den zentralen Eintrag `legalDocuments:/cleonhardt/datenschutz`, die referenzierende
 Seite und das Kontaktformular. Der bereinigte JCR-Export für `legalDocuments` und
 `website` ist unter `content-snapshots/2026-09-06-workspace-privacy` versioniert.
+Nach der juristischen Vorprüfung wurde die Quelle um Pflichtangaben, Datenquelle,
+fehlende automatisierte Entscheidungen und eine vertragsabhängige
+Hostinger-Zuordnung ergänzt. Diese Folgefassung benötigt erneut Ausführung auf
+Magnolia Author, Sichtprüfung und einen bereinigten JCR-Folgeexport.
 
 Zum Abschluss Health, Anmeldung, fremde Objekt-ID, `/beta`-Weiterleitung,
 Datenschutzseite, SMTP-Testzustellung und den Status des abgeschalteten Timers
