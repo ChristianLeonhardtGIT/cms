@@ -1,5 +1,5 @@
 [Unit]
-Description=Daily backup of cleonhardt Magnolia production data
+Description=On-demand encrypted pre-change backup of cleonhardt production data
 Requires=docker.service
 After=docker.service
 
@@ -9,4 +9,3 @@ ExecStart=/opt/cleonhardt/deploy/backup.sh
 Nice=10
 IOSchedulingClass=best-effort
 IOSchedulingPriority=7
-

@@ -61,15 +61,16 @@ Datensatz einschließlich Freitext, nicht nur ein Flag.
    Rechtsgrundlagen, Empfänger, Aufbewahrung, Löschung und Betroffenenrechte.
    Hinweise und Regelbestätigung ersetzen diese Information nicht.
 3. Hostinger/VPS-Standort, Vertrag/AVV, Unterauftragnehmer, mögliche Transfers,
-   Backups und Zugriffsbefugnisse anhand aktueller Unterlagen prüfen.
-4. Verschlüsselung ruhender Daten und Sicherungen klären. JSON-Freitext ist
-   derzeit **nicht anwendungsseitig verschlüsselt**. Das vorhandene Backup-
-   Skript erzeugt unverschlüsselte tar.gz-Dateien; Dateirechte ersetzen keine
-   Verschlüsselung. Neu: restriktive umask 077 für künftige Sicherungen.
-   Offsite-Ziel, Schlüsselwiederherstellung und vollständiger Restore bleiben offen.
-5. Restore-Prozedur: vor Wiederfreigabe Löschaufträge seit dem Snapshot erneut
-   anwenden und Retention laufen lassen. Manuelle Löschaufträge benötigen eine
-   getrennte minimale Nachweisliste. Automatischer Restore-Abgleich fehlt noch.
+   Zugriffsbefugnisse und Retention des bestätigten wöchentlichen VPS-Backups
+   anhand aktueller Unterlagen prüfen.
+4. Der Sparring-Speicher und neue Vorab-Sicherungen sind verschlüsselt. Der VPS
+   erhält nur den öffentlichen Backup-Empfänger; der private
+   Entschlüsselungsschlüssel bleibt in Christians Wiederherstellungsablage. Vor
+   jeder Produktionsänderung wird ein verschlüsselter Snapshot erstellt und
+   geprüft. Bestehende unverschlüsselte Altarchive bleiben gesondert zu bewerten.
+5. Die Restore-Prozedur erhält das getrennte Löschjournal und führt vor
+   Wiederfreigabe `privacy-admin.mjs reconcile` aus. Einen vollständigen
+   Bare-Metal-Restore noch als Betriebsübung protokollieren.
 6. Privilegierte Anmeldung stärken (MFA), Idle-Timeout ergänzen und Auditierung
    von Zugriffen/Export/Löschung ohne Inhalte einführen. Bestehende Sessions
    haben 12 Stunden Maximaldauer, aber keinen separaten Idle-Timeout.
@@ -78,7 +79,9 @@ Datensatz einschließlich Freitext, nicht nur ein Flag.
    Kontolöschung und zeitgesteuerte Löschung sind umgesetzt; eine komplette
    Betroffenenrechte-Oberfläche ist nicht vorhanden. Sicherheitsvorfälle
    getrennt bewerten; verbotene Eingaben sind nicht automatisch meldepflichtig.
-8. SMTP-Anbieter und dessen Datenverarbeitung festlegen. Noch kein Versand!
+8. Hostinger Email ist als SMTP-Weg vorgesehen; Absender und Benutzername sind
+   `kontakt@cleonhardt.de`. Noch kein Versand, solange das Kennwort nicht als
+   geschützte VPS-Datei eingerichtet und die Zustellung geprüft wurde.
    Vorgemerkte Benachrichtigung erst nach erfolgreichem Versand quittieren;
    konstante Betreff-/Textvorlage, nur Workspace-Link, keine Inhalte verwenden.
 9. Betreibertest nach Review/Merge: TLS, Proxy, Altlinks/Worker-Migration,

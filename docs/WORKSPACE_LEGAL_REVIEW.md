@@ -29,9 +29,12 @@ Einwilligung und ersetzt keine Datenschutzinformation.
 
 Aufzubewahren: Konten gemäß vereinbarter Zugangsphase; Sparring einschließlich
 Intake 30 Tage nach Abschluss/Storno, unvollständige Fälle höchstens 90 Tage.
-Technische Ausführung alle sechs Stunden. Zugriffsaudit 90 Tage. Backups 30 Tage;
-vor Restore Löschjournal berücksichtigen. Individuelle Einschränkungen und
-Rechtsansprüche gesondert bewerten. Rechnungen/Verträge getrennt behandeln.
+Technische Ausführung alle sechs Stunden. Zugriffsaudit 90 Tage. Verschlüsselte
+Vorab-Snapshots lokal 30 Tage; Hostinger erstellt laut bestätigter
+Kontokonfiguration ein wöchentliches VPS-Backup, dessen Retention anhand des
+Tarifs noch einzutragen ist. Vor Restore das Löschjournal berücksichtigen.
+Individuelle Einschränkungen und Rechtsansprüche gesondert bewerten.
+Rechnungen/Verträge getrennt behandeln.
 
 Empfänger: bestehender VPS-/Hostinganbieter, berechtigte Administration und
 Christian. SMTP-Anbieter empfängt nur Zustelladresse und konstante Benachrichtigung,

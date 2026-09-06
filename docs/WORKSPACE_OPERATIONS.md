@@ -67,7 +67,7 @@ Lesen erneut die Anzeige gelöschter Inhalte, auch wenn ein alter Snapshot
 zurückgespielt wird. Journal mindestens bis zum Ablauf aller betroffenen
 Sicherungskopien halten; beim Restore immer die neueste separate Kopie verwenden.
 
-## Verschlüsselte Backups
+## Verschlüsselte Vorab-Backups
 
 `deploy/backup.sh` benötigt `secrets/backup-recipient.asc` (öffentlicher Schlüssel).
 Es erstellt GPG-verschlüsselte Volume-, Projekt-, Secrets-/Umgebungs- und
@@ -76,11 +76,18 @@ auf Christians Rechner unter dessen geschützter Wiederherstellungsablage.
 Backups enthalten damit auch den Workspace-Keyring. Schlüsselverlust verhindert
 Wiederherstellung: diese lokale Ablage separat gesichert und verfügbar halten.
 
+Die vereinbarte Betriebsregel lautet: unmittelbar vor jeder produktiven
+Änderung einen verschlüsselten Snapshot mit `cleonhardt-backup.service`
+erstellen, `COMPLETE` und alle Prüfsummen kontrollieren und erst danach ändern.
+Der frühere tägliche lokale Timer wird dauerhaft deaktiviert. Vorhandene Archive
+bleiben unangetastet und lokale Vorab-Sicherungen werden 30 Tage aufbewahrt.
+Hostinger erstellt laut bestätigter Kontokonfiguration einmal pro Woche ein
+VPS-Backup als zusätzliche anbieterbetriebene Sicherungsebene.
+
 Bestehende unverschlüsselte Altsicherungen werden nicht durch ein neues Skript
 nachträglich verschlüsselt. Ihre Aufbewahrung und Umstellung separat prüfen.
-Ein verschlüsselter Snapshot wird für den Rollout zusätzlich auf Christians
-Rechner kopiert. Ein dauerhaft automatisiertes externes Sicherungsziel benötigt
-noch dessen Konfiguration; die lokale Kopie ist kein permanenter Offsite-Dienst.
+Der Rollout-Snapshot vom 6. September wurde zusätzlich auf Christians Rechner
+kopiert; dies ist keine laufende automatische Sicherung.
 
 Restore: Prüfsummen vergleichen, GPG auf dem berechtigten Wiederherstellungsgerät
 entschlüsseln, in isolierte frische Volumes extrahieren, neuestes Löschjournal
@@ -89,7 +96,7 @@ Anmeldung/Autorisation/Inhalt prüfen. Niemals Restore direkt über laufende Vol
 
 ## Restrisiken und externe Voraussetzungen
 
-Hostinger-Vertrag, tatsächlicher Standort und Subprozessoren anhand des Kontos
-verifizieren. Mailkonfiguration und externe Backup-Automatik sind ohne die
-konkreten Dienste nicht abschließend betreibbar. Eine qualifizierte juristische
-Freigabe kann die technische Implementierung nicht selbst erzeugen.
+Hostinger-Vertrag, tatsächlicher Standort, VPS-Backup-Retention und
+Subprozessoren anhand des Kontos verifizieren. Die SMTP-Anmeldedaten fehlen noch.
+Eine qualifizierte juristische Freigabe kann die technische Implementierung
+nicht selbst erzeugen.
