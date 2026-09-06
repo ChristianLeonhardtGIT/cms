@@ -34,10 +34,30 @@ Produktionskonfiguration nach `/var/backups/cleonhardt`. Während der Sicherung
 werden Author, Public und Beta-Portal für wenige Sekunden pausiert, damit die
 Magnolia-Repositories und der Beta-Kontenbestand konsistent bleiben.
 
-Der Systemd-Timer `cleonhardt-backup.timer` startet die Sicherung täglich um
-03:30 Uhr Europe/Berlin mit bis zu zehn Minuten zufälliger Verzögerung. Lokale
-Sicherungen werden 30 Tage aufbewahrt. Das wöchentliche VPS-Backup bei Hostinger
-bildet die zweite Sicherungsebene.
+Vor jeder Änderung an Produktion wird `cleonhardt-backup.service` manuell
+gestartet. Erst wenn `latest/COMPLETE` existiert und die Prüfsummen erfolgreich
+validiert wurden, darf die Änderung beginnen. Bei jedem Vorab-Sicherungslauf
+werden lokale verschlüsselte Sicherungen, die älter als 30 Tage sind, entfernt.
+Ohne weitere Produktionsänderung findet kein zusätzlicher lokaler Löschlauf
+statt. Das von Christian bestätigte wöchentliche VPS-Backup bei Hostinger bildet
+die zusätzliche anbieterbetriebene Sicherungsebene.
+
+```bash
+systemctl start cleonhardt-backup.service
+test -f /var/backups/cleonhardt/latest/COMPLETE
+cd /var/backups/cleonhardt/latest
+sha256sum -c SHA256SUMS
+```
+
+Es gibt bewusst keinen täglichen lokalen Backup-Timer mehr. Bei der Umstellung
+eines bestehenden Servers den alten Timer dauerhaft abschalten; vorhandene
+Archive werden dabei nicht gelöscht:
+
+```bash
+systemctl disable --now cleonhardt-backup.timer
+rm -f /etc/systemd/system/cleonhardt-backup.timer
+systemctl daemon-reload
+```
 
 ## Automatischer ChOS-Lesestand
 

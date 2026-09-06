@@ -29,14 +29,20 @@ Einwilligung und ersetzt keine Datenschutzinformation.
 
 Aufzubewahren: Konten gemäß vereinbarter Zugangsphase; Sparring einschließlich
 Intake 30 Tage nach Abschluss/Storno, unvollständige Fälle höchstens 90 Tage.
-Technische Ausführung alle sechs Stunden. Zugriffsaudit 90 Tage. Backups 30 Tage;
-vor Restore Löschjournal berücksichtigen. Individuelle Einschränkungen und
-Rechtsansprüche gesondert bewerten. Rechnungen/Verträge getrennt behandeln.
+Technische Ausführung alle sechs Stunden. Zugriffsaudit 90 Tage. Verschlüsselte
+Vorab-Snapshots, die älter als 30 Tage sind, werden beim nächsten Vorab-Backup
+entfernt; ohne Produktionsänderung gibt es keinen separaten lokalen Löschlauf.
+Hostinger erstellt laut bestätigter
+Kontokonfiguration ein wöchentliches VPS-Backup, dessen Retention anhand des
+Tarifs noch einzutragen ist. Vor Restore das Löschjournal berücksichtigen.
+Individuelle Einschränkungen und Rechtsansprüche gesondert bewerten.
+Rechnungen/Verträge getrennt behandeln.
 
 Empfänger: bestehender VPS-/Hostinganbieter, berechtigte Administration und
-Christian. SMTP-Anbieter empfängt nur Zustelladresse und konstante Benachrichtigung,
-keine Chatinhalte. Anbieter und tatsächliche Betriebsorte abschließend eintragen;
-keine pauschale Aussage treffen, alle Daten blieben ausschließlich in Deutschland.
+Christian. Hostinger Email ist als SMTP-Weg für `kontakt@cleonhardt.de`
+vorgesehen und empfängt nur Zustelladresse und konstante Benachrichtigung, keine
+Chatinhalte. Vertrag und tatsächliche Betriebsorte abschließend eintragen; keine
+pauschale Aussage treffen, alle Daten blieben ausschließlich in Deutschland.
 Die verschlüsselte externe Wiederherstellungskopie liegt auf Christians Rechner.
 
 Rechtsgrundlagen je Verarbeitung prüfen: vertragliche Verarbeitung bei der

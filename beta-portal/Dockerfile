@@ -6,7 +6,7 @@ RUN npm ci --omit=dev --ignore-scripts
 COPY lib ./lib
 COPY public ./public
 COPY chos-reader ./chos-reader
-COPY server.mjs admin.mjs privacy-admin.mjs ./
+COPY server.mjs admin.mjs privacy-admin.mjs smtp-check.mjs ./
 
 ENV NODE_ENV=production \
     BETA_PORT=3000 \

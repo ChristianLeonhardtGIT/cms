@@ -68,6 +68,7 @@ paused="false"
 touch "${TARGET_DIR}/COMPLETE"
 ln -sfn "${STAMP}" "${BACKUP_ROOT}/latest"
 
-# Daily local retention. Hostinger's weekly VPS backup remains the off-server layer.
+# Pre-change snapshots are retained locally for 30 days. Hostinger's weekly VPS
+# backup remains the provider-managed recovery layer.
 find "${BACKUP_ROOT}" -mindepth 1 -maxdepth 1 -type d \
   -name '20??-??-??T??????Z' -mtime +30 -exec rm -rf -- {} +

@@ -5,7 +5,7 @@ import { randomBytes } from 'node:crypto';
 import { TOTP, Secret } from 'otpauth';
 import { seal, unseal } from './lib/private-data.mjs';
 import { newMfa, verifyMfa } from './lib/mfa.mjs';
-import { deliverNotifications } from './lib/notifications.mjs';
+import { deliverNotifications, mailTransport, requireSparringMail } from './lib/notifications.mjs';
 import { SparringRepository } from './lib/sparring.mjs';
 import { recordDeletion } from './lib/privacy-ledger.mjs';
 
@@ -46,6 +46,30 @@ test('Mail bleibt inhaltsfrei, Fehler behalten Vormerkung, Erfolg quittiert gena
   await deliverNotifications(repo,users,{from:'service@example.test',transport:{sendMail:async p=>{payload=p;return {accepted:['mail@example.test']};}}});
   assert.doesNotMatch(JSON.stringify(payload),/secret-marker|case/);
   assert.ok(e.notification.user.sentAt);
+});
+test('SMTP-Konfiguration bleibt optional und lehnt unsichere Kopfzeilen ab', async t => {
+  const dir=await mkdtemp('/tmp/cms-smtp-');
+  t.after(async()=>rm(dir,{recursive:true,force:true}));
+  assert.equal(await mailTransport(`${dir}/missing.json`),null);
+  const file=`${dir}/smtp.json`;
+  await writeFile(file,JSON.stringify({host:'smtp.hostinger.com',port:465,user:'kontakt@cleonhardt.de',password:'test-only',from:'kontakt@cleonhardt.de'}));
+  const mail=await mailTransport(file);
+  assert.equal(mail.from,'kontakt@cleonhardt.de');
+  assert.equal(mail.checkAddress,'kontakt@cleonhardt.de');
+  mail.transport.close();
+  await writeFile(file,JSON.stringify({host:'smtp.hostinger.com',port:465,user:'kontakt@cleonhardt.de',password:'test-only',from:'kontakt@cleonhardt.de\r\nBcc: other@example.test'}));
+  await assert.rejects(mailTransport(file),/Invalid SMTP configuration/);
+});
+test('Sparring startet nur mit erreichbarer SMTP-Verbindung', async () => {
+  await requireSparringMail(false, null);
+  await assert.rejects(requireSparringMail(true, null), /geschützte SMTP-Konfiguration/);
+  await assert.rejects(
+    requireSparringMail(true, { transport: { verify: async () => { throw new Error('private provider detail'); } } }),
+    /erreichbare SMTP-Verbindung/
+  );
+  let verified = false;
+  await requireSparringMail(true, { transport: { verify: async () => { verified = true; } } });
+  assert.equal(verified, true);
 });
 test('Separates Löschjournal verhindert Wiederherstellung gelöschter Nachrichten aus einem alten Snapshot', async t => {
   const dir=await mkdtemp('/tmp/cms-ledger-');

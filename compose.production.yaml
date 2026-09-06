@@ -62,7 +62,7 @@ services:
     environment:
       WORKSPACE_KEYRING_FILE: /app/private/workspace-keyring.json
       WORKSPACE_DELETION_LEDGER: /app/privacy-ledger/deletions.jsonl
-      WORKSPACE_SMTP_FILE: ${WORKSPACE_SMTP_FILE:-}
+      WORKSPACE_SMTP_FILE: /app/private/smtp.json
       WORKSPACE_SPARRING_ENABLED: ${WORKSPACE_SPARRING_ENABLED:-false}
       BETA_PORT: "3000"
       BETA_DATA_DIR: /app/data
