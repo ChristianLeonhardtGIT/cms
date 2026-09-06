@@ -1,9 +1,12 @@
-#!/bin/sh
-set -eu
+#!/bin/bash
+set -euo pipefail
+umask 077
 
 PROJECT_DIR="/opt/cleonhardt"
 BACKUP_ROOT="/var/backups/cleonhardt"
 COMPOSE_FILE="${PROJECT_DIR}/compose.production.yaml"
+RECIPIENT_FILE="${PROJECT_DIR}/secrets/backup-recipient.asc"
+test -s "${RECIPIENT_FILE}"
 STAMP="$(date -u +%Y-%m-%dT%H%M%SZ)"
 TARGET_DIR="${BACKUP_ROOT}/${STAMP}"
 
@@ -34,10 +37,10 @@ paused="true"
 
 for volume in ${VOLUMES}; do
   mountpoint="$(docker volume inspect --format '{{ .Mountpoint }}' "${volume}")"
-  tar --numeric-owner -C "${mountpoint}" -czf "${TARGET_DIR}/${volume}.tar.gz" .
+  tar --numeric-owner -C "${mountpoint}" -czf - . | gpg --batch --yes --recipient-file "${RECIPIENT_FILE}" --encrypt --output "${TARGET_DIR}/${volume}.tar.gz.gpg"
 done
 
-tar -C "${PROJECT_DIR}" -czf "${TARGET_DIR}/project-config.tar.gz" \
+tar -C "${PROJECT_DIR}" -czf - \
   VERSION \
   Dockerfile.production \
   compose.production.yaml \
@@ -45,11 +48,18 @@ tar -C "${PROJECT_DIR}" -czf "${TARGET_DIR}/project-config.tar.gz" \
   docker \
   beta-portal \
   docs \
-  light-modules
+  light-modules | gpg --batch --yes --recipient-file "${RECIPIENT_FILE}" --encrypt --output "${TARGET_DIR}/project-config.tar.gz.gpg"
+
+# Secrets and deletion ledger are a separate encrypted recovery layer.
+tar -C "${PROJECT_DIR}" -czf - secrets .env privacy-ledger | gpg --batch --yes --recipient-file "${RECIPIENT_FILE}" --encrypt --output "${TARGET_DIR}/protected-config.tar.gz.gpg"
+
+if test -d /etc/cleonhardt; then
+  tar -C / -czf - etc/cleonhardt | gpg --batch --yes --recipient-file "${RECIPIENT_FILE}" --encrypt --output "${TARGET_DIR}/system-secrets.tar.gz.gpg"
+fi
 
 (
   cd "${TARGET_DIR}"
-  sha256sum ./*.tar.gz > SHA256SUMS
+  sha256sum ./*.tar.gz.gpg > SHA256SUMS
 )
 
 docker compose -f "${COMPOSE_FILE}" unpause magnolia-author magnolia-public beta-portal >/dev/null

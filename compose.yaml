@@ -19,6 +19,7 @@ services:
     ports:
       - "127.0.0.1:${BETA_PORT:-3090}:3000"
     environment:
+      WORKSPACE_SPARRING_ENABLED: ${WORKSPACE_SPARRING_ENABLED:-false}
       BETA_PORT: "3000"
       BETA_DATA_DIR: /app/data
       BETA_PUBLIC_ORIGIN: http://127.0.0.1:${BETA_PORT:-3090}

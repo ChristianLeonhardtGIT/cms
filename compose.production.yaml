@@ -60,6 +60,10 @@ services:
     build:
       context: ./beta-portal
     environment:
+      WORKSPACE_KEYRING_FILE: /app/private/workspace-keyring.json
+      WORKSPACE_DELETION_LEDGER: /app/privacy-ledger/deletions.jsonl
+      WORKSPACE_SMTP_FILE: ${WORKSPACE_SMTP_FILE:-}
+      WORKSPACE_SPARRING_ENABLED: ${WORKSPACE_SPARRING_ENABLED:-false}
       BETA_PORT: "3000"
       BETA_DATA_DIR: /app/data
       BETA_PUBLIC_ORIGIN: https://cleonhardt.de
@@ -69,6 +73,8 @@ services:
       - "3000"
     volumes:
       - beta-portal-data:/app/data
+      - ./secrets/workspace:/app/private:ro
+      - ./privacy-ledger:/app/privacy-ledger
       - ./runtime/chos:/app/chos-runtime:ro
     mem_limit: 256m
     logging:

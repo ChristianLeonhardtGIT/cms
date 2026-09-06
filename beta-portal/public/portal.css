@@ -81,3 +81,7 @@ footer a { display: inline-flex; min-height: 44px; align-items: center; }
   footer { flex-wrap: wrap; }
   footer span { width: 100%; }
 }
+
+.sparring-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+[data-sparring] article { padding: 1rem; margin: 1rem 0; border: 1px solid #667085; border-radius: .75rem; }
+textarea { width: 100%; box-sizing: border-box; font: inherit; }

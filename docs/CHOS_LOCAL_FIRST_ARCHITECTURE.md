@@ -53,7 +53,7 @@ Eingabe
   -> sofort in IndexedDB-Outbox speichern
   -> lokale Projektion aktualisieren
   -> Oberfläche zeigt die Änderung
-  -> bei Verbindung POST /beta/api/workspace/sync
+  -> bei Verbindung POST /workspace/api/workspace/sync
   -> Server dedupliziert die Operations-ID
   -> Server vergibt einen monotonen Cursor
   -> Client übernimmt neue Server-Operationen

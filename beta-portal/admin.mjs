@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+import { recordDeletion } from './lib/privacy-ledger.mjs';
+import { SparringRepository } from './lib/sparring.mjs';
 import { randomUUID } from 'node:crypto';
 import { accessPhase, addDays, normalizeEmail, parseStartDate, randomToken, tokenDigest } from './lib/security.mjs';
 import { ensureStore, findUserByEmail, loadStore, updateStore } from './lib/store.mjs';
@@ -28,7 +30,7 @@ Einladungen sind 72 Stunden gültig. Passwörter werden nie über die Kommandoze
 
 function inviteUrl(token) {
   const origin = (process.env.BETA_PUBLIC_ORIGIN || 'https://cleonhardt.de').replace(/\/$/, '');
-  return `${origin}/beta/einladung?token=${encodeURIComponent(token)}`;
+  return `${origin}/workspace/einladung?token=${encodeURIComponent(token)}`;
 }
 
 async function invite(options) {
@@ -144,6 +146,8 @@ async function remove(options) {
     user.updatedAt = new Date().toISOString();
     return user.id;
   });
+  await recordDeletion('delete-user', userId);
+  await new SparringRepository(process.env.BETA_DATA_DIR || '/app/data').deleteUser(userId);
   await workspaceRepository.delete(userId);
   await updateStore((store) => {
     store.users = store.users.filter((user) => user.id !== userId);

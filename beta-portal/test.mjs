@@ -49,7 +49,7 @@ function firstCookie(response, name) {
 async function waitForServer(origin) {
   for (let count = 0; count < 60; count += 1) {
     try {
-      const response = await fetch(`${origin}/beta/health`);
+      const response = await fetch(`${origin}/workspace/health`);
       if (response.ok) return;
     } catch {}
     await new Promise((resolve) => setTimeout(resolve, 50));
@@ -154,7 +154,7 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.match(workspaceHtml, /workspace\.css\?v=20260825-1/);
   assert.match(workspaceHtml, /Lokale Speicherung zuerst/);
   assert.match(workspaceHtml, /ChOS-Wissen zum Vertiefen/);
-  assert.match(workspaceHtml, /href="\/beta\/konto">Konto/);
+  assert.match(workspaceHtml, /href="\/workspace\/konto">Konto/);
   assert.match(workspaceHtml, />Zurück zu ChOS</);
   assert.doesNotMatch(workspaceHtml, /\bMVP\b|Magnolia/i);
   assert.match(workspaceCss, /--brand-dark:\s*#0d3f29/);
@@ -166,24 +166,24 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.match(workspaceApp, /rel = 'noopener'/);
   assert.match(workspaceApp, /rankRelatedContent/);
   assert.match(workspaceApp, /localStorage\.setItem\(KNOWLEDGE_CACHE_KEY/);
-  assert.match(workspaceApp, /\/beta\/api\/workspace\/knowledge-index/);
+  assert.match(workspaceApp, /\/workspace\/api\/workspace\/knowledge-index/);
   assert.match(portalCss, /\.brand\s*\{[^}]*min-height:\s*44px/s);
   assert.match(portalCss, /footer a\s*\{[^}]*min-height:\s*44px/s);
   assert.match(portalCss, /\.portal-nav a\s*\{[^}]*min-height:\s*44px/s);
   assert.match(serverSource, /portal\.css\?v=20260824-3/);
   assert.match(pageTemplate, /class="chos-workspace-entry"/);
-  assert.match(pageTemplate, /href="\/beta\/workspace"/);
+  assert.match(pageTemplate, /href="\/workspace\/workspace"/);
   assert.match(pageTemplate, /site\.css\?v=20260824-4/);
   assert.match(siteCss, /\.chos-workspace-entry/);
   assert.match(siteCss, /\.chos-workspace-entry__copy \.eyebrow\s*\{\s*color:\s*var\(--brand\)/);
   assert.doesNotMatch(pageTemplate, /class="site-workspace-link"/);
-  assert.match(offlineReader, /\/beta\/api\/chos\/offline-bundle/);
+  assert.match(offlineReader, /\/workspace\/api\/chos\/offline-bundle/);
   assert.match(offlineReader, /await cache\.put/);
   assert.match(offlineReader, /localStorage\.setItem\(KNOWLEDGE_CACHE_KEY/);
   assert.match(offlineReader, /localStorage\.removeItem\(KNOWLEDGE_CACHE_KEY/);
   assert.match(offlineWorker, /response\.redirected \|\| response\.status === 401 \|\| response\.status === 403/);
   assert.match(offlineWorker, /CACHE_PREFIX = 'chos-reader-v1-'/);
-  assert.match(offlineWorker, /\/beta\/api\/chos\/knowledge-index/);
+  assert.match(offlineWorker, /\/workspace\/api\/chos\/knowledge-index/);
   assert.match(serverSource, /fingerprint\.update\(`portal:\$\{portalVersion\}/);
   assert.match(serverSource, /fingerprint\.update\(ownerBridgeCss\)/);
   assert.match(ownerBridgeCss, /min-height:\s*44px/);
@@ -201,6 +201,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   process.env.BETA_HOST = '127.0.0.1';
   process.env.BETA_COOKIE_SECURE = 'false';
   process.env.BETA_PUBLIC_ORIGIN = origin;
+  process.env.WORKSPACE_SPARRING_ENABLED = 'true';
   const token = randomToken();
   const ownerToken = randomToken();
   const startAt = `${start}T00:00:00.000Z`;
@@ -242,32 +243,41 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
       updatedAt: new Date().toISOString()
     });
   });
-  const invitationUrl = `${origin}/beta/einladung?token=${token}`;
+  const invitationUrl = `${origin}/workspace/einladung?token=${token}`;
   const { server } = await import('./server.mjs');
   context.after(async () => {
     await new Promise((resolve) => server.close(resolve));
     await rm(directory, { recursive: true, force: true });
   });
   await waitForServer(origin);
+  const legacy = await fetch(`${origin}/beta/konto?status=email`, { redirect: 'manual' });
+  assert.equal(legacy.status, 308);
+  assert.equal(legacy.headers.get('location'), '/workspace/konto?status=email');
+  assert.equal((await fetch(`${origin}/beta/api/workspace/sync`, { method: 'POST' })).status, 409);
+  const oldWorker = await fetch(`${origin}/beta/offline-sw.mjs`, { redirect: 'manual' });
+  assert.equal(oldWorker.status, 200);
+  assert.match(await oldWorker.text(), /registration.unregister/);
+  assert.equal(oldWorker.headers.get('service-worker-allowed'), '/beta/');
 
-  let response = await fetch(`${origin}/beta/health`);
+
+  let response = await fetch(`${origin}/workspace/health`);
   assert.deepEqual(await response.json(), { status: 'ok', version: '0.6.0' });
 
-  response = await fetch(`${origin}/beta/`, { redirect: 'manual' });
+  response = await fetch(`${origin}/workspace/`, { redirect: 'manual' });
   assert.equal(response.status, 303);
-  assert.equal(response.headers.get('location'), '/beta/login');
+  assert.equal(response.headers.get('location'), '/workspace/login');
 
   response = await fetch(invitationUrl, { redirect: 'manual' });
   assert.equal(response.status, 303);
   const inviteCookie = firstCookie(response, 'chos_beta_invite');
 
-  response = await fetch(`${origin}/beta/einladung`, { headers: { cookie: inviteCookie } });
+  response = await fetch(`${origin}/workspace/einladung`, { headers: { cookie: inviteCookie } });
   const invitationHtml = await response.text();
   assert.equal(response.status, 200);
   assert.match(invitationHtml, /Beta Person/);
   const invitationNonce = hidden(invitationHtml, 'nonce');
 
-  response = await fetch(`${origin}/beta/einladung`, {
+  response = await fetch(`${origin}/workspace/einladung`, {
     method: 'POST',
     redirect: 'manual',
     headers: { cookie: inviteCookie, 'content-type': 'application/x-www-form-urlencoded' },
@@ -276,19 +286,19 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(response.status, 303);
   const sessionCookie = firstCookie(response, 'chos_beta_session');
 
-  response = await fetch(`${origin}/beta/`, { headers: { cookie: sessionCookie } });
+  response = await fetch(`${origin}/workspace/`, { headers: { cookie: sessionCookie } });
   const dashboard = await response.text();
   assert.equal(response.status, 200);
   assert.match(dashboard, /Willkommen, Beta Person/);
   assert.match(dashboard, /8 Stunden verfügbar/);
 
-  response = await fetch(`${origin}/beta/onboarding`, { headers: { cookie: sessionCookie } });
+  response = await fetch(`${origin}/workspace/onboarding`, { headers: { cookie: sessionCookie } });
   assert.equal(response.status, 200);
   assert.match(await response.text(), /Diagnose vor Eingriff/);
 
-  response = await fetch(`${origin}/beta/`, { headers: { cookie: sessionCookie } });
+  response = await fetch(`${origin}/workspace/`, { headers: { cookie: sessionCookie } });
   const logoutNonce = hidden(await response.text(), 'nonce');
-  response = await fetch(`${origin}/beta/logout`, {
+  response = await fetch(`${origin}/workspace/logout`, {
     method: 'POST',
     redirect: 'manual',
     headers: { cookie: sessionCookie, 'content-type': 'application/x-www-form-urlencoded' },
@@ -296,10 +306,10 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   });
   assert.equal(response.status, 303);
 
-  response = await fetch(`${origin}/beta/login`);
+  response = await fetch(`${origin}/workspace/login`);
   const loginHtml = await response.text();
   const loginNonce = hidden(loginHtml, 'nonce');
-  response = await fetch(`${origin}/beta/login`, {
+  response = await fetch(`${origin}/workspace/login`, {
     method: 'POST',
     redirect: 'manual',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -308,68 +318,68 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(response.status, 303);
   let participantLoginCookie = firstCookie(response, 'chos_beta_session');
 
-  response = await fetch(`${origin}/beta/konto`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/konto`, { headers: { cookie: participantLoginCookie } });
   let accountHtml = await response.text();
   assert.equal(response.status, 200);
   assert.match(accountHtml, /Konto verwalten/);
   assert.match(accountHtml, /beta@beispiel\.de/);
 
-  response = await fetch(`${origin}/beta/konto/email`, {
+  response = await fetch(`${origin}/workspace/konto/email`, {
     method: 'POST',
     redirect: 'manual',
     headers: { cookie: participantLoginCookie, 'content-type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ nonce: formNonce(accountHtml, '/beta/konto/email'), email: 'beta-neu@beispiel.de', 'current-password': 'Falsches-Testpasswort-2026!' })
+    body: new URLSearchParams({ nonce: formNonce(accountHtml, '/workspace/konto/email'), email: 'beta-neu@beispiel.de', 'current-password': 'Falsches-Testpasswort-2026!' })
   });
   accountHtml = await response.text();
   assert.equal(response.status, 403);
   assert.match(accountHtml, /aktuelle Passwort ist nicht korrekt/);
 
-  response = await fetch(`${origin}/beta/konto/email`, {
+  response = await fetch(`${origin}/workspace/konto/email`, {
     method: 'POST',
     redirect: 'manual',
     headers: { cookie: participantLoginCookie, 'content-type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ nonce: formNonce(accountHtml, '/beta/konto/email'), email: 'owner@beispiel.de', 'current-password': 'Eine-sehr-lange-Test-Passphrase!' })
+    body: new URLSearchParams({ nonce: formNonce(accountHtml, '/workspace/konto/email'), email: 'owner@beispiel.de', 'current-password': 'Eine-sehr-lange-Test-Passphrase!' })
   });
   accountHtml = await response.text();
   assert.equal(response.status, 409);
   assert.match(accountHtml, /bereits verwendet/);
 
-  response = await fetch(`${origin}/beta/konto/email`, {
+  response = await fetch(`${origin}/workspace/konto/email`, {
     method: 'POST',
     redirect: 'manual',
     headers: { cookie: participantLoginCookie, 'content-type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ nonce: formNonce(accountHtml, '/beta/konto/email'), email: 'beta-neu@beispiel.de', 'current-password': 'Eine-sehr-lange-Test-Passphrase!' })
+    body: new URLSearchParams({ nonce: formNonce(accountHtml, '/workspace/konto/email'), email: 'beta-neu@beispiel.de', 'current-password': 'Eine-sehr-lange-Test-Passphrase!' })
   });
   assert.equal(response.status, 303);
-  assert.equal(response.headers.get('location'), '/beta/konto?status=email');
+  assert.equal(response.headers.get('location'), '/workspace/konto?status=email');
 
-  response = await fetch(`${origin}/beta/konto?status=email`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/konto?status=email`, { headers: { cookie: participantLoginCookie } });
   accountHtml = await response.text();
   assert.match(accountHtml, /E-Mail-Adresse wurde geändert/);
   assert.match(accountHtml, /beta-neu@beispiel\.de/);
 
-  response = await fetch(`${origin}/beta/konto/passwort`, {
+  response = await fetch(`${origin}/workspace/konto/passwort`, {
     method: 'POST',
     redirect: 'manual',
     headers: { cookie: participantLoginCookie, 'content-type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
-      nonce: formNonce(accountHtml, '/beta/konto/passwort'),
+      nonce: formNonce(accountHtml, '/workspace/konto/passwort'),
       'current-password': 'Eine-sehr-lange-Test-Passphrase!',
       password: 'Neue-sehr-lange-Test-Passphrase!',
       confirm: 'Neue-sehr-lange-Test-Passphrase!'
     })
   });
   assert.equal(response.status, 303);
-  assert.equal(response.headers.get('location'), '/beta/konto?status=password');
+  assert.equal(response.headers.get('location'), '/workspace/konto?status=password');
   participantLoginCookie = firstCookie(response, 'chos_beta_session');
 
-  response = await fetch(`${origin}/beta/konto?status=password`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/konto?status=password`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 200);
   assert.match(await response.text(), /Passwort wurde geändert/);
 
-  response = await fetch(`${origin}/beta/login`);
+  response = await fetch(`${origin}/workspace/login`);
   let changedLoginHtml = await response.text();
-  response = await fetch(`${origin}/beta/login`, {
+  response = await fetch(`${origin}/workspace/login`, {
     method: 'POST',
     redirect: 'manual',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -377,9 +387,9 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   });
   assert.equal(response.status, 401);
 
-  response = await fetch(`${origin}/beta/login`);
+  response = await fetch(`${origin}/workspace/login`);
   changedLoginHtml = await response.text();
-  response = await fetch(`${origin}/beta/login`, {
+  response = await fetch(`${origin}/workspace/login`, {
     method: 'POST',
     redirect: 'manual',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -388,25 +398,25 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(response.status, 303);
   participantLoginCookie = firstCookie(response, 'chos_beta_session');
 
-  response = await fetch(`${origin}/beta/chos/`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/chos/`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 403);
 
-  response = await fetch(`${origin}/beta/workspace/`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/workspace/`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 200);
   assert.match(await response.text(), /ChOS Arbeitsraum/);
 
-  response = await fetch(`${origin}/beta/workspace/assets/app.mjs`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/workspace/assets/app.mjs`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 200);
   assert.match(response.headers.get('content-type'), /text\/javascript/);
 
-  response = await fetch(`${origin}/beta/api/workspace/bootstrap`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/api/workspace/bootstrap`, { headers: { cookie: participantLoginCookie } });
   const bootstrap = await response.json();
   assert.equal(response.status, 200);
   assert.equal(bootstrap.canWrite, true);
   assert.equal(bootstrap.boundaries.userData, 'local-first-workspace');
   assert.equal(bootstrap.knowledge.available, false);
 
-  response = await fetch(`${origin}/beta/api/workspace/knowledge-index`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/api/workspace/knowledge-index`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 403);
 
   const actorId = 'browser_test_0001';
@@ -422,7 +432,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
     'content-type': 'application/json',
     'x-chos-client': 'workspace-v1'
   };
-  response = await fetch(`${origin}/beta/api/workspace/sync`, {
+  response = await fetch(`${origin}/workspace/api/workspace/sync`, {
     method: 'POST',
     headers: syncHeaders,
     body: JSON.stringify({ protocolVersion: 1, after: 0, operations: [caseOperation, itemOperation] })
@@ -433,7 +443,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(firstSync.operations.length, 2);
   assert.deepEqual(firstSync.acceptedOperationIds, [caseOperation.id, itemOperation.id]);
 
-  response = await fetch(`${origin}/beta/api/workspace/sync`, {
+  response = await fetch(`${origin}/workspace/api/workspace/sync`, {
     method: 'POST',
     headers: syncHeaders,
     body: JSON.stringify({ protocolVersion: 1, after: 2, operations: [caseOperation, itemOperation] })
@@ -443,7 +453,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(repeatedSync.cursor, 2);
   assert.equal(repeatedSync.operations.length, 0);
 
-  response = await fetch(`${origin}/beta/api/workspace/sync`, {
+  response = await fetch(`${origin}/workspace/api/workspace/sync`, {
     method: 'POST',
     headers: syncHeaders,
     body: JSON.stringify({ protocolVersion: 1, after: 99, operations: [] })
@@ -452,7 +462,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(resetSync.reset, true);
   assert.equal(resetSync.operations.length, 2);
 
-  response = await fetch(`${origin}/beta/api/workspace/sync`, {
+  response = await fetch(`${origin}/workspace/api/workspace/sync`, {
     method: 'POST',
     headers: syncHeaders,
     body: JSON.stringify({
@@ -468,7 +478,7 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
     participant.activeUntil = new Date(Date.now() - 60_000).toISOString();
     participant.readUntil = addDays(new Date(), 1);
   });
-  response = await fetch(`${origin}/beta/api/workspace/sync`, {
+  response = await fetch(`${origin}/workspace/api/workspace/sync`, {
     method: 'POST',
     headers: syncHeaders,
     body: JSON.stringify({
@@ -479,30 +489,30 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   });
   assert.equal(response.status, 403);
 
-  response = await fetch(`${origin}/beta/einladung?token=${ownerToken}`, { redirect: 'manual' });
+  response = await fetch(`${origin}/workspace/einladung?token=${ownerToken}`, { redirect: 'manual' });
   assert.equal(response.status, 303);
   const ownerInviteCookie = firstCookie(response, 'chos_beta_invite');
-  response = await fetch(`${origin}/beta/einladung`, { headers: { cookie: ownerInviteCookie } });
+  response = await fetch(`${origin}/workspace/einladung`, { headers: { cookie: ownerInviteCookie } });
   const ownerInvitationHtml = await response.text();
   assert.match(ownerInvitationHtml, /Deinen ChOS-Zugang einrichten/);
   const ownerNonce = hidden(ownerInvitationHtml, 'nonce');
-  response = await fetch(`${origin}/beta/einladung`, {
+  response = await fetch(`${origin}/workspace/einladung`, {
     method: 'POST',
     redirect: 'manual',
     headers: { cookie: ownerInviteCookie, 'content-type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({ nonce: ownerNonce, password: 'Owner-Testpasswort-2026!', confirm: 'Owner-Testpasswort-2026!', accepted: 'yes' })
   });
   assert.equal(response.status, 303);
-  assert.equal(response.headers.get('location'), '/beta/chos/');
+  assert.equal(response.headers.get('location'), '/workspace/chos/');
   const ownerSessionCookie = firstCookie(response, 'chos_beta_session');
 
-  response = await fetch(`${origin}/beta/api/workspace/bootstrap`, { headers: { cookie: ownerSessionCookie } });
+  response = await fetch(`${origin}/workspace/api/workspace/bootstrap`, { headers: { cookie: ownerSessionCookie } });
   const ownerBootstrap = await response.json();
   assert.equal(response.status, 200);
   assert.equal(ownerBootstrap.knowledge.available, true);
   assert.equal(ownerBootstrap.knowledge.processing, 'local');
 
-  response = await fetch(`${origin}/beta/api/workspace/knowledge-index`, { headers: { cookie: ownerSessionCookie } });
+  response = await fetch(`${origin}/workspace/api/workspace/knowledge-index`, { headers: { cookie: ownerSessionCookie } });
   const knowledgeIndex = await response.json();
   assert.equal(response.status, 200);
   assert.equal(knowledgeIndex.schemaVersion, 1);
@@ -510,67 +520,126 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.ok(knowledgeIndex.entries.length > 50);
   assert.ok(knowledgeIndex.entries.some((entry) => entry.path === 'docs/05-entscheidungsmodell.html'));
 
-  response = await fetch(`${origin}/beta/chos/`, { headers: { cookie: ownerSessionCookie } });
+  response = await fetch(`${origin}/workspace/chos/`, { headers: { cookie: ownerSessionCookie } });
   const chosHome = await response.text();
   assert.equal(response.status, 200);
   assert.match(chosHome, /ChOS 0.6 Beta.1/);
-  assert.match(chosHome, /href="\/beta\/workspace\/">Workspace<\/a>/);
-  assert.match(chosHome, /href="\/beta\/konto"/);
+  assert.match(chosHome, /href="\/workspace\/workspace\/">Workspace<\/a>/);
+  assert.match(chosHome, /href="\/workspace\/konto"/);
   assert.match(chosHome, /data-offline-reader/);
   assert.match(chosHome, /Aktuellen Stand speichern/);
   assert.match(chosHome, /offline-reader\.mjs/);
   assert.match(response.headers.get('content-security-policy'), /script-src 'self'/);
   assert.match(response.headers.get('content-security-policy'), /worker-src 'self'/);
 
-  response = await fetch(`${origin}/beta/api/chos/offline-manifest`, { headers: { cookie: ownerSessionCookie } });
+  response = await fetch(`${origin}/workspace/api/chos/offline-manifest`, { headers: { cookie: ownerSessionCookie } });
   const offlineManifest = await response.json();
   assert.equal(response.status, 200);
   assert.equal(offlineManifest.schemaVersion, 1);
   assert.match(offlineManifest.version, /^[a-f0-9]{16}$/);
   assert.ok(offlineManifest.fileCount > 80);
   assert.ok(offlineManifest.sizeBytes > 2 * 1024 * 1024);
-  assert.ok(offlineManifest.urls.includes('/beta/chos/'));
-  assert.ok(offlineManifest.urls.includes('/beta/assets/offline-reader.mjs'));
-  assert.ok(offlineManifest.urls.includes('/beta/api/chos/knowledge-index'));
+  assert.ok(offlineManifest.urls.includes('/workspace/chos/'));
+  assert.ok(offlineManifest.urls.includes('/workspace/assets/offline-reader.mjs'));
+  assert.ok(offlineManifest.urls.includes('/workspace/api/chos/knowledge-index'));
 
-  response = await fetch(`${origin}/beta/api/chos/offline-bundle`, { headers: { cookie: ownerSessionCookie } });
+  response = await fetch(`${origin}/workspace/api/chos/offline-bundle`, { headers: { cookie: ownerSessionCookie } });
   const offlineBundle = await response.json();
   assert.equal(response.status, 200);
   assert.equal(offlineBundle.schemaVersion, 1);
   assert.equal(offlineBundle.manifest.version, offlineManifest.version);
   assert.equal(offlineBundle.files.length, offlineManifest.fileCount);
-  assert.match(Buffer.from(offlineBundle.files.find((file) => file.url === '/beta/chos/').body, 'base64').toString('utf8'), /data-offline-reader/);
+  assert.match(Buffer.from(offlineBundle.files.find((file) => file.url === '/workspace/chos/').body, 'base64').toString('utf8'), /data-offline-reader/);
   assert.deepEqual(
-    JSON.parse(Buffer.from(offlineBundle.files.find((file) => file.url === '/beta/api/chos/knowledge-index').body, 'base64').toString('utf8')),
+    JSON.parse(Buffer.from(offlineBundle.files.find((file) => file.url === '/workspace/api/chos/knowledge-index').body, 'base64').toString('utf8')),
     knowledgeIndex
   );
 
-  response = await fetch(`${origin}/beta/api/chos/offline-manifest`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/api/chos/offline-manifest`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 403);
 
-  response = await fetch(`${origin}/beta/api/chos/offline-bundle`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/api/chos/offline-bundle`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 403);
 
-  response = await fetch(`${origin}/beta/offline-sw.mjs`);
+  response = await fetch(`${origin}/workspace/offline-sw.mjs`);
   assert.equal(response.status, 200);
-  assert.match(response.headers.get('service-worker-allowed'), /\/beta\//);
+  assert.match(response.headers.get('service-worker-allowed'), /\/workspace\//);
   assert.match(response.headers.get('cache-control'), /no-cache/);
 
-  response = await fetch(`${origin}/beta/assets/offline-reader.mjs`);
+  response = await fetch(`${origin}/workspace/assets/offline-reader.mjs`);
   assert.equal(response.status, 200);
   assert.match(response.headers.get('content-type'), /text\/javascript/);
 
-  response = await fetch(`${origin}/beta/chos/docs/05-entscheidungsmodell.html`, { headers: { cookie: ownerSessionCookie } });
+  response = await fetch(`${origin}/workspace/chos/docs/05-entscheidungsmodell.html`, { headers: { cookie: ownerSessionCookie } });
   assert.equal(response.status, 200);
   assert.match(await response.text(), /Entscheidungsmodell/);
 
-  response = await fetch(`${origin}/beta/chos/assets/app.js`, { headers: { cookie: ownerSessionCookie } });
+  response = await fetch(`${origin}/workspace/chos/assets/app.js`, { headers: { cookie: ownerSessionCookie } });
   assert.equal(response.status, 200);
   assert.match(response.headers.get('content-type'), /text\/javascript/);
 
-  response = await fetch(`${origin}/beta/konto`, { headers: { cookie: ownerSessionCookie } });
+  response = await fetch(`${origin}/workspace/konto`, { headers: { cookie: ownerSessionCookie } });
   assert.equal(response.status, 200);
   assert.match(await response.text(), /Persönlicher Zugriff/);
+
+  // Full authenticated HTTP flow, including forged IDs, CSRF and content handling.
+  const { SparringRepository, POLICY_VERSION, INTAKE_FIELDS } = await import('./lib/sparring.mjs');
+  const sparringRepo = new SparringRepository(directory);
+  await updateStore(store => {
+    const client = store.users.find(u => u.role !== 'owner');
+    client.activeUntil = addDays(new Date(), 60);
+    client.readUntil = addDays(new Date(), 90);
+  });
+  const accounts = JSON.parse(await readFile(path.join(directory, 'accounts.json'), 'utf8'));
+  const clientAccount = accounts.users.find(u => u.role !== 'owner');
+  const ownerAccount = accounts.users.find(u => u.role === 'owner');
+  const getPage = async (route, cookie) => fetch(`${origin}${route}`, { headers: { cookie }, redirect: 'manual' });
+  const submit = async (route, cookie, values) => fetch(`${origin}${route}`, { method: 'POST', redirect: 'manual', headers: { cookie, 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(values) });
+  const overview = await getPage('/workspace/sparring', ownerSessionCookie);
+  response = await submit('/workspace/sparring', ownerSessionCookie, { nonce: hidden(await overview.text(), 'nonce'), clientId: clientAccount.id });
+  assert.equal(response.status, 303);
+  const sparringRoute = response.headers.get('location');
+  const sparringId = sparringRoute.split('/').at(-1);
+  let sparringHtml = await (await getPage(sparringRoute, participantLoginCookie)).text();
+  response = await submit(sparringRoute, participantLoginCookie, { action: 'intake', nonce: hidden(sparringHtml, 'nonce'), accepted: POLICY_VERSION, business: 'yes', ...Object.fromEntries(Object.keys(INTAKE_FIELDS).map(k => [k, 'Abstrahiertes Anliegen'])) });
+  assert.equal(response.status, 303);
+  sparringHtml = await (await getPage(sparringRoute, ownerSessionCookie)).text();
+  response = await submit(sparringRoute, participantLoginCookie, { action: 'start', nonce: hidden(sparringHtml, 'nonce') });
+  assert.equal(response.status, 403); // A nonce from another session cannot authorize.
+  sparringHtml = await (await getPage(sparringRoute, ownerSessionCookie)).text();
+  response = await submit(sparringRoute, ownerSessionCookie, { action: 'start', nonce: hidden(sparringHtml, 'nonce') });
+  assert.equal(response.status, 303);
+  sparringHtml = await (await getPage(sparringRoute, participantLoginCookie)).text();
+  response = await submit(sparringRoute, participantLoginCookie, { action: 'message', nonce: hidden(sparringHtml, 'nonce'), requestId: 'http-test-request-123', body: '<script>private-http-marker</script>' });
+  assert.equal(response.status, 303);
+  assert.equal(response.headers.get('location'), sparringRoute);
+  response = await getPage(sparringRoute, ownerSessionCookie);
+  assert.match(response.headers.get('cache-control'), /no-store/);
+  const chatHtml = await response.text();
+  assert.match(chatHtml, /&lt;script&gt;private-http-marker/);
+  assert.doesNotMatch(chatHtml, /<script>private-http-marker/);
+  const foreign = await sparringRepo.create(ownerAccount, { id: randomUUID() });
+  response = await getPage(`/workspace/api/sparring/${foreign.id}`, participantLoginCookie);
+  assert.equal(response.status, 404);
+  assert.equal((await fetch(`${origin}/workspace/api/sparring/${sparringId}`)).status, 401);
+  sparringHtml = await (await getPage(sparringRoute, participantLoginCookie)).text();
+  response = await submit(`/workspace/sparring/${foreign.id}`, participantLoginCookie, { action: 'message', nonce: hidden(sparringHtml, 'nonce'), requestId: 'forged-id-request-123', body: 'forbidden' });
+  assert.equal(response.status, 403);
+  const capturedErrors = [];
+  const originalError = console.error;
+  console.error = (...parts) => capturedErrors.push(parts.join(' '));
+  try {
+    const invalidCookie = await fetch(`${origin}/workspace/api/sparring/${sparringId}`, { headers: { cookie: 'invalid%=private-http-marker' } });
+    assert.equal(invalidCookie.status, 500);
+  } finally { console.error = originalError; }
+  assert.deepEqual(capturedErrors, ['[workspace] request failed']);
+  const apiResult = await getPage(`/workspace/api/sparring/${sparringId}`, ownerSessionCookie);
+  assert.match(apiResult.headers.get('cache-control'), /no-store/);
+  assert.equal((await apiResult.json()).messages.length, 1);
+  const ownerChat = await (await getPage(sparringRoute, ownerSessionCookie)).text();
+  assert.equal((await submit(sparringRoute, ownerSessionCookie, { action: 'complete', nonce: hidden(ownerChat, 'nonce') })).status, 303);
+  assert.equal((await sparringRepo.get(sparringId, ownerAccount)).status, 'completed');
+  await sparringRepo.deleteUser(foreign.clientId);
 
   const stored = JSON.parse(await readFile(path.join(directory, 'accounts.json'), 'utf8'));
   assert.equal(stored.users.length, 2);
@@ -579,30 +648,30 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(stored.users[1].role, 'owner');
   assert.equal(stored.users[1].inviteTokenHash, null);
 
-  response = await fetch(`${origin}/beta/konto`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/konto`, { headers: { cookie: participantLoginCookie } });
   accountHtml = await response.text();
-  response = await fetch(`${origin}/beta/konto/loeschen`, {
+  response = await fetch(`${origin}/workspace/konto/loeschen`, {
     method: 'POST',
     redirect: 'manual',
     headers: { cookie: participantLoginCookie, 'content-type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
-      nonce: formNonce(accountHtml, '/beta/konto/loeschen'),
+      nonce: formNonce(accountHtml, '/workspace/konto/loeschen'),
       'current-password': 'Neue-sehr-lange-Test-Passphrase!',
       'confirm-email': 'beta-neu@beispiel.de'
     })
   });
   assert.equal(response.status, 303);
-  assert.equal(response.headers.get('location'), '/beta/konto-geloescht');
+  assert.equal(response.headers.get('location'), '/workspace/konto-geloescht');
   const deletedWorkspaceCookie = firstCookie(response, 'chos_beta_deleted_workspace');
 
-  response = await fetch(`${origin}/beta/konto-geloescht`, { headers: { cookie: deletedWorkspaceCookie } });
+  response = await fetch(`${origin}/workspace/konto-geloescht`, { headers: { cookie: deletedWorkspaceCookie } });
   const deletedHtml = await response.text();
   assert.equal(response.status, 200);
   assert.match(deletedHtml, /Dein Konto wurde gelöscht/);
   assert.match(deletedHtml, /account-delete\.mjs/);
   assert.match(deletedHtml, /offline gespeicherte ChOS-Inhalte/);
 
-  response = await fetch(`${origin}/beta/assets/account-delete.mjs`);
+  response = await fetch(`${origin}/workspace/assets/account-delete.mjs`);
   assert.equal(response.status, 200);
   assert.match(response.headers.get('content-type'), /text\/javascript/);
   const accountDeleteScript = await response.text();
@@ -613,6 +682,18 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   assert.equal(afterRemoval.users.length, 1);
   assert.equal((await readdir(path.join(directory, 'workspaces'))).filter((name) => name.endsWith('.json')).length, 0);
 
-  response = await fetch(`${origin}/beta/api/workspace/bootstrap`, { headers: { cookie: participantLoginCookie } });
+  response = await fetch(`${origin}/workspace/api/workspace/bootstrap`, { headers: { cookie: participantLoginCookie } });
   assert.equal(response.status, 401);
+  const { TOTP, Secret } = await import('otpauth');
+  response = await getPage('/workspace/mfa', ownerSessionCookie);
+  const setupHtml = await response.text();
+  const setupSecret = setupHtml.match(/<code>([A-Z2-7]+)<\/code>/)[1];
+  const ownerTotp = new TOTP({ secret: Secret.fromBase32(setupSecret) });
+  response = await submit('/workspace/mfa', ownerSessionCookie, { nonce: hidden(setupHtml, 'nonce'), password: 'Owner-Testpasswort-2026!', otp: ownerTotp.generate() });
+  assert.equal(response.status, 303);
+  const loginWithoutOtp = await fetch(`${origin}/workspace/login`);
+  response = await submit('/workspace/login', '', { nonce: hidden(await loginWithoutOtp.text(), 'nonce'), email: 'owner@beispiel.de', password: 'Owner-Testpasswort-2026!' });
+  assert.equal(response.status, 401);
+  assert.deepEqual(await sparringRepo.list(clientAccount), []);
+
 });

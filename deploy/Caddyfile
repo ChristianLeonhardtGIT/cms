@@ -25,8 +25,8 @@
 		file_server
 	}
 
-	@beta_portal path /beta /beta/*
-	handle @beta_portal {
+	@workspace_portal path /workspace /workspace/* /beta /beta/*
+	handle @workspace_portal {
 		header {
 			-Server
 			Cache-Control "no-store"
@@ -65,8 +65,8 @@
 		}
 	}
 
-	@non_beta not path /beta /beta/*
-	header @non_beta {
+	@non_workspace not path /workspace /workspace/* /beta /beta/*
+	header @non_workspace {
 		-Server
 		Strict-Transport-Security "max-age=31536000; includeSubDomains"
 		Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.hsforms.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
