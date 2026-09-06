@@ -5,7 +5,7 @@ import { mkdir, open, readFile, rename, unlink } from 'node:fs/promises';
 import path from 'node:path';
 
 export const PRODUCT = Object.freeze({ slug: 'async-clarity-sparring', name: 'Async Clarity Sparring', priceCents: 24900, currency: 'EUR', businessDays: 5, customerType: 'business' });
-export const POLICY_VERSION = '2026-09-06-v1';
+export const POLICY_VERSION = '2026-09-06-v2';
 export const INTAKE_FIELDS = Object.freeze({ problem: 'Was möchtest du klären?', impact: 'Warum ist das relevant?', goal: 'Was soll danach klarer sein?', role: 'In welcher Rolle bist du?', context: 'Welcher organisatorische Kontext ist wichtig?', urgency: 'Gibt es einen Entscheidungszeitpunkt?' });
 export class SparringError extends Error {
   constructor(status, message) { super(message); this.status = status; }

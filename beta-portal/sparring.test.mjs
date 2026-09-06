@@ -4,12 +4,28 @@ import { mkdtemp, rm, readFile, stat } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { SparringRepository, POLICY_VERSION, INTAKE_FIELDS, engagementEnd } from './lib/sparring.mjs';
-import { sparringDetail } from './lib/sparring-ui.mjs';
+import { sparringDetail, sparringList } from './lib/sparring-ui.mjs';
 const coach = { id: 'coach', role: 'owner' };
 const client = { id: 'client' };
 const stranger = { id: 'stranger' };
 const otherCoach = { id: 'other-coach', role: 'owner' };
 const intake = { ...Object.fromEntries(Object.keys(INTAKE_FIELDS).map(k => [k, 'Abstrahierter Kontext'])), accepted: POLICY_VERSION, business: 'yes' };
+
+test('Produkttext hält B2B-Vertrag und persönliche Einzelfallberatung klar getrennt', async t => {
+  const list = sparringList([], null, { escapeHtml: String, nonce: 'test' });
+  assert.match(list, /Kein Kurs oder Lehrgang/);
+  assert.match(list, /keine vorgegebenen Lerninhalte/);
+  assert.match(list, /keine Bestellung/);
+  assert.match(list, /individuelles Angebot/);
+
+  const dir = await mkdtemp(path.join(os.tmpdir(), 'sparring-'));
+  t.after(() => rm(dir, { recursive: true, force: true }));
+  const engagement = await new SparringRepository(dir).create(coach, client);
+  const detail = sparringDetail(engagement, client, { escapeHtml: String, nonce: 'test', requestId: 'request-id-test-123' });
+  assert.match(detail, /gewerblichen oder selbständigen beruflichen Tätigkeit/);
+  assert.match(detail, /vorab individuell in Textform vereinbart/);
+  assert.match(detail, /https:\/\/cleonhardt\.de\/datenschutz/);
+});
 
 test('Berlin-Kalendertage berücksichtigen Wochenende und beide Zeitumstellungen', () => {
   assert.equal(engagementEnd(new Date('2026-09-07T08:00:00Z')), '2026-09-11T22:00:00.000Z');
