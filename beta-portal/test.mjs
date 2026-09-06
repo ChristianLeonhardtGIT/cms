@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
+import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -186,6 +186,7 @@ test('Workspace und öffentliche ChOS-Seite teilen die Marken- und Einstiegskont
   assert.match(offlineWorker, /\/workspace\/api\/chos\/knowledge-index/);
   assert.match(serverSource, /fingerprint\.update\(`portal:\$\{portalVersion\}/);
   assert.match(serverSource, /fingerprint\.update\(ownerBridgeCss\)/);
+  assert.match(serverSource, /requireSparringMail\(sparringEnabled, mail/);
   assert.match(ownerBridgeCss, /min-height:\s*44px/);
   assert.match(ownerBridgeCss, /flex-wrap:\s*wrap/);
   assert.match(ownerBridgeCss, /chos-offline-panel\[hidden\]/);
@@ -202,6 +203,15 @@ test('Einladung, Login, Kontopflege, Workspace und Selbstlöschung funktionieren
   process.env.BETA_COOKIE_SECURE = 'false';
   process.env.BETA_PUBLIC_ORIGIN = origin;
   process.env.WORKSPACE_SPARRING_ENABLED = 'true';
+  process.env.NODE_ENV = 'test';
+  process.env.WORKSPACE_SMTP_FILE = path.join(directory, 'smtp.json');
+  await writeFile(process.env.WORKSPACE_SMTP_FILE, JSON.stringify({
+    host: 'smtp.hostinger.com',
+    port: 465,
+    user: 'kontakt@cleonhardt.de',
+    password: 'test-only',
+    from: 'kontakt@cleonhardt.de'
+  }), { mode: 0o600 });
   const token = randomToken();
   const ownerToken = randomToken();
   const startAt = `${start}T00:00:00.000Z`;

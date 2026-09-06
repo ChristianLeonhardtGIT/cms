@@ -1,7 +1,7 @@
 import { recordDeletion } from './lib/privacy-ledger.mjs';
 import { AuditLog } from './lib/audit.mjs';
 import { newMfa, verifyMfa } from './lib/mfa.mjs';
-import { mailTransport, deliverNotifications } from './lib/notifications.mjs';
+import { mailTransport, deliverNotifications, requireSparringMail } from './lib/notifications.mjs';
 import { hasEncryption } from './lib/private-data.mjs';
 import { SparringRepository, SparringError, engagementEnd } from './lib/sparring.mjs';
 import { sparringList, sparringDetail } from './lib/sparring-ui.mjs';
@@ -97,6 +97,7 @@ async function purgeExpiredAccounts() {
 
 await purgeExpiredAccounts();
 const mail = await mailTransport();
+await requireSparringMail(sparringEnabled, mail, process.env.NODE_ENV !== 'test');
 let deliveringMail = false;
 setInterval(async () => {
   if (!sparringEnabled || !mail || deliveringMail) return;

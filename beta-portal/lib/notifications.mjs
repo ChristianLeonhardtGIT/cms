@@ -13,6 +13,16 @@ export async function mailTransport(file = process.env.WORKSPACE_SMTP_FILE) {
   if (!c || typeof c.host !== 'string' || ![465, 587].includes(c.port) || typeof c.user !== 'string' || typeof c.password !== 'string' || typeof c.from !== 'string' || !c.host || !c.user || !c.password || !c.from || /[\r\n]/.test(`${c.host}${c.user}${c.from}`)) throw new Error('Invalid SMTP configuration');
   return { from: c.from, checkAddress: c.user, transport: nodemailer.createTransport({ host: c.host, port: c.port, secure: c.port === 465, requireTLS: true, auth: { user: c.user, pass: c.password }, tls: { minVersion: 'TLSv1.2', rejectUnauthorized: true }, logger: false, debug: false, disableFileAccess: true, disableUrlAccess: true, connectionTimeout: 10000, socketTimeout: 20000 }) };
 }
+export async function requireSparringMail(enabled, mail, verifyConnection = true) {
+  if (!enabled) return;
+  if (!mail) throw new Error('Workspace-Sparring benötigt eine geschützte SMTP-Konfiguration.');
+  if (!verifyConnection) return;
+  try {
+    await mail.transport.verify();
+  } catch {
+    throw new Error('Workspace-Sparring benötigt eine erreichbare SMTP-Verbindung.');
+  }
+}
 export async function deliverNotifications(repository, users, mail, now = Date.now()) {
   if (!mail) return;
   // Single in-process runner; conditional acknowledgement never consumes a newer batch.

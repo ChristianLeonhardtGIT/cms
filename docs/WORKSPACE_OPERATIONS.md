@@ -23,7 +23,8 @@ Implementierungsstand; kommerzielle Freigabe bleibt separat.
   beenden die Sitzung. Hintergrund-Polling verlängert sie nicht.
 - Audit enthält nur Akteur-ID, Aktion, Objekt-ID und Zeit. 90 Tage Retention.
 - Benachrichtigung wartet fünf Minuten und wird gebündelt, ohne Inhalt/Thema.
-  Erst SMTP-Annahme quittiert die Gruppe. Ohne SMTP-Konfiguration kein Versand.
+  Erst SMTP-Annahme quittiert die Gruppe. Mit aktivem Sparring-Flag startet das
+  Portal nur nach erfolgreicher SMTP-Konfigurations- und Verbindungsprüfung.
   Ohne neue Lesebestätigung gibt es keine wiederholten Erinnerungsmails.
 
 ## Konfiguration
@@ -62,6 +63,25 @@ bewusst mit `--replace` ausführen.
 
 `WORKSPACE_SPARRING_ENABLED` bleibt false bis Mail, persönliche MFA-Einrichtung,
 Datenschutzinformationen und Vertragsprüfung abgeschlossen sind.
+
+## Rollout-Reihenfolge
+
+Produktive Änderungen stammen ausschließlich aus einem geprüften Commit auf
+`origin/main`. Vor dem Kopieren der betroffenen Dateien den verschlüsselten
+Vorab-Snapshot erstellen und seine Prüfsummen kontrollieren. Danach die
+versionierte Service-Datei installieren, den früheren Timer deaktivieren und
+`systemctl daemon-reload` ausführen. Das Portalimage aus dem gemergten Stand
+bauen und neu starten.
+
+Die Datenschutzaktualisierung läuft anschließend auf Magnolia Author über
+`scripts/update-privacy-policy.groovy`. Das Skript aktualisiert und veröffentlicht
+den zentralen Eintrag `legalDocuments:/cleonhardt/datenschutz`, die referenzierende
+Seite und das Kontaktformular. Nach der Sichtprüfung neue JCR-Exporte für
+`legalDocuments` und `website` erzeugen und in einem Folgecommit versionieren.
+
+Zum Abschluss Health, Anmeldung, fremde Objekt-ID, `/beta`-Weiterleitung,
+Datenschutzseite, SMTP-Testzustellung und den Status des abgeschalteten Timers
+prüfen. Das Sparring-Flag bleibt dabei bis zur kommerziellen Freigabe `false`.
 
 ## Auskunft, Einschränkung und gezielte Löschung
 
@@ -102,7 +122,10 @@ Die vereinbarte Betriebsregel lautet: unmittelbar vor jeder produktiven
 Änderung einen verschlüsselten Snapshot mit `cleonhardt-backup.service`
 erstellen, `COMPLETE` und alle Prüfsummen kontrollieren und erst danach ändern.
 Der frühere tägliche lokale Timer wird dauerhaft deaktiviert. Vorhandene Archive
-bleiben unangetastet und lokale Vorab-Sicherungen werden 30 Tage aufbewahrt.
+bleiben bei dieser Umstellung unangetastet. Bei jedem späteren
+Vorab-Sicherungslauf entfernt das Skript lokale Sicherungen, die älter als 30
+Tage sind; ohne weitere Produktionsänderung läuft kein zusätzlicher lokaler
+Löschjob.
 Hostinger erstellt laut bestätigter Kontokonfiguration einmal pro Woche ein
 VPS-Backup als zusätzliche anbieterbetriebene Sicherungsebene.
 

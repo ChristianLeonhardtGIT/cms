@@ -5,7 +5,7 @@ import { randomBytes } from 'node:crypto';
 import { TOTP, Secret } from 'otpauth';
 import { seal, unseal } from './lib/private-data.mjs';
 import { newMfa, verifyMfa } from './lib/mfa.mjs';
-import { deliverNotifications, mailTransport } from './lib/notifications.mjs';
+import { deliverNotifications, mailTransport, requireSparringMail } from './lib/notifications.mjs';
 import { SparringRepository } from './lib/sparring.mjs';
 import { recordDeletion } from './lib/privacy-ledger.mjs';
 
@@ -59,6 +59,17 @@ test('SMTP-Konfiguration bleibt optional und lehnt unsichere Kopfzeilen ab', asy
   mail.transport.close();
   await writeFile(file,JSON.stringify({host:'smtp.hostinger.com',port:465,user:'kontakt@cleonhardt.de',password:'test-only',from:'kontakt@cleonhardt.de\r\nBcc: other@example.test'}));
   await assert.rejects(mailTransport(file),/Invalid SMTP configuration/);
+});
+test('Sparring startet nur mit erreichbarer SMTP-Verbindung', async () => {
+  await requireSparringMail(false, null);
+  await assert.rejects(requireSparringMail(true, null), /geschützte SMTP-Konfiguration/);
+  await assert.rejects(
+    requireSparringMail(true, { transport: { verify: async () => { throw new Error('private provider detail'); } } }),
+    /erreichbare SMTP-Verbindung/
+  );
+  let verified = false;
+  await requireSparringMail(true, { transport: { verify: async () => { verified = true; } } });
+  assert.equal(verified, true);
 });
 test('Separates Löschjournal verhindert Wiederherstellung gelöschter Nachrichten aus einem alten Snapshot', async t => {
   const dir=await mkdtemp('/tmp/cms-ledger-');

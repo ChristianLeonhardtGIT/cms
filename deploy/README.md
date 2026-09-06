@@ -36,10 +36,11 @@ Magnolia-Repositories und der Beta-Kontenbestand konsistent bleiben.
 
 Vor jeder Änderung an Produktion wird `cleonhardt-backup.service` manuell
 gestartet. Erst wenn `latest/COMPLETE` existiert und die Prüfsummen erfolgreich
-validiert wurden, darf die Änderung beginnen. Lokale verschlüsselte
-Vorab-Sicherungen werden 30 Tage aufbewahrt. Das von Christian bestätigte
-wöchentliche VPS-Backup bei Hostinger bildet die zusätzliche
-anbieterbetriebene Sicherungsebene.
+validiert wurden, darf die Änderung beginnen. Bei jedem Vorab-Sicherungslauf
+werden lokale verschlüsselte Sicherungen, die älter als 30 Tage sind, entfernt.
+Ohne weitere Produktionsänderung findet kein zusätzlicher lokaler Löschlauf
+statt. Das von Christian bestätigte wöchentliche VPS-Backup bei Hostinger bildet
+die zusätzliche anbieterbetriebene Sicherungsebene.
 
 ```bash
 systemctl start cleonhardt-backup.service
