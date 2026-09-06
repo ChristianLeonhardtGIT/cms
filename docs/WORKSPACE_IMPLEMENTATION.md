@@ -54,3 +54,50 @@ Logout, ChOS-Reader/Sync und alte installierte Reader. In-Memory-Sessions erford
 beim Portal-Neustart erneute Anmeldung. Rollback mit vorherigem Image/Caddy;
 Datenvolume unverändert lassen. Bereits permanent gecachte Redirects erfordern
 bei Rollback weiterhin eine bedienbare `/workspace`-Route.
+
+## Implementierte Sparring-Basis
+
+`WORKSPACE_SPARRING_ENABLED=true` schaltet nach bewusster Betriebsfreigabe die
+neuen Routen ein. Standard in beiden Compose-Dateien ist false.
+Owner findet den Einstieg im Reader, Kunde im Dashboard. Unter
+`/workspace/sparring` ordnet der Owner einem aktiven Bestandskonto das Produkt zu.
+Keine öffentliche Registrierung oder automatische Buchung. Neue Kunden werden
+mit dem vorhandenen Einladungs-/Adminprozess aufgenommen; dessen Beta-Limits
+bleiben für diesen Pilot bestehen. Vor Start muss der Kontozugang fünf
+Arbeitstage plus 30 Tage Nachlauf abdecken.
+
+Eine Conversation ist im kleinen Dateimodell direkt Teil eines Engagements.
+Produktdaten werden bei Anlage als Snapshot gespeichert. Status:
+intake → ready → active → completed; zusätzlich cancelled.
+Ein Thema, 5 Kalendertage Mo–Fr, keine Feiertagsberechnung, Starttag zählt bei
+Mo–Fr mit, Ende ist Berliner Mitternacht nach dem fünften Arbeitstag.
+Start am Wochenende zählt ab Montag. Reaktionsfenster persönlich vereinbaren;
+dieser Stand führt keine SLA- oder Terminverwaltung ein.
+
+Servergerenderte Intake-/Coach-/Chat-Formulare verwenden die vorhandene
+Gestaltung. Nachrichten aktualisieren sich bei sichtbarer Seite alle 15 Sekunden,
+Lesestand wird ausdrücklich bestätigt. Inhalte sind Plain Text. Doppelte
+Nachrichten werden über eine Request-ID abgefangen. Bereits abgeschlossene
+oder zeitlich abgelaufene Fälle sind schreibgeschützt.
+
+Neue Datenablage ist additiv/versioniert; vorhandene Konten/Journale werden
+nicht transformiert. Kein SQL-Migrationssystem erfinden. Das bisherige
+Dateisperren-Muster benötigt bei einem harten Prozessabbruch gegebenenfalls
+manuelle Entfernung einer verwaisten `store.lock`, ausschließlich bei gestopptem
+Portal nach Prüfung laufender Prozesse. Keine automatische unsichere Lock-Übernahme.
+
+Benachrichtigungen sind ausschließlich als inhaltsfreie Merkposten vorbereitet.
+Kein Mailversand behauptet. Fachliches Pilotangebot und vollständige kommerzielle
+Freigabe bleiben getrennt. Weitere offene Punkte: [Datenschutz-/Betriebsstand](PRIVACY_WORKSPACE.md).
+
+## Verifikation
+
+`npm run test:beta-portal`: bestehende Auth-/Kontopflege-/ChOS-Integration,
+Legacy-URLs und Worker-Skript, vollständiger Sparring-HTTP-Ablauf, CSRF und IDOR,
+XSS-Rendering, no-store, Zeitumstellungen, Wiederholungen/Parallelität,
+Löschung und Ausschluss von Chat aus dem Offline-Worker.
+Zusätzlich Setup-, redaktionelle, GEO- und Sichtbarkeits-Quellenchecks.
+Lokaler Browser: Anmeldung, Übersicht, aktiven Chat öffnen, Nachricht senden
+und aktualisierte Anzeige mit synthetischen Testdaten verifiziert. Screenshot-
+Erstellung im Browser schlug technisch fehl; keine vollständige visuelle oder
+mobile Abnahme behauptet. Produktiver VPS-Smoke-Test steht aus.
