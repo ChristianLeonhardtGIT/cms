@@ -38,6 +38,8 @@ assert.match(home, /assets\/og-portfolio\.png/);
 assert.doesNotMatch(home, /Angebot anfragen|Leistungen buchen|Kennenlerntermin/);
 assert.match(home, /ALDI Nord/);
 assert.match(home, /Peek &amp; Cloppenburg/);
+assert.match(home, /Salesforce · SAP · GK Engage · Adjust/);
+assert.match(home, /Headless React Frontend · Node\.js und Kotlin Backend Services · Google Cloud/);
 
 const projects = readFileSync(join(portfolioRoot, 'projekte/index.html'), 'utf8');
 assert.doesNotMatch(projects, /Executive Interview OS|anspruchsvolle Interviewprozesse/);
@@ -47,6 +49,7 @@ assert.ok(careerSection, 'Der Bereich mit beruflichen Projekten fehlt.');
 for (const projectName of ['ALDI Nord', 'Peek &amp; Cloppenburg', 'SUNZINET', 'KGSt Kommunect', 'Bundeswehr']) {
   assert.match(careerSection, new RegExp(projectName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 }
+assert.equal((careerSection.match(/Technischer Kontext/g) ?? []).length, 2);
 
 const careerNumbers = careerSection.match(/\b\d+(?:[.,]\d+)?\b/g) ?? [];
 assert.deepEqual(
