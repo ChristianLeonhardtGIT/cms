@@ -36,6 +36,23 @@ assert.match(home, /Ich gestalte Systeme, die/);
 assert.match(home, /href="\/workspace\/"/);
 assert.match(home, /assets\/og-portfolio\.png/);
 assert.doesNotMatch(home, /Angebot anfragen|Leistungen buchen|Kennenlerntermin/);
+assert.match(home, /ALDI Nord/);
+assert.match(home, /Peek &amp; Cloppenburg/);
+
+const projects = readFileSync(join(portfolioRoot, 'projekte/index.html'), 'utf8');
+const careerSection = projects.match(/<section class="section section--ink" id="berufliche-projekte">([\s\S]*?)<\/section>/)?.[1];
+assert.ok(careerSection, 'Der Bereich mit beruflichen Projekten fehlt.');
+for (const projectName of ['ALDI Nord', 'Peek &amp; Cloppenburg', 'SUNZINET', 'KGSt Kommunect', 'Bundeswehr']) {
+  assert.match(careerSection, new RegExp(projectName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+}
+
+const careerNumbers = careerSection.match(/\b\d+(?:[.,]\d+)?\b/g) ?? [];
+assert.deepEqual(
+  [...new Set(careerNumbers)].sort(),
+  ['10', '12', '14', '6'],
+  'Im CV-Projektbereich dürfen ausschließlich freigegebene Teamgrößen als Zahlen erscheinen.',
+);
+assert.doesNotMatch(careerSection, /(?:€|%|Mio\.?|Million|Milliard|Umsatz|Budget|Einspar|Nutzer|User|Länder|Wochen|Monate|Jahre)/i);
 
 const caddyfile = readFileSync(join(root, 'deploy/Caddyfile'), 'utf8');
 assert.match(caddyfile, /@workspace_portal path \/workspace \/workspace\/\* \/beta \/beta\/\*/);
