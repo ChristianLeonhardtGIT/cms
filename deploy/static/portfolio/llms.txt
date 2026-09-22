@@ -5,7 +5,7 @@
 ## Zentrale Seiten
 
 - [Startseite](https://cleonhardt.de/): Überblick über Arbeitsfelder, ausgewählte Arbeiten und Arbeitsweise.
-- [Projekte](https://cleonhardt.de/projekte): ChOS, ChOS Workspace, cleonhardt.de Platform, Hyprland Session Recovery, Executive Interview OS und Human × AI Workflows.
+- [Projekte](https://cleonhardt.de/projekte): Berufliche Projekte, ChOS, ChOS Workspace, cleonhardt.de Platform, Hyprland Session Recovery und Human × AI Workflows.
 - [Über mich](https://cleonhardt.de/ueber-mich): Profil, Perspektive und Arbeitsprinzipien von Christian Leonhardt.
 - [Kontakt](https://cleonhardt.de/kontakt): Direkte Kontaktmöglichkeiten.
 

@@ -40,6 +40,8 @@ assert.match(home, /ALDI Nord/);
 assert.match(home, /Peek &amp; Cloppenburg/);
 
 const projects = readFileSync(join(portfolioRoot, 'projekte/index.html'), 'utf8');
+assert.doesNotMatch(projects, /Executive Interview OS|anspruchsvolle Interviewprozesse/);
+assert.doesNotMatch(readFileSync(join(portfolioRoot, 'llms.txt'), 'utf8'), /Executive Interview OS/);
 const careerSection = projects.match(/<section class="section section--ink" id="berufliche-projekte">([\s\S]*?)<\/section>/)?.[1];
 assert.ok(careerSection, 'Der Bereich mit beruflichen Projekten fehlt.');
 for (const projectName of ['ALDI Nord', 'Peek &amp; Cloppenburg', 'SUNZINET', 'KGSt Kommunect', 'Bundeswehr']) {
