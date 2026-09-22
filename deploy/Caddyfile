@@ -3,25 +3,14 @@
 
 	@legacy_start path /start
 	header @legacy_start X-Robots-Tag "noindex, follow"
-
-	@homepage path /
-	rewrite @homepage /start
+	redir @legacy_start / temporary
 
 	@leadership_transition_alias path /probleme/neu-in-fuehrung
 	redir @leadership_transition_alias /probleme/leadership-transition permanent
 
-	@paused_offers path /leadership-product-sparring /leadership-product-sparring/* /quick-diagnostic /quick-diagnostic/* /workshops /workshops/* /chos-transformation-program /chos-transformation-program/*
-	handle @paused_offers {
-		root * /srv/cleonhardt-static
-		rewrite * /404.html
-		file_server {
-			status 404
-		}
-	}
-
 	@site_metadata path /robots.txt /sitemap.xml /llms.txt /4eba2fbccd4fbe055b49e6d9d41c4e00.txt
 	handle @site_metadata {
-		root * /srv/cleonhardt-static
+		root * /srv/cleonhardt-static/portfolio
 		file_server
 	}
 
@@ -41,27 +30,32 @@
 		reverse_proxy beta-portal:3000
 	}
 
-	@versioned_resources {
-		path /.resources/meine-website/webresources/*
-		query v=*
-	}
-	header @versioned_resources {
+	@portfolio_assets path /assets/*
+	header @portfolio_assets {
 		Cache-Control "public, max-age=31536000, immutable"
 		-Pragma
 		-Expires
 	}
 
+	@portfolio_routes path / /projekte /projekte/* /ueber-mich /kontakt /impressum /datenschutz /assets/*
+	handle @portfolio_routes {
+		root * /srv/cleonhardt-static/portfolio
+		try_files {path} {path}/index.html
+		file_server
+	}
+
+	@legacy_chos path /chos /chos-selbstcheck
+	redir @legacy_chos /projekte#chos temporary
+
+	@legacy_consulting path /probleme /probleme/* /leistungen /angebot-anfragen /clarity-session /decision-review /product-organisation-diagnostic /ai-operating-model-assessment /ai-enabled-workflow-sprint /executive-sparring /praxisfaelle /insights /insights/* /leadership-product-sparring /leadership-product-sparring/* /quick-diagnostic /quick-diagnostic/* /workshops /workshops/* /chos-transformation-program /chos-transformation-program/*
+	redir @legacy_consulting /projekte temporary
+
 	handle {
-		reverse_proxy magnolia-public:8080 {
-			@not_found status 404
-			handle_response @not_found {
-				header Cache-Control "no-store"
-				root * /srv/cleonhardt-static
-				rewrite * /404.html
-				file_server {
-					status 404
-				}
-			}
+		header Cache-Control "no-store"
+		root * /srv/cleonhardt-static/portfolio
+		rewrite * /404.html
+		file_server {
+			status 404
 		}
 	}
 
@@ -69,7 +63,7 @@
 	header @non_workspace {
 		-Server
 		Strict-Transport-Security "max-age=31536000; includeSubDomains"
-		Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.hsforms.com; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+		Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
 		X-Content-Type-Options "nosniff"
 		Referrer-Policy "strict-origin-when-cross-origin"
 		Permissions-Policy "camera=(), geolocation=(), microphone=()"

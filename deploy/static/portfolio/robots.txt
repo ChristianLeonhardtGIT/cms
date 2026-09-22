@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /workspace/
+Disallow: /beta/
+Disallow: /.magnolia/
+Disallow: /.rest/
+
+Sitemap: https://cleonhardt.de/sitemap.xml

@@ -70,6 +70,7 @@ const fail2banSshd = await readFile('deploy/fail2ban-sshd.local', 'utf8');
 const sshdHardening = await readFile('deploy/sshd-hardening.conf', 'utf8');
 const sitemap = await readFile('deploy/static/sitemap.xml', 'utf8');
 const notFoundPage = await readFile('deploy/static/404.html', 'utf8');
+const portfolioNotFoundPage = await readFile('deploy/static/portfolio/404.html', 'utf8');
 const mvpBuilder = await readFile('scripts/build-mvp.groovy', 'utf8');
 const clarityBuilder = await readFile('scripts/create-clarity-session.groovy', 'utf8');
 const quoteRequestBuilder = await readFile('scripts/create-quote-request.groovy', 'utf8');
@@ -257,6 +258,17 @@ if (
   throw new Error('Profilbild fehlt in strukturierten Daten oder Darstellung.');
 }
 
+const magnoliaRootConfigured =
+  caddyConfig.includes('@homepage path /') &&
+  caddyConfig.includes('rewrite @homepage /start') &&
+  caddyConfig.includes('path /.resources/meine-website/webresources/*') &&
+  caddyConfig.includes('query v=*');
+
+const portfolioRootConfigured =
+  caddyConfig.includes('@portfolio_routes path / /projekte') &&
+  caddyConfig.includes('root * /srv/cleonhardt-static/portfolio') &&
+  caddyConfig.includes('@portfolio_assets path /assets/*');
+
 if (
   !pageTemplate.includes("[#function pageLink page fallback='#']") ||
   !pageTemplate.includes("link == '/start'") ||
@@ -264,10 +276,7 @@ if (
   !caddyConfig.includes('@legacy_start path /start') ||
   !caddyConfig.includes('header @legacy_start X-Robots-Tag "noindex, follow"') ||
   caddyConfig.includes('redir @legacy_start / permanent') ||
-  !caddyConfig.includes('@homepage path /') ||
-  !caddyConfig.includes('rewrite @homepage /start') ||
-  !caddyConfig.includes('path /.resources/meine-website/webresources/*') ||
-  !caddyConfig.includes('query v=*') ||
+  (!magnoliaRootConfigured && !portfolioRootConfigured) ||
   !caddyConfig.includes('Cache-Control "public, max-age=31536000, immutable"') ||
   !pageTransitionScript.includes('normalizeLegacyHomeUrl') ||
   !pageTransitionScript.includes("searchParams.get('_start')") ||
@@ -377,13 +386,22 @@ for (const requiredLinkedPanelStyle of [
   }
 }
 
+const magnoliaNotFoundConfigured =
+  caddyConfig.includes('@not_found status 404') &&
+  notFoundPage.includes('Diese Seite führt gerade nirgendwo hin.') &&
+  notFoundPage.includes('href="/kontakt"');
+
+const portfolioNotFoundConfigured =
+  caddyConfig.includes('root * /srv/cleonhardt-static/portfolio') &&
+  portfolioNotFoundPage.includes('Hier ist gerade nichts.') &&
+  portfolioNotFoundPage.includes('href="/projekte"');
+
 if (
-  !caddyConfig.includes('@not_found status 404') ||
   !caddyConfig.includes('rewrite * /404.html') ||
   !caddyConfig.includes('status 404') ||
+  (!magnoliaNotFoundConfigured && !portfolioNotFoundConfigured) ||
   !notFoundPage.includes('<meta name="robots" content="noindex, nofollow">') ||
-  !notFoundPage.includes('Diese Seite führt gerade nirgendwo hin.') ||
-  !notFoundPage.includes('href="/kontakt"')
+  !portfolioNotFoundPage.includes('<meta name="robots" content="noindex, nofollow">')
 ) {
   throw new Error('Die eigene 404-Seite oder ihre statuswahrende Caddy-Auslieferung ist unvollständig.');
 }

@@ -6,6 +6,7 @@ CMS-Code und die wiederherstellbaren redaktionellen Inhalte von
 
 Enthalten sind insbesondere:
 
+- der öffentliche Portfolio-Auftritt unter `deploy/static/portfolio`,
 - Magnolia Light Module, Content Types, Apps, Dialoge und Templates,
 - Produktions- und Containerkonfiguration ohne Zugangsdaten,
 - Beta-Portal und geschützter ChOS-Reader,

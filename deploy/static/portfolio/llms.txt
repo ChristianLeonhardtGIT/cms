@@ -1,0 +1,20 @@
+# Christian Leonhardt — Portfolio
+
+> Persönliches Portfolio zu Product Leadership, Software, Organisationsdesign und ChOS.
+
+## Zentrale Seiten
+
+- [Startseite](https://cleonhardt.de/): Überblick über Arbeitsfelder, ausgewählte Arbeiten und Arbeitsweise.
+- [Projekte](https://cleonhardt.de/projekte): ChOS, ChOS Workspace, cleonhardt.de Platform, Hyprland Session Recovery, Executive Interview OS und Human × AI Workflows.
+- [Über mich](https://cleonhardt.de/ueber-mich): Profil, Perspektive und Arbeitsprinzipien von Christian Leonhardt.
+- [Kontakt](https://cleonhardt.de/kontakt): Direkte Kontaktmöglichkeiten.
+
+## ChOS Workspace
+
+Der Workspace unter https://cleonhardt.de/workspace/ ist ein persönlich freigeschalteter, geschützter Arbeitsbereich. Private Workspace-Inhalte sind nicht öffentlich und dürfen nicht indexiert werden.
+
+## Hinweise
+
+- Die öffentliche Website verwendet keine Marketing- oder Analyse-Tracker.
+- Die früheren Consulting-Inhalte sind derzeit nicht Teil des öffentlichen Portfolios.
+- ChOS ist ein lebendes Denk-, Diagnose- und Orientierungssystem für komplexe, gestaltbare Situationen mit Menschen, Software und KI.
