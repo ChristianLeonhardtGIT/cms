@@ -339,6 +339,8 @@ button, input, textarea { font: inherit; }
 .contact-card h2 { max-width: 12ch; margin: 0; font-size: clamp(3rem, 7vw, 7rem); letter-spacing: -0.075em; line-height: 0.88; }
 .contact-card p { color: rgba(255,255,255,0.72); }
 .contact-card a:not(.button) { font-size: clamp(1.1rem, 2vw, 1.5rem); text-underline-offset: 0.28em; }
+.contact-links { display: flex; flex-wrap: wrap; gap: 0.65rem 1.5rem; margin-top: 1.5rem; }
+.contact-links a:not(.button) { font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; }
 
 .page-hero { padding-block: clamp(5rem, 10vw, 9rem); }
 .page-hero h1 { max-width: 14ch; }

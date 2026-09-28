@@ -20,6 +20,7 @@ const assets = [
   'assets/signet.svg',
   'assets/christian-leonhardt.webp',
   'assets/og-portfolio.png',
+  'assets/christian-leonhardt-executive-profile.pdf',
   'robots.txt',
   'sitemap.xml',
   'llms.txt',
@@ -31,8 +32,9 @@ for (const relativePath of [...pages, ...assets]) {
 }
 
 const home = readFileSync(join(portfolioRoot, 'index.html'), 'utf8');
-assert.match(home, /Christian Leonhardt — Portfolio/);
-assert.match(home, /Ich gestalte Systeme, die/);
+assert.match(home, /Christian Leonhardt — Product Leadership/);
+assert.match(home, /Ich baue Produktorganisationen/);
+assert.match(home, /People Leadership/);
 assert.match(home, /href="\/workspace\/"/);
 assert.match(home, /assets\/og-portfolio\.png/);
 assert.doesNotMatch(home, /Angebot anfragen|Leistungen buchen|Kennenlerntermin/);
@@ -40,7 +42,15 @@ assert.match(home, /ALDI Nord/);
 assert.match(home, /Peek &amp; Cloppenburg/);
 assert.match(home, /Native App-Entwicklung · Backend for Frontend · Azure · Kubernetes · Redis Caching · Salesforce · SAP · GK Engage · Adjust/);
 assert.match(home, /Headless React Frontend · Node\.js und Kotlin Backend Services · Google Cloud/);
-assert.match(home, /site\.css\?v=tech-context/);
+assert.match(home, /site\.css\?v=product-leadership/);
+assert.match(home, /de\.linkedin\.com\/in\/christian-leonhardt-b341687b/);
+assert.match(home, /christian-leonhardt-executive-profile\.pdf/);
+assert.doesNotMatch(home, /class="workspace-link"/);
+
+const contact = readFileSync(join(portfolioRoot, 'kontakt/index.html'), 'utf8');
+assert.match(contact, /Head-of-Product-Mandate/);
+assert.match(contact, /LinkedIn/);
+assert.match(contact, /Executive Profile/);
 
 const projects = readFileSync(join(portfolioRoot, 'projekte/index.html'), 'utf8');
 assert.doesNotMatch(projects, /Executive Interview OS|anspruchsvolle Interviewprozesse/);
