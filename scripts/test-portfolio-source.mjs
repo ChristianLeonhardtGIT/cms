@@ -38,8 +38,9 @@ assert.match(home, /assets\/og-portfolio\.png/);
 assert.doesNotMatch(home, /Angebot anfragen|Leistungen buchen|Kennenlerntermin/);
 assert.match(home, /ALDI Nord/);
 assert.match(home, /Peek &amp; Cloppenburg/);
-assert.match(home, /Salesforce · SAP · GK Engage · Adjust/);
+assert.match(home, /Native App-Entwicklung · Backend for Frontend · Azure · Kubernetes · Redis Caching · Salesforce · SAP · GK Engage · Adjust/);
 assert.match(home, /Headless React Frontend · Node\.js und Kotlin Backend Services · Google Cloud/);
+assert.match(home, /site\.css\?v=tech-context/);
 
 const projects = readFileSync(join(portfolioRoot, 'projekte/index.html'), 'utf8');
 assert.doesNotMatch(projects, /Executive Interview OS|anspruchsvolle Interviewprozesse/);
