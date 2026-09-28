@@ -40,9 +40,10 @@ assert.match(home, /assets\/og-portfolio\.png/);
 assert.doesNotMatch(home, /Angebot anfragen|Leistungen buchen|Kennenlerntermin/);
 assert.match(home, /ALDI Nord/);
 assert.match(home, /Peek &amp; Cloppenburg/);
-assert.match(home, /Native App-Entwicklung · Backend for Frontend · Azure · Kubernetes · Redis Caching · Salesforce · SAP · GK Engage · Adjust/);
-assert.match(home, /Headless React Frontend · Node\.js und Kotlin Backend Services · Google Cloud/);
-assert.match(home, /site\.css\?v=product-leadership/);
+for (const technology of ['Native App-Entwicklung', 'Backend for Frontend', 'Microsoft Azure', 'Kubernetes', 'Redis Caching', 'Salesforce', 'SAP', 'GK Engage', 'Adjust', 'Headless React', 'Node.js', 'Kotlin', 'Google Cloud', 'OneTrust', 'Shopware Enterprise', 'TYPO3', 'PIM', 'AES-GCM']) {
+  assert.match(home, new RegExp(technology.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+}
+assert.match(home, /site\.css\?v=technology-map/);
 assert.match(home, /de\.linkedin\.com\/in\/christian-leonhardt-b341687b/);
 assert.match(home, /christian-leonhardt-executive-profile\.pdf/);
 assert.doesNotMatch(home, /class="workspace-link"/);
@@ -60,9 +61,13 @@ assert.ok(careerSection, 'Der Bereich mit beruflichen Projekten fehlt.');
 for (const projectName of ['ALDI Nord', 'Peek &amp; Cloppenburg', 'SUNZINET', 'KGSt Kommunect', 'Bundeswehr']) {
   assert.match(careerSection, new RegExp(projectName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 }
-assert.equal((careerSection.match(/Technischer Kontext/g) ?? []).length, 2);
+assert.equal((careerSection.match(/Technischer Kontext/g) ?? []).length, 4);
+for (const technology of ['Liferay DXP', 'Elasticsearch', 'Magnolia CMS', 'Java', 'Jira', 'Confluence']) {
+  assert.match(careerSection, new RegExp(technology.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+}
 
-const careerNumbers = careerSection.match(/\b\d+(?:[.,]\d+)?\b/g) ?? [];
+const visibleCareerText = careerSection.replace(/<[^>]+>/g, ' ');
+const careerNumbers = visibleCareerText.match(/\b\d+(?:[.,]\d+)?\b/g) ?? [];
 assert.deepEqual(
   [...new Set(careerNumbers)].sort(),
   ['10', '12', '14', '6'],
