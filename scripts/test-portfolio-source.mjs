@@ -33,7 +33,7 @@ for (const relativePath of [...pages, ...assets]) {
 
 const home = readFileSync(join(portfolioRoot, 'index.html'), 'utf8');
 assert.match(home, /Christian Leonhardt — Product Leadership/);
-assert.match(home, /Ich baue Produktorganisationen/);
+assert.match(home.replaceAll('&shy;', ''), /Ich baue Produktorganisationen/);
 assert.match(home, /People Leadership/);
 assert.match(home, /href="\/workspace\/"/);
 assert.match(home, /assets\/og-portfolio\.png/);
@@ -43,7 +43,7 @@ assert.match(home, /Peek &amp; Cloppenburg/);
 for (const technology of ['Native App-Entwicklung', 'Backend for Frontend', 'Microsoft Azure', 'Kubernetes', 'Redis Caching', 'Salesforce', 'SAP', 'GK Engage', 'Adjust', 'Headless React', 'Node.js', 'Kotlin', 'Google Cloud', 'OneTrust', 'Shopware Enterprise', 'TYPO3', 'PIM', 'AES-GCM']) {
   assert.match(home, new RegExp(technology.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 }
-assert.match(home, /site\.css\?v=technology-map/);
+assert.match(home, /site\.css\?v=responsive-hero/);
 assert.match(home, /de\.linkedin\.com\/in\/christian-leonhardt-b341687b/);
 assert.match(home, /christian-leonhardt-executive-profile\.pdf/);
 assert.doesNotMatch(home, /class="workspace-link"/);

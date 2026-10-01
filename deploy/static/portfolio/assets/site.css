@@ -69,8 +69,14 @@ button, input, textarea { font: inherit; }
 
 .shell {
   width: min(calc(100% - (2 * var(--gutter))), var(--shell));
+  min-width: 0;
   margin-inline: auto;
 }
+
+.hero__grid > *, .section-heading > *, .project-row > *, .project-grid > *, .profile > *, .contact-card > * { min-width: 0; }
+
+h1, h2, h3 { overflow-wrap: anywhere; hyphens: auto; }
+p, dd { overflow-wrap: break-word; }
 
 .site-header {
   position: sticky;
@@ -154,9 +160,10 @@ button, input, textarea { font: inherit; }
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
-.eyebrow::before { width: 2.25rem; height: 2px; background: currentColor; content: ""; }
+.eyebrow::before { width: 2.25rem; height: 2px; flex-shrink: 0; background: currentColor; content: ""; }
 
 .hero {
   min-height: calc(100vh - 5rem);
@@ -180,7 +187,7 @@ button, input, textarea { font: inherit; }
   font-size: clamp(3.4rem, 8.5vw, 8.6rem);
   font-weight: 700;
   letter-spacing: -0.075em;
-  line-height: 0.88;
+  line-height: 0.98;
 }
 
 .hero h1 em {
@@ -189,6 +196,8 @@ button, input, textarea { font: inherit; }
   font-family: Georgia, "Times New Roman", serif;
   font-weight: 400;
 }
+
+.hero h1 { max-width: 100%; font-size: clamp(2.5rem, calc(1rem + 5.6vw), 7rem); hyphens: manual; }
 
 .hero__intro {
   max-width: 45rem;
@@ -370,7 +379,7 @@ button, input, textarea { font: inherit; }
 [data-reveal].is-visible { opacity: 1; transform: none; }
 
 @media (max-width: 64rem) {
-  .hero__grid, .section-heading, .profile, .contact-card { grid-template-columns: 1fr; }
+  .hero__grid, .section-heading, .profile, .contact-card { grid-template-columns: minmax(0, 1fr); }
   .hero__panel { width: min(100%, 32rem); min-height: 24rem; }
   .project-row { grid-template-columns: 3rem minmax(0, 1fr); }
   .project-row__detail { grid-column: 2; }
@@ -378,6 +387,12 @@ button, input, textarea { font: inherit; }
 }
 
 @media (max-width: 48rem) {
+  .hero { min-height: auto; padding-block: 3.5rem 4rem; }
+  .hero h1, .page-hero h1 { max-width: 100%; letter-spacing: -0.055em; line-height: 1.02; }
+  .page-hero h1 { font-size: clamp(2.5rem, calc(1rem + 5.6vw), 4.8rem); }
+  .hero .eyebrow { max-width: 32rem; font-size: 0.65rem; letter-spacing: 0.1em; }
+  .hero__intro { margin-top: 1.5rem; font-size: 1.05rem; line-height: 1.65; }
+  .hero__panel { transform: none; }
   .nav-toggle { display: block; }
   .site-nav {
     position: absolute;
@@ -405,7 +420,6 @@ button, input, textarea { font: inherit; }
 
 @media (max-width: 34rem) {
   .brand span { display: none; }
-  .hero h1, .page-hero h1 { font-size: clamp(3.1rem, 17vw, 5rem); }
   .hero__actions, .actions { align-items: stretch; flex-direction: column; }
   .button { width: 100%; }
   .project-row { grid-template-columns: 1fr; }
