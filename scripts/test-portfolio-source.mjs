@@ -43,7 +43,7 @@ assert.match(home, /Peek &amp; Cloppenburg/);
 for (const technology of ['Native App-Entwicklung', 'Backend for Frontend', 'Microsoft Azure', 'Kubernetes', 'Redis Caching', 'Salesforce', 'SAP', 'GK Engage', 'Adjust', 'Headless React', 'Node.js', 'Kotlin', 'Google Cloud', 'OneTrust', 'Shopware Enterprise', 'TYPO3', 'PIM', 'AES-GCM']) {
   assert.match(home, new RegExp(technology.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 }
-assert.match(home, /site\.css\?v=responsive-hero/);
+assert.match(home, /site\.css\?v=neusta-projects/);
 assert.match(home, /de\.linkedin\.com\/in\/christian-leonhardt-b341687b/);
 assert.match(home, /christian-leonhardt-executive-profile\.pdf/);
 assert.doesNotMatch(home, /class="workspace-link"/);

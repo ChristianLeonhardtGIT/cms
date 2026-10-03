@@ -319,6 +319,16 @@ p, dd { overflow-wrap: break-word; }
 .project-row__source { width: fit-content; color: rgba(255,255,255,0.78); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
 .project-row a { text-underline-offset: 0.3em; }
 
+.project-case-grid { grid-column: 2 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.project-case { min-width: 0; border: 1px solid rgba(255,255,255,0.18); border-radius: var(--radius); padding: clamp(1.25rem, 3vw, 2rem); background: rgba(255,255,255,0.025); }
+.project-case--wide { grid-column: 1 / -1; }
+.project-case__label { margin: 0 0 1rem; color: var(--signal); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.project-case h4 { max-width: 34ch; margin: 0 0 1rem; font-size: clamp(1.2rem, 2vw, 1.6rem); letter-spacing: -0.025em; line-height: 1.2; overflow-wrap: anywhere; hyphens: auto; }
+.project-case p:not(.project-case__label) { max-width: 72ch; margin: 0 0 1rem; color: rgba(255,255,255,0.76); font-size: 0.94rem; }
+.project-case p.project-case__stack { margin: 1.5rem 0 0; color: rgba(255,255,255,0.62); font-size: 0.76rem; }
+.project-case .project-row__source { display: inline-block; margin-top: 1rem; }
+.project-case[id], .project-row[id] { scroll-margin-top: 7rem; }
+
 .project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .project-card { min-height: 29rem; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.5rem, 4vw, 2.8rem); background: rgba(255,255,255,0.38); }
 .project-card:nth-child(3n+1) { background: var(--signal-soft); }
@@ -387,6 +397,7 @@ p, dd { overflow-wrap: break-word; }
 }
 
 @media (max-width: 48rem) {
+  .project-case-grid { grid-template-columns: minmax(0, 1fr); }
   .hero { min-height: auto; padding-block: 3.5rem 4rem; }
   .hero h1, .page-hero h1 { max-width: 100%; letter-spacing: -0.055em; line-height: 1.02; }
   .page-hero h1 { font-size: clamp(2.5rem, calc(1rem + 5.6vw), 4.8rem); }
@@ -424,6 +435,7 @@ p, dd { overflow-wrap: break-word; }
   .button { width: 100%; }
   .project-row { grid-template-columns: 1fr; }
   .project-row__detail { grid-column: auto; }
+  .project-case-grid { grid-column: auto; }
   .project-row__tech-list > div { grid-template-columns: 1fr; gap: 0.25rem; }
 }
 
