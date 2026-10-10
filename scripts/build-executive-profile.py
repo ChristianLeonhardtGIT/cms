@@ -148,8 +148,8 @@ def build():
             "Externe Agenturstrukturen in interne Produktteams mit 14 und 12 Personen überführt. Rollen, Auswahl und Arbeitsweisen mit aufgebaut; Teams fachlich geführt. Strategie und Delivery in einem Operating Model verbunden. Ergebnis: interne Fähigkeiten, ein stabiler Release-Rhythmus und eine bessere Datenbasis durch Adjust.",
         ),
         (
-            "P&amp;C / Fashion ID - Welcome Domain",
-            "End-to-End-Verantwortung für die Welcome-Domäne in Web und App. Am domänenorientierten Operating Model mitgewirkt, Product Owner entwickelt und eine PO-Community mit aufgebaut. Ergebnis: schnellere Entscheidungen, klarere Verantwortung und kürzere Umsetzung eines Kampagnen-Inhaltsmoduls.",
+            "P&amp;C / Fashion ID - Plattform-Relaunch &amp; New Retail",
+            "Den kompletten Relaunch der E-Commerce-Plattform im New-Retail-Kontext umgesetzt. Die Welcome-Domäne für Web und App verantwortet, Product Owner entwickelt und eine PO-Community mit aufgebaut. Am domänenorientierten Operating Model mitgewirkt. Ergebnis: eine neu aufgestellte Plattform und klarere Produktverantwortung entlang der Customer Journey.",
         ),
         (
             "SUNZINET - Internationaler E-Commerce",
