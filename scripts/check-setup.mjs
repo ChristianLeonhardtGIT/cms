@@ -267,7 +267,7 @@ const magnoliaRootConfigured =
 const portfolioRootConfigured =
   caddyConfig.includes('@portfolio_routes path / /projekte') &&
   caddyConfig.includes('root * /srv/cleonhardt-static/portfolio') &&
-  caddyConfig.includes('@portfolio_assets path /assets/*');
+  /@portfolio_assets\s*\{\s*path \/assets\/\*/.test(caddyConfig);
 
 if (
   !pageTemplate.includes("[#function pageLink page fallback='#']") ||

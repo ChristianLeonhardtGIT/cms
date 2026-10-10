@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -131,6 +132,12 @@ for (const employer of ['ALDI Nord', 'Fashion ID', 'SUNZINET', 'neusta webservic
   assert.ok(pdfText.includes(employer), `Station fehlt im Executive Profile: ${employer}`);
 }
 assert.deepEqual(readFileSync(pdfPath), readFileSync(join(root, 'output/pdf/christian-leonhardt-executive-profile.pdf')));
+const profileVersion = createHash('sha256').update(readFileSync(pdfPath)).digest('hex').slice(0, 12);
+for (const relativePath of [...pages, 'llms.txt']) {
+  const source = readFileSync(join(portfolioRoot, relativePath), 'utf8');
+  const links = source.match(/\/assets\/christian-leonhardt-executive-profile\.pdf(?:\?[^"\s)]+)?/g) ?? [];
+  for (const link of links) assert.equal(link, `/assets/christian-leonhardt-executive-profile.pdf?v=${profileVersion}`, `Veralteter PDF-Link: ${relativePath}`);
+}
 
 // Validate internal links and case anchors, while leaving the protected portal alone.
 for (const relativePath of pages) {
@@ -151,11 +158,30 @@ assert.match(caddyfile, /@workspace_portal path \/workspace \/workspace\/\* \/be
 assert.match(caddyfile, /root \* \/srv\/cleonhardt-static\/portfolio/);
 assert.match(caddyfile, /@portfolio_routes path \/ \/projekte/);
 assert.match(caddyfile, /@legacy_consulting path/);
+const slashPattern = caddyfile.match(/@portfolio_slash path_regexp portfolio_slash ([^\n]+)/)?.[1];
+assert.ok(slashPattern, 'Gezielte Normalisierung der Portfolio-URLs fehlt.');
+const slashMatcher = new RegExp(slashPattern);
+for (const route of ['/projekte', '/ueber-mich', '/kontakt', '/impressum', '/datenschutz']) {
+  assert.equal(slashMatcher.exec(`${route}/`)?.[1], route.slice(1));
+  assert.equal(slashMatcher.test(route), false);
+}
+for (const route of ['/', '/workspace/', '/workspace/health', '/beta/', '/assets/site.css', '/unbekannt/']) {
+  assert.equal(slashMatcher.test(route), false, `Weiterleitung außerhalb des Portfolios: ${route}`);
+}
+assert.ok(caddyfile.includes('redir @portfolio_slash /{re.portfolio_slash.1}{?query} permanent'));
+assert.ok(caddyfile.includes('header @executive_profile Cache-Control "no-cache"'));
+assert.match(caddyfile, /@portfolio_assets\s*\{\s*path \/assets\/\*\s*not path \/assets\/christian-leonhardt-executive-profile\.pdf\s*\}/);
 
 const sitemap = readFileSync(join(portfolioRoot, 'sitemap.xml'), 'utf8');
-for (const route of ['/', '/projekte', '/ueber-mich', '/kontakt', '/impressum', '/datenschutz']) {
+for (const route of ['/', '/projekte', '/ueber-mich', '/kontakt']) {
   assert.match(sitemap, new RegExp(`<loc>https://cleonhardt\\.de${route === '/' ? '/' : route}</loc>`));
 }
-assert.doesNotMatch(sitemap, /leistungen|angebot-anfragen|probleme/);
+assert.doesNotMatch(sitemap, /leistungen|angebot-anfragen|probleme|impressum|datenschutz/);
+assert.equal((sitemap.match(/<loc>/g) ?? []).length, 4);
+for (const [, location] of sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)) {
+  const pathname = new URL(location).pathname;
+  const page = readFileSync(join(portfolioRoot, pathname.slice(1), 'index.html'), 'utf8');
+  assert.doesNotMatch(page, /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i, `Nicht indexierbare Seite in Sitemap: ${location}`);
+}
 
 console.log('Portfolio-Quellen sind vollständig und der ChOS-Workspace bleibt geroutet.');

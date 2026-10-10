@@ -1,6 +1,10 @@
 (public_site) {
 	encode zstd gzip
 
+	# Canonicalize only public portfolio pages; leave portal and asset routes alone.
+	@portfolio_slash path_regexp portfolio_slash ^/(projekte|ueber-mich|kontakt|impressum|datenschutz)/$
+	redir @portfolio_slash /{re.portfolio_slash.1}{?query} permanent
+
 	@legacy_start path /start
 	header @legacy_start X-Robots-Tag "noindex, follow"
 	redir @legacy_start / temporary
@@ -30,7 +34,14 @@
 		reverse_proxy beta-portal:3000
 	}
 
-	@portfolio_assets path /assets/*
+	# The public profile changes in place and must revalidate, unlike immutable assets.
+	@executive_profile path /assets/christian-leonhardt-executive-profile.pdf
+	header @executive_profile Cache-Control "no-cache"
+
+	@portfolio_assets {
+		path /assets/*
+		not path /assets/christian-leonhardt-executive-profile.pdf
+	}
 	header @portfolio_assets {
 		Cache-Control "public, max-age=31536000, immutable"
 		-Pragma
