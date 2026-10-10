@@ -149,7 +149,7 @@ def build():
         ),
         (
             "P&amp;C / Fashion ID - Plattform-Relaunch &amp; New Retail",
-            "Den kompletten Relaunch der E-Commerce-Plattform im New-Retail-Kontext umgesetzt. Die Welcome-Domäne für Web und App verantwortet, Product Owner entwickelt und eine PO-Community mit aufgebaut. Am domänenorientierten Operating Model mitgewirkt. Ergebnis: eine neu aufgestellte Plattform und klarere Produktverantwortung entlang der Customer Journey.",
+            "Den kompletten Plattform-Relaunch im New-Retail-Kontext umgesetzt. Welcome-Domäne für Web und App: Translation Management, MyAccount (Login, Registrierung), Loyalty-Integration, Styleguide, Design System und Brand-Integration für P&amp;C, ANSON'S und Stylebop. Retail-Media-Business-Team technisch beraten und Criteo-Integration begleitet. Product Owner entwickelt, PO-Community mit aufgebaut und am Operating Model mitgewirkt. Ergebnis: neu aufgestellte Plattform und klarere Produktverantwortung.",
         ),
         (
             "SUNZINET - Internationaler E-Commerce",
@@ -171,7 +171,7 @@ def build():
     y_left -= 5 * mm
     y_left = paragraph(
         c,
-        "ALDI: Native Apps, Backend for Frontend, Azure, Kubernetes, Redis, Salesforce, SAP CDP, GK Engage, Adjust.<br/>P&amp;C: Headless React, Node.js, Kotlin, Google Cloud, OneTrust.<br/>Delivery: Magnolia CMS, OpenCms, Shopware, TYPO3, ERP-Integration.",
+        "ALDI: Native Apps, Backend for Frontend, Azure, Kubernetes, Redis, Salesforce, SAP CDP, GK Engage, Adjust.<br/>P&amp;C: Headless React, Node.js, Kotlin, Google Cloud, OneTrust, Criteo (Retail Media).<br/>Delivery: Magnolia CMS, OpenCms, Shopware, TYPO3, ERP-Integration.",
         small_style,
         left,
         y_left,

@@ -97,6 +97,12 @@ const pcCase = projects.match(/<article[^>]+id="fashion-id"[^>]*>([\s\S]*?)<\/ar
 assert.match(pcCase, /Den kompletten Relaunch der E-Commerce-Plattform umsetzen/);
 assert.match(pcCase, /Welcome-Domäne/);
 assert.match(pcCase, /PO-Community/);
+for (const topic of ['Translation Management', 'Account Management', 'MyAccount', 'Login', 'Registrierung', 'Loyalty-Integration', 'Styleguide', 'Design System', 'Brand-Integration', "ANSON'S", 'Stylebop', 'Criteo', 'Retail Media']) {
+  assert.ok(pcCase.includes(topic), `P&C-Verantwortungsbereich fehlt: ${topic}`);
+}
+assert.match(pcCase, /Retail-Media-Business-Team technisch beraten/);
+assert.match(pcCase, /Criteo-Integration begleiten/);
+assert.match(home, /Criteo/);
 assert.match(pcCase, /Quellen beschreiben das Unternehmensvorhaben, nicht meine persönliche Rolle/);
 assert.match(pcCase, /https:\/\/at\.linkedin\.com\/posts\/pucat_/);
 assert.match(pcCase, /https:\/\/www\.handelsblatt\.com\//);
@@ -141,7 +147,10 @@ assert.ok(!confidentialMetrics.test(pdfText), 'Vertrauliche Kennzahl im öffentl
 assert.ok((pdfText.match(/\b\d+(?:[.,]\d+)?\b/g) ?? []).every(value => ['12', '14', '6'].includes(value)));
 assert.match(pdfText, /Head of Product/);
 assert.match(pdfText, /Plattform-Relaunch & New Retail/);
-assert.match(pdfText, /kompletten Relaunch der E-Commerce-Plattform/);
+assert.match(pdfText, /kompletten Plattform-Relaunch/);
+for (const topic of ['Translation Management', 'MyAccount', 'Login', 'Registrierung', 'Loyalty-Integration', 'Styleguide', 'Design System', 'Brand-Integration', "ANSON'S", 'Stylebop', 'Criteo']) {
+  assert.ok(pdfText.replace(/\s+/g, ' ').includes(topic), `P&C-Thema fehlt im Executive Profile: ${topic}`);
+}
 assert.doesNotMatch(pdfText, /Kampagnen-Inhaltsmodul/);
 assert.match(pdfText, /leonhardtchristian@icloud\.com/);
 assert.doesNotMatch(pdfText, /kontakt@cleonhardt\.de/);
