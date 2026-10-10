@@ -88,7 +88,7 @@ for (const caseId of ['aldi', 'fashion-id', 'sunzinet', 'rewe-group']) {
     assert.ok(article.includes(`<dt>${heading}</dt>`), `Case-Struktur fehlt: ${caseId} / ${heading}`);
   }
 }
-assert.match(projects, /Auswahlkontext bezeichnet vorbereitete Systementscheidungen/);
+assert.match(projects, /Vorbereitete Systemauswahl: CMS/);
 for (const html of [home, projects]) {
   assert.match(html, /Plattform-Relaunch &amp; New Retail/);
   assert.doesNotMatch(html, /Kampagnen-Inhaltsmodul/);
@@ -100,6 +100,15 @@ assert.match(pcCase, /PO-Community/);
 for (const topic of ['Translation Management', 'Account Management', 'MyAccount', 'Login', 'Registrierung', 'Loyalty-Integration', 'Styleguide', 'Design System', 'Brand-Integration', "ANSON'S", 'Stylebop', 'Criteo', 'Retail Media']) {
   assert.ok(pcCase.includes(topic), `P&C-Verantwortungsbereich fehlt: ${topic}`);
 }
+for (const topic of ['SEO-Optimierungen', 'Seitenstruktur', 'Navigation', 'Startseiten', 'Kampagnenseiten', 'Newsletter-Anmeldung', 'Footer', 'Loyalty-Inhalte und -Anmeldungen', 'Recommendations und Empfehlungslogiken', 'A/B-Testing', 'GA4-Integration', 'MarTech-Team', 'Promotion-Integration', 'Darstellung, UX-Konzepte und Umsetzung', 'Exponea Web-Layer', 'rechtliche Texte', 'Produktdetailseite']) {
+  assert.ok(pcCase.includes(topic), `P&C-Verantwortungsbereich fehlt: ${topic}`);
+}
+assert.match(pcCase, /Suche und Produktlistings lagen im Nachbarteam/);
+assert.match(pcCase, /<dt>Schnittstellen<\/dt><dd>Suche und Produktlistings im Nachbarteam/);
+assert.doesNotMatch(pcCase, /SEO, Suche, Navigation/);
+assert.match(pcCase, /<strong>Verantwortungsbereiche<\/strong>/);
+assert.match(pcCase, /<dt>Produkt &amp; Plattformen<\/dt>/);
+assert.doesNotMatch(pcCase, /<dt>(Produktkontext|Auswahlkontext)<\/dt>/);
 assert.match(pcCase, /Retail-Media-Business-Team technisch beraten/);
 assert.match(pcCase, /Criteo-Integration begleiten/);
 assert.match(home, /Criteo/);
@@ -150,6 +159,9 @@ assert.match(pdfText, /Plattform-Relaunch & New Retail/);
 assert.match(pdfText, /kompletten Plattform-Relaunch/);
 for (const topic of ['Translation Management', 'MyAccount', 'Login', 'Registrierung', 'Loyalty-Integration', 'Styleguide', 'Design System', 'Brand-Integration', "ANSON'S", 'Stylebop', 'Criteo']) {
   assert.ok(pdfText.replace(/\s+/g, ' ').includes(topic), `P&C-Thema fehlt im Executive Profile: ${topic}`);
+}
+for (const topic of ['Produktdetailseite', 'A/B-Testing', 'GA4-Integration', 'Exponea Web-Layer', 'Schnittstelle zum Nachbarteam']) {
+  assert.ok(pdfText.replace(/\s+/g, ' ').includes(topic), `P&C-Kontext fehlt im Executive Profile: ${topic}`);
 }
 assert.doesNotMatch(pdfText, /Kampagnen-Inhaltsmodul/);
 assert.match(pdfText, /leonhardtchristian@icloud\.com/);
