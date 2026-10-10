@@ -110,7 +110,7 @@ def build():
     y = top - 18 * mm
     y = paragraph(
         c,
-        "Ich baue Produktorganisationen, die Strategie in wirksame digitale Produkte übersetzen.",
+        "Ich führe Produktteams durch Veränderung. Mein nächster Schritt: Head of Product.",
         statement_style,
         left,
         y,
@@ -131,7 +131,7 @@ def build():
     y_left = y - 5 * mm
     y_left = paragraph(
         c,
-        "Product and people leader mit Erfahrung im Aufbau und in der Transformation von Produktorganisationen in Retail, E-Commerce, digitalen Plattformen und operativen Umfeldern. Verbindet Produktstrategie, Organisationsdesign, Teamentwicklung und technische Entscheidungen. Führt über Klarheit, explizite Trade-offs und echte Verantwortung.",
+        "Product Leader mit Erfahrung in Handel, Omnichannel, CRM und MarTech. Baut interne Produktteams auf, entwickelt Product Owner und stabilisiert kritische Programme. Verbindet Kundennutzen, Produktstrategie und technische Entscheidungen. Sucht eine feste Head-of-Product-Rolle im Handels- oder Plattformumfeld. Bei ALDI Nord und P&amp;C: fachliche Führung, keine klassische Linienverantwortung.",
         body_style,
         left,
         y_left,
@@ -139,21 +139,25 @@ def build():
     )
     y_left -= 9 * mm
 
-    label(c, "Ausgewählte Leadership-Mandate", left, y_left)
+    label(c, "Ausgewählte Beiträge und Ergebnisse", left, y_left)
     y_left -= 6 * mm
 
     mandates = [
         (
-            "ALDI Nord - Mobile, Loyalty & CRM",
-            "Strategie, Roadmaps, Business Cases, Technologieentscheidungen und Delivery in einem Operating Model verbunden. Externe Agenturstrukturen in interne Produktteams mit Teamgrößen von 14 und 12 Personen überführt. Technischer Kontext: Native Apps, Backend for Frontend, Azure, Kubernetes, Redis, Salesforce, SAP, GK Engage und Adjust.",
+            "ALDI Nord - Mobile, Loyalty &amp; CRM",
+            "Externe Agenturstrukturen in interne Produktteams mit 14 und 12 Personen überführt. Rollen, Auswahl und Arbeitsweisen mit aufgebaut; Teams fachlich geführt. Strategie und Delivery in einem Operating Model verbunden. Ergebnis: interne Fähigkeiten, ein stabiler Release-Rhythmus und eine bessere Datenbasis durch Adjust.",
         ),
         (
-            "Peek & Cloppenburg / Fashion ID - Welcome Domain",
-            "Das digitale Eingangserlebnis über Web und App als zusammenhängenden Produktbereich geführt. Strategie, OKRs, Roadmaps, Discovery und Delivery mit klaren Verantwortungsräumen verbunden. Technischer Kontext: Headless React Frontend, Node.js und Kotlin Backend Services sowie Google Cloud.",
+            "P&amp;C / Fashion ID - Welcome Domain",
+            "End-to-End-Verantwortung für die Welcome-Domäne in Web und App. Am domänenorientierten Operating Model mitgewirkt, Product Owner entwickelt und eine PO-Community mit aufgebaut. Ergebnis: schnellere Entscheidungen, klarere Verantwortung und kürzere Umsetzung eines Kampagnen-Inhaltsmoduls.",
         ),
         (
             "SUNZINET - Internationaler E-Commerce",
-            "Ein gefährdetes Relaunch-Programm neu ausgerichtet und Shop-Ersatz, ERP-Integration, Hosting und Rollout in eine belastbare Roadmap, klare Entscheidungen und eine schrittweise Migration überführt. Führung eines interdisziplinären Teams mit 6 Personen.",
+            "Ein verzögertes Relaunch-Programm mit unvollständigen Anforderungen übernommen. Roadmap, Prioritäten und Migration neu geordnet; ein Team mit 6 Personen fachlich geführt. Ergebnis: steuerbare Umsetzung, abgeschlossener internationaler Rollout und zurückgewonnenes Kundenvertrauen.",
+        ),
+        (
+            "neusta / REWE Group - Relaunch und Weiterentwicklung",
+            "Den Relaunch in einer kritischen Phase stabilisiert und abgeschlossen. Danach Zugänglichkeit, Navigation, Pressebereich und Performance weiterentwickelt, Cloud Hosting begleitet und Deployment-Prozesse deutlich beschleunigt.",
         ),
     ]
 
@@ -162,6 +166,17 @@ def build():
         y_left -= 1.5 * mm
         y_left = paragraph(c, body, small_style, left, y_left, left_width)
         y_left -= 5.2 * mm
+
+    label(c, "Technische Urteilskraft", left, y_left)
+    y_left -= 5 * mm
+    y_left = paragraph(
+        c,
+        "ALDI: Native Apps, Backend for Frontend, Azure, Kubernetes, Redis, Salesforce, SAP CDP, GK Engage, Adjust.<br/>P&amp;C: Headless React, Node.js, Kotlin, Google Cloud, OneTrust.<br/>Delivery: Magnolia CMS, OpenCms, Shopware, TYPO3, ERP-Integration.",
+        small_style,
+        left,
+        y_left,
+        left_width,
+    )
 
     y_right = y
     label(c, "Leadership-Fokus", right_x, y_right)
@@ -186,16 +201,19 @@ def build():
         y_right -= 4 * mm
 
     y_right -= 3 * mm
-    label(c, "Arbeitsprinzipien", right_x, y_right)
+    label(c, "Stationen - aktuell zuerst", right_x, y_right)
     y_right -= 6 * mm
-    y_right = paragraph(
-        c,
-        "Kontext vor Standard.<br/>Mandate statt Mikromanagement.<br/>Trade-offs sichtbar machen.<br/>Wirkung beobachten und zurückführen.",
-        body_style,
-        right_x,
-        y_right,
-        right_width,
-    )
+    stations = [
+        ("ALDI Nord", "Senior Manager / Product Lead Mobile, Loyalty &amp; CRM"),
+        ("P&amp;C / Fashion ID", "Senior / Lead Product Owner, Welcome Domain"),
+        ("SUNZINET", "Senior Projektmanager / Product Owner"),
+        ("neusta webservices", "Projektmanager / Product Owner"),
+        ("Bundeswehr", "Abteilungsleiter Materialwirtschaft"),
+        ("Firma Habuzin", "Kaufmann im Einzelhandel / Leitung TV-Abteilung"),
+    ]
+    for employer, role in stations:
+        y_right = paragraph(c, f"<b>{employer}</b><br/>{role}", small_style, right_x, y_right, right_width)
+        y_right -= 3 * mm
 
     y_right -= 9 * mm
     label(c, "Kontakt", right_x, y_right)
@@ -213,6 +231,7 @@ def build():
         y_right -= 5.2 * mm
 
     footer_y = 13 * mm
+    assert min(y_left, y_right) > footer_y + 9 * mm, "Inhalt überlappt den Seitenfuß."
     c.setStrokeColor(LINE)
     c.line(left, footer_y + 5 * mm, right, footer_y + 5 * mm)
     c.setFillColor(MUTED)

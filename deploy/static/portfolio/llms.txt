@@ -1,12 +1,12 @@
 # Christian Leonhardt — Portfolio
 
-> Persönliches Executive Portfolio zu Product Leadership, People Leadership, Produktorganisationen und Technologie.
+> Persönliches Executive Portfolio zu Product Leadership, Customer Experience und der Entwicklung von Produktteams. Christian Leonhardts nächster beruflicher Schritt ist eine feste Head-of-Product-Rolle im Handel, E-Commerce oder Plattformumfeld.
 
 ## Zentrale Seiten
 
-- [Startseite](https://cleonhardt.de/): Überblick über Product Leadership, People Leadership, ausgewählte Arbeiten und Arbeitsweise.
-- [Projekte](https://cleonhardt.de/projekte): Berufliche Projekte, ChOS, ChOS Workspace, cleonhardt.de Platform, Hyprland Session Recovery und Human × AI Workflows.
-- [Über mich](https://cleonhardt.de/ueber-mich): Profil, Perspektive und Arbeitsprinzipien von Christian Leonhardt.
+- [Startseite](https://cleonhardt.de/): Positionierung, belegte Beiträge, People Leadership und ausgewählte berufliche Cases.
+- [Projekte](https://cleonhardt.de/projekte): Ausgangslage, Mandat, Veränderung und qualitative Ergebnisse bei ALDI Nord, P&C / Fashion ID, SUNZINET und neusta / REWE Group. Persönliche Lab-Arbeiten in einem separaten Bereich.
+- [Über mich](https://cleonhardt.de/ueber-mich): Karrierebogen vom Einzelhandel und der Bundeswehr über neusta und SUNZINET zu P&C und ALDI Nord; Rollen und Führungsweise.
 - [Kontakt](https://cleonhardt.de/kontakt): Direkte Kontaktmöglichkeiten.
 - [Executive Profile](https://cleonhardt.de/assets/christian-leonhardt-executive-profile.pdf): Kompaktes öffentliches Profil für Führungsrollen im Produktmanagement.
 
@@ -18,4 +18,6 @@ Der Workspace unter https://cleonhardt.de/workspace/ ist ein persönlich freiges
 
 - Die öffentliche Website verwendet keine Marketing- oder Analyse-Tracker.
 - Die früheren Consulting-Inhalte sind derzeit nicht Teil des öffentlichen Portfolios.
-- ChOS ist ein lebendes Denk-, Diagnose- und Orientierungssystem für komplexe, gestaltbare Situationen mit Menschen, Software und KI.
+- Monetäre und andere quantitative Geschäftskennzahlen sind nicht öffentlich. Öffentlich genannt werden ausschließlich freigegebene Teamgrößen.
+- Bei ALDI Nord und P&C wird fachliche Führung beschrieben, keine klassische Linienverantwortung. Head of Product bezeichnet die angestrebte nächste Rolle, nicht einen bisherigen Titel.
+- ChOS entsteht aus Fragen der Führungs- und Transformationspraxis. Es wird aktiv entwickelt und validiert, ist keine bewiesene Standardmethode und liefert keine Wirkungsgarantie.

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -33,23 +34,27 @@ for (const relativePath of [...pages, ...assets]) {
 
 const home = readFileSync(join(portfolioRoot, 'index.html'), 'utf8');
 assert.match(home, /Christian Leonhardt — Product Leadership/);
-assert.match(home.replaceAll('&shy;', ''), /Ich baue Produktorganisationen/);
+assert.match(home, /Ich führe Produktteams/);
+assert.match(home, /Mein nächster Schritt: Head of Product/);
+assert.match(home, /class="proof-strip"/);
+assert.doesNotMatch(home, /class="ticker"/);
 assert.match(home, /People Leadership/);
 assert.match(home, /href="\/workspace\/"/);
 assert.match(home, /assets\/og-portfolio\.png/);
 assert.doesNotMatch(home, /Angebot anfragen|Leistungen buchen|Kennenlerntermin/);
 assert.match(home, /ALDI Nord/);
 assert.match(home, /Peek &amp; Cloppenburg/);
-for (const technology of ['Native App-Entwicklung', 'Backend for Frontend', 'Microsoft Azure', 'Kubernetes', 'Redis Caching', 'Salesforce', 'SAP', 'GK Engage', 'Adjust', 'Headless React', 'Node.js', 'Kotlin', 'Google Cloud', 'OneTrust', 'Shopware Enterprise', 'TYPO3', 'PIM', 'AES-GCM']) {
+for (const technology of ['Native App-Entwicklung', 'Backend for Frontend', 'Microsoft Azure', 'Kubernetes', 'Redis Caching', 'Salesforce', 'SAP CDP', 'GK Engage', 'Adjust', 'Headless React', 'Node.js', 'Kotlin', 'Google Cloud', 'OneTrust', 'Shopware Enterprise', 'TYPO3', 'PIM', 'Magnolia CMS']) {
   assert.match(home, new RegExp(technology.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 }
-assert.match(home, /site\.css\?v=neusta-projects/);
+assert.match(home, /site\.css\?v=leadership-cases/);
 assert.match(home, /de\.linkedin\.com\/in\/christian-leonhardt-b341687b/);
 assert.match(home, /christian-leonhardt-executive-profile\.pdf/);
 assert.doesNotMatch(home, /class="workspace-link"/);
 
 const contact = readFileSync(join(portfolioRoot, 'kontakt/index.html'), 'utf8');
-assert.match(contact, /Head-of-Product-Mandate/);
+assert.match(contact, /feste Head-of-Product-Rolle/);
+assert.doesNotMatch(contact, /Interim|Beratungsmandate|Head-of-Product-Mandate/);
 assert.match(contact, /LinkedIn/);
 assert.match(contact, /Executive Profile/);
 
@@ -62,7 +67,7 @@ for (const projectName of ['ALDI Nord', 'Peek &amp; Cloppenburg', 'SUNZINET', 'K
   assert.match(careerSection, new RegExp(projectName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 }
 assert.equal((careerSection.match(/Technischer Kontext/g) ?? []).length, 4);
-for (const technology of ['Liferay DXP', 'Elasticsearch', 'Magnolia CMS', 'Java', 'Jira', 'Confluence']) {
+for (const technology of ['Liferay DXP', 'Elasticsearch', 'Magnolia CMS', 'Java', 'Jira', 'Confluence', 'Pardot', 'Algolia', 'GK AIR', 'Bloomreach']) {
   assert.match(careerSection, new RegExp(technology.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 }
 
@@ -74,6 +79,72 @@ assert.deepEqual(
   'Im CV-Projektbereich dürfen ausschließlich freigegebene Teamgrößen als Zahlen erscheinen.',
 );
 assert.doesNotMatch(careerSection, /(?:€|%|Mio\.?|Million|Milliard|Umsatz|Budget|Einspar|Nutzer|User|Länder|Wochen|Monate|Jahre)/i);
+
+for (const caseId of ['aldi', 'fashion-id', 'sunzinet', 'rewe-group']) {
+  const article = projects.match(new RegExp(`<article[^>]+id="${caseId}"[^>]*>([\\s\\S]*?)</article>`))?.[1];
+  assert.ok(article, `Führungscase fehlt: ${caseId}`);
+  for (const heading of ['Ausgangslage', 'Mein Mandat', 'Meine Veränderung', 'Ergebnis']) {
+    assert.ok(article.includes(`<dt>${heading}</dt>`), `Case-Struktur fehlt: ${caseId} / ${heading}`);
+  }
+}
+assert.match(projects, /Auswahlkontext bezeichnet vorbereitete Systementscheidungen/);
+assert.match(home, /ohne klassische Linienverantwortung/);
+const featuredWork = home.match(/<div class="project-list">([\s\S]*?)<div class="actions">/)?.[1];
+assert.ok(featuredWork);
+assert.doesNotMatch(featuredWork, /ChOS/);
+assert.match(home, /aktive Entwicklungs- und Validierungsarbeit/);
+assert.match(projects, /keine bereits bewiesene Standardmethode/);
+
+// Confidentiality applies to every public surface, not just the career cases.
+// Decode entities so amounts cannot bypass the check through HTML encoding.
+function visibleText(html) {
+  return html.replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&#(x[\da-f]+|\d+);/gi, (_, code) => String.fromCodePoint(code[0].toLowerCase() === 'x' ? parseInt(code.slice(1), 16) : Number(code)))
+    .replace(/&euro;/gi, '€')
+    .replace(/&percnt;/gi, '%')
+    .replace(/&nbsp;/gi, ' ');
+}
+const confidentialMetrics = /[€$£%]|\b(?:EUR|Euro|USD|GBP|CHF|TEUR|Mio\.?|Million(?:en)?|Milliard(?:e|en)?|Prozent)\b|\b\d[\d.,]*\s*(?:Wochen|Monate|Jahre|Länder|Nutzer|Downloads)\b/i;
+for (const relativePath of pages) {
+  const html = readFileSync(join(portfolioRoot, relativePath), 'utf8');
+  assert.ok(!confidentialMetrics.test(visibleText(html)), `Vertrauliche Kennzahl auf ${relativePath}`);
+  const metadata = [...html.matchAll(/<meta\b[^>]*content="([^"]*)"/g)].map(match => match[1]).join(' ');
+  assert.ok(!confidentialMetrics.test(metadata), `Vertrauliche Kennzahl in Metadaten: ${relativePath}`);
+  assert.match(html, /site\.css\?v=leadership-cases/);
+}
+for (const relativePath of ['index.html', 'ueber-mich/index.html', 'projekte/index.html']) {
+  const html = readFileSync(join(portfolioRoot, relativePath), 'utf8');
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1];
+  assert.ok(main);
+  const numbers = visibleText(main).match(/\b\d+(?:[.,]\d+)?\b/g) ?? [];
+  assert.ok(numbers.every(value => ['10', '12', '14', '6'].includes(value)), `Nur Teamgrößen erlaubt: ${relativePath}`);
+}
+const llms = readFileSync(join(portfolioRoot, 'llms.txt'), 'utf8');
+assert.ok(!confidentialMetrics.test(llms), 'Vertrauliche Kennzahl in llms.txt');
+const pdfPath = join(portfolioRoot, 'assets/christian-leonhardt-executive-profile.pdf');
+const pdfText = execFileSync('pdftotext', [pdfPath, '-'], { encoding: 'utf8' });
+assert.ok(!confidentialMetrics.test(pdfText), 'Vertrauliche Kennzahl im öffentlichen Executive Profile');
+assert.ok((pdfText.match(/\b\d+(?:[.,]\d+)?\b/g) ?? []).every(value => ['12', '14', '6'].includes(value)));
+assert.match(pdfText, /Head of Product/);
+for (const employer of ['ALDI Nord', 'Fashion ID', 'SUNZINET', 'neusta webservices', 'Bundeswehr', 'Firma Habuzin']) {
+  assert.ok(pdfText.includes(employer), `Station fehlt im Executive Profile: ${employer}`);
+}
+assert.deepEqual(readFileSync(pdfPath), readFileSync(join(root, 'output/pdf/christian-leonhardt-executive-profile.pdf')));
+
+// Validate internal links and case anchors, while leaving the protected portal alone.
+for (const relativePath of pages) {
+  const html = readFileSync(join(portfolioRoot, relativePath), 'utf8');
+  for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
+    if (!href.startsWith('/') && !href.startsWith('#')) continue;
+    if (href.startsWith('/workspace/')) continue;
+    const [pathname, anchor] = href.split('#');
+    const cleanPath = pathname.split('?')[0];
+    const file = cleanPath ? join(portfolioRoot, cleanPath.slice(1), cleanPath.endsWith('.pdf') || cleanPath.includes('/assets/') ? '' : 'index.html') : join(portfolioRoot, relativePath);
+    assert.ok(existsSync(file), `Defekter Link in ${relativePath}: ${href}`);
+    if (anchor) assert.ok(readFileSync(file, 'utf8').includes(`id="${anchor}"`), `Fehlender Anker: ${href}`);
+  }
+}
 
 const caddyfile = readFileSync(join(root, 'deploy/Caddyfile'), 'utf8');
 assert.match(caddyfile, /@workspace_portal path \/workspace \/workspace\/\* \/beta \/beta\/\*/);
