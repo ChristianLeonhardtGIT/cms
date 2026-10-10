@@ -128,6 +128,8 @@ const pdfText = execFileSync('pdftotext', [pdfPath, '-'], { encoding: 'utf8' });
 assert.ok(!confidentialMetrics.test(pdfText), 'Vertrauliche Kennzahl im öffentlichen Executive Profile');
 assert.ok((pdfText.match(/\b\d+(?:[.,]\d+)?\b/g) ?? []).every(value => ['12', '14', '6'].includes(value)));
 assert.match(pdfText, /Head of Product/);
+assert.match(pdfText, /leonhardtchristian@icloud\.com/);
+assert.doesNotMatch(pdfText, /kontakt@cleonhardt\.de/);
 for (const employer of ['ALDI Nord', 'Fashion ID', 'SUNZINET', 'neusta webservices', 'Bundeswehr', 'Firma Habuzin']) {
   assert.ok(pdfText.includes(employer), `Station fehlt im Executive Profile: ${employer}`);
 }

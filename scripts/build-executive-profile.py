@@ -220,12 +220,13 @@ def build():
     y_right -= 6 * mm
     contact_lines = [
         ("cleonhardt.de", "https://cleonhardt.de/"),
-        ("kontakt@cleonhardt.de", "mailto:kontakt@cleonhardt.de"),
+        ("leonhardtchristian@icloud.com", "mailto:leonhardtchristian@icloud.com"),
         ("LinkedIn", "https://de.linkedin.com/in/christian-leonhardt-b341687b"),
     ]
     for text, url in contact_lines:
         c.setFillColor(INK)
-        c.setFont("CLSans-Bold", 8)
+        contact_font_size = min(8, 8 * right_width / pdfmetrics.stringWidth(text, "CLSans-Bold", 8))
+        c.setFont("CLSans-Bold", contact_font_size)
         c.drawString(right_x, y_right, text)
         c.linkURL(url, (right_x, y_right - 2, right, y_right + 9), relative=0)
         y_right -= 5.2 * mm
