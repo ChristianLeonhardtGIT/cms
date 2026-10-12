@@ -8,7 +8,13 @@
 - [Projekte](https://cleonhardt.de/projekte): Ausgangslage, Mandat, Veränderung und qualitative Ergebnisse bei ALDI Nord, P&C / Fashion ID, SUNZINET und neusta / REWE Group. P&C: vollständiger Plattform-Relaunch und New Retail; SEO, Seitenstruktur, Navigation, Start- und Kampagnenseiten, Footer, rechtliche Texte, Translation Management, Produktdetailseite, MyAccount, Newsletter-Anmeldung, Loyalty-Inhalte und -Anmeldungen, Loyalty-Integration, Recommendations, Promotion-Integration, UX und A/B-Testing. GA4-Integration und Optimierung mit MarTech, Exponea Web-Layer, Styleguide, Design System und Brand-Integration für P&C, ANSON'S und Stylebop sowie Retail Media mit Criteo. Suche und Produktlistings lagen im Nachbarteam. Persönliche Lab-Arbeiten in einem separaten Bereich.
 - [Über mich](https://cleonhardt.de/ueber-mich): Karrierebogen vom Einzelhandel und der Bundeswehr über neusta und SUNZINET zu P&C und ALDI Nord; Rollen und Führungsweise.
 - [Kontakt](https://cleonhardt.de/kontakt): Direkte Kontaktmöglichkeiten.
-- [Executive Profile](https://cleonhardt.de/assets/christian-leonhardt-executive-profile.pdf?v=b115f4516ed7): Kompaktes öffentliches Profil für Führungsrollen im Produktmanagement.
+- [Executive Profile](https://cleonhardt.de/assets/christian-leonhardt-executive-profile.pdf?v=9f3ccb0d55d6): Kompaktes öffentliches Profil für Führungsrollen im Produktmanagement.
+
+## Beruflicher Kontext
+
+ALDI Nord: Manager International Marketing / Product Lead Mobile, Loyalty & CRM mit fachlicher Führung. Zusammenhängende App-, Kundendaten-, Loyalty- und GK-POS-Strecke; Salesforce Marketing Cloud, SAP Customer Data, Algolia, Magnolia CMS und generisch beschriebenes Produktinformationssystem. Adobe Analytics bleibt das Hauptsystem; Google Analytics wurde zusätzlich in Belgien und Luxemburg eingeführt. Adjust dient als Mobile Measurement Platform.
+
+P&C Retail Media: technische und UX-Beratung des Business-Teams bei Criteo, Sponsored Products und Retail-Media-Bannern sowie verhaltens- und segmentbasierter Brand-Ausspielung auf der Startseite. Das Design System und die Brand-Konsistenz lagen in der Welcome-Domäne. CMS-Content wird an Nachbardomänen weitergegeben, beispielsweise ein reduzierter Footer im Checkout. MyAccount verbindet Bestell-, Adress- und Fulfillment-Informationen mit Omnichannel-Schnittstellen wie Click & Collect, Favorite Store und Bestandsinformationen. Suche und Produktlistings lagen im Nachbarteam; dazu gab es technische und UX-Beratung für Retail Media.
 
 ## ChOS Workspace
 

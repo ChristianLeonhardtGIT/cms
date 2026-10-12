@@ -145,11 +145,11 @@ def build():
     mandates = [
         (
             "ALDI Nord - Mobile, Loyalty &amp; CRM",
-            "Externe Agenturstrukturen in interne Produktteams mit 14 und 12 Personen überführt. Rollen, Auswahl und Arbeitsweisen mit aufgebaut; Teams fachlich geführt. Strategie und Delivery in einem Operating Model verbunden. Ergebnis: interne Fähigkeiten, ein stabiler Release-Rhythmus und eine bessere Datenbasis durch Adjust.",
+            "Externe Agenturstrukturen in interne Produktteams mit 14 und 12 Personen überführt; Rollen, Auswahl und Arbeitsweisen mit aufgebaut und fachlich geführt. Strategie und Delivery im Operating Model verbunden. End-to-End-Strecke von App und Loyalty bis GK POS mitgestaltet. Google Analytics in Belgien und Luxemburg zusätzlich eingeführt; Adobe Analytics bleibt das Hauptsystem.",
         ),
         (
             "P&amp;C / Fashion ID - Plattform-Relaunch &amp; New Retail",
-            "Den kompletten Plattform-Relaunch im New-Retail-Kontext umgesetzt. Verantwortung von SEO, Seitenstruktur und Kampagnenseiten bis Produktdetailseite, MyAccount (Login, Registrierung), Newsletter-Anmeldung, Loyalty-Inhalten, Loyalty-Integration und Recommendations. Translation Management, Styleguide, Design System und Brand-Integration für P&amp;C, ANSON'S und Stylebop. A/B-Testing und UX; GA4-Integration, Optimierung mit MarTech und Exponea Web-Layer. Criteo-Beratung und Integration. Product Owner entwickelt, PO-Community und Operating Model mitgestaltet. Suche und Produktlistings: Schnittstelle zum Nachbarteam.",
+            "Den kompletten Plattform-Relaunch im New-Retail-Kontext umgesetzt. Welcome: Produktdetailseite, MyAccount (Login, Registrierung), Loyalty-Integration, Recommendations, Translation Management und A/B-Testing. Styleguide, Design System und Brand-Integration für P&amp;C, ANSON'S und Stylebop; Product Owner entwickelt, PO-Community mit aufgebaut. GA4-Integration und Exponea Web-Layer mit MarTech. Criteo: technische und UX-Beratung zu Sponsored Products, Bannern und personalisierter Brand-Ausspielung. CMS-Content für Checkout; MyAccount-Schnittstellen zu Fulfillment und Omnichannel. Suche und Produktlistings: Schnittstelle zum Nachbarteam.",
         ),
         (
             "SUNZINET - Internationaler E-Commerce",
@@ -171,7 +171,7 @@ def build():
     y_left -= 5 * mm
     y_left = paragraph(
         c,
-        "ALDI: Native Apps, Backend for Frontend, Azure, Kubernetes, Redis, Salesforce, SAP CDP, GK Engage, Adjust.<br/>P&amp;C: Headless React, Node.js, Kotlin, Google Cloud, GA4, Exponea, OneTrust, Criteo.<br/>Delivery: Magnolia CMS, OpenCms, Shopware, TYPO3, ERP-Integration.",
+        "ALDI: Native Apps, BFF, Azure, Kubernetes, Redis, Salesforce Marketing Cloud, SAP Customer Data, Algolia, GK Engage, Loyalty Engine, GK POS, Magnolia CMS, Adjust.<br/>P&amp;C: Headless React, Node.js, Kotlin, Google Cloud, GA4, Exponea, OneTrust, Criteo.<br/>Delivery: Magnolia CMS, OpenCms, Shopware, TYPO3, ERP-Integration.",
         small_style,
         left,
         y_left,
@@ -204,7 +204,7 @@ def build():
     label(c, "Stationen - aktuell zuerst", right_x, y_right)
     y_right -= 6 * mm
     stations = [
-        ("ALDI Nord", "Senior Manager / Product Lead Mobile, Loyalty &amp; CRM"),
+        ("ALDI Nord", "Manager International Marketing / Product Lead Mobile, Loyalty &amp; CRM"),
         ("P&amp;C / Fashion ID", "Senior / Lead Product Owner, Welcome Domain"),
         ("SUNZINET", "Senior Projektmanager / Product Owner"),
         ("neusta webservices", "Projektmanager / Product Owner"),
