@@ -149,7 +149,7 @@ def build():
         ),
         (
             "P&amp;C / Fashion ID - Plattform-Relaunch &amp; New Retail",
-            "Den kompletten Plattform-Relaunch im New-Retail-Kontext umgesetzt. Welcome: Produktdetailseite, MyAccount (Login, Registrierung), Loyalty-Integration, Recommendations, Translation Management und A/B-Testing. Styleguide, Design System und Brand-Integration für P&amp;C, ANSON'S und Stylebop; Product Owner entwickelt, PO-Community mit aufgebaut. GA4-Integration und Exponea Web-Layer mit MarTech. Criteo: technische und UX-Beratung zu Sponsored Products, Bannern und personalisierter Brand-Ausspielung. CMS-Content für Checkout; MyAccount-Schnittstellen zu Fulfillment und Omnichannel. Suche und Produktlistings: Schnittstelle zum Nachbarteam.",
+            "Den kompletten Plattform-Relaunch im New-Retail-Kontext umgesetzt. Produktdetailseite, MyAccount (Login, Registrierung), Loyalty-Integration, Translation Management und A/B-Testing verantwortet. Styleguide, Design System, Brand-Integration für P&amp;C, ANSON'S und Stylebop. Mit dem Team CMS-Komponenten mit personalisierten Produktslidern entwickelt; Exponea Web-Layer nach Profil- und Registrierungsstatus ausgespielt. GA4-Integration mit MarTech; Product Owner entwickelt. Criteo: UX-Beratung zu Sponsored Products und Bannern. CMS-Content für Checkout; MyAccount mit Fulfillment. Suche und Produktlistings: Schnittstelle zum Nachbarteam.",
         ),
         (
             "SUNZINET - Internationaler E-Commerce",

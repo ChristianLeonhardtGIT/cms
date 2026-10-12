@@ -134,6 +134,14 @@ assert.match(home, /Criteo/);
 assert.match(pcCase, /Quellen beschreiben das Unternehmensvorhaben, nicht meine persönliche Rolle/);
 assert.match(pcCase, /https:\/\/at\.linkedin\.com\/posts\/pucat_/);
 assert.match(pcCase, /https:\/\/www\.handelsblatt\.com\//);
+for (const topic of ['Mit meinem Team wiederverwendbare CMS-Produktkomponenten entwickelt', 'Bildmodule', 'Produktslider', 'verhaltens- und profilbasierte Recommendations', 'Kampagnen-, SEO- und Contentseiten', 'Banner, Banderolen und Overlays', 'Newsletter-Registrierung', 'Loyalty-Promotions und Registrierungsflows', 'CDP-/Profiling-Daten', 'Newsletter- und Loyalty-Registrierungsstatus']) {
+  assert.ok(pcCase.includes(topic), `P&C-Personalisierung fehlt: ${topic}`);
+}
+assert.match(pcCase, /<dt>CMS-Personalisierung<\/dt>/);
+assert.match(pcCase, /<dt>Exponea-Kommunikation<\/dt>/);
+assert.match(pcCase, /Bereits registrierte Newsletterkontakte erhalten andere Inhalte/);
+assert.match(pcCase, /bei fehlender Loyalty-Registrierung gezielt Promotions oder Anmeldeflows anbieten/);
+assert.match(home, /CMS-Komponenten mit personalisierten Produktslidern/);
 assert.match(readFileSync(join(portfolioRoot, 'ueber-mich/index.html'), 'utf8'), /kompletten Relaunch der E-Commerce-Plattform/);
 assert.match(home, /ohne klassische Linienverantwortung/);
 const featuredWork = home.match(/<div class="project-list">([\s\S]*?)<div class="actions">/)?.[1];
@@ -191,6 +199,9 @@ for (const topic of ['App-Features beraten', 'Datenvoraussetzungen', 'User-Tests
 }
 assert.doesNotMatch(pdfText, /Kampagnen-Inhaltsmodul/);
 assert.match(pdfText, /leonhardtchristian@icloud\.com/);
+for (const topic of ['CMS-Komponenten mit personalisierten Produktslidern', 'Profil- und Registrierungsstatus']) {
+  assert.ok(pdfText.replace(/\s+/g, ' ').includes(topic), `P&C-Personalisierung fehlt im Executive Profile: ${topic}`);
+}
 assert.doesNotMatch(pdfText, /kontakt@cleonhardt\.de/);
 for (const employer of ['ALDI Nord', 'Fashion ID', 'SUNZINET', 'neusta webservices', 'Bundeswehr', 'Firma Habuzin']) {
   assert.ok(pdfText.includes(employer), `Station fehlt im Executive Profile: ${employer}`);
