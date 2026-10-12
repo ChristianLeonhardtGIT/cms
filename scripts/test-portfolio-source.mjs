@@ -79,7 +79,9 @@ assert.deepEqual(
   ['10', '12', '14', '6'],
   'Im CV-Projektbereich dürfen ausschließlich freigegebene Teamgrößen als Zahlen erscheinen.',
 );
-assert.doesNotMatch(careerSection, /(?:€|%|Mio\.?|Million|Milliard|Umsatz|Budget|Einspar|Nutzer|User|Länder|Wochen|Monate|Jahre)/i);
+// Qualitative User-Tests are product research, not a user-count KPI.
+assert.doesNotMatch(visibleCareerText, /\b\d+(?:[.,]\d+)?\s*User-Tests\b/i);
+assert.doesNotMatch(careerSection.replace(/\bUser-Tests\b/g, 'Usability-Tests'), /(?:€|%|Mio\.?|Million|Milliard|Umsatz|Budget|Einspar|Nutzer|User|Länder|Wochen|Monate|Jahre)/i);
 
 for (const caseId of ['aldi', 'fashion-id', 'sunzinet', 'rewe-group']) {
   const article = projects.match(new RegExp(`<article[^>]+id="${caseId}"[^>]*>([\\s\\S]*?)</article>`))?.[1];
@@ -114,6 +116,12 @@ for (const topic of ['Manager International Marketing', 'QR-Code', 'Salesforce M
   assert.ok(aldiCase.includes(topic), `ALDI-Architektur fehlt: ${topic}`);
 }
 assert.match(aldiCase, /Adobe Analytics bleibt das weiterhin genutzte Hauptsystem/);
+for (const topic of ['regionaler Pilot in Roeselare', 'Loyalty- und CRM-Business', 'Datenvoraussetzungen', 'User-Tests vor Ort, online', 'internen Testgruppen', 'Priorisierungsverfahren erprobt und angepasst', 'Marketingkampagnen', 'Paid-Media-Agentur', 'Google Ads', 'Meta', 'laufende Kampagnenoptimierung']) {
+  assert.ok(aldiCase.includes(topic), `ALDI-Produktmandat fehlt: ${topic}`);
+}
+assert.match(aldiCase, /App-Teil des Rollouts in Belgien und Luxemburg mitverantworten/);
+assert.doesNotMatch(aldiCase, /internationaler Rollout|weltweit|2025|2026/);
+assert.match(home, /Loyalty weiterentwickelt, Produktfähigkeiten aufgebaut/);
 assert.doesNotMatch(aldiCase, /Senior Manager|PIM-Core|\bPDS\b|Google Analytics ersetzt/);
 assert.doesNotMatch(readFileSync(join(portfolioRoot, 'ueber-mich/index.html'), 'utf8'), /Senior Manager/);
 assert.doesNotMatch(pcCase, /SEO, Suche, Navigation/);
@@ -178,6 +186,9 @@ for (const topic of ['Manager International Marketing', 'SAP CDC', 'SAP CDP', 'G
   assert.ok(pdfText.replace(/\s+/g, ' ').includes(topic), `Integrationskontext fehlt im Executive Profile: ${topic}`);
 }
 assert.doesNotMatch(pdfText, /Senior Manager/);
+for (const topic of ['App-Features beraten', 'Datenvoraussetzungen', 'User-Tests', 'App-Rollout in Belgien und Luxemburg mitverantwortet', 'Paid-Media-Kampagnenoptimierung']) {
+  assert.ok(pdfText.replace(/\s+/g, ' ').includes(topic), `ALDI-Produktmandat fehlt im Executive Profile: ${topic}`);
+}
 assert.doesNotMatch(pdfText, /Kampagnen-Inhaltsmodul/);
 assert.match(pdfText, /leonhardtchristian@icloud\.com/);
 assert.doesNotMatch(pdfText, /kontakt@cleonhardt\.de/);

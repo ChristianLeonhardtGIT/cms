@@ -145,7 +145,7 @@ def build():
     mandates = [
         (
             "ALDI Nord - Mobile, Loyalty &amp; CRM",
-            "Externe Agenturstrukturen in interne Produktteams mit 14 und 12 Personen überführt; Rollen, Auswahl und Arbeitsweisen mit aufgebaut und fachlich geführt. Strategie und Delivery im Operating Model verbunden. End-to-End-Strecke von App und Loyalty bis GK POS mitgestaltet. Google Analytics in Belgien und Luxemburg zusätzlich eingeführt; Adobe Analytics bleibt das Hauptsystem.",
+            "Loyalty- und CRM-Business zu App-Features beraten; Anforderungen priorisiert, Datenvoraussetzungen geklärt, UX-Konzepte mit User-Tests geprüft. App-Rollout in Belgien und Luxemburg mitverantwortet. Parallel interne Teams mit 14 und 12 Personen aufgebaut und fachlich geführt. Adjust für Attribution und Paid-Media-Kampagnenoptimierung eingeführt. Google Analytics zusätzlich; Adobe Analytics bleibt Hauptsystem.",
         ),
         (
             "P&amp;C / Fashion ID - Plattform-Relaunch &amp; New Retail",
