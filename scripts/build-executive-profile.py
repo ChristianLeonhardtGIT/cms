@@ -171,7 +171,7 @@ def build():
     y_left -= 5 * mm
     y_left = paragraph(
         c,
-        "ALDI: Native Apps, BFF, Azure, Kubernetes, Redis, Salesforce Marketing Cloud, SAP Customer Data, Algolia, GK Engage, Loyalty Engine, GK POS, Magnolia CMS, Adjust.<br/>P&amp;C: Headless React, Node.js, Kotlin, Google Cloud, GA4, Exponea, OneTrust, Criteo.<br/>Delivery: Magnolia CMS, OpenCms, Shopware, TYPO3, ERP-Integration.",
+        "ALDI: Native Apps, BFF, Azure, Kubernetes, Redis, Salesforce Marketing Cloud, SAP CDC, SAP CDP, Algolia, GK Engage, Loyalty Engine, GK POS, Magnolia CMS, Adjust.<br/>P&amp;C: Headless React, Node.js, Kotlin, Google Cloud, GA4, Exponea, OneTrust, Criteo.<br/>Delivery: Magnolia CMS, OpenCms, Shopware, TYPO3, ERP-Integration.",
         small_style,
         left,
         y_left,

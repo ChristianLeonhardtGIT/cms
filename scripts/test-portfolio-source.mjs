@@ -45,7 +45,7 @@ assert.match(home, /assets\/og-portfolio\.png/);
 assert.doesNotMatch(home, /Angebot anfragen|Leistungen buchen|Kennenlerntermin/);
 assert.match(home, /ALDI Nord/);
 assert.match(home, /Peek &amp; Cloppenburg/);
-for (const technology of ['Native App-Entwicklung', 'Backend for Frontend', 'Microsoft Azure', 'Kubernetes', 'Redis Caching', 'Salesforce Marketing Cloud', 'SAP Customer Data', 'GK Engage', 'Loyalty Engine', 'GK POS', 'Algolia', 'Adobe Analytics', 'Google Analytics', 'Adjust', 'Headless React', 'Node.js', 'Kotlin', 'Google Cloud', 'OneTrust', 'Shopware Enterprise', 'TYPO3', 'PIM', 'Magnolia CMS']) {
+for (const technology of ['Native App-Entwicklung', 'Backend for Frontend', 'Microsoft Azure', 'Kubernetes', 'Redis Caching', 'Salesforce Marketing Cloud', 'SAP CDC', 'SAP CDP', 'GK Engage', 'Loyalty Engine', 'GK POS', 'Algolia', 'Adobe Analytics', 'Google Analytics', 'Adjust', 'Headless React', 'Node.js', 'Kotlin', 'Google Cloud', 'OneTrust', 'Shopware Enterprise', 'TYPO3', 'PIM', 'Magnolia CMS']) {
   assert.match(home, new RegExp(technology.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 }
 assert.match(home, /site\.css\?v=leadership-cases/);
@@ -110,7 +110,7 @@ for (const topic of ['Sponsored Products', 'Retail-Media-Banner', 'UX-Beratung',
 }
 const aldiCase = projects.match(/<article[^>]+id="aldi"[^>]*>([\s\S]*?)<\/article>/)?.[1];
 assert.ok(aldiCase);
-for (const topic of ['Manager International Marketing', 'QR-Code', 'Salesforce Marketing Cloud', 'SAP Customer Data', 'Algolia', 'GK POS', 'Loyalty Engine', 'Magnolia CMS', 'Produktinformationssystem', 'Adobe Analytics', 'Google Analytics', 'Belgien und Luxemburg']) {
+for (const topic of ['Manager International Marketing', 'QR-Code', 'Salesforce Marketing Cloud', 'SAP CDC', 'SAP CDP', 'Algolia', 'GK POS', 'Loyalty Engine', 'Magnolia CMS', 'Produktinformationssystem', 'Adobe Analytics', 'Google Analytics', 'Belgien und Luxemburg']) {
   assert.ok(aldiCase.includes(topic), `ALDI-Architektur fehlt: ${topic}`);
 }
 assert.match(aldiCase, /Adobe Analytics bleibt das weiterhin genutzte Hauptsystem/);
@@ -174,7 +174,7 @@ for (const topic of ['Translation Management', 'MyAccount', 'Login', 'Registrier
 for (const topic of ['Produktdetailseite', 'A/B-Testing', 'GA4-Integration', 'Exponea Web-Layer', 'Schnittstelle zum Nachbarteam']) {
   assert.ok(pdfText.replace(/\s+/g, ' ').includes(topic), `P&C-Kontext fehlt im Executive Profile: ${topic}`);
 }
-for (const topic of ['Manager International Marketing', 'GK POS', 'Google Analytics', 'Adobe Analytics', 'Sponsored Products', 'UX-Beratung', 'Checkout', 'Fulfillment']) {
+for (const topic of ['Manager International Marketing', 'SAP CDC', 'SAP CDP', 'GK POS', 'Google Analytics', 'Adobe Analytics', 'Sponsored Products', 'UX-Beratung', 'Checkout', 'Fulfillment']) {
   assert.ok(pdfText.replace(/\s+/g, ' ').includes(topic), `Integrationskontext fehlt im Executive Profile: ${topic}`);
 }
 assert.doesNotMatch(pdfText, /Senior Manager/);
